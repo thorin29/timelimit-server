@@ -1,0 +1,53 @@
+/*
+ * server component for the TimeLimit App
+ * Copyright (C) 2019 Jonas Lochmann
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { assertIdWithinFamily } from '../util/token'
+import { ParentAction } from './basetypes'
+
+export class IncrementCategoryExtraTimeAction extends ParentAction {
+  readonly categoryId: string
+  readonly addedExtraTime: number
+
+  constructor ({ categoryId, addedExtraTime }: {categoryId: string, addedExtraTime: number}) {
+    super()
+
+    assertIdWithinFamily(categoryId)
+
+    if (addedExtraTime <= 0 || (!Number.isSafeInteger(addedExtraTime))) {
+      throw new Error('must add some extra time with IncrementCategoryExtraTimeAction')
+    }
+
+    this.categoryId = categoryId
+    this.addedExtraTime = addedExtraTime
+  }
+
+  serialize = (): SerializedIncrementCategoryExtraTimeAction => ({
+    type: 'INCREMENT_CATEGORY_EXTRATIME',
+    categoryId: this.categoryId,
+    addedExtraTime: this.addedExtraTime
+  })
+
+  static parse = ({ categoryId, addedExtraTime }: SerializedIncrementCategoryExtraTimeAction) => (
+    new IncrementCategoryExtraTimeAction({ categoryId, addedExtraTime })
+  )
+}
+
+export interface SerializedIncrementCategoryExtraTimeAction {
+  type: 'INCREMENT_CATEGORY_EXTRATIME'
+  categoryId: string
+  addedExtraTime: number
+}

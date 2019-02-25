@@ -1,0 +1,56 @@
+/*
+ * server component for the TimeLimit App
+ * Copyright (C) 2019 Jonas Lochmann
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { assertIdWithinFamily } from '../util/token'
+import { ParentAction } from './basetypes'
+
+export class SetDeviceUserAction extends ParentAction {
+  readonly deviceId: string
+  readonly userId: string // user id can be ""
+
+  constructor ({ deviceId, userId }: {
+    deviceId: string
+    userId: string
+  }) {
+    super()
+
+    assertIdWithinFamily(deviceId)
+
+    if (userId !== '') {
+      assertIdWithinFamily(userId)
+    }
+
+    this.deviceId = deviceId
+    this.userId = userId
+  }
+
+  serialize = (): SerializedSetDeviceUserAction => ({
+    type: 'SET_DEVICE_USER',
+    deviceId: this.deviceId,
+    userId: this.userId
+  })
+
+  static parse = ({ deviceId, userId }: SerializedSetDeviceUserAction) => (
+    new SetDeviceUserAction({ deviceId, userId })
+  )
+}
+
+export interface SerializedSetDeviceUserAction {
+  type: 'SET_DEVICE_USER'
+  deviceId: string
+  userId: string
+}
