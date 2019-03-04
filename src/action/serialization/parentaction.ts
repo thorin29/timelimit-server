@@ -41,6 +41,7 @@ import { SerializedSetRelaxPrimaryDeviceAction, SetRelaxPrimaryDeviceAction } fr
 import { SerializedSetSendDeviceConnected, SetSendDeviceConnected } from '../setsenddeviceconnected'
 import { SerializedSetUserDisableLimitsUntilAction, SetUserDisableLimitsUntilAction } from '../setuserdisablelimitsuntil'
 import { SerializedSetUserTimezoneAction, SetUserTimezoneAction } from '../setusertimezone'
+import { SerializedUpdateCategoryBlockAllNotificationsAction, UpdateCategoryBlockAllNotificationsAction } from '../updatecategoryblockallnotifications'
 import { SerializedUpdateCategoryBlockedTimesAction, UpdateCategoryBlockedTimesAction } from '../updatecategoryblockedtimes'
 import { SerializedUpdateCategoryTemporarilyBlockedAction, UpdateCategoryTemporarilyBlockedAction } from '../updatecategorytemporarilyblocked'
 import { SerializedUpdateCategoryTitleAction, UpdateCategoryTitleAction } from '../updatecategorytitle'
@@ -75,6 +76,7 @@ export type SerializedParentAction =
   SerializedSetSendDeviceConnected |
   SerializedSetUserDisableLimitsUntilAction |
   SerializedSetUserTimezoneAction |
+  SerializedUpdateCategoryBlockAllNotificationsAction |
   SerializedUpdateCategoryBlockedTimesAction |
   SerializedUpdateCategoryTemporarilyBlockedAction |
   SerializedUpdateCategoryTitleAction |
@@ -134,6 +136,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return SetUserDisableLimitsUntilAction.parse(action)
   } else if (action.type === 'SET_USER_TIMEZONE') {
     return SetUserTimezoneAction.parse(action)
+  } else if (action.type === 'UPDATE_CATEGORY_BLOCK_ALL_NOTIFICATIONS') {
+    return UpdateCategoryBlockAllNotificationsAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_BLOCKED_TIMES') {
     return UpdateCategoryBlockedTimesAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_TITLE') {

@@ -740,6 +740,29 @@ const definitions = {
       "userId"
     ]
   },
+  "SerializedUpdateCategoryBlockAllNotificationsAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_CATEGORY_BLOCK_ALL_NOTIFICATIONS"
+        ]
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "blocked": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "blocked",
+      "categoryId",
+      "type"
+    ]
+  },
   "SerializedUpdateCategoryBlockedTimesAction": {
     "type": "object",
     "properties": {
@@ -1423,6 +1446,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedSetUserTimezoneAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateCategoryBlockAllNotificationsAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryBlockedTimesAction"

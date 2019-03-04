@@ -42,6 +42,7 @@ import {
   SetSendDeviceConnected,
   SetUserDisableLimitsUntilAction,
   SetUserTimezoneAction,
+  UpdateCategoryBlockAllNotificationsAction,
   UpdateCategoryBlockedTimesAction,
   UpdateCategoryTemporarilyBlockedAction,
   UpdateCategoryTitleAction,
@@ -76,6 +77,7 @@ import { dispatchSetRelaxPrimaryDevice } from './setrelaxprimarydevice'
 import { dispatchSetSendDeviceConnected } from './setsenddeviceconnected'
 import { dispatchUserSetDisableLimitsUntil } from './setuserdisablelmitsuntil'
 import { dispatchSetUserTimezone } from './setusertimezone'
+import { dispatchUpdateCategoryBlockAllNotifications } from './updatecategoryblockallnotifications'
 import { dispatchUpdateCategoryBlockedTimes } from './updatecategoryblockedtimes'
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
 import { dispatchUpdateCategoryTitle } from './updatecategorytitle'
@@ -130,6 +132,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchUserSetDisableLimitsUntil({ action, cache })
   } else if (action instanceof SetUserTimezoneAction) {
     await dispatchSetUserTimezone({ action, cache })
+  } else if (action instanceof UpdateCategoryBlockAllNotificationsAction) {
+    await dispatchUpdateCategoryBlockAllNotifications({ action, cache })
   } else if (action instanceof UpdateCategoryBlockedTimesAction) {
     await dispatchUpdateCategoryBlockedTimes({ action, cache })
   } else if (action instanceof IncrementCategoryExtraTimeAction) {
