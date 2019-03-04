@@ -93,6 +93,7 @@ export interface ServerUpdatedCategoryBaseData {
   tempBlocked: boolean
   version: string
   parentCategoryId: string
+  blockAllNotifications: boolean
 }
 
 export interface ServerUpdatedCategoryAssignedApps {

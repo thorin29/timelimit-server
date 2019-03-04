@@ -38,7 +38,12 @@ export interface CategoryAttributesVersion2 {
   parentCategoryId: string
 }
 
-export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2
+export interface CategoryAttributesVersion3 {
+  blockAllNotifications: boolean
+}
+
+export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
+  CategoryAttributesVersion3
 
 export type CategoryInstance = Sequelize.Instance<CategoryAttributes> & CategoryAttributes
 export type CategoryModel = Sequelize.Model<CategoryInstance, CategoryAttributes>
@@ -82,9 +87,17 @@ export const attributesVersion2: SequelizeAttributes<CategoryAttributesVersion2>
   }
 }
 
+export const attributesVersion3: SequelizeAttributes<CategoryAttributesVersion3> = {
+  blockAllNotifications: {
+    ...booleanColumn,
+    defaultValue: false
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
-  ...attributesVersion2
+  ...attributesVersion2,
+  ...attributesVersion3
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModel => sequelize.define<CategoryInstance, CategoryAttributes>('Category', attributes)

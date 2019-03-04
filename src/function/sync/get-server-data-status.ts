@@ -299,7 +299,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'extraTimeInMillis',
         'temporarilyBlocked',
         'baseVersion',
-        'parentCategoryId'
+        'parentCategoryId',
+        'blockAllNotifications'
       ],
       transaction
     })).map((item) => ({
@@ -310,7 +311,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       extraTimeInMillis: item.extraTimeInMillis,
       temporarilyBlocked: item.temporarilyBlocked,
       baseVersion: item.baseVersion,
-      parentCategoryId: item.parentCategoryId
+      parentCategoryId: item.parentCategoryId,
+      blockAllNotifications: item.blockAllNotifications
     }))
 
     result.categoryBase = dataForSyncing.map((item): ServerUpdatedCategoryBaseData => ({
@@ -321,7 +323,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       extraTime: item.extraTimeInMillis,
       tempBlocked: item.temporarilyBlocked,
       version: item.baseVersion,
-      parentCategoryId: item.parentCategoryId
+      parentCategoryId: item.parentCategoryId,
+      blockAllNotifications: item.blockAllNotifications
     }))
   }
 
