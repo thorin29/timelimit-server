@@ -25,14 +25,16 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
   readonly newUsageStatsPermissionStatus?: RuntimePermissionStatus
   readonly newNotificationAccessPermission?: NewPermissionStatus
   readonly newOverlayPermission?: RuntimePermissionStatus
+  readonly newAccessibilityServiceEnabled?: boolean
   readonly newAppVersion?: number
   readonly didReboot: boolean
 
-  constructor ({ newProtetionLevel, newUsageStatsPermissionStatus, newNotificationAccessPermission, newOverlayPermission, newAppVersion, didReboot }: {
+  constructor ({ newProtetionLevel, newUsageStatsPermissionStatus, newNotificationAccessPermission, newOverlayPermission, newAccessibilityServiceEnabled, newAppVersion, didReboot }: {
     newProtetionLevel?: ProtectionLevel
     newUsageStatsPermissionStatus?: RuntimePermissionStatus
     newNotificationAccessPermission?: NewPermissionStatus
     newOverlayPermission?: RuntimePermissionStatus
+    newAccessibilityServiceEnabled?: boolean
     newAppVersion?: number
     didReboot: boolean
   }) {
@@ -48,6 +50,7 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     this.newUsageStatsPermissionStatus = newUsageStatsPermissionStatus
     this.newNotificationAccessPermission = newNotificationAccessPermission
     this.newOverlayPermission = newOverlayPermission
+    this.newAccessibilityServiceEnabled = newAccessibilityServiceEnabled
     this.newAppVersion = newAppVersion
     this.didReboot = didReboot
   }
@@ -58,16 +61,18 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     usageStats: this.newUsageStatsPermissionStatus,
     notificationAccess: this.newNotificationAccessPermission,
     overlayPermission: this.newOverlayPermission,
+    accessibilityServiceEnabled: this.newAccessibilityServiceEnabled,
     appVersion: this.newAppVersion,
     didReboot: this.didReboot
   })
 
-  static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, appVersion, didReboot }: SerializedUpdateDeviceStatusAction) => (
+  static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, accessibilityServiceEnabled, appVersion, didReboot }: SerializedUpdateDeviceStatusAction) => (
     new UpdateDeviceStatusAction({
       newProtetionLevel: protectionLevel,
       newUsageStatsPermissionStatus: usageStats,
       newNotificationAccessPermission: notificationAccess,
       newOverlayPermission: overlayPermission,
+      newAccessibilityServiceEnabled: accessibilityServiceEnabled,
       newAppVersion: appVersion,
       didReboot: !!didReboot
     })
@@ -80,6 +85,7 @@ export interface SerializedUpdateDeviceStatusAction {
   usageStats?: RuntimePermissionStatus
   notificationAccess?: NewPermissionStatus
   overlayPermission?: RuntimePermissionStatus
+  accessibilityServiceEnabled?: boolean
   appVersion?: number
   didReboot?: boolean
 }

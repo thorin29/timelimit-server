@@ -74,9 +74,15 @@ export interface DeviceAttributesVersion7 {
   highestOverlayPermission: RuntimePermissionStatus
 }
 
+export interface DeviceAttributesVersion8 {
+  // as = accessibility service
+  asEnabled: boolean
+  wasAsEnabled: boolean
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
-  DeviceAttributesVersion6 & DeviceAttributesVersion7
+  DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8
 
 export type DeviceInstance = Sequelize.Instance<DeviceAttributes> & DeviceAttributes
 export type DeviceModel = Sequelize.Model<DeviceInstance, DeviceAttributes>
@@ -191,6 +197,17 @@ export const attributesVersion7: SequelizeAttributes<DeviceAttributesVersion7> =
   }
 }
 
+export const attributesVersion8: SequelizeAttributes<DeviceAttributesVersion8> = {
+  asEnabled: {
+    ...booleanColumn,
+    defaultValue: false
+  },
+  wasAsEnabled: {
+    ...booleanColumn,
+    defaultValue: false
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -198,7 +215,8 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion4,
   ...attributesVersion5,
   ...attributesVersion6,
-  ...attributesVersion7
+  ...attributesVersion7,
+  ...attributesVersion8
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModel => sequelize.define<DeviceInstance, DeviceAttributes>('Device', attributes)
@@ -208,6 +226,7 @@ export const hasDeviceManipulation = (device: DeviceAttributes) => {
   const manipulationOfNotificationAccess = device.currentNotificationAccessPermission !== device.highestNotificationAccessPermission
   const manipulationOfAppVersion = device.currentAppVersion !== device.highestAppVersion
   const manipulationOfOverlayPermission = device.currentOverlayPermission !== device.highestOverlayPermission
+  const manipulationOfAsPermission = device.asEnabled !== device.wasAsEnabled
 
   const hasActiveManipulationWarning = manipulationOfProtectionLevel ||
     manipulationOfUsageStats ||
@@ -215,7 +234,8 @@ export const hasDeviceManipulation = (device: DeviceAttributes) => {
     manipulationOfAppVersion ||
     device.triedDisablingDeviceAdmin ||
     device.didReboot ||
-    manipulationOfOverlayPermission
+    manipulationOfOverlayPermission ||
+    manipulationOfAsPermission
 
   const hasAnyManipulation = hasActiveManipulationWarning || device.hadManipulation
 

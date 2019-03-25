@@ -84,6 +84,8 @@ export interface ServerDeviceData {
   rebootIsManipulation: boolean
   cOverlay: RuntimePermissionStatus
   hOverlay: RuntimePermissionStatus
+  asEnabled: boolean
+  wasAsEnabled: boolean
 }
 
 export interface ServerUpdatedCategoryBaseData {

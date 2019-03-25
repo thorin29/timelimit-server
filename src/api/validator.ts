@@ -336,6 +336,9 @@ const definitions = {
       },
       "overlay": {
         "type": "boolean"
+      },
+      "accessibilityService": {
+        "type": "boolean"
       }
     },
     "additionalProperties": false,
@@ -1122,6 +1125,9 @@ const definitions = {
           "not required"
         ],
         "type": "string"
+      },
+      "accessibilityServiceEnabled": {
+        "type": "boolean"
       },
       "appVersion": {
         "type": "number"

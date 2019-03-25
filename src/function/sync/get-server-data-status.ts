@@ -95,7 +95,9 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         defUserTimeout: item.defaultUserTimeout,
         rebootIsManipulation: item.considerRebootManipulation,
         cOverlay: item.currentOverlayPermission,
-        hOverlay: item.highestOverlayPermission
+        hOverlay: item.highestOverlayPermission,
+        asEnabled: item.asEnabled,
+        wasAsEnabled: item.wasAsEnabled
       }))
     }
   }

@@ -107,6 +107,20 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
     }
   }
 
+  if (action.newAccessibilityServiceEnabled !== undefined) {
+    const hasChanged = deviceEntry.asEnabled !== action.newAccessibilityServiceEnabled
+
+    deviceEntry.asEnabled = action.newAccessibilityServiceEnabled
+
+    if (action.newAccessibilityServiceEnabled) {
+      deviceEntry.wasAsEnabled = true
+    }
+
+    if (hasChanged && (deviceEntry.asEnabled !== deviceEntry.wasAsEnabled)) {
+      deviceEntry.hadManipulation = true
+    }
+  }
+
   if (action.newAppVersion !== undefined) {
     const hasChanged = deviceEntry.currentAppVersion !== action.newAppVersion
 
