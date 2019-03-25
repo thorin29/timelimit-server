@@ -82,6 +82,8 @@ export interface ServerDeviceData {
   defUser: string
   defUserTimeout: number
   rebootIsManipulation: boolean
+  cOverlay: RuntimePermissionStatus
+  hOverlay: RuntimePermissionStatus
 }
 
 export interface ServerUpdatedCategoryBaseData {
