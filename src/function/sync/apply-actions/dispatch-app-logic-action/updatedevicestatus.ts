@@ -91,6 +91,22 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
     }
   }
 
+  if (action.newOverlayPermission) {
+    const hasChanged = deviceEntry.currentOverlayPermission !== action.newOverlayPermission
+
+    deviceEntry.currentOverlayPermission = action.newOverlayPermission
+
+    deviceEntry.highestOverlayPermission = enumMax(
+      deviceEntry.currentOverlayPermission,
+      deviceEntry.highestOverlayPermission,
+      runtimePermissionStatusValues
+    )
+
+    if (hasChanged && (deviceEntry.currentOverlayPermission !== deviceEntry.highestOverlayPermission)) {
+      deviceEntry.hadManipulation = true
+    }
+  }
+
   if (action.newAppVersion !== undefined) {
     const hasChanged = deviceEntry.currentAppVersion !== action.newAppVersion
 

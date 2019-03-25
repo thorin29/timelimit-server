@@ -1112,6 +1112,14 @@ const definitions = {
         ],
         "type": "string"
       },
+      "overlayPermission": {
+        "enum": [
+          "granted",
+          "not granted",
+          "not required"
+        ],
+        "type": "string"
+      },
       "appVersion": {
         "type": "number"
       },

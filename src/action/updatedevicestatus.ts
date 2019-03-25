@@ -24,13 +24,15 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
   readonly newProtetionLevel?: ProtectionLevel
   readonly newUsageStatsPermissionStatus?: RuntimePermissionStatus
   readonly newNotificationAccessPermission?: NewPermissionStatus
+  readonly newOverlayPermission?: RuntimePermissionStatus
   readonly newAppVersion?: number
   readonly didReboot: boolean
 
-  constructor ({ newProtetionLevel, newUsageStatsPermissionStatus, newNotificationAccessPermission, newAppVersion, didReboot }: {
+  constructor ({ newProtetionLevel, newUsageStatsPermissionStatus, newNotificationAccessPermission, newOverlayPermission, newAppVersion, didReboot }: {
     newProtetionLevel?: ProtectionLevel
     newUsageStatsPermissionStatus?: RuntimePermissionStatus
     newNotificationAccessPermission?: NewPermissionStatus
+    newOverlayPermission?: RuntimePermissionStatus
     newAppVersion?: number
     didReboot: boolean
   }) {
@@ -45,6 +47,7 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     this.newProtetionLevel = newProtetionLevel
     this.newUsageStatsPermissionStatus = newUsageStatsPermissionStatus
     this.newNotificationAccessPermission = newNotificationAccessPermission
+    this.newOverlayPermission = newOverlayPermission
     this.newAppVersion = newAppVersion
     this.didReboot = didReboot
   }
@@ -54,15 +57,17 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     protectionLevel: this.newProtetionLevel,
     usageStats: this.newUsageStatsPermissionStatus,
     notificationAccess: this.newNotificationAccessPermission,
+    overlayPermission: this.newOverlayPermission,
     appVersion: this.newAppVersion,
     didReboot: this.didReboot
   })
 
-  static parse = ({ protectionLevel, usageStats, notificationAccess, appVersion, didReboot }: SerializedUpdateDeviceStatusAction) => (
+  static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, appVersion, didReboot }: SerializedUpdateDeviceStatusAction) => (
     new UpdateDeviceStatusAction({
       newProtetionLevel: protectionLevel,
       newUsageStatsPermissionStatus: usageStats,
       newNotificationAccessPermission: notificationAccess,
+      newOverlayPermission: overlayPermission,
       newAppVersion: appVersion,
       didReboot: !!didReboot
     })
@@ -74,6 +79,7 @@ export interface SerializedUpdateDeviceStatusAction {
   protectionLevel?: ProtectionLevel
   usageStats?: RuntimePermissionStatus
   notificationAccess?: NewPermissionStatus
+  overlayPermission?: RuntimePermissionStatus
   appVersion?: number
   didReboot?: boolean
 }
