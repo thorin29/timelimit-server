@@ -69,9 +69,14 @@ export interface DeviceAttributesVersion6 {
   considerRebootManipulation: boolean
 }
 
+export interface DeviceAttributesVersion7 {
+  currentOverlayPermission: RuntimePermissionStatus
+  highestOverlayPermission: RuntimePermissionStatus
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
-  DeviceAttributesVersion6
+  DeviceAttributesVersion6 & DeviceAttributesVersion7
 
 export type DeviceInstance = Sequelize.Instance<DeviceAttributes> & DeviceAttributes
 export type DeviceModel = Sequelize.Model<DeviceInstance, DeviceAttributes>
@@ -175,13 +180,25 @@ export const attributesVersion6: SequelizeAttributes<DeviceAttributesVersion6> =
   }
 }
 
+export const attributesVersion7: SequelizeAttributes<DeviceAttributesVersion7> = {
+  currentOverlayPermission: {
+    ...createEnumColumn(runtimePermissionStatusValues),
+    defaultValue: 'not granted'
+  },
+  highestOverlayPermission: {
+    ...createEnumColumn(runtimePermissionStatusValues),
+    defaultValue: 'not granted'
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
   ...attributesVersion3,
   ...attributesVersion4,
   ...attributesVersion5,
-  ...attributesVersion6
+  ...attributesVersion6,
+  ...attributesVersion7
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModel => sequelize.define<DeviceInstance, DeviceAttributes>('Device', attributes)
@@ -190,13 +207,15 @@ export const hasDeviceManipulation = (device: DeviceAttributes) => {
   const manipulationOfUsageStats = device.currentUsageStatsPermission !== device.highestUsageStatsPermission
   const manipulationOfNotificationAccess = device.currentNotificationAccessPermission !== device.highestNotificationAccessPermission
   const manipulationOfAppVersion = device.currentAppVersion !== device.highestAppVersion
+  const manipulationOfOverlayPermission = device.currentOverlayPermission !== device.highestOverlayPermission
 
   const hasActiveManipulationWarning = manipulationOfProtectionLevel ||
     manipulationOfUsageStats ||
     manipulationOfNotificationAccess ||
     manipulationOfAppVersion ||
     device.triedDisablingDeviceAdmin ||
-    device.didReboot
+    device.didReboot ||
+    manipulationOfOverlayPermission
 
   const hasAnyManipulation = hasActiveManipulationWarning || device.hadManipulation
 

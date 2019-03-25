@@ -55,5 +55,7 @@ export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId
   showDeviceConnected: false,
   defaultUserId: '',
   defaultUserTimeout: 0,
-  considerRebootManipulation: false
+  considerRebootManipulation: false,
+  currentOverlayPermission: 'not granted',
+  highestOverlayPermission: 'not granted'
 })
