@@ -333,6 +333,9 @@ const definitions = {
       },
       "reboot": {
         "type": "boolean"
+      },
+      "overlay": {
+        "type": "boolean"
       }
     },
     "additionalProperties": false,

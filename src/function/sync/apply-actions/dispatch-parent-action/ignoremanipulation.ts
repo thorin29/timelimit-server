@@ -54,6 +54,10 @@ export async function dispatchIgnoreManipulation ({ action, cache }: {
     deviceEntry.highestUsageStatsPermission = deviceEntry.currentUsageStatsPermission
   }
 
+  if (action.ignoreOverlayPermissionManipulation) {
+    deviceEntry.highestOverlayPermission = deviceEntry.currentOverlayPermission
+  }
+
   if (action.ignoreDidReboot) {
     deviceEntry.didReboot = false
   }

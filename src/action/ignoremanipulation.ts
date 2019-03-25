@@ -25,13 +25,14 @@ export class IgnoreManipulationAction extends ParentAction {
   readonly ignoreAppDowngrade: boolean
   readonly ignoreNotificationAccessManipulation: boolean
   readonly ignoreUsageStatsAccessManipulation: boolean
+  readonly ignoreOverlayPermissionManipulation: boolean
   readonly ignoreDidReboot: boolean
   readonly ignoreHadManipulation: boolean
 
   constructor ({
     deviceId, ignoreDeviceAdminManipulation, ignoreDeviceAdminManipulationAttempt,
     ignoreAppDowngrade, ignoreNotificationAccessManipulation, ignoreUsageStatsAccessManipulation,
-    ignoreDidReboot, ignoreHadManipulation
+    ignoreOverlayPermissionManipulation, ignoreDidReboot, ignoreHadManipulation
   }: {
     deviceId: string
     ignoreDeviceAdminManipulation: boolean
@@ -39,6 +40,7 @@ export class IgnoreManipulationAction extends ParentAction {
     ignoreAppDowngrade: boolean
     ignoreNotificationAccessManipulation: boolean
     ignoreUsageStatsAccessManipulation: boolean
+    ignoreOverlayPermissionManipulation: boolean
     ignoreDidReboot: boolean
     ignoreHadManipulation: boolean
   }) {
@@ -52,6 +54,7 @@ export class IgnoreManipulationAction extends ParentAction {
     this.ignoreAppDowngrade = ignoreAppDowngrade
     this.ignoreNotificationAccessManipulation = ignoreNotificationAccessManipulation
     this.ignoreUsageStatsAccessManipulation = ignoreUsageStatsAccessManipulation
+    this.ignoreOverlayPermissionManipulation = ignoreOverlayPermissionManipulation
     this.ignoreDidReboot = ignoreDidReboot
     this.ignoreHadManipulation = ignoreHadManipulation
   }
@@ -63,11 +66,12 @@ export class IgnoreManipulationAction extends ParentAction {
     adminA: this.ignoreDeviceAdminManipulationAttempt,
     downgrade: this.ignoreAppDowngrade,
     notification: this.ignoreNotificationAccessManipulation,
+    overlay: this.ignoreOverlayPermissionManipulation,
     usageStats: this.ignoreUsageStatsAccessManipulation,
     hadManipulation: this.ignoreHadManipulation
   })
 
-  static parse = ({ deviceId, admin, adminA, downgrade, notification, usageStats, reboot, hadManipulation }: SerializedIgnoreManipulationAction) => (
+  static parse = ({ deviceId, admin, adminA, downgrade, notification, usageStats, overlay, reboot, hadManipulation }: SerializedIgnoreManipulationAction) => (
     new IgnoreManipulationAction({
       deviceId,
       ignoreDeviceAdminManipulation: admin,
@@ -75,6 +79,7 @@ export class IgnoreManipulationAction extends ParentAction {
       ignoreAppDowngrade: downgrade,
       ignoreUsageStatsAccessManipulation: usageStats,
       ignoreNotificationAccessManipulation: notification,
+      ignoreOverlayPermissionManipulation: !!overlay,
       ignoreDidReboot: !!reboot,
       ignoreHadManipulation: hadManipulation
     })
@@ -92,4 +97,5 @@ export interface SerializedIgnoreManipulationAction {
   hadManipulation: boolean
   // was added at a later version
   reboot?: boolean
+  overlay?: boolean
 }
