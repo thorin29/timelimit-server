@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { SerializedAppActivityItem } from '../model/appactivity'
 import { SerializedInstalledApp } from '../model/installedapp'
 import { NewPermissionStatus } from '../model/newpermissionstatus'
 import { ProtectionLevel } from '../model/protectionlevel'
@@ -135,4 +136,5 @@ export interface ServerInstalledAppsData {
   deviceId: string
   version: string
   apps: Array<SerializedInstalledApp>
+  activities: Array<SerializedAppActivityItem>
 }

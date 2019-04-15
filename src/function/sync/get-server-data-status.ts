@@ -191,36 +191,63 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
   const idsOfDevicesWhereInstalledAppsMustBeSynced = [...addedDeviceIds, ...deviceIdsWhereInstalledAppsHaveChanged]
 
   if (idsOfDevicesWhereInstalledAppsMustBeSynced.length > 0) {
-    const dataToSync = (await database.app.findAll({
-      where: {
-        familyId,
-        deviceId: {
-          [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
-        }
-      },
-      attributes: [
-        'deviceId',
-        'packageName',
-        'title',
-        'isLaunchable',
-        'recommendation'
-      ],
-      transaction
-    })).map((item) => ({
-      deviceId: item.deviceId,
-      packageName: item.packageName,
-      title: item.title,
-      isLaunchable: item.isLaunchable,
-      recommendation: item.recommendation
-    }))
-
-    result.apps = idsOfDevicesWhereInstalledAppsMustBeSynced.map((deviceId): ServerInstalledAppsData => ({
-      deviceId,
-      apps: dataToSync.filter((item) => item.deviceId === deviceId).map((item) => ({
+    const [appsToSync, activitiesToSync] = await Promise.all([
+      database.app.findAll({
+        where: {
+          familyId,
+          deviceId: {
+            [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
+          }
+        },
+        attributes: [
+          'deviceId',
+          'packageName',
+          'title',
+          'isLaunchable',
+          'recommendation'
+        ],
+        transaction
+      }).map((item) => ({
+        deviceId: item.deviceId,
         packageName: item.packageName,
         title: item.title,
         isLaunchable: item.isLaunchable,
         recommendation: item.recommendation
+      })),
+      database.appActivity.findAll({
+        where: {
+          familyId,
+          deviceId: {
+            [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
+          }
+        },
+        attributes: [
+          'deviceId',
+          'packageName',
+          'title',
+          'className'
+        ],
+        transaction
+      }).map((item) => ({
+        deviceId: item.deviceId,
+        packageName: item.packageName,
+        activityName: item.activityName,
+        title: item.title
+      }))
+    ])
+
+    result.apps = idsOfDevicesWhereInstalledAppsMustBeSynced.map((deviceId): ServerInstalledAppsData => ({
+      deviceId,
+      apps: appsToSync.filter((item) => item.deviceId === deviceId).map((item) => ({
+        packageName: item.packageName,
+        title: item.title,
+        isLaunchable: item.isLaunchable,
+        recommendation: item.recommendation
+      })),
+      activities: activitiesToSync.filter((item) => item.deviceId === deviceId).map((item) => ({
+        p: item.packageName,
+        c: item.activityName,
+        t: item.title
       })),
       version: getServerInstalledAppsVersionByDeviceId(deviceId)
     }))
