@@ -16,7 +16,7 @@
  */
 
 import { AppActivityItem, RemovedAppActivityItem, SerializedAppActivityItem, SerializedRemovedAppActivityItem } from '../model/appactivity'
-import { assertNonEmptyListWithoutDuplicates } from '../util/list'
+import { assertListWithoutDuplicates } from '../util/list'
 import { AppLogicAction } from './basetypes'
 
 export class UpdateAppActivitiesAction extends AppLogicAction {
@@ -29,8 +29,8 @@ export class UpdateAppActivitiesAction extends AppLogicAction {
   }) {
     super()
 
-    assertNonEmptyListWithoutDuplicates(removed.map((item) => item.packageName + ':' + item.activityName))
-    assertNonEmptyListWithoutDuplicates(updatedOrAdded.map((item) => item.packageName + ':' + item.activityName))
+    assertListWithoutDuplicates(removed.map((item) => item.packageName + ':' + item.activityName))
+    assertListWithoutDuplicates(updatedOrAdded.map((item) => item.packageName + ':' + item.activityName))
 
     if (removed.length === 0 && updatedOrAdded.length === 0) {
       throw new Error('UpdateAppActivitiesAction is empty')

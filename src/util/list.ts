@@ -26,3 +26,9 @@ export function assertNonEmptyListWithoutDuplicates (list: Array<string>) {
     throw new Error('expected list without duplicates')
   }
 }
+
+export function assertListWithoutDuplicates (list: Array<string>) {
+  if (uniq(list).length !== list.length) {
+    throw new Error('expected list without duplicates')
+  }
+}
