@@ -97,7 +97,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         cOverlay: item.currentOverlayPermission,
         hOverlay: item.highestOverlayPermission,
         asEnabled: item.asEnabled,
-        wasAsEnabled: item.wasAsEnabled
+        wasAsEnabled: item.wasAsEnabled,
+        activityLevelBlocking: item.activityLevelBlocking
       }))
     }
   }

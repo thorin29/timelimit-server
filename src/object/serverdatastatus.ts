@@ -86,6 +86,7 @@ export interface ServerDeviceData {
   hOverlay: RuntimePermissionStatus
   asEnabled: boolean
   wasAsEnabled: boolean
+  activityLevelBlocking: boolean
 }
 
 export interface ServerUpdatedCategoryBaseData {
