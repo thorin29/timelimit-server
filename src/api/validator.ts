@@ -861,6 +861,29 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateEnableActivityLevelBlockingAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_ENABLE_ACTIVITY_LEVEL_BLOCKING"
+        ]
+      },
+      "deviceId": {
+        "type": "string"
+      },
+      "enable": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "deviceId",
+      "enable",
+      "type"
+    ]
+  },
   "SerialiizedUpdateNetworkTimeVerificationAction": {
     "type": "object",
     "properties": {
@@ -1082,6 +1105,74 @@ const definitions = {
     "additionalProperties": false,
     "required": [
       "type"
+    ]
+  },
+  "SerializedUpdateAppActivitiesAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_APP_ACTIVITIES"
+        ]
+      },
+      "removed": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "minItems": 2,
+          "additionalItems": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        }
+      },
+      "updatedOrAdded": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/SerializedAppActivityItem"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "removed",
+      "type",
+      "updatedOrAdded"
+    ]
+  },
+  "SerializedAppActivityItem": {
+    "type": "object",
+    "properties": {
+      "p": {
+        "type": "string"
+      },
+      "c": {
+        "type": "string"
+      },
+      "t": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "c",
+      "p",
+      "t"
     ]
   },
   "SerializedUpdateDeviceStatusAction": {
@@ -1480,6 +1571,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
       "$ref": "#/definitions/SerializedUpdateDeviceNameAction"
     },
     {
+      "$ref": "#/definitions/SerializedUpdateEnableActivityLevelBlockingAction"
+    },
+    {
       "$ref": "#/definitions/SerialiizedUpdateNetworkTimeVerificationAction"
     },
     {
@@ -1508,6 +1602,9 @@ export const isSerializedAppLogicAction: (value: object) => value is SerializedA
     },
     {
       "$ref": "#/definitions/SerialiezdTriedDisablingDeviceAdminAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateAppActivitiesAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateDeviceStatusAction"

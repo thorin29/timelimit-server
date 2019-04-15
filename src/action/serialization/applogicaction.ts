@@ -21,6 +21,7 @@ import { AppLogicAction } from '../basetypes'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
 import { SerializedSignOutAtDeviceAction, SignOutAtDeviceAction } from '../signoutatdevice'
 import { SerialiezdTriedDisablingDeviceAdminAction, TriedDisablingDeviceAdminAction } from '../trieddisablingdeviceadmin'
+import { SerializedUpdateAppActivitiesAction, UpdateAppActivitiesAction } from '../updateappactivities'
 import { SerializedUpdateDeviceStatusAction, UpdateDeviceStatusAction } from '../updatedevicestatus'
 
 export type SerializedAppLogicAction =
@@ -29,6 +30,7 @@ export type SerializedAppLogicAction =
   SerializedRemoveInstalledAppsAction |
   SerializedSignOutAtDeviceAction |
   SerialiezdTriedDisablingDeviceAdminAction |
+  SerializedUpdateAppActivitiesAction |
   SerializedUpdateDeviceStatusAction
 
 export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLogicAction => {
@@ -42,6 +44,8 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
     return SignOutAtDeviceAction.parse(serialized)
   } else if (serialized.type === 'TRIED_DISABLING_DEVICE_ADMIN') {
     return new TriedDisablingDeviceAdminAction()
+  } else if (serialized.type === 'UPDATE_APP_ACTIVITIES') {
+    return UpdateAppActivitiesAction.parse(serialized)
   } else if (serialized.type === 'UPDATE_DEVICE_STATUS') {
     return UpdateDeviceStatusAction.parse(serialized)
   } else {

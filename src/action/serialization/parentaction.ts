@@ -46,6 +46,7 @@ import { SerializedUpdateCategoryBlockedTimesAction, UpdateCategoryBlockedTimesA
 import { SerializedUpdateCategoryTemporarilyBlockedAction, UpdateCategoryTemporarilyBlockedAction } from '../updatecategorytemporarilyblocked'
 import { SerializedUpdateCategoryTitleAction, UpdateCategoryTitleAction } from '../updatecategorytitle'
 import { SerializedUpdateDeviceNameAction, UpdateDeviceNameAction } from '../updatedevicename'
+import { SerializedUpdateEnableActivityLevelBlockingAction, UpdateEnableActivityLevelBlockingAction } from '../updateenableactivitylevelblocking'
 import { SerialiizedUpdateNetworkTimeVerificationAction, UpdateNetworkTimeVerificationAction } from '../updatenetworktimeverification'
 import { SerializedUpdateParentNotificationFlagsAction, UpdateParentNotificationFlagsAction } from '../updateparentnotificationflags'
 import { SerializedUpdateTimelimitRuleAction, UpdateTimelimitRuleAction } from '../updatetimelimitrule'
@@ -81,6 +82,7 @@ export type SerializedParentAction =
   SerializedUpdateCategoryTemporarilyBlockedAction |
   SerializedUpdateCategoryTitleAction |
   SerializedUpdateDeviceNameAction |
+  SerializedUpdateEnableActivityLevelBlockingAction |
   SerialiizedUpdateNetworkTimeVerificationAction |
   SerializedUpdateParentNotificationFlagsAction |
   SerializedUpdateTimelimitRuleAction
@@ -146,6 +148,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateCategoryTemporarilyBlockedAction.parse(action)
   } else if (action.type === 'UPDATE_DEVICE_NAME') {
     return UpdateDeviceNameAction.parse(action)
+  } else if (action.type === 'UPDATE_ENABLE_ACTIVITY_LEVEL_BLOCKING') {
+    return UpdateEnableActivityLevelBlockingAction.parse(action)
   } else if (action.type === 'UPDATE_NETWORK_TIME_VERIFICATION') {
     return UpdateNetworkTimeVerificationAction.parse(action)
   } else if (action.type === 'UPDATE_PARENT_NOTIFICATION_FLAGS') {

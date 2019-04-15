@@ -47,6 +47,7 @@ import {
   UpdateCategoryTemporarilyBlockedAction,
   UpdateCategoryTitleAction,
   UpdateDeviceNameAction,
+  UpdateEnableActivityLevelBlockingAction,
   UpdateNetworkTimeVerificationAction,
   UpdateParentNotificationFlagsAction,
   UpdateTimelimitRuleAction
@@ -82,6 +83,7 @@ import { dispatchUpdateCategoryBlockedTimes } from './updatecategoryblockedtimes
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
 import { dispatchUpdateCategoryTitle } from './updatecategorytitle'
 import { dispatchUpdateDeviceName } from './updatedevicename'
+import { dispatchUpdateEnableActivityLevelBlocking } from './updateenableactivitylevelblocking'
 import { dispatchUpdateNetworkTimeVerification } from './updatenetworktimeverification'
 import { dispatchUpdateParentNotificationFlags } from './updateparentnotificationflags'
 import { dispatchUpdateTimelimitRule } from './updatetimelimitrule'
@@ -144,6 +146,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchDeleteTimeLimitRule({ action, cache })
   } else if (action instanceof UpdateDeviceNameAction) {
     await dispatchUpdateDeviceName({ action, cache })
+  } else if (action instanceof UpdateEnableActivityLevelBlockingAction) {
+    await dispatchUpdateEnableActivityLevelBlocking({ action, cache })
   } else if (action instanceof UpdateNetworkTimeVerificationAction) {
     await dispatchUpdateNetworkTimeVerification({ action, cache })
   } else if (action instanceof UpdateParentNotificationFlagsAction) {

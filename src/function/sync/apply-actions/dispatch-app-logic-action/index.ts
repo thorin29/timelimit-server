@@ -22,6 +22,7 @@ import {
   RemoveInstalledAppsAction,
   SignOutAtDeviceAction,
   TriedDisablingDeviceAdminAction,
+  UpdateAppActivitiesAction,
   UpdateDeviceStatusAction
 } from '../../../../action'
 import { Cache } from '../cache'
@@ -30,6 +31,7 @@ import { dispatchAddUsedTime } from './addusedtime'
 import { dispatchRemoveInstalledApps } from './removeinstalledapps'
 import { dispatchSignOutAtDevice } from './signoutatdevice'
 import { dispatchTriedDisablingDeviceAdmin } from './trieddisablingdeviceadmin'
+import { dispatchUpdateAppActivities } from './updateappactivities'
 import { dispatchUpdateDeviceStatus } from './updatedevicestatus'
 
 export const dispatchAppLogicAction = async ({ action, deviceId, cache }: {
@@ -47,6 +49,8 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache }: {
     await dispatchSignOutAtDevice({ deviceId, action, cache })
   } else if (action instanceof UpdateDeviceStatusAction) {
     await dispatchUpdateDeviceStatus({ deviceId, action, cache })
+  } else if (action instanceof UpdateAppActivitiesAction) {
+    await dispatchUpdateAppActivities({ deviceId, action, cache })
   } else if (action instanceof TriedDisablingDeviceAdminAction) {
     await dispatchTriedDisablingDeviceAdmin({ deviceId, action, cache })
   } else {
