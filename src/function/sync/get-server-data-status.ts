@@ -225,7 +225,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
           'deviceId',
           'packageName',
           'title',
-          'className'
+          'activityName'
         ],
         transaction
       }).map((item) => ({
