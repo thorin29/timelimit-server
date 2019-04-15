@@ -80,9 +80,14 @@ export interface DeviceAttributesVersion8 {
   wasAsEnabled: boolean
 }
 
+export interface DeviceAttributesVersion9 {
+  activityLevelBlocking: boolean
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
-  DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8
+  DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
+  DeviceAttributesVersion9
 
 export type DeviceInstance = Sequelize.Instance<DeviceAttributes> & DeviceAttributes
 export type DeviceModel = Sequelize.Model<DeviceInstance, DeviceAttributes>
@@ -208,6 +213,13 @@ export const attributesVersion8: SequelizeAttributes<DeviceAttributesVersion8> =
   }
 }
 
+export const attributesVersion9: SequelizeAttributes<DeviceAttributesVersion9> = {
+  activityLevelBlocking: {
+    ...booleanColumn,
+    defaultValue: false
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -216,7 +228,8 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion5,
   ...attributesVersion6,
   ...attributesVersion7,
-  ...attributesVersion8
+  ...attributesVersion8,
+  ...attributesVersion9
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModel => sequelize.define<DeviceInstance, DeviceAttributes>('Device', attributes)

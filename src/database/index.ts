@@ -18,6 +18,7 @@
 import * as Sequelize from 'sequelize'
 import { AddDeviceTokenModel, createAddDeviceTokenModel } from './adddevicetoken'
 import { AppModel, createAppModel } from './app'
+import { AppActivityModel, createAppActivityModel } from './appactivity'
 import { AuthTokenModel, createAuthtokenModel } from './authtoken'
 import { CategoryModel, createCategoryModel } from './category'
 import { CategoryAppModel, createCategoryAppModel } from './categoryapp'
@@ -35,6 +36,7 @@ export interface Database {
   addDeviceToken: AddDeviceTokenModel
   authtoken: AuthTokenModel
   app: AppModel
+  appActivity: AppActivityModel
   category: CategoryModel
   categoryApp: CategoryAppModel
   device: DeviceModel
@@ -52,6 +54,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   addDeviceToken: createAddDeviceTokenModel(sequelize),
   authtoken: createAuthtokenModel(sequelize),
   app: createAppModel(sequelize),
+  appActivity: createAppActivityModel(sequelize),
   category: createCategoryModel(sequelize),
   categoryApp: createCategoryAppModel(sequelize),
   device: createDeviceModel(sequelize),
