@@ -40,7 +40,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager 
   const router = Router()
 
   router.post('/push-actions', json({
-    limit: '500kb'
+    limit: '1024kb'
   }), async (req, res, next) => {
     try {
       if (!isClientPushChangesRequest(req.body)) {
