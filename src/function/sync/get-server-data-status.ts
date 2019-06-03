@@ -334,7 +334,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'baseVersion',
         'parentCategoryId',
         'blockAllNotifications',
-        'timeWarnings'
+        'timeWarningFlags'
       ],
       transaction
     })).map((item) => ({
