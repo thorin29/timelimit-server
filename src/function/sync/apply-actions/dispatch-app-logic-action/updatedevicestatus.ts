@@ -140,6 +140,14 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
     deviceEntry.didReboot = true
   }
 
+  if (action.isQOrLaterNow) {
+    const hasChanged = deviceEntry.isQorLater === false
+
+    if (hasChanged) {
+      deviceEntry.isQorLater = true
+    }
+  }
+
   await deviceEntry.save({ transaction: cache.transaction })
 
   if (hasDeviceManipulation(deviceEntry)) {

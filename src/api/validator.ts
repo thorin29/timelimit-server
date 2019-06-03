@@ -1225,6 +1225,9 @@ const definitions = {
       },
       "didReboot": {
         "type": "boolean"
+      },
+      "isQOrLaterNow": {
+        "type": "boolean"
       }
     },
     "additionalProperties": false,

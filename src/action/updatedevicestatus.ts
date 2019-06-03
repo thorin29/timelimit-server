@@ -28,8 +28,18 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
   readonly newAccessibilityServiceEnabled?: boolean
   readonly newAppVersion?: number
   readonly didReboot: boolean
+  readonly isQOrLaterNow: boolean
 
-  constructor ({ newProtetionLevel, newUsageStatsPermissionStatus, newNotificationAccessPermission, newOverlayPermission, newAccessibilityServiceEnabled, newAppVersion, didReboot }: {
+  constructor ({
+    newProtetionLevel,
+    newUsageStatsPermissionStatus,
+    newNotificationAccessPermission,
+    newOverlayPermission,
+    newAccessibilityServiceEnabled,
+    newAppVersion,
+    didReboot,
+    isQOrLaterNow
+  }: {
     newProtetionLevel?: ProtectionLevel
     newUsageStatsPermissionStatus?: RuntimePermissionStatus
     newNotificationAccessPermission?: NewPermissionStatus
@@ -37,6 +47,7 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     newAccessibilityServiceEnabled?: boolean
     newAppVersion?: number
     didReboot: boolean
+    isQOrLaterNow: boolean
   }) {
     super()
 
@@ -53,6 +64,7 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     this.newAccessibilityServiceEnabled = newAccessibilityServiceEnabled
     this.newAppVersion = newAppVersion
     this.didReboot = didReboot
+    this.isQOrLaterNow = isQOrLaterNow
   }
 
   serialize = (): SerializedUpdateDeviceStatusAction => ({
@@ -63,10 +75,11 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     overlayPermission: this.newOverlayPermission,
     accessibilityServiceEnabled: this.newAccessibilityServiceEnabled,
     appVersion: this.newAppVersion,
-    didReboot: this.didReboot
+    didReboot: this.didReboot,
+    isQOrLaterNow: this.isQOrLaterNow
   })
 
-  static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, accessibilityServiceEnabled, appVersion, didReboot }: SerializedUpdateDeviceStatusAction) => (
+  static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, accessibilityServiceEnabled, appVersion, didReboot, isQOrLaterNow }: SerializedUpdateDeviceStatusAction) => (
     new UpdateDeviceStatusAction({
       newProtetionLevel: protectionLevel,
       newUsageStatsPermissionStatus: usageStats,
@@ -74,7 +87,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
       newOverlayPermission: overlayPermission,
       newAccessibilityServiceEnabled: accessibilityServiceEnabled,
       newAppVersion: appVersion,
-      didReboot: !!didReboot
+      didReboot: !!didReboot,
+      isQOrLaterNow: !!isQOrLaterNow
     })
   )
 }
@@ -88,4 +102,5 @@ export interface SerializedUpdateDeviceStatusAction {
   accessibilityServiceEnabled?: boolean
   appVersion?: number
   didReboot?: boolean
+  isQOrLaterNow?: boolean
 }
