@@ -88,6 +88,7 @@ export interface ServerDeviceData {
   asEnabled: boolean
   wasAsEnabled: boolean
   activityLevelBlocking: boolean
+  qOrLater: boolean
 }
 
 export interface ServerUpdatedCategoryBaseData {
@@ -100,6 +101,7 @@ export interface ServerUpdatedCategoryBaseData {
   version: string
   parentCategoryId: string
   blockAllNotifications: boolean
+  timeWarnings: number
 }
 
 export interface ServerUpdatedCategoryAssignedApps {

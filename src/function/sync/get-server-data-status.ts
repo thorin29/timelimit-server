@@ -98,7 +98,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         hOverlay: item.highestOverlayPermission,
         asEnabled: item.asEnabled,
         wasAsEnabled: item.wasAsEnabled,
-        activityLevelBlocking: item.activityLevelBlocking
+        activityLevelBlocking: item.activityLevelBlocking,
+        qOrLater: item.isQorLater
       }))
     }
   }
@@ -332,7 +333,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'temporarilyBlocked',
         'baseVersion',
         'parentCategoryId',
-        'blockAllNotifications'
+        'blockAllNotifications',
+        'timeWarnings'
       ],
       transaction
     })).map((item) => ({
@@ -344,7 +346,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       temporarilyBlocked: item.temporarilyBlocked,
       baseVersion: item.baseVersion,
       parentCategoryId: item.parentCategoryId,
-      blockAllNotifications: item.blockAllNotifications
+      blockAllNotifications: item.blockAllNotifications,
+      timeWarningFlags: item.timeWarningFlags
     }))
 
     result.categoryBase = dataForSyncing.map((item): ServerUpdatedCategoryBaseData => ({
@@ -356,7 +359,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       tempBlocked: item.temporarilyBlocked,
       version: item.baseVersion,
       parentCategoryId: item.parentCategoryId,
-      blockAllNotifications: item.blockAllNotifications
+      blockAllNotifications: item.blockAllNotifications,
+      timeWarnings: item.timeWarningFlags
     }))
   }
 
