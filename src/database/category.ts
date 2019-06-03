@@ -42,8 +42,12 @@ export interface CategoryAttributesVersion3 {
   blockAllNotifications: boolean
 }
 
+export interface CategoryAttributesVersion4 {
+  timeWarningFlags: number
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
-  CategoryAttributesVersion3
+  CategoryAttributesVersion3 & CategoryAttributesVersion4
 
 export type CategoryInstance = Sequelize.Instance<CategoryAttributes> & CategoryAttributes
 export type CategoryModel = Sequelize.Model<CategoryInstance, CategoryAttributes>
@@ -94,10 +98,28 @@ export const attributesVersion3: SequelizeAttributes<CategoryAttributesVersion3>
   }
 }
 
+export const attributesVersion4: SequelizeAttributes<CategoryAttributesVersion4> = {
+  timeWarningFlags: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 1 | 2 | 4 | 8 | 16
+      // 1 => 1 minute
+      // 2 => 3 minutes
+      // 4 => 5 minutes
+      // 8 => 10 minutes
+      // 16 => 15 minutes
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
-  ...attributesVersion3
+  ...attributesVersion3,
+  ...attributesVersion4
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModel => sequelize.define<CategoryInstance, CategoryAttributes>('Category', attributes)

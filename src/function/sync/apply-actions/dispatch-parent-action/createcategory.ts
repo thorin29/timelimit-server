@@ -51,7 +51,8 @@ export async function dispatchCreateCategory ({ action, cache }: {
     assignedAppsVersion: generateVersionId(),
     usedTimesVersion: generateVersionId(),
     parentCategoryId: '',
-    blockAllNotifications: false
+    blockAllNotifications: false,
+    timeWarningFlags: 0
   }, { transaction: cache.transaction })
 
   // update the cache

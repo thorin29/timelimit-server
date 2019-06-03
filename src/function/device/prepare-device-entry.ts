@@ -60,5 +60,6 @@ export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId
   highestOverlayPermission: 'not granted',
   asEnabled: false,
   wasAsEnabled: false,
-  activityLevelBlocking: false
+  activityLevelBlocking: false,
+  isQorLater: false
 })
