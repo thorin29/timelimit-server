@@ -815,6 +815,33 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateCategoryTimeWarningsAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_CATEGORY_TIME_WARNINGS"
+        ]
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "enable": {
+        "type": "boolean"
+      },
+      "flags": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
+      "enable",
+      "flags",
+      "type"
+    ]
+  },
   "SerializedUpdateCategoryTitleAction": {
     "type": "object",
     "properties": {
@@ -1566,6 +1593,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryTemporarilyBlockedAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateCategoryTimeWarningsAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryTitleAction"

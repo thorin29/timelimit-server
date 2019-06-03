@@ -20,6 +20,8 @@ import { serializedBitmaskRegex } from '../util/bitmask'
 import { booleanColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, versionColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
+export const allowedTimeWarningFlags = 1 | 2 | 4 | 8 | 16
+
 export interface CategoryAttributesVersion1 {
   familyId: string
   categoryId: string
@@ -105,7 +107,7 @@ export const attributesVersion4: SequelizeAttributes<CategoryAttributesVersion4>
     allowNull: false,
     validate: {
       min: 0,
-      max: 1 | 2 | 4 | 8 | 16
+      max: allowedTimeWarningFlags
       // 1 => 1 minute
       // 2 => 3 minutes
       // 4 => 5 minutes

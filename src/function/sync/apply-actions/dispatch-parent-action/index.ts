@@ -45,6 +45,7 @@ import {
   UpdateCategoryBlockAllNotificationsAction,
   UpdateCategoryBlockedTimesAction,
   UpdateCategoryTemporarilyBlockedAction,
+  UpdateCategoryTimeWarningsAction,
   UpdateCategoryTitleAction,
   UpdateDeviceNameAction,
   UpdateEnableActivityLevelBlockingAction,
@@ -81,6 +82,7 @@ import { dispatchSetUserTimezone } from './setusertimezone'
 import { dispatchUpdateCategoryBlockAllNotifications } from './updatecategoryblockallnotifications'
 import { dispatchUpdateCategoryBlockedTimes } from './updatecategoryblockedtimes'
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
+import { dispatchUpdateCategoryTimeWarnings } from './updatecategorytimewarnings'
 import { dispatchUpdateCategoryTitle } from './updatecategorytitle'
 import { dispatchUpdateDeviceName } from './updatedevicename'
 import { dispatchUpdateEnableActivityLevelBlocking } from './updateenableactivitylevelblocking'
@@ -162,6 +164,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchChangeParentPassword({ action, cache })
   } else if (action instanceof IgnoreManipulationAction) {
     await dispatchIgnoreManipulation({ action, cache })
+  } else if (action instanceof UpdateCategoryTimeWarningsAction) {
+    await dispatchUpdateCategoryTimeWarnings({ action, cache })
   } else {
     throw new Error('unsupported action type')
   }
