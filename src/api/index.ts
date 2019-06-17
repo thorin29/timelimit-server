@@ -50,22 +50,20 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
   app.use('/purchase', createPurchaseRouter({ database, websocket }))
   app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager }))
 
-  if (adminToken !== '') {
-    app.use(
-      '/admin',
-      (req, res, next) => {
-        const user = basicAuth(req)
+  app.use(
+    '/admin',
+    (req, res, next) => {
+      const user = basicAuth(req)
 
-        if (user && user.pass === adminToken) {
-          next()
-        } else {
-          res.setHeader('WWW-Authenticate', 'Basic realm="login"')
-          res.sendStatus(401)
-        }
-      },
-      createAdminRouter()
-    )
-  }
+      if (adminToken !== '' && user && user.pass === adminToken) {
+        next()
+      } else {
+        res.setHeader('WWW-Authenticate', 'Basic realm="login"')
+        res.sendStatus(401)
+      }
+    },
+    createAdminRouter()
+  )
 
   return app
 }
