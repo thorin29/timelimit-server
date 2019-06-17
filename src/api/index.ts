@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as basicAuth from 'basic-auth'
 import * as express from 'express'
 import { VisibleConnectedDevicesManager } from '../connected-devices'
 import { Database } from '../database'
 import { WebsocketApi } from '../websocket'
+import { createAdminRouter } from './admin'
 import { createAuthRouter } from './auth'
 import { createChildRouter } from './child'
 import { createParentRouter } from './parent'
 import { createPurchaseRouter } from './purchase'
 import { createSyncRouter } from './sync'
-import { createAdminRouter } from './admin'
-import * as basicAuth from 'basic-auth'
 
 const adminToken = process.env.ADMIN_TOKEN || ''
 
