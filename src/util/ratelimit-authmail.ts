@@ -19,19 +19,19 @@ import { RateLimiterAbstract, RateLimiterMemory } from 'rate-limiter-flexible'
 
 const globalMailSendLimitMinute: RateLimiterAbstract = new RateLimiterMemory({
   keyPrefix: 'timelimit:sendmail-auth:global:minute',
-  points: 5,
+  points: 100,
   duration: 60  // 1 minute
 })
 
 const globalMailSendLimitHour: RateLimiterAbstract = new RateLimiterMemory({
   keyPrefix: 'timelimit:sendmail-auth:global:hour',
-  points: 30,
+  points: 500,
   duration: 60 * 60 // 1 hour
 })
 
 const gloablMailSendLimitDay: RateLimiterAbstract = new RateLimiterMemory({
   keyPrefix: 'timelimit:sendmail-auth:global:day',
-  points: 100,
+  points: 1000,
   duration: 60 * 60 * 24  // 1 day
 })
 
