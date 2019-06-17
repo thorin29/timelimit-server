@@ -24,6 +24,10 @@ import { createChildRouter } from './child'
 import { createParentRouter } from './parent'
 import { createPurchaseRouter } from './purchase'
 import { createSyncRouter } from './sync'
+import { createAdminRouter } from './admin'
+import * as basicAuth from 'basic-auth'
+
+const adminToken = process.env.ADMIN_TOKEN || ''
 
 export const createApi = ({ database, websocket, connectedDevicesManager }: {
   database: Database
@@ -45,6 +49,23 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
   app.use('/parent', createParentRouter({ database, websocket }))
   app.use('/purchase', createPurchaseRouter({ database, websocket }))
   app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager }))
+
+  if (adminToken !== '') {
+    app.use(
+      '/admin',
+      (req, res, next) => {
+        const user = basicAuth(req)
+
+        if (user && user.pass === adminToken) {
+          next()
+        } else {
+          res.setHeader('WWW-Authenticate', 'Basic realm="login"')
+          res.sendStatus(401)
+        }
+      },
+      createAdminRouter()
+    )
+  }
 
   return app
 }

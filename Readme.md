@@ -60,3 +60,6 @@ This fixes the causes of lint warnings (where possible).
 - STATUS_MESSAGE
   - a message which is shown to all users in the overview screen
   - default: null/ no shown message
+- ADMIN_TOKEN
+  - a password which allows to use some APIs
+  - admin APIs are disabled when this is not set
