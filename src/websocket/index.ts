@@ -27,9 +27,13 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   websocketServer: io.Server
   websocketApi: WebsocketApi
 } => {
+  let socketCounter = 0
   const server = io()
 
   server.on('connection', (socket) => {
+    socketCounter++
+    socket.on('disconnect', () => socketCounter--)
+
     socket.on('devicelogin', (deviceAuthToken: any, ack: any) => {
       socket.leaveAll()
 
@@ -89,7 +93,8 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
       server
         .to(deviceByAuthTokenRoom(deviceAuthToken))
         .emit('sign out')
-    }
+    },
+    countConnections: () => socketCounter
   }
 
   return {
@@ -101,4 +106,5 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
 export interface WebsocketApi {
   triggerSyncByDeviceAuthToken: (params: {deviceAuthToken: string, isImportant: boolean}) => void
   triggerLogoutByDeviceAuthToken: (params: {deviceAuthToken: string}) => void
+  countConnections: () => number
 }

@@ -16,9 +16,18 @@
  */
 
 import { Router } from 'express'
+import { WebsocketApi } from '../websocket'
 
-export const createAdminRouter = () => {
+export const createAdminRouter = ({ websocket }: {
+  websocket: WebsocketApi
+}) => {
   const router = Router()
+
+  router.get('/status', (_, res) => {
+    res.json({
+      websocketClients: websocket.countConnections()
+    })
+  })
 
   return router
 }

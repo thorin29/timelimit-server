@@ -62,7 +62,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
         res.sendStatus(401)
       }
     },
-    createAdminRouter()
+    createAdminRouter({ websocket })
   )
 
   return app
