@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 import { attributes as appActivityAttributes } from '../../appactivity'
 import { attributesVersion9 as deviceAttributes } from '../../device'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.createTable('AppActivities', appActivityAttributes, { transaction })
     await queryInterface.addColumn('Devices', 'activityLevelBlocking', {
@@ -34,7 +34,7 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
 
 export async function down (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.dropTable('AppActivities', { transaction })
     await queryInterface.removeColumn('Devices', 'activityLevelBlocking', { transaction })

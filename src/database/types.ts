@@ -18,5 +18,5 @@
 import * as Sequelize from 'sequelize'
 
 export type SequelizeAttributes<T extends { [key: string]: any }> = {
-  [P in keyof T]: Sequelize.DefineAttributeColumnOptions;
+  [P in keyof T]: Sequelize.ModelAttributeColumnOptions;
 }

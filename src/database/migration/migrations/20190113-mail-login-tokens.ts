@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 import { attributes as mailLoginTokenAttributes } from '../../maillogintoken'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.createTable('MailLoginTokens', mailLoginTokenAttributes, { transaction })
   })
@@ -28,7 +28,7 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
 
 export async function down (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.dropTable('MailLoginTokens', { transaction })
   })

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 import { attributes as addDeviceTokenAttributes } from '../../adddevicetoken'
 import { attributes as appAttributes } from '../../app'
 import { attributes as authTokenAttributes } from '../../authtoken'
@@ -30,7 +30,7 @@ import { attributesVersion1 as userAttributes } from '../../user'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.createTable('AddDeviceTokens', addDeviceTokenAttributes, { transaction })
     await queryInterface.createTable('Apps', appAttributes, { transaction })

@@ -28,8 +28,10 @@ export interface TimelimitRuleAttributes {
   maximumTimeInMillis: number
 }
 
-export type TimelimitRuleInstance = Sequelize.Instance<TimelimitRuleAttributes> & TimelimitRuleAttributes
-export type TimelimitRuleModel = Sequelize.Model<TimelimitRuleInstance, TimelimitRuleAttributes>
+export type TimelimitRuleModel = Sequelize.Model & TimelimitRuleAttributes
+export type TimelimitRuleModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): TimelimitRuleModel;
+}
 
 export const attributes: SequelizeAttributes<TimelimitRuleAttributes> = {
   familyId: {
@@ -59,4 +61,4 @@ export const attributes: SequelizeAttributes<TimelimitRuleAttributes> = {
   }
 }
 
-export const createTimelimitRuleModel = (sequelize: Sequelize.Sequelize): TimelimitRuleModel => sequelize.define<TimelimitRuleInstance, TimelimitRuleAttributes>('TimelimitRule', attributes)
+export const createTimelimitRuleModel = (sequelize: Sequelize.Sequelize): TimelimitRuleModelStatic => <TimelimitRuleModelStatic>sequelize.define('TimelimitRule', attributes)

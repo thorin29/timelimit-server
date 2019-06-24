@@ -26,8 +26,10 @@ export interface AddDeviceTokenAttributes {
   createdAt: string
 }
 
-export type AddDeviceTokenInstance = Sequelize.Instance<AddDeviceTokenAttributes> & AddDeviceTokenAttributes
-export type AddDeviceTokenModel = Sequelize.Model<AddDeviceTokenInstance, AddDeviceTokenAttributes>
+export type AddDeviceTokenModel = Sequelize.Model & AddDeviceTokenAttributes
+export type AddDeviceTokenModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): AddDeviceTokenModel;
+}
 
 export const attributes: SequelizeAttributes<AddDeviceTokenAttributes> = {
   token: {
@@ -39,4 +41,4 @@ export const attributes: SequelizeAttributes<AddDeviceTokenAttributes> = {
   createdAt: { ...timestampColumn }
 }
 
-export const createAddDeviceTokenModel = (sequelize: Sequelize.Sequelize): AddDeviceTokenModel => sequelize.define<AddDeviceTokenInstance, AddDeviceTokenInstance>('AddDeviceToken', attributes)
+export const createAddDeviceTokenModel = (sequelize: Sequelize.Sequelize): AddDeviceTokenModelStatic => <AddDeviceTokenModelStatic>sequelize.define('AddDeviceToken', attributes)

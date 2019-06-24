@@ -16,39 +16,39 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { AddDeviceTokenModel, createAddDeviceTokenModel } from './adddevicetoken'
-import { AppModel, createAppModel } from './app'
-import { AppActivityModel, createAppActivityModel } from './appactivity'
-import { AuthTokenModel, createAuthtokenModel } from './authtoken'
-import { CategoryModel, createCategoryModel } from './category'
-import { CategoryAppModel, createCategoryAppModel } from './categoryapp'
-import { ConfigModel, createConfigModel } from './config'
-import { createDeviceModel, DeviceModel } from './device'
-import { createFamilyModel, FamilyModel } from './family'
-import { createMailLoginTokenModel, MailLoginTokenModel } from './maillogintoken'
+import { AddDeviceTokenModelStatic, createAddDeviceTokenModel } from './adddevicetoken'
+import { AppModelStatic, createAppModel } from './app'
+import { AppActivityModelStatic, createAppActivityModel } from './appactivity'
+import { AuthTokenModelStatic, createAuthtokenModel } from './authtoken'
+import { CategoryModelStatic, createCategoryModel } from './category'
+import { CategoryAppModelStatic, createCategoryAppModel } from './categoryapp'
+import { ConfigModelStatic, createConfigModel } from './config'
+import { createDeviceModel, DeviceModelStatic } from './device'
+import { createFamilyModel, FamilyModelStatic } from './family'
+import { createMailLoginTokenModel, MailLoginTokenModelStatic } from './maillogintoken'
 import { createUmzug } from './migration/umzug'
-import { createOldDeviceModel, OldDeviceModel } from './olddevice'
-import { createPurchaseModel, PurchaseModel } from './purchase'
-import { createTimelimitRuleModel, TimelimitRuleModel } from './timelimitrule'
-import { createUsedTimeModel, UsedTimeModel } from './usedtime'
-import { createUserModel, UserModel } from './user'
+import { createOldDeviceModel, OldDeviceModelStatic } from './olddevice'
+import { createPurchaseModel, PurchaseModelStatic } from './purchase'
+import { createTimelimitRuleModel, TimelimitRuleModelStatic } from './timelimitrule'
+import { createUsedTimeModel, UsedTimeModelStatic } from './usedtime'
+import { createUserModel, UserModelStatic } from './user'
 
 export interface Database {
-  addDeviceToken: AddDeviceTokenModel
-  authtoken: AuthTokenModel
-  app: AppModel
-  appActivity: AppActivityModel
-  category: CategoryModel
-  categoryApp: CategoryAppModel
-  config: ConfigModel
-  device: DeviceModel
-  family: FamilyModel
-  mailLoginToken: MailLoginTokenModel
-  oldDevice: OldDeviceModel
-  purchase: PurchaseModel
-  timelimitRule: TimelimitRuleModel
-  usedTime: UsedTimeModel
-  user: UserModel
+  addDeviceToken: AddDeviceTokenModelStatic
+  authtoken: AuthTokenModelStatic
+  app: AppModelStatic
+  appActivity: AppActivityModelStatic
+  category: CategoryModelStatic
+  categoryApp: CategoryAppModelStatic
+  config: ConfigModelStatic
+  device: DeviceModelStatic
+  family: FamilyModelStatic
+  mailLoginToken: MailLoginTokenModelStatic
+  oldDevice: OldDeviceModelStatic
+  purchase: PurchaseModelStatic
+  timelimitRule: TimelimitRuleModelStatic
+  usedTime: UsedTimeModelStatic
+  user: UserModelStatic
   transaction: <T> (autoCallback: (t: Sequelize.Transaction) => Promise<T>) => Promise<T>
 }
 
@@ -73,11 +73,10 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   }, autoCallback) as any) as Promise<T>
 })
 
-export const sequelize = new Sequelize(process.env.DATABASE_URL || 'sqlite://test.db', {
+export const sequelize = new Sequelize.Sequelize(process.env.DATABASE_URL || 'sqlite://test.db', {
   define: {
     timestamps: false
   },
-  operatorsAliases: false,
   logging: false
 })
 

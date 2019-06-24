@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 import { attributesVersion3 as categoryAttributes } from '../../category'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.addColumn('Categories', 'blockAllNotifications', {
       ...categoryAttributes.blockAllNotifications
@@ -30,7 +30,7 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
 
 export async function down (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.removeColumn('Categories', 'blockAllNotifications', { transaction })
   })

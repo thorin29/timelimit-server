@@ -93,8 +93,10 @@ export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersio
   DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
   DeviceAttributesVersion9 & DeviceAttributesVersion10
 
-export type DeviceInstance = Sequelize.Instance<DeviceAttributes> & DeviceAttributes
-export type DeviceModel = Sequelize.Model<DeviceInstance, DeviceAttributes>
+export type DeviceModel = Sequelize.Model & DeviceAttributes
+export type DeviceModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): DeviceModel;
+}
 
 export const attributesVersion1: SequelizeAttributes<DeviceAttributesVersion1> = {
   familyId: {
@@ -244,7 +246,7 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion10
 }
 
-export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModel => sequelize.define<DeviceInstance, DeviceAttributes>('Device', attributes)
+export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => <DeviceModelStatic>sequelize.define('Device', attributes)
 export const hasDeviceManipulation = (device: DeviceAttributes) => {
   const manipulationOfProtectionLevel = device.currentProtectionLevel !== device.highestProtectionLevel
   const manipulationOfUsageStats = device.currentUsageStatsPermission !== device.highestUsageStatsPermission

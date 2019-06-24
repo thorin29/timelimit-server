@@ -29,8 +29,10 @@ export interface AppAttributes {
   recommendation: AppRecommendation
 }
 
-export type AppInstance = Sequelize.Instance<AppAttributes> & AppAttributes
-export type AppModel = Sequelize.Model<AppInstance, AppAttributes>
+export type AppModel = Sequelize.Model & AppAttributes
+export type AppModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): AppModel;
+}
 
 export const attributes: SequelizeAttributes<AppAttributes> = {
   familyId: {
@@ -54,4 +56,4 @@ export const attributes: SequelizeAttributes<AppAttributes> = {
   recommendation: createEnumColumn(appRecommendationValues)
 }
 
-export const createAppModel = (sequelize: Sequelize.Sequelize): AppModel => sequelize.define<AppInstance, AppAttributes>('App', attributes)
+export const createAppModel = (sequelize: Sequelize.Sequelize): AppModelStatic => <AppModelStatic>sequelize.define('App', attributes)

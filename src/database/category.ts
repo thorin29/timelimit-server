@@ -51,8 +51,10 @@ export interface CategoryAttributesVersion4 {
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
   CategoryAttributesVersion3 & CategoryAttributesVersion4
 
-export type CategoryInstance = Sequelize.Instance<CategoryAttributes> & CategoryAttributes
-export type CategoryModel = Sequelize.Model<CategoryInstance, CategoryAttributes>
+export type CategoryModel = Sequelize.Model & CategoryAttributes
+export type CategoryModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): CategoryModel;
+}
 
 export const attributesVersion1: SequelizeAttributes<CategoryAttributesVersion1> = {
   familyId: {
@@ -124,4 +126,4 @@ export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion4
 }
 
-export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModel => sequelize.define<CategoryInstance, CategoryAttributes>('Category', attributes)
+export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => <CategoryModelStatic>sequelize.define('Category', attributes)

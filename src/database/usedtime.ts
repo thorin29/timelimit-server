@@ -32,8 +32,10 @@ export interface UsedTimeAttributesVersion2 {
 
 export type UsedTimeAttributes = UsedTimeAttributesVersion1 & UsedTimeAttributesVersion2
 
-export type UsedTimeInstance = Sequelize.Instance<UsedTimeAttributes> & UsedTimeAttributes
-export type UsedTimeModel = Sequelize.Model<UsedTimeInstance, UsedTimeAttributes>
+export type UsedTimeModel = Sequelize.Model & UsedTimeAttributes
+export type UsedTimeModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): UsedTimeModel;
+}
 
 export const attributesVersion1: SequelizeAttributes<UsedTimeAttributesVersion1> = {
   familyId: {
@@ -73,4 +75,4 @@ export const attributes = {
   ...attributesVersion2
 }
 
-export const createUsedTimeModel = (sequelize: Sequelize.Sequelize): UsedTimeModel => sequelize.define<UsedTimeInstance, UsedTimeAttributes>('UsedTime', attributes)
+export const createUsedTimeModel = (sequelize: Sequelize.Sequelize): UsedTimeModelStatic => <UsedTimeModelStatic>sequelize.define('UsedTime', attributes)

@@ -17,7 +17,7 @@
 
 import * as Sequelize from 'sequelize'
 
-export const familyIdColumn: Sequelize.DefineAttributeColumnOptions = {
+export const familyIdColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING(10),
   allowNull: false,
   validate: {
@@ -26,7 +26,7 @@ export const familyIdColumn: Sequelize.DefineAttributeColumnOptions = {
   }
 }
 
-export const idWithinFamilyColumn: Sequelize.DefineAttributeColumnOptions = {
+export const idWithinFamilyColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING(6),
   allowNull: false,
   validate: {
@@ -35,7 +35,7 @@ export const idWithinFamilyColumn: Sequelize.DefineAttributeColumnOptions = {
   }
 }
 
-export const optionalIdWithinFamilyColumn: Sequelize.DefineAttributeColumnOptions = {
+export const optionalIdWithinFamilyColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING(6),
   allowNull: false,
   validate: {
@@ -43,7 +43,7 @@ export const optionalIdWithinFamilyColumn: Sequelize.DefineAttributeColumnOption
   }
 }
 
-export const versionColumn: Sequelize.DefineAttributeColumnOptions = {
+export const versionColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING(4),
   allowNull: false,
   validate: {
@@ -51,7 +51,7 @@ export const versionColumn: Sequelize.DefineAttributeColumnOptions = {
     is: /^[a-zA-Z0-9]{4}$/
   }
 }
-export const labelColumn: Sequelize.DefineAttributeColumnOptions = {
+export const labelColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING,
   allowNull: false,
   validate: {
@@ -59,12 +59,12 @@ export const labelColumn: Sequelize.DefineAttributeColumnOptions = {
   }
 }
 
-export const optionalLabelColumn: Sequelize.DefineAttributeColumnOptions = {
+export const optionalLabelColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING,
   allowNull: false
 }
 
-export const createEnumColumn = (possibleValues: Array<string>): Sequelize.DefineAttributeColumnOptions => ({
+export const createEnumColumn = (possibleValues: Array<string>): Sequelize.ModelAttributeColumnOptions => ({
   type: Sequelize.STRING,
   allowNull: false,
   validate: {
@@ -74,7 +74,7 @@ export const createEnumColumn = (possibleValues: Array<string>): Sequelize.Defin
 })
 
 // warning: this results in an string field
-export const timestampColumn: Sequelize.DefineAttributeColumnOptions = {
+export const timestampColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.BIGINT,
   allowNull: false,
   validate: {
@@ -82,12 +82,12 @@ export const timestampColumn: Sequelize.DefineAttributeColumnOptions = {
   }
 }
 
-export const booleanColumn: Sequelize.DefineAttributeColumnOptions = {
+export const booleanColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.BOOLEAN,
   allowNull: false
 }
 
-export const authTokenColumn: Sequelize.DefineAttributeColumnOptions = {
+export const authTokenColumn: Sequelize.ModelAttributeColumnOptions = {
   type: Sequelize.STRING(32),
   allowNull: false,
   validate: {

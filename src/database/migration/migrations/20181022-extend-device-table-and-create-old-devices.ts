@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 import { attributesVersion2 } from '../../device'
 import { attributes as oldDeviceAttributes } from '../../olddevice'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.addColumn('Devices', 'lastConnectivity', {
       ...attributesVersion2.lastConnectivity
@@ -47,7 +47,7 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
 
 export async function down (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
-    type: 'EXCLUSIVE'
+    type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
     await queryInterface.removeColumn('Devices', 'lastConnectivity', { transaction })
     await queryInterface.removeColumn('Devices', 'notSeenForLongTime', { transaction })

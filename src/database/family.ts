@@ -29,8 +29,10 @@ export interface FamilyAttributes {
   hasFullVersion: boolean
 }
 
-export type FamilyInstance = Sequelize.Instance<FamilyAttributes> & FamilyAttributes
-export type FamilyModel = Sequelize.Model<FamilyInstance, FamilyAttributes>
+export type FamilyModel = Sequelize.Model & FamilyAttributes
+export type FamilyModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): FamilyModel;
+}
 
 export const attributes: SequelizeAttributes<FamilyAttributes> = {
   familyId: {
@@ -45,4 +47,4 @@ export const attributes: SequelizeAttributes<FamilyAttributes> = {
   hasFullVersion: { ...booleanColumn }
 }
 
-export const createFamilyModel = (sequelize: Sequelize.Sequelize): FamilyModel => sequelize.define<FamilyInstance, FamilyAttributes>('Family', attributes)
+export const createFamilyModel = (sequelize: Sequelize.Sequelize): FamilyModelStatic => <FamilyModelStatic>sequelize.define('Family', attributes)

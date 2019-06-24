@@ -25,8 +25,10 @@ export interface CategoryAppAttributes {
   packageName: string
 }
 
-export type CategoryAppInstance = Sequelize.Instance<CategoryAppAttributes> & CategoryAppAttributes
-export type CategoryAppModel = Sequelize.Model<CategoryAppInstance, CategoryAppAttributes>
+export type CategoryAppModel = Sequelize.Model & CategoryAppAttributes
+export type CategoryAppModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): CategoryAppModel;
+}
 
 export const attributes: SequelizeAttributes<CategoryAppAttributes> = {
   familyId: {
@@ -47,4 +49,4 @@ export const attributes: SequelizeAttributes<CategoryAppAttributes> = {
   }
 }
 
-export const createCategoryAppModel = (sequelize: Sequelize.Sequelize): CategoryAppModel => sequelize.define<CategoryAppInstance, CategoryAppAttributes>('CategoryApp', attributes)
+export const createCategoryAppModel = (sequelize: Sequelize.Sequelize): CategoryAppModelStatic => <CategoryAppModelStatic>sequelize.define('CategoryApp', attributes)

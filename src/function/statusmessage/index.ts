@@ -23,7 +23,7 @@ export const getStatusMessage = async ({ database, transaction }: {
   database: Database
   transaction?: Sequelize.Transaction
 }) => {
-  const currentStatusMessageItem = await database.config.findById(configItemIds.statusMessage, { transaction })
+  const currentStatusMessageItem = await database.config.findByPk(configItemIds.statusMessage, { transaction })
   const currentStatusMessage = (currentStatusMessageItem ? currentStatusMessageItem.value : null) || ''
 
   return currentStatusMessage
@@ -40,7 +40,7 @@ export const setStatusMessage = async ({ database, newStatusMessage }: {
       }
     })
   } else {
-    await database.config.insertOrUpdate({
+    await database.config.upsert({
       id: configItemIds.statusMessage,
       value: newStatusMessage
     })

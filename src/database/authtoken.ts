@@ -25,8 +25,10 @@ export interface AuthTokenAttributes {
   createdAt: string
 }
 
-export type AuthTokenInstance = Sequelize.Instance<AuthTokenAttributes> & AuthTokenAttributes
-export type AuthTokenModel = Sequelize.Model<AuthTokenInstance, AuthTokenAttributes>
+export type AuthTokenModel = Sequelize.Model & AuthTokenAttributes
+export type AuthTokenModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): AuthTokenModel;
+}
 
 export const attributes: SequelizeAttributes<AuthTokenAttributes> = {
   token: {
@@ -43,4 +45,4 @@ export const attributes: SequelizeAttributes<AuthTokenAttributes> = {
   createdAt: { ...timestampColumn }
 }
 
-export const createAuthtokenModel = (sequelize: Sequelize.Sequelize): AuthTokenModel => sequelize.define<AuthTokenInstance, AuthTokenAttributes>('AuthToken', attributes)
+export const createAuthtokenModel = (sequelize: Sequelize.Sequelize): AuthTokenModelStatic => <AuthTokenModelStatic>sequelize.define('AuthToken', attributes)

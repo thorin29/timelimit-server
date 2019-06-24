@@ -52,8 +52,10 @@ export interface UserAttributesVersion4 {
 export type UserAttributes = UserAttributesVersion1 & UserAttributesVersion2 &
   UserAttributesVersion3 & UserAttributesVersion4
 
-export type UserInstance = Sequelize.Instance<UserAttributes> & UserAttributes
-export type UserModel = Sequelize.Model<UserInstance, UserAttributes>
+export type UserModel = Sequelize.Model & UserAttributes
+export type UserModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): UserModel;
+}
 
 export const attributesVersion1: SequelizeAttributes<UserAttributesVersion1> = {
   familyId: {
@@ -128,4 +130,4 @@ export const attributes: SequelizeAttributes<UserAttributes> = {
   ...attributesVersion4
 }
 
-export const createUserModel = (sequelize: Sequelize.Sequelize): UserModel => sequelize.define<UserInstance, UserAttributes>('User', attributes)
+export const createUserModel = (sequelize: Sequelize.Sequelize): UserModelStatic => <UserModelStatic>sequelize.define('User', attributes)

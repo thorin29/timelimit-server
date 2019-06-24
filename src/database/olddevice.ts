@@ -23,8 +23,10 @@ export interface OldDeviceAttributes {
   deviceAuthToken: string
 }
 
-export type OldDeviceInstance = Sequelize.Instance<OldDeviceAttributes> & OldDeviceAttributes
-export type OldDeviceModel = Sequelize.Model<OldDeviceInstance, OldDeviceAttributes>
+export type OldDeviceModel = Sequelize.Model & OldDeviceAttributes
+export type OldDeviceModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): OldDeviceModel;
+}
 
 export const attributes: SequelizeAttributes<OldDeviceAttributes> = {
   deviceAuthToken: {
@@ -33,4 +35,4 @@ export const attributes: SequelizeAttributes<OldDeviceAttributes> = {
   }
 }
 
-export const createOldDeviceModel = (sequelize: Sequelize.Sequelize): OldDeviceModel => sequelize.define<OldDeviceInstance, OldDeviceAttributes>('OldDevice', attributes)
+export const createOldDeviceModel = (sequelize: Sequelize.Sequelize): OldDeviceModelStatic => <OldDeviceModelStatic>sequelize.define('OldDevice', attributes)

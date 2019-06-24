@@ -23,8 +23,10 @@ export interface ConfigAttributes {
   value: string | null
 }
 
-export type ConfigInstance = Sequelize.Instance<ConfigAttributes> & ConfigAttributes
-export type ConfigModel = Sequelize.Model<ConfigInstance, ConfigAttributes>
+export type ConfigModel = Sequelize.Model & ConfigAttributes
+export type ConfigModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): ConfigModel;
+}
 
 export const attributes: SequelizeAttributes<ConfigAttributes> = {
   id: {
@@ -41,7 +43,7 @@ export const attributes: SequelizeAttributes<ConfigAttributes> = {
   }
 }
 
-export const createConfigModel = (sequelize: Sequelize.Sequelize): ConfigModel => sequelize.define<ConfigInstance, ConfigAttributes>('Config', attributes)
+export const createConfigModel = (sequelize: Sequelize.Sequelize): ConfigModelStatic => <ConfigModelStatic>sequelize.define('Config', attributes)
 
 export const configItemIds = {
   statusMessage: 'status_message'

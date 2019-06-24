@@ -27,8 +27,10 @@ export interface MailLoginTokenAttributes {
   remainingAttempts: number
 }
 
-export type MailLoginTokenInstance = Sequelize.Instance<MailLoginTokenAttributes> & MailLoginTokenAttributes
-export type MailLoginTokenModel = Sequelize.Model<MailLoginTokenInstance, MailLoginTokenAttributes>
+export type MailLoginTokenModel = Sequelize.Model & MailLoginTokenAttributes
+export type MailLoginTokenModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): MailLoginTokenModel;
+}
 
 export const attributes: SequelizeAttributes<MailLoginTokenAttributes> = {
   mailLoginToken: {
@@ -59,4 +61,4 @@ export const attributes: SequelizeAttributes<MailLoginTokenAttributes> = {
   }
 }
 
-export const createMailLoginTokenModel = (sequelize: Sequelize.Sequelize): MailLoginTokenModel => sequelize.define<MailLoginTokenInstance, MailLoginTokenAttributes>('MailLoginToken', attributes)
+export const createMailLoginTokenModel = (sequelize: Sequelize.Sequelize): MailLoginTokenModelStatic => <MailLoginTokenModelStatic>sequelize.define('MailLoginToken', attributes)

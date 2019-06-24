@@ -27,8 +27,10 @@ export interface AppActivityAttributes {
   title: string
 }
 
-export type AppActivityInstance = Sequelize.Instance<AppActivityAttributes> & AppActivityAttributes
-export type AppActivityModel = Sequelize.Model<AppActivityInstance, AppActivityAttributes>
+export type AppActivityModel = Sequelize.Model & AppActivityAttributes
+export type AppActivityModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): AppActivityModel;
+}
 
 export const attributes: SequelizeAttributes<AppActivityAttributes> = {
   familyId: {
@@ -58,4 +60,4 @@ export const attributes: SequelizeAttributes<AppActivityAttributes> = {
   title: { ...optionalLabelColumn }
 }
 
-export const createAppActivityModel = (sequelize: Sequelize.Sequelize): AppActivityModel => sequelize.define<AppActivityInstance, AppActivityAttributes>('AppActivity', attributes)
+export const createAppActivityModel = (sequelize: Sequelize.Sequelize): AppActivityModelStatic => <AppActivityModelStatic>sequelize.define('AppActivity', attributes)

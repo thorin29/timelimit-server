@@ -29,8 +29,10 @@ export interface PurchaseAttributes {
   newFullVersionEndTime: string
 }
 
-export type PurchaseInstance = Sequelize.Instance<PurchaseAttributes> & PurchaseAttributes
-export type PurchaseModel = Sequelize.Model<PurchaseInstance, PurchaseAttributes>
+export type PurchaseModel = Sequelize.Model & PurchaseAttributes
+export type PurchaseModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): PurchaseModel;
+}
 
 export const attributes: SequelizeAttributes<PurchaseAttributes> = {
   familyId: { ...familyIdColumn },
@@ -48,4 +50,4 @@ export const attributes: SequelizeAttributes<PurchaseAttributes> = {
   newFullVersionEndTime: timestampColumn
 }
 
-export const createPurchaseModel = (sequelize: Sequelize.Sequelize): PurchaseModel => sequelize.define<PurchaseInstance, PurchaseAttributes>('Purchase', attributes)
+export const createPurchaseModel = (sequelize: Sequelize.Sequelize): PurchaseModelStatic => <PurchaseModelStatic>sequelize.define('Purchase', attributes)
