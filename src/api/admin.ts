@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import { urlencoded } from 'body-parser'
 import * as escape from 'escape-html'
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
@@ -39,13 +39,13 @@ export const createAdminRouter = ({ database, websocket }: {
     try {
       const currentStatusMessage = await getStatusMessage({ database })
 
-      res.send('<html><body><form action="/admin/status-message" method="post"><textarea>' + escape(currentStatusMessage) + '</textarea><input type="submit" value="Save"></form></body></html>')
+      res.send('<html><body><form action="/admin/status-message" method="post"><textarea name="smessage" rows="20" cols="100">' + escape(currentStatusMessage) + '</textarea><input type="submit" value="Save"></form></body></html>')
     } catch (ex) {
       next(ex)
     }
   })
 
-  router.post('/status-message', json(), async (req, res, next) => {
+  router.post('/status-message', urlencoded({ extended: false }), async (req, res, next) => {
     try {
       if (typeof req.body !== 'object' || typeof req.body.smessage !== 'string') {
         throw new BadRequest()

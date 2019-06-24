@@ -59,7 +59,7 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
       }
 
       events.on(eventTriggerImportantSyncForAll, importantSyncForAllListener)
-      socket.on('disconnect', () => events.off(eventTriggerImportantSyncForAll, importantSyncForAllListener))
+      socket.on('disconnect', () => events.removeListener(eventTriggerImportantSyncForAll, importantSyncForAllListener))
 
       ;(async () => {
         const deviceEntryUnsafe = await database.device.findOne({
