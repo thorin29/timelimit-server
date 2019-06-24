@@ -49,4 +49,4 @@ export const attributes: SequelizeAttributes<CategoryAppAttributes> = {
   }
 }
 
-export const createCategoryAppModel = (sequelize: Sequelize.Sequelize): CategoryAppModelStatic => <CategoryAppModelStatic>sequelize.define('CategoryApp', attributes)
+export const createCategoryAppModel = (sequelize: Sequelize.Sequelize): CategoryAppModelStatic => sequelize.define('CategoryApp', attributes) as CategoryAppModelStatic

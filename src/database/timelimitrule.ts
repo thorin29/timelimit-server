@@ -61,4 +61,4 @@ export const attributes: SequelizeAttributes<TimelimitRuleAttributes> = {
   }
 }
 
-export const createTimelimitRuleModel = (sequelize: Sequelize.Sequelize): TimelimitRuleModelStatic => <TimelimitRuleModelStatic>sequelize.define('TimelimitRule', attributes)
+export const createTimelimitRuleModel = (sequelize: Sequelize.Sequelize): TimelimitRuleModelStatic => sequelize.define('TimelimitRule', attributes) as TimelimitRuleModelStatic

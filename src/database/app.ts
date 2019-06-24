@@ -56,4 +56,4 @@ export const attributes: SequelizeAttributes<AppAttributes> = {
   recommendation: createEnumColumn(appRecommendationValues)
 }
 
-export const createAppModel = (sequelize: Sequelize.Sequelize): AppModelStatic => <AppModelStatic>sequelize.define('App', attributes)
+export const createAppModel = (sequelize: Sequelize.Sequelize): AppModelStatic => sequelize.define('App', attributes) as AppModelStatic

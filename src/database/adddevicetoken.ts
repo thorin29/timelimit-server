@@ -41,4 +41,4 @@ export const attributes: SequelizeAttributes<AddDeviceTokenAttributes> = {
   createdAt: { ...timestampColumn }
 }
 
-export const createAddDeviceTokenModel = (sequelize: Sequelize.Sequelize): AddDeviceTokenModelStatic => <AddDeviceTokenModelStatic>sequelize.define('AddDeviceToken', attributes)
+export const createAddDeviceTokenModel = (sequelize: Sequelize.Sequelize): AddDeviceTokenModelStatic => sequelize.define('AddDeviceToken', attributes) as AddDeviceTokenModelStatic

@@ -45,4 +45,4 @@ export const attributes: SequelizeAttributes<AuthTokenAttributes> = {
   createdAt: { ...timestampColumn }
 }
 
-export const createAuthtokenModel = (sequelize: Sequelize.Sequelize): AuthTokenModelStatic => <AuthTokenModelStatic>sequelize.define('AuthToken', attributes)
+export const createAuthtokenModel = (sequelize: Sequelize.Sequelize): AuthTokenModelStatic => sequelize.define('AuthToken', attributes) as AuthTokenModelStatic

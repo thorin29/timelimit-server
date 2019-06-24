@@ -47,4 +47,4 @@ export const attributes: SequelizeAttributes<FamilyAttributes> = {
   hasFullVersion: { ...booleanColumn }
 }
 
-export const createFamilyModel = (sequelize: Sequelize.Sequelize): FamilyModelStatic => <FamilyModelStatic>sequelize.define('Family', attributes)
+export const createFamilyModel = (sequelize: Sequelize.Sequelize): FamilyModelStatic => sequelize.define('Family', attributes) as FamilyModelStatic

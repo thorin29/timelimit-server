@@ -130,4 +130,4 @@ export const attributes: SequelizeAttributes<UserAttributes> = {
   ...attributesVersion4
 }
 
-export const createUserModel = (sequelize: Sequelize.Sequelize): UserModelStatic => <UserModelStatic>sequelize.define('User', attributes)
+export const createUserModel = (sequelize: Sequelize.Sequelize): UserModelStatic => sequelize.define('User', attributes) as UserModelStatic

@@ -50,4 +50,4 @@ export const attributes: SequelizeAttributes<PurchaseAttributes> = {
   newFullVersionEndTime: timestampColumn
 }
 
-export const createPurchaseModel = (sequelize: Sequelize.Sequelize): PurchaseModelStatic => <PurchaseModelStatic>sequelize.define('Purchase', attributes)
+export const createPurchaseModel = (sequelize: Sequelize.Sequelize): PurchaseModelStatic => sequelize.define('Purchase', attributes) as PurchaseModelStatic

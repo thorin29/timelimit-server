@@ -60,4 +60,4 @@ export const attributes: SequelizeAttributes<AppActivityAttributes> = {
   title: { ...optionalLabelColumn }
 }
 
-export const createAppActivityModel = (sequelize: Sequelize.Sequelize): AppActivityModelStatic => <AppActivityModelStatic>sequelize.define('AppActivity', attributes)
+export const createAppActivityModel = (sequelize: Sequelize.Sequelize): AppActivityModelStatic => sequelize.define('AppActivity', attributes) as AppActivityModelStatic

@@ -61,4 +61,4 @@ export const attributes: SequelizeAttributes<MailLoginTokenAttributes> = {
   }
 }
 
-export const createMailLoginTokenModel = (sequelize: Sequelize.Sequelize): MailLoginTokenModelStatic => <MailLoginTokenModelStatic>sequelize.define('MailLoginToken', attributes)
+export const createMailLoginTokenModel = (sequelize: Sequelize.Sequelize): MailLoginTokenModelStatic => sequelize.define('MailLoginToken', attributes) as MailLoginTokenModelStatic

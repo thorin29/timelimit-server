@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Router } from 'express'
-import { Database } from '../database'
-import { WebsocketApi } from '../websocket'
-import { setStatusMessage, getStatusMessage } from '../function/statusmessage'
-import * as escape from 'escape-html'
 import { json } from 'body-parser'
+import * as escape from 'escape-html'
+import { Router } from 'express'
 import { BadRequest } from 'http-errors'
+import { Database } from '../database'
+import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
+import { WebsocketApi } from '../websocket'
 
 export const createAdminRouter = ({ database, websocket }: {
   database: Database
@@ -57,7 +57,7 @@ export const createAdminRouter = ({ database, websocket }: {
 
       websocket.triggerImportantSyncAtAllDevicesInBackground()
 
-      res.json({ok: true})
+      res.json({ ok: true })
     } catch (ex) {
       next(ex)
     }

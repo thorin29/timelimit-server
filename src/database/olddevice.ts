@@ -35,4 +35,4 @@ export const attributes: SequelizeAttributes<OldDeviceAttributes> = {
   }
 }
 
-export const createOldDeviceModel = (sequelize: Sequelize.Sequelize): OldDeviceModelStatic => <OldDeviceModelStatic>sequelize.define('OldDevice', attributes)
+export const createOldDeviceModel = (sequelize: Sequelize.Sequelize): OldDeviceModelStatic => sequelize.define('OldDevice', attributes) as OldDeviceModelStatic

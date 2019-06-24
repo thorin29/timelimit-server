@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as Sequelize from 'sequelize'
 import { Database } from '../../database'
 import { configItemIds } from '../../database/config'
-import * as Sequelize from 'sequelize'
 
 export const getStatusMessage = async ({ database, transaction }: {
   database: Database

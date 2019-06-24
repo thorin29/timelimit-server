@@ -75,4 +75,4 @@ export const attributes = {
   ...attributesVersion2
 }
 
-export const createUsedTimeModel = (sequelize: Sequelize.Sequelize): UsedTimeModelStatic => <UsedTimeModelStatic>sequelize.define('UsedTime', attributes)
+export const createUsedTimeModel = (sequelize: Sequelize.Sequelize): UsedTimeModelStatic => sequelize.define('UsedTime', attributes) as UsedTimeModelStatic

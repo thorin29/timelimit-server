@@ -246,7 +246,7 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion10
 }
 
-export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => <DeviceModelStatic>sequelize.define('Device', attributes)
+export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => sequelize.define('Device', attributes) as DeviceModelStatic
 export const hasDeviceManipulation = (device: DeviceAttributes) => {
   const manipulationOfProtectionLevel = device.currentProtectionLevel !== device.highestProtectionLevel
   const manipulationOfUsageStats = device.currentUsageStatsPermission !== device.highestUsageStatsPermission

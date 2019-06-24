@@ -43,7 +43,7 @@ export const attributes: SequelizeAttributes<ConfigAttributes> = {
   }
 }
 
-export const createConfigModel = (sequelize: Sequelize.Sequelize): ConfigModelStatic => <ConfigModelStatic>sequelize.define('Config', attributes)
+export const createConfigModel = (sequelize: Sequelize.Sequelize): ConfigModelStatic => sequelize.define('Config', attributes) as ConfigModelStatic
 
 export const configItemIds = {
   statusMessage: 'status_message'

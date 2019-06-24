@@ -126,4 +126,4 @@ export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion4
 }
 
-export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => <CategoryModelStatic>sequelize.define('Category', attributes)
+export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic

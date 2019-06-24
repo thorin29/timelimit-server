@@ -18,13 +18,13 @@
 import { difference, filter, intersection } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { Database } from '../../database'
+import { getStatusMessage } from '../../function/statusmessage'
 import { ClientDataStatus } from '../../object/clientdatastatus'
 import {
   ServerDataStatus, ServerInstalledAppsData, ServerUpdatedCategoryAssignedApps,
   ServerUpdatedCategoryBaseData, ServerUpdatedCategoryUsedTimes,
   ServerUpdatedTimeLimitRules
 } from '../../object/serverdatastatus'
-import { getStatusMessage } from '../../function/statusmessage'
 
 export const generateServerDataStatus = async ({ database, clientStatus, familyId, transaction }: {
   database: Database,

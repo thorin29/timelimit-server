@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as EventEmitter from 'events'
 import * as io from 'socket.io'
 import { ConnectedDevicesManager, VisibleConnectedDevicesManager } from '../connected-devices'
 import { Database } from '../database'
 import { deviceByAuthTokenRoom } from './rooms'
-import * as EventEmitter from 'events'
 
 export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   connectedDevicesManager: VisibleConnectedDevicesManager
