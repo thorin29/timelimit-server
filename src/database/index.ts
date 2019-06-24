@@ -22,6 +22,7 @@ import { AppActivityModel, createAppActivityModel } from './appactivity'
 import { AuthTokenModel, createAuthtokenModel } from './authtoken'
 import { CategoryModel, createCategoryModel } from './category'
 import { CategoryAppModel, createCategoryAppModel } from './categoryapp'
+import { ConfigModel, createConfigModel } from './config'
 import { createDeviceModel, DeviceModel } from './device'
 import { createFamilyModel, FamilyModel } from './family'
 import { createMailLoginTokenModel, MailLoginTokenModel } from './maillogintoken'
@@ -39,6 +40,7 @@ export interface Database {
   appActivity: AppActivityModel
   category: CategoryModel
   categoryApp: CategoryAppModel
+  config: ConfigModel
   device: DeviceModel
   family: FamilyModel
   mailLoginToken: MailLoginTokenModel
@@ -57,6 +59,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   appActivity: createAppActivityModel(sequelize),
   category: createCategoryModel(sequelize),
   categoryApp: createCategoryAppModel(sequelize),
+  config: createConfigModel(sequelize),
   device: createDeviceModel(sequelize),
   family: createFamilyModel(sequelize),
   mailLoginToken: createMailLoginTokenModel(sequelize),

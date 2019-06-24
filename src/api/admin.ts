@@ -16,9 +16,15 @@
  */
 
 import { Router } from 'express'
+import { Database } from '../database'
 import { WebsocketApi } from '../websocket'
+import { setStatusMessage, getStatusMessage } from '../function/statusmessage'
+import * as escape from 'escape-html'
+import { json } from 'body-parser'
+import { BadRequest } from 'http-errors'
 
-export const createAdminRouter = ({ websocket }: {
+export const createAdminRouter = ({ database, websocket }: {
+  database: Database
   websocket: WebsocketApi
 }) => {
   const router = Router()
@@ -27,6 +33,34 @@ export const createAdminRouter = ({ websocket }: {
     res.json({
       websocketClients: websocket.countConnections()
     })
+  })
+
+  router.get('/status-message', async (_, res, next) => {
+    try {
+      const currentStatusMessage = await getStatusMessage({ database })
+
+      res.send('<html><body><form action="/admin/status-message" method="post"><textarea>' + escape(currentStatusMessage) + '</textarea><input type="submit" value="Save"></form></body></html>')
+    } catch (ex) {
+      next(ex)
+    }
+  })
+
+  router.post('/status-message', json(), async (req, res, next) => {
+    try {
+      if (typeof req.body !== 'object' || typeof req.body.smessage !== 'string') {
+        throw new BadRequest()
+      }
+
+      const newStatusMessage = req.body.smessage as string
+
+      await setStatusMessage({ database, newStatusMessage })
+
+      websocket.triggerImportantSyncAtAllDevicesInBackground()
+
+      res.json({ok: true})
+    } catch (ex) {
+      next(ex)
+    }
   })
 
   return router

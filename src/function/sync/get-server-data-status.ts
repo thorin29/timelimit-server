@@ -24,6 +24,7 @@ import {
   ServerUpdatedCategoryBaseData, ServerUpdatedCategoryUsedTimes,
   ServerUpdatedTimeLimitRules
 } from '../../object/serverdatastatus'
+import { getStatusMessage } from '../../function/statusmessage'
 
 export const generateServerDataStatus = async ({ database, clientStatus, familyId, transaction }: {
   database: Database,
@@ -57,7 +58,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
 
   let result: ServerDataStatus = {
     fullVersion: familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0,
-    message: process.env.STATUS_MESSAGE || undefined
+    message: await getStatusMessage({ database, transaction }) || undefined
   }
 
   if (familyEntry.deviceListVersion !== clientStatus.devices) {

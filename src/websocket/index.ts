@@ -19,6 +19,7 @@ import * as io from 'socket.io'
 import { ConnectedDevicesManager, VisibleConnectedDevicesManager } from '../connected-devices'
 import { Database } from '../database'
 import { deviceByAuthTokenRoom } from './rooms'
+import * as EventEmitter from 'events'
 
 export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   connectedDevicesManager: VisibleConnectedDevicesManager
@@ -27,6 +28,14 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   websocketServer: io.Server
   websocketApi: WebsocketApi
 } => {
+  const events = new EventEmitter()
+
+  // this disables warnings for many listeners
+  // this is required because very single socket causes listeners
+  events.setMaxListeners(0)
+
+  const eventTriggerImportantSyncForAll = 'triggerimportantsyncforall'
+
   let socketCounter = 0
   const server = io()
 
@@ -42,6 +51,15 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
       }
 
       socket.join(deviceByAuthTokenRoom(deviceAuthToken))
+
+      const importantSyncForAllListener = () => {
+        setTimeout(() => {
+          socket.connected && socket.emit('should sync', { isImportant: true })
+        }, Math.random() * 1000 * 60 /* wait up to one minute */)
+      }
+
+      events.on(eventTriggerImportantSyncForAll, importantSyncForAllListener)
+      socket.on('disconnect', () => events.off(eventTriggerImportantSyncForAll, importantSyncForAllListener))
 
       ;(async () => {
         const deviceEntryUnsafe = await database.device.findOne({
@@ -94,6 +112,9 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
         .to(deviceByAuthTokenRoom(deviceAuthToken))
         .emit('sign out')
     },
+    triggerImportantSyncAtAllDevicesInBackground: () => {
+      events.emit(eventTriggerImportantSyncForAll)
+    },
     countConnections: () => socketCounter
   }
 
@@ -106,5 +127,6 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
 export interface WebsocketApi {
   triggerSyncByDeviceAuthToken: (params: {deviceAuthToken: string, isImportant: boolean}) => void
   triggerLogoutByDeviceAuthToken: (params: {deviceAuthToken: string}) => void
+  triggerImportantSyncAtAllDevicesInBackground: () => void
   countConnections: () => number
 }

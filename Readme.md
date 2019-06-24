@@ -57,9 +57,6 @@ This fixes the causes of lint warnings (where possible).
 - MAIL_IMPRINT
   - a string which is added to the footer of the sent mails
   - default value: ``not defined``
-- STATUS_MESSAGE
-  - a message which is shown to all users in the overview screen
-  - default: null/ no shown message
 - ADMIN_TOKEN
   - a password which allows to use some APIs
   - admin APIs are disabled when this is not set
