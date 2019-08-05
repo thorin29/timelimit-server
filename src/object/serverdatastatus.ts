@@ -77,6 +77,7 @@ export interface ServerDeviceData {
   tDisablingAdmin: boolean
   reboot: boolean
   hadManipulation: boolean
+  hadManipulationFlags: number
   reportUninstall: boolean
   isUserKeptSignedIn: boolean
   showDeviceConnected: boolean

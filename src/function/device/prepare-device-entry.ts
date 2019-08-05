@@ -48,6 +48,7 @@ export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId
   triedDisablingDeviceAdmin: false,
   didReboot: false,
   hadManipulation: false,
+  hadManipulationFlags: 0,
   lastConnectivity: '0',
   notSeenForLongTime: false,
   didDeviceReportUninstall: false,

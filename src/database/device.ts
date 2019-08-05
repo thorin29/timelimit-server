@@ -22,6 +22,16 @@ import { RuntimePermissionStatus, runtimePermissionStatusValues } from '../model
 import { authTokenColumn, booleanColumn, createEnumColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn, versionColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
+export const DeviceHadManipulationFlags = {
+  ProtectionLevel: 1,
+  UsageStatsAccess: 2,
+  NotificationAccess: 4,
+  AppVersion: 8,
+  OverlayPermission: 16,
+  AccessibiityService: 32,
+  ALL: 1 | 2 | 4 | 8 | 16 | 32
+}
+
 export interface DeviceAttributesVersion1 {
   familyId: string
   deviceId: string
@@ -88,10 +98,14 @@ export interface DeviceAttributesVersion10 {
   isQorLater: boolean
 }
 
+export interface DeviceAttributesVersion11 {
+  hadManipulationFlags: number
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
   DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
-  DeviceAttributesVersion9 & DeviceAttributesVersion10
+  DeviceAttributesVersion9 & DeviceAttributesVersion10 & DeviceAttributesVersion11
 
 export type DeviceModel = Sequelize.Model & DeviceAttributes
 export type DeviceModelStatic = typeof Sequelize.Model & {
@@ -233,6 +247,18 @@ export const attributesVersion10: SequelizeAttributes<DeviceAttributesVersion10>
   }
 }
 
+export const attributesVersion11: SequelizeAttributes<DeviceAttributesVersion11> = {
+  hadManipulationFlags: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: DeviceHadManipulationFlags.ALL
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -243,7 +269,8 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion7,
   ...attributesVersion8,
   ...attributesVersion9,
-  ...attributesVersion10
+  ...attributesVersion10,
+  ...attributesVersion11
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => sequelize.define('Device', attributes) as DeviceModelStatic

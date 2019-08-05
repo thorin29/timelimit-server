@@ -70,6 +70,16 @@ export async function dispatchIgnoreManipulation ({ action, cache }: {
     deviceEntry.hadManipulation = false
   }
 
+  if (action.ignoreHadManipulationFlags !== 0) {
+    const newFlags = deviceEntry.hadManipulationFlags & (~action.ignoreHadManipulationFlags)
+
+    deviceEntry.hadManipulationFlags = newFlags
+
+    if (newFlags === 0) {
+      deviceEntry.hadManipulation = false
+    }
+  }
+
   await deviceEntry.save({ transaction: cache.transaction })
   cache.invalidiateDeviceList = true
 }

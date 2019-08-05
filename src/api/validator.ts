@@ -339,6 +339,9 @@ const definitions = {
       },
       "accessibilityService": {
         "type": "boolean"
+      },
+      "ignoreHadManipulationFlags": {
+        "type": "number"
       }
     },
     "additionalProperties": false,

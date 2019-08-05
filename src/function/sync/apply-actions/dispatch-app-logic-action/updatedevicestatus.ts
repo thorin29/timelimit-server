@@ -16,7 +16,7 @@
  */
 
 import { UpdateDeviceStatusAction } from '../../../../action'
-import { hasDeviceManipulation } from '../../../../database/device'
+import { DeviceHadManipulationFlags, hasDeviceManipulation } from '../../../../database/device'
 import { newPermissionStatusValues } from '../../../../model/newpermissionstatus'
 import { protetionLevels } from '../../../../model/protectionlevel'
 import { runtimePermissionStatusValues } from '../../../../model/runtimepermissionstatus'
@@ -56,6 +56,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged && (deviceEntry.currentProtectionLevel !== deviceEntry.highestProtectionLevel)) {
       deviceEntry.hadManipulation = true
+      deviceEntry.hadManipulationFlags |= DeviceHadManipulationFlags.ProtectionLevel
     }
   }
 
@@ -72,6 +73,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged && (deviceEntry.currentUsageStatsPermission !== deviceEntry.highestUsageStatsPermission)) {
       deviceEntry.hadManipulation = true
+      deviceEntry.hadManipulationFlags |= DeviceHadManipulationFlags.UsageStatsAccess
     }
   }
 
@@ -88,6 +90,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged && (deviceEntry.currentNotificationAccessPermission !== deviceEntry.highestNotificationAccessPermission)) {
       deviceEntry.hadManipulation = true
+      deviceEntry.hadManipulationFlags |= DeviceHadManipulationFlags.NotificationAccess
     }
   }
 
@@ -104,6 +107,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged && (deviceEntry.currentOverlayPermission !== deviceEntry.highestOverlayPermission)) {
       deviceEntry.hadManipulation = true
+      deviceEntry.hadManipulationFlags |= DeviceHadManipulationFlags.OverlayPermission
     }
   }
 
@@ -118,6 +122,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged && (deviceEntry.asEnabled !== deviceEntry.wasAsEnabled)) {
       deviceEntry.hadManipulation = true
+      deviceEntry.hadManipulationFlags |= DeviceHadManipulationFlags.AccessibiityService
     }
   }
 
@@ -133,6 +138,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged && (deviceEntry.currentAppVersion !== deviceEntry.highestAppVersion)) {
       deviceEntry.hadManipulation = true
+      deviceEntry.hadManipulationFlags |= DeviceHadManipulationFlags.AppVersion
     }
   }
 

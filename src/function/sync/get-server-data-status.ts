@@ -89,6 +89,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         tDisablingAdmin: item.triedDisablingDeviceAdmin,
         reboot: item.didReboot,
         hadManipulation: item.hadManipulation,
+        hadManipulationFlags: item.hadManipulationFlags,
         reportUninstall: item.didDeviceReportUninstall,
         isUserKeptSignedIn: item.isUserKeptSignedIn,
         showDeviceConnected: item.showDeviceConnected,
