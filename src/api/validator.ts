@@ -1,5 +1,5 @@
 // tslint:disable 
-import { ClientPushChangesRequest, ClientPullChangesRequest, SignInWithGoogleRequest, MailAuthTokenRequestBody, CreateFamilyByMailTokenRequest, SignIntoFamilyRequest, RecoverParentPasswordRequest, CanRecoverPasswordRequest, RegisterChildDeviceRequest, SerializedParentAction, SerializedAppLogicAction, SerializedChildAction, CreateRegisterDeviceTokenRequest, CanDoPurchaseRequest, FinishPurchaseByGooglePlayRequest, LinkParentMailAddressRequest, UpdatePrimaryDeviceRequest, RemoveDeviceRequest, RequestWithAuthToken, SendMailLoginCodeRequest, SignInByMailCodeRequest } from './schema'
+import { ClientPushChangesRequest, ClientPullChangesRequest, MailAuthTokenRequestBody, CreateFamilyByMailTokenRequest, SignIntoFamilyRequest, RecoverParentPasswordRequest, CanRecoverPasswordRequest, RegisterChildDeviceRequest, SerializedParentAction, SerializedAppLogicAction, SerializedChildAction, CreateRegisterDeviceTokenRequest, CanDoPurchaseRequest, FinishPurchaseByGooglePlayRequest, LinkParentMailAddressRequest, UpdatePrimaryDeviceRequest, RemoveDeviceRequest, RequestWithAuthToken, SendMailLoginCodeRequest, SignInByMailCodeRequest } from './schema'
 const Ajv = require('ajv')
 const ajv = new Ajv()
 
@@ -1365,20 +1365,6 @@ export const isClientPullChangesRequest: (value: object) => value is ClientPullC
   "required": [
     "deviceAuthToken",
     "status"
-  ],
-  "definitions": definitions,
-  "$schema": "http://json-schema.org/draft-07/schema#"
-})
-export const isSignInWithGoogleRequest: (value: object) => value is SignInWithGoogleRequest = ajv.compile({
-  "type": "object",
-  "properties": {
-    "googleAuthToken": {
-      "type": "string"
-    }
-  },
-  "additionalProperties": false,
-  "required": [
-    "googleAuthToken"
   ],
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"

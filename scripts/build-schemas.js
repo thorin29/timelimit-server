@@ -25,7 +25,6 @@ const randomString = 'WK9fxjlOcM'
 const types = [
   'ClientPushChangesRequest',
   'ClientPullChangesRequest',
-  'SignInWithGoogleRequest',
   'MailAuthTokenRequestBody',
   'CreateFamilyByMailTokenRequest',
   'SignIntoFamilyRequest',

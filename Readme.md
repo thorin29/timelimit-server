@@ -45,9 +45,6 @@ This fixes the causes of lint warnings (where possible).
 - GOOGLE_PLAY_PUBLIC_KEY
   - key for validating purchases
   - purchases using google play don't work without it
-- GOOGLE_SIGN_IN_CLIENT_ID
-  - token for validating sign in with google requests
-  - sign in with Google does not work without it
 - MAIL_SENDER
   - sender (for the from-field) for sent mails
 - MAIL_TRANSPORT

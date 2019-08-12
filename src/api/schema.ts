@@ -34,10 +34,6 @@ export interface ClientPullChangesRequest {
   status: ClientDataStatus
 }
 
-export interface SignInWithGoogleRequest {
-  googleAuthToken: string
-}
-
 export interface MailAuthTokenRequestBody {
   mailAuthToken: string
 }
