@@ -52,6 +52,7 @@
     "http-errors": "^1.7.0",
     "iab_verifier": "^0.1.2",
     "lodash": "^4.17.11",
+    "mariadb": "^2.1.0",
     "mysql2": "^1.6.1",
     "pg": "^7.8.0",
     "pg-hstore": "^2.3.2",
