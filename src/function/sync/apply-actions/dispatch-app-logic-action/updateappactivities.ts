@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { chunk } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { UpdateAppActivitiesAction } from '../../../../action'
 import { AppActivityAttributes } from '../../../../database/appactivity'
@@ -26,19 +27,25 @@ export async function dispatchUpdateAppActivities ({ deviceId, action, cache }: 
   cache: Cache
 }) {
   if (action.updatedOrAdded.length > 0) {
-    await cache.database.appActivity.destroy({
-      where: {
-        familyId: cache.familyId,
-        deviceId,
-        [Sequelize.Op.or]: (
-          action.updatedOrAdded.map((item) => ({
-            packageName: item.packageName,
-            activityName: item.activityName
-          }))
-        )
-      },
-      transaction: cache.transaction
-    })
+    const chuncks = chunk(action.updatedOrAdded, 500)
+
+    for (let i = 0; i < chuncks.length; i++) {
+      const items = chuncks[i]
+
+      await cache.database.appActivity.destroy({
+        where: {
+          familyId: cache.familyId,
+          deviceId,
+          [Sequelize.Op.or]: (
+            items.map((item) => ({
+              packageName: item.packageName,
+              activityName: item.activityName
+            }))
+          )
+        },
+        transaction: cache.transaction
+      })
+    }
 
     await cache.database.appActivity.bulkCreate(
       action.updatedOrAdded.map((item): AppActivityAttributes => ({
@@ -53,19 +60,25 @@ export async function dispatchUpdateAppActivities ({ deviceId, action, cache }: 
   }
 
   if (action.removed.length > 0) {
-    await cache.database.appActivity.destroy({
-      where: {
-        familyId: cache.familyId,
-        deviceId,
-        [Sequelize.Op.or]: (
-          action.removed.map((item) => ({
-            packageName: item.packageName,
-            activityName: item.activityName
-          }))
-        )
-      },
-      transaction: cache.transaction
-    })
+    const chunks = chunk(action.removed, 500)
+
+    for (let i = 0; i < chunks.length; i++) {
+      const items = chunks[i]
+
+      await cache.database.appActivity.destroy({
+        where: {
+          familyId: cache.familyId,
+          deviceId,
+          [Sequelize.Op.or]: (
+            items.map((item) => ({
+              packageName: item.packageName,
+              activityName: item.activityName
+            }))
+          )
+        },
+        transaction: cache.transaction
+      })
+    }
   }
 
   cache.devicesWithModifiedInstalledApps.push(deviceId)
