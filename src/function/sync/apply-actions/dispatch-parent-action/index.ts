@@ -29,6 +29,7 @@ import {
   RemoveCategoryAppsAction,
   RemoveUserAction,
   RenameChildAction,
+  ResetParentBlockedTimesAction,
   SetCategoryExtraTimeAction,
   SetCategoryForUnassignedAppsAction,
   SetChildPasswordAction,
@@ -50,6 +51,7 @@ import {
   UpdateDeviceNameAction,
   UpdateEnableActivityLevelBlockingAction,
   UpdateNetworkTimeVerificationAction,
+  UpdateParentBlockedTimesAction,
   UpdateParentNotificationFlagsAction,
   UpdateTimelimitRuleAction
 } from '../../../../action'
@@ -66,6 +68,7 @@ import { dispatchIncrementCategoryExtraTime } from './incrementcategoryextratime
 import { dispatchRemoveCategoryApps } from './removecategoryapps'
 import { dispatchRemoveUser } from './removeuser'
 import { dispatchRenameChild } from './renamechild'
+import { dispatchResetParentBlockedTimes } from './resetparentblockedtimes'
 import { dispatchSetCategoryExtraTime } from './setcategoryextratime'
 import { dispatchSetCategoryForUnassignedApps } from './setcategoryforunassignedapps'
 import { dispatchSetChildPassword } from './setchildpassword'
@@ -87,6 +90,7 @@ import { dispatchUpdateCategoryTitle } from './updatecategorytitle'
 import { dispatchUpdateDeviceName } from './updatedevicename'
 import { dispatchUpdateEnableActivityLevelBlocking } from './updateenableactivitylevelblocking'
 import { dispatchUpdateNetworkTimeVerification } from './updatenetworktimeverification'
+import { dispatchUpdateParentBlockedTimes } from './updateparentblockedtimes'
 import { dispatchUpdateParentNotificationFlags } from './updateparentnotificationflags'
 import { dispatchUpdateTimelimitRule } from './updatetimelimitrule'
 
@@ -166,6 +170,10 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchIgnoreManipulation({ action, cache })
   } else if (action instanceof UpdateCategoryTimeWarningsAction) {
     await dispatchUpdateCategoryTimeWarnings({ action, cache })
+  } else if (action instanceof ResetParentBlockedTimesAction) {
+    await dispatchResetParentBlockedTimes({ action, cache })
+  } else if (action instanceof UpdateParentBlockedTimesAction) {
+    await dispatchUpdateParentBlockedTimes({ action, cache })
   } else {
     throw new Error('unsupported action type')
   }

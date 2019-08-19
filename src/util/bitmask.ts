@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { split } from 'lodash'
+import { range, split } from 'lodash'
 
 export const serializedBitmaskRegex = /^(\d*,\d*(,\d*,\d*)*)?$/
 
@@ -51,4 +51,24 @@ export const validateBitmask = (bitmask: string, maxLength: number) => {
 
     previousValue = item
   })
+}
+
+export const validateAndParseBitmask = (bitmask: string, maxLength: number) => {
+  validateBitmask(bitmask, maxLength)
+
+  const result = range(0, maxLength).map((_) => false)
+
+  const splitpoints = split(bitmask, ',').map((item) => parseInt(item, 10))
+
+  let i = 0
+  while (i < splitpoints.length) {
+    const start = splitpoints[i++]
+    const end = splitpoints[i++]
+
+    for (let j = start; j < end; j++) {
+      result[j] = true
+    }
+  }
+
+  return result
 }

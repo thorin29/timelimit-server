@@ -123,7 +123,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'currentDevice',
         'categoryForNotAssignedApps',
         'relaxPrimaryDeviceRule',
-        'mailNotificationFlags'
+        'mailNotificationFlags',
+        'blockedTimes'
       ],
       transaction
     })).map((item) => ({
@@ -138,7 +139,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       currentDevice: item.currentDevice,
       categoryForNotAssignedApps: item.categoryForNotAssignedApps,
       relaxPrimaryDeviceRule: item.relaxPrimaryDeviceRule,
-      mailNotificationFlags: item.mailNotificationFlags
+      mailNotificationFlags: item.mailNotificationFlags,
+      blockedTimes: item.blockedTimes
     }))
 
     result.users = {
@@ -155,7 +157,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         currentDevice: item.currentDevice,
         categoryForNotAssignedApps: item.categoryForNotAssignedApps,
         relaxPrimaryDevice: item.relaxPrimaryDeviceRule,
-        mailNotificationFlags: item.mailNotificationFlags
+        mailNotificationFlags: item.mailNotificationFlags,
+        blockedTimes: item.blockedTimes
       }))
     }
   }

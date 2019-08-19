@@ -16,6 +16,7 @@
  */
 
 import * as Sequelize from 'sequelize'
+import { serializedBitmaskRegex } from '../util/bitmask'
 import { optionalPasswordRegex, optionalSaltRegex } from '../util/password'
 import { booleanColumn, createEnumColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn } from './columns'
 import { SequelizeAttributes } from './types'
@@ -49,8 +50,12 @@ export interface UserAttributesVersion4 {
   mailNotificationFlags: number
 }
 
+export interface UserAttributesVersion5 {
+  blockedTimes: string
+}
+
 export type UserAttributes = UserAttributesVersion1 & UserAttributesVersion2 &
-  UserAttributesVersion3 & UserAttributesVersion4
+  UserAttributesVersion3 & UserAttributesVersion4 & UserAttributesVersion5
 
 export type UserModel = Sequelize.Model & UserAttributes
 export type UserModelStatic = typeof Sequelize.Model & {
@@ -123,11 +128,23 @@ export const attributesVersion4: SequelizeAttributes<UserAttributesVersion4> = {
   }
 }
 
+export const attributesVersion5: SequelizeAttributes<UserAttributesVersion5> = {
+  blockedTimes: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+    defaultValue: '',
+    validate: {
+      is: serializedBitmaskRegex
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<UserAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
   ...attributesVersion3,
-  ...attributesVersion4
+  ...attributesVersion4,
+  ...attributesVersion5
 }
 
 export const createUserModel = (sequelize: Sequelize.Sequelize): UserModelStatic => sequelize.define('User', attributes) as UserModelStatic

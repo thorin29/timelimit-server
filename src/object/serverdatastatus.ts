@@ -57,6 +57,7 @@ export interface ServerUserEntry {
   categoryForNotAssignedApps: string
   relaxPrimaryDevice: boolean
   mailNotificationFlags: number
+  blockedTimes: string
 }
 
 export interface ServerDeviceData {

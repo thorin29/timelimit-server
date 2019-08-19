@@ -81,7 +81,8 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       currentDevice: '',
       categoryForNotAssignedApps: '',
       relaxPrimaryDeviceRule: false,
-      mailNotificationFlags: 1  // enable warning notifications
+      mailNotificationFlags: 1,  // enable warning notifications
+      blockedTimes: ''
     }, { transaction })
 
     // add parent device

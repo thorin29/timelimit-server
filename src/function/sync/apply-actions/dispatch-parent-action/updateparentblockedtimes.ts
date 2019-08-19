@@ -15,33 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { AddUserAction } from '../../../../action'
+import { UpdateParentBlockedTimesAction } from '../../../../action'
 import { Cache } from '../cache'
 
-export async function dispatchAddUser ({ action, cache }: {
-  action: AddUserAction
+export async function dispatchUpdateParentBlockedTimes ({ action, cache }: {
+  action: UpdateParentBlockedTimesAction
   cache: Cache
 }) {
-  await cache.database.user.create({
-    familyId: cache.familyId,
-    userId: action.userId,
-    type: action.userType,
-    name: action.name,
-    timeZone: action.timeZone,
-    passwordHash: action.password ? action.password.hash : '',
-    secondPasswordHash: action.password ? action.password.secondHash : '',
-    secondPasswordSalt: action.password ? action.password.secondSalt : '',
-    mail: '',
-    disableTimelimitsUntil: '0',
-    currentDevice: '',
-    categoryForNotAssignedApps: '',
-    relaxPrimaryDeviceRule: false,
-    mailNotificationFlags: 0,
-    blockedTimes: ''
-  }, { transaction: cache.transaction })
+  const [affectedRows] = await cache.database.user.update({
+    blockedTimes: action.blockedTimes
+  }, {
+    where: {
+      familyId: cache.familyId,
+      userId: action.parentId,
+      type: 'parent'
+    },
+    transaction: cache.transaction
+  })
+
+  if (affectedRows === 0) {
+    throw new Error('invalid parent user id provided')
+  }
 
   cache.invalidiateUserList = true
   cache.areChangesImportant = true
-
-  cache.doesUserExist.cache.set(action.userId, true)
 }
