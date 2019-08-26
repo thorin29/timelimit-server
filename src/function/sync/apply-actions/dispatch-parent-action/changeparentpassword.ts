@@ -46,7 +46,11 @@ export async function dispatchChangeParentPassword ({ action, cache }: {
 
   await parentEntry.save({ transaction: cache.transaction })
 
-  cache.getSecondPasswordHashOfParent.cache.clear()
+  {
+    const clear = cache.getSecondPasswordHashOfParent.cache.clear
+    clear && clear()
+  }
+
   cache.invalidiateUserList = true
   cache.areChangesImportant = true
 }

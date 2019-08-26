@@ -44,7 +44,11 @@ export const dispatchChildChangePassword = async ({ action, childUserId, cache }
 
   await childEntry.save({ transaction: cache.transaction })
 
-  cache.getSecondPasswordHashOfChild.cache.clear()
+  {
+    const clear = cache.getSecondPasswordHashOfChild.cache.clear
+    clear && clear()
+  }
+
   cache.invalidiateUserList = true
   cache.areChangesImportant = true
 }
