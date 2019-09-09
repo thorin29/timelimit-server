@@ -83,7 +83,7 @@ export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
   })
 }
 
-export function isMailServerBlacklisted(mail: string) {
+export function isMailServerBlacklisted (mail: string) {
   const parts = mail.split('@')
   const domain = parts[parts.length - 1]
 

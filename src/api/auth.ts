@@ -20,11 +20,11 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 import { Database } from '../database'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail'
+import { isMailServerBlacklisted } from '../util/mail'
 import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
 } from './validator'
-import { isMailServerBlacklisted } from '../util/mail'
 
 export const createAuthRouter = (database: Database) => {
   const router = Router()
