@@ -24,6 +24,7 @@ import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
 } from './validator'
+import { isMailServerBlacklisted } from '../util/mail'
 
 export const createAuthRouter = (database: Database) => {
   const router = Router()
@@ -41,6 +42,28 @@ export const createAuthRouter = (database: Database) => {
       })
 
       res.json({ mailLoginToken })
+    } catch (ex) {
+      next(ex)
+    }
+  })
+
+  router.post('/send-mail-login-code-v2', json(), async (req, res, next) => {
+    try {
+      if (!isSendMailLoginCodeRequest(req.body)) {
+        throw new BadRequest()
+      }
+
+      if (isMailServerBlacklisted(req.body.mail)) {
+        res.json({ mailServerBlacklisted: true })
+      } else {
+        const { mailLoginToken } = await sendLoginCode({
+          mail: req.body.mail,
+          locale: req.body.locale,
+          database
+        })
+
+        res.json({ mailLoginToken })
+      }
     } catch (ex) {
       next(ex)
     }

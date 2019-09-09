@@ -19,6 +19,7 @@ import * as Email from 'email-templates'
 import { join } from 'path'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
+const mailServerBlacklist = (process.env.MAIL_SERVER_BLACKLIST || '').split(',').filter((item) => !!item)
 
 const email = new Email({
   message: {
@@ -80,4 +81,11 @@ export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
       mailimprint
     }
   })
+}
+
+export function isMailServerBlacklisted(mail: string) {
+  const parts = mail.split('@')
+  const domain = parts[parts.length - 1]
+
+  return mailServerBlacklist.indexOf(domain.toLowerCase()) !== -1
 }

@@ -57,3 +57,6 @@ This fixes the causes of lint warnings (where possible).
 - ADMIN_TOKEN
   - a password which allows to use some APIs
   - admin APIs are disabled when this is not set
+- MAIL_SERVER_BLACKLIST
+  - list of domains, separated by comma
+  - if the user tries to use such a mail service, then he will get the notification that this provider is not supported
