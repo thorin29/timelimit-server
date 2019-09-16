@@ -29,24 +29,6 @@ import {
 export const createAuthRouter = (database: Database) => {
   const router = Router()
 
-  router.post('/send-mail-login-code', json(), async (req, res, next) => {
-    try {
-      if (!isSendMailLoginCodeRequest(req.body)) {
-        throw new BadRequest()
-      }
-
-      const { mailLoginToken } = await sendLoginCode({
-        mail: req.body.mail,
-        locale: req.body.locale,
-        database
-      })
-
-      res.json({ mailLoginToken })
-    } catch (ex) {
-      next(ex)
-    }
-  })
-
   router.post('/send-mail-login-code-v2', json(), async (req, res, next) => {
     try {
       if (!isSendMailLoginCodeRequest(req.body)) {
