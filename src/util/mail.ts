@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { parseOneAddress } from 'email-addresses'
 import * as Email from 'email-templates'
 import { join } from 'path'
 
@@ -88,4 +89,20 @@ export function isMailServerBlacklisted (mail: string) {
   const domain = parts[parts.length - 1]
 
   return mailServerBlacklist.indexOf(domain.toLowerCase()) !== -1
+}
+
+export function sanitizeMailAddress (input: string): string | null {
+  const parsed = parseOneAddress(input)
+
+  if ((!parsed) || (parsed.type !== 'mailbox')) {
+    return null
+  }
+
+  const address = (parsed as any).address
+
+  if (typeof address !== 'string') {
+    throw new Error('illegal state')
+  }
+
+  return address
 }

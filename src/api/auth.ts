@@ -20,7 +20,7 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 import { Database } from '../database'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail'
-import { isMailServerBlacklisted } from '../util/mail'
+import { isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail'
 import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
@@ -35,11 +35,17 @@ export const createAuthRouter = (database: Database) => {
         throw new BadRequest()
       }
 
-      if (isMailServerBlacklisted(req.body.mail)) {
+      const mail = sanitizeMailAddress(req.body.mail)
+
+      if (!mail) {
+        throw new BadRequest()
+      }
+
+      if (isMailServerBlacklisted(mail)) {
         res.json({ mailServerBlacklisted: true })
       } else {
         const { mailLoginToken } = await sendLoginCode({
-          mail: req.body.mail,
+          mail,
           locale: req.body.locale,
           database
         })

@@ -45,6 +45,7 @@
     "basic-auth": "^2.0.1",
     "body-parser": "^1.19.0",
     "ejs": "^2.6.2",
+    "email-addresses": "^3.0.3",
     "email-templates": "^5.1.0",
     "escape-html": "^1.0.3",
     "express": "^4.17.1",
