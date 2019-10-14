@@ -59,7 +59,7 @@ export async function findOldFamilyIds (database: Database) {
         [Sequelize.Op.in]: familyIdsWithExpiredLicenses
       },
       lastConnectivity: {
-        [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
+        [Sequelize.Op.gt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
       }
     },
     attributes: ['familyId']
