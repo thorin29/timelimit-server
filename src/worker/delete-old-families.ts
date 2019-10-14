@@ -16,18 +16,22 @@
  */
 
 import { Database } from '../database'
-import { WebsocketApi } from '../websocket'
-import { initDeleteDeprecatedPurchasesWorker } from './delete-deprecated-purchases'
-import { initDeleteOldFamiliesWorker } from './delete-old-families'
-import { initDeleteOldTokensWorker } from './delete-old-tokens'
-import { initDeleteOldUsedTimesWorker } from './delete-old-used-times'
+import { deleteOldFamilies } from '../function/cleanup/delete-old-families'
 
-export function initWorkers ({ database, websocket }: {
+export function initDeleteOldFamiliesWorker ({ database }: {
   database: Database
-  websocket: WebsocketApi
 }) {
-  initDeleteDeprecatedPurchasesWorker({ database, websocket })
-  initDeleteOldFamiliesWorker({ database })
-  initDeleteOldTokensWorker({ database })
-  initDeleteOldUsedTimesWorker({ database })
+  function doWorkSafe () {
+    deleteOldFamilies(database).catch((ex) => {
+      console.warn('error deleting old families', ex)
+    })
+  }
+
+  setTimeout(() => {
+    doWorkSafe()
+
+    setInterval(() => {
+      doWorkSafe()
+    }, 1000 * 60 * 60 /* every 4 hours */)
+  }, 1000 * 60 * 23 /* after 23 minutes */)
 }
