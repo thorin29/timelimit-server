@@ -11,6 +11,9 @@
     "build": "npm run build:json && npm run build:ts && npm run lint",
     "build:json": "node ./scripts/build-schemas.js",
     "build:ts": "tsc",
+    "tool:find-old-families": "node build/cli/find-old-families.js",
+    "tool:delete-old-families": "node build/cli/delete-old-families.js",
+    "tool:count-families": "node build/cli/count-families.js",
     "watch": "nodemon ./build/index.js"
   },
   "repository": {
