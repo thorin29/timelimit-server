@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { difference } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { Database } from '../../database'
 
@@ -129,11 +130,25 @@ export async function deleteFamilies ({ database, familiyIds }: {
 
     // olddevice
     if (oldDeviceAuthTokens.length > 0) {
-      await database.oldDevice.bulkCreate(
-        oldDeviceAuthTokens.map((item) => ({
-          deviceAuthToken: item
-        }))
-      )
+      const knownOldDeviceAuthTokens = await database.oldDevice.findAll({
+        where: {
+          deviceAuthToken: {
+            [Sequelize.Op.in]: oldDeviceAuthTokens
+          }
+        },
+        transaction
+      }).map((item) => item.deviceAuthToken)
+
+      const oldDeviceAuthTokensToAdd = difference(oldDeviceAuthTokens, knownOldDeviceAuthTokens)
+
+      if (oldDeviceAuthTokensToAdd.length > 0) {
+        await database.oldDevice.bulkCreate(
+          oldDeviceAuthTokensToAdd.map((item) => ({
+            deviceAuthToken: item
+          })),
+          { transaction }
+        )
+      }
     }
 
     // family

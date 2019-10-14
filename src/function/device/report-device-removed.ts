@@ -35,6 +35,8 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
     })
 
     if (deviceEntry) {
+      const currentAuthToken = deviceEntry.deviceAuthToken
+
       deviceEntry.didDeviceReportUninstall = true
       deviceEntry.deviceAuthToken = generateAuthToken() // invalidiate the token
       deviceEntry.save({ transaction })
@@ -51,7 +53,7 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
 
       // add to old devices
       await database.oldDevice.create({
-        deviceAuthToken: deviceEntry.deviceAuthToken
+        deviceAuthToken: currentAuthToken
       }, {
         transaction
       })
