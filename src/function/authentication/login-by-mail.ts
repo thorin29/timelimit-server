@@ -18,7 +18,7 @@
 import { Forbidden, Gone, InternalServerError, TooManyRequests } from 'http-errors'
 import { Database } from '../../database'
 import { sendAuthenticationMail } from '../../util/mail'
-import { randomWords } from '../../util/random-words'
+import { areWordSequencesEqual, randomWords } from '../../util/random-words'
 import { checkMailSendLimit } from '../../util/ratelimit-authmail'
 import { generateAuthToken } from '../../util/token'
 import { createAuthTokenByMailAddress } from './index'
@@ -78,7 +78,7 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
       }
     }
 
-    if (entry.receivedCode !== receivedCode) {
+    if (!areWordSequencesEqual(entry.receivedCode, receivedCode)) {
       entry.remainingAttempts--
 
       await entry.save({ transaction })

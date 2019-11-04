@@ -31,3 +31,13 @@ export const randomWords = (numberOfWords: number) => (
     .map((item) => randomWord())
     .join(' ')
 )
+
+const preprocessStringForComparing = (input: string) => (
+  input
+    .replace(/ |\*/g, '')
+    .toLowerCase()
+)
+
+export const areWordSequencesEqual = (a: string, b: string) => (
+  preprocessStringForComparing(a) === preprocessStringForComparing(b)
+)
