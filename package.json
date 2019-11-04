@@ -60,7 +60,7 @@
     "mysql2": "^1.6.5",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
-    "rate-limiter-flexible": "^0.21.3",
+    "rate-limiter-flexible": "^1.1.6",
     "sequelize": "^5.16.0",
     "socket.io": "^2.2.0",
     "tokgen": "^1.0.0",
