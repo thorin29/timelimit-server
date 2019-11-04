@@ -34,14 +34,15 @@
     "@types/express": "^4.17.1",
     "@types/http-errors": "^1.6.2",
     "@types/lodash": "^4.14.137",
+    "@types/node": "^12.12.6",
     "@types/socket.io": "^1.4.40",
     "@types/tokgen": "^1.0.0",
     "@types/umzug": "^2.2.2",
-    "nodemon": "^1.19.1",
-    "tslint": "^5.19.0",
-    "tslint-config-standard": "^7.1.0",
-    "typescript": "^3.5.3",
-    "typescript-json-schema": "^0.38.3"
+    "nodemon": "^1.19.4",
+    "tslint": "^5.20.1",
+    "tslint-config-standard": "^9.0.0",
+    "typescript": "^3.7.2",
+    "typescript-json-schema": "^0.40.0"
   },
   "dependencies": {
     "ajv": "^6.10.2",
