@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -42,6 +42,7 @@ import { SerializedSetRelaxPrimaryDeviceAction, SetRelaxPrimaryDeviceAction } fr
 import { SerializedSetSendDeviceConnected, SetSendDeviceConnected } from '../setsenddeviceconnected'
 import { SerializedSetUserDisableLimitsUntilAction, SetUserDisableLimitsUntilAction } from '../setuserdisablelimitsuntil'
 import { SerializedSetUserTimezoneAction, SetUserTimezoneAction } from '../setusertimezone'
+import { SerializedUpdateCategoryBatteryLimitAction, UpdateCategoryBatteryLimitAction } from '../updatecategorybatterylimit'
 import { SerializedUpdateCategoryBlockAllNotificationsAction, UpdateCategoryBlockAllNotificationsAction } from '../updatecategoryblockallnotifications'
 import { SerializedUpdateCategoryBlockedTimesAction, UpdateCategoryBlockedTimesAction } from '../updatecategoryblockedtimes'
 import { SerializedUpdateCategoryTemporarilyBlockedAction, UpdateCategoryTemporarilyBlockedAction } from '../updatecategorytemporarilyblocked'
@@ -81,6 +82,7 @@ export type SerializedParentAction =
   SerializedSetSendDeviceConnected |
   SerializedSetUserDisableLimitsUntilAction |
   SerializedSetUserTimezoneAction |
+  SerializedUpdateCategoryBatteryLimitAction |
   SerializedUpdateCategoryBlockAllNotificationsAction |
   SerializedUpdateCategoryBlockedTimesAction |
   SerializedUpdateCategoryTemporarilyBlockedAction |
@@ -146,6 +148,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return SetUserDisableLimitsUntilAction.parse(action)
   } else if (action.type === 'SET_USER_TIMEZONE') {
     return SetUserTimezoneAction.parse(action)
+  } else if (action.type === 'UPDATE_CATEGORY_BATTERY_LIMIT') {
+    return UpdateCategoryBatteryLimitAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_BLOCK_ALL_NOTIFICATIONS') {
     return UpdateCategoryBlockAllNotificationsAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_BLOCKED_TIMES') {

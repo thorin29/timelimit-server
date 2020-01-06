@@ -768,6 +768,31 @@ const definitions = {
       "userId"
     ]
   },
+  "SerializedUpdateCategoryBatteryLimitAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_CATEGORY_BATTERY_LIMIT"
+        ]
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "chargeLimit": {
+        "type": "number"
+      },
+      "mobileLimit": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
+      "type"
+    ]
+  },
   "SerializedUpdateCategoryBlockAllNotificationsAction": {
     "type": "object",
     "properties": {
@@ -1618,6 +1643,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedSetUserTimezoneAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateCategoryBatteryLimitAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryBlockAllNotificationsAction"

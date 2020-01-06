@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -43,6 +43,7 @@ import {
   SetSendDeviceConnected,
   SetUserDisableLimitsUntilAction,
   SetUserTimezoneAction,
+  UpdateCategoryBatteryLimitAction,
   UpdateCategoryBlockAllNotificationsAction,
   UpdateCategoryBlockedTimesAction,
   UpdateCategoryTemporarilyBlockedAction,
@@ -82,6 +83,7 @@ import { dispatchSetRelaxPrimaryDevice } from './setrelaxprimarydevice'
 import { dispatchSetSendDeviceConnected } from './setsenddeviceconnected'
 import { dispatchUserSetDisableLimitsUntil } from './setuserdisablelmitsuntil'
 import { dispatchSetUserTimezone } from './setusertimezone'
+import { dispatchUpdateCategoryBatteryLimit } from './updatecategorybatterylimit'
 import { dispatchUpdateCategoryBlockAllNotifications } from './updatecategoryblockallnotifications'
 import { dispatchUpdateCategoryBlockedTimes } from './updatecategoryblockedtimes'
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
@@ -140,6 +142,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchUserSetDisableLimitsUntil({ action, cache })
   } else if (action instanceof SetUserTimezoneAction) {
     await dispatchSetUserTimezone({ action, cache })
+  } else if (action instanceof UpdateCategoryBatteryLimitAction) {
+    await dispatchUpdateCategoryBatteryLimit({ action, cache })
   } else if (action instanceof UpdateCategoryBlockAllNotificationsAction) {
     await dispatchUpdateCategoryBlockAllNotifications({ action, cache })
   } else if (action instanceof UpdateCategoryBlockedTimesAction) {

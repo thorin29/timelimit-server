@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -339,7 +339,9 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'baseVersion',
         'parentCategoryId',
         'blockAllNotifications',
-        'timeWarningFlags'
+        'timeWarningFlags',
+        'minBatteryCharging',
+        'minBatteryMobile'
       ],
       transaction
     })).map((item) => ({
@@ -352,7 +354,9 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       baseVersion: item.baseVersion,
       parentCategoryId: item.parentCategoryId,
       blockAllNotifications: item.blockAllNotifications,
-      timeWarningFlags: item.timeWarningFlags
+      timeWarningFlags: item.timeWarningFlags,
+      minBatteryCharging: item.minBatteryCharging,
+      minBatteryMobile: item.minBatteryMobile
     }))
 
     result.categoryBase = dataForSyncing.map((item): ServerUpdatedCategoryBaseData => ({
@@ -365,7 +369,9 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       version: item.baseVersion,
       parentCategoryId: item.parentCategoryId,
       blockAllNotifications: item.blockAllNotifications,
-      timeWarnings: item.timeWarningFlags
+      timeWarnings: item.timeWarningFlags,
+      mblMobile: item.minBatteryMobile,
+      mblCharging: item.minBatteryCharging
     }))
   }
 

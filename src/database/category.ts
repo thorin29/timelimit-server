@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,8 +48,13 @@ export interface CategoryAttributesVersion4 {
   timeWarningFlags: number
 }
 
+export interface CategoryAttributesVersion5 {
+  minBatteryCharging: number
+  minBatteryMobile: number
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
-  CategoryAttributesVersion3 & CategoryAttributesVersion4
+  CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5
 
 export type CategoryModel = Sequelize.Model & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
@@ -119,11 +124,33 @@ export const attributesVersion4: SequelizeAttributes<CategoryAttributesVersion4>
   }
 }
 
+export const attributesVersion5: SequelizeAttributes<CategoryAttributesVersion5> = {
+  minBatteryMobile: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 100
+    }
+  },
+  minBatteryCharging: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 100
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
   ...attributesVersion3,
-  ...attributesVersion4
+  ...attributesVersion4,
+  ...attributesVersion5
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic
