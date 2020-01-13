@@ -31,6 +31,10 @@ export const createAdminRouter = ({ database, websocket }: {
 }) => {
   const router = Router()
 
+  router.get('/', (_, res) => {
+    res.send('<html><body><a href="/admin/status">status</a><br><a href="/admin/status-message">Status message</a><br><a href="/admin/unlock-premium">unlock premium</a></body></html>')
+  })
+
   router.get('/status', (_, res) => {
     res.json({
       websocketClients: websocket.countConnections()
