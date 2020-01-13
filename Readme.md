@@ -10,7 +10,7 @@ connected to different devices and the rate limiting is per instance.
 
 ## Running
 
-Option 1: Use a prebuilt docker image  
+Option 1: Build (run ``sudo docker build -t timelimit-server .`` in this directory) and use a docker image  
 Option 2: Install Node.JS (see below for detailed usage)
 
 ## Commands
