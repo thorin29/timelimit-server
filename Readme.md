@@ -104,3 +104,15 @@ server {
   }
 }
 ```
+
+## Admin API
+
+When the ``ADMIN_TOKEN`` environment variable was set, then there is a admin API available
+at ``http(s)://server/admin``. This page is protected using HTTP basic authentication.
+The username is ignored, the password is the admin token.
+
+This allows to:
+
+- see the counter for the websocket connections
+- set a status message which is shown at all linked clients at the overview screen
+- unlock the premium version feature for a user for a month or a year
