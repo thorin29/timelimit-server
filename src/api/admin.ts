@@ -18,11 +18,11 @@
 import { urlencoded } from 'body-parser'
 import * as escape from 'escape-html'
 import { Router } from 'express'
-import { BadRequest, Conflict } from 'http-errors'
+import { BadRequest, Conflict, Forbidden } from 'http-errors'
 import { Database } from '../database'
 import { addPurchase } from '../function/purchase'
 import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
-import { generatePurchaseId } from '../util/token'
+import { generateAuthToken, generatePurchaseId } from '../util/token'
 import { WebsocketApi } from '../websocket'
 
 export const createAdminRouter = ({ database, websocket }: {
@@ -30,6 +30,8 @@ export const createAdminRouter = ({ database, websocket }: {
   websocket: WebsocketApi
 }) => {
   const router = Router()
+
+  const serverToken = generateAuthToken()
 
   router.get('/', (_, res) => {
     res.send('<html><body><a href="/admin/status">status</a><br><a href="/admin/status-message">Status message</a><br><a href="/admin/unlock-premium">unlock premium</a></body></html>')
@@ -45,7 +47,7 @@ export const createAdminRouter = ({ database, websocket }: {
     try {
       const currentStatusMessage = await getStatusMessage({ database })
 
-      res.send('<html><body><form action="/admin/status-message" method="post"><textarea name="smessage" rows="20" cols="100">' + escape(currentStatusMessage) + '</textarea><input type="submit" value="Save"></form></body></html>')
+      res.send('<html><body><form action="/admin/status-message" method="post"><textarea name="smessage" rows="20" cols="100">' + escape(currentStatusMessage) + '</textarea><input type="submit" value="Save"><input type="hidden" name="token" value="' + escape(serverToken) + '"></form></body></html>')
     } catch (ex) {
       next(ex)
     }
@@ -53,8 +55,12 @@ export const createAdminRouter = ({ database, websocket }: {
 
   router.post('/status-message', urlencoded({ extended: false }), async (req, res, next) => {
     try {
-      if (typeof req.body !== 'object' || typeof req.body.smessage !== 'string') {
+      if (typeof req.body !== 'object' || typeof req.body.smessage !== 'string' || typeof req.body.token !== 'string') {
         throw new BadRequest()
+      }
+
+      if (req.body.token !== serverToken) {
+        throw new Forbidden()
       }
 
       const newStatusMessage = req.body.smessage as string
@@ -70,13 +76,17 @@ export const createAdminRouter = ({ database, websocket }: {
   })
 
   router.get('/unlock-premium', (_, res) => (
-    res.send('<html><body><form action="/admin/unlock-premium" method="post">mail: <input name="mail" /><br><input type="radio" name="duration" value="month" />Month<br /><input type="radio" name="duration" value="year" />Year<br><input type="submit" value="Unlock"></form></body></html>')
+    res.send('<html><body><form action="/admin/unlock-premium" method="post">mail: <input name="mail" /><br><input type="radio" name="duration" value="month" />Month<br /><input type="radio" name="duration" value="year" />Year<br><input type="submit" value="Unlock"><input type="hidden" name="token" value="' + escape(serverToken) + '"></form></body></html>')
   ))
 
   router.post('/unlock-premium', urlencoded({ extended: false }), async (req, res, next) => {
     try {
-      if (typeof req.body !== 'object' || typeof req.body.mail !== 'string' || typeof req.body.duration !== 'string') {
+      if (typeof req.body !== 'object' || typeof req.body.mail !== 'string' || typeof req.body.duration !== 'string' || typeof req.body.token !== 'string') {
         throw new BadRequest()
+      }
+
+      if (req.body.token !== serverToken) {
+        throw new Forbidden()
       }
 
       const mail: string = req.body.mail
