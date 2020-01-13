@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,8 +48,7 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
 
     const userEntry = {
       familyId: userEntryUnsafe.familyId,
-      userId: userEntryUnsafe.userId,
-      transaction
+      userId: userEntryUnsafe.userId
     }
 
     const deviceAuthToken = generateAuthToken()

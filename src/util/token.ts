@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -50,3 +50,10 @@ const familyIdGenerator = new TokenGenerator({
 })
 
 export const generateFamilyId = () => familyIdGenerator.generate()
+
+const purchaseIdGenerator = new TokenGenerator({
+  length: 10,
+  chars: 'a-zA-Z0-9'
+})
+
+export const generatePurchaseId = () => purchaseIdGenerator.generate()
