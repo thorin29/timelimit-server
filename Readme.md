@@ -60,6 +60,14 @@ This fixes the causes of lint warnings (where possible).
 - MAIL_SERVER_BLACKLIST
   - list of domains, separated by comma
   - if the user tries to use such a mail service, then he will get the notification that this provider is not supported
+- MAIL_WHITELIST
+  - list of mail addresses (``someone@somewhere.com``) or domains (``mailbox.org``), separated by comma
+  - if a user requests signing in with a mail address which is not in this list, then the request is rejected
+  - if the list is empty, then any mail address (except with domains from the blacklist) is allowed
+  - note: this allows a third party who knows the server url to check if a certain mail address is allowed by trying to sign in with it
+- DISABLE_SIGNUP
+  - ``yes`` or ``no`` (default: no)
+  - disables creating new families if ``yes`` is selected
 
 ## HTTPS
 

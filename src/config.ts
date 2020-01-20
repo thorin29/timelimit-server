@@ -1,0 +1,37 @@
+/*
+ * server component for the TimeLimit App
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+// note: soem configuration parameters are read directly at the location where they are used
+interface Config {
+  mailWhitelist: Array<string>
+  disableSignup: boolean
+}
+
+function parseYesNo (value: string) {
+  if (value === 'yes') {
+    return true
+  } else if (value === 'no') {
+    return false
+  } else {
+    throw new Error('invalid value "' + value + '", expected "" or "no"')
+  }
+}
+
+export const config: Config = {
+  mailWhitelist: (process.env.MAIL_WHITELIST || '').split(',').map((item) => item.trim()).filter((item) => item.length > 0),
+  disableSignup: parseYesNo(process.env.DISABLE_SIGNUP || 'no')
+}

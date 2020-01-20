@@ -18,6 +18,7 @@
 import { parseOneAddress } from 'email-addresses'
 import * as Email from 'email-templates'
 import { join } from 'path'
+import { config } from '../config'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
 const mailServerBlacklist = (process.env.MAIL_SERVER_BLACKLIST || '').split(',').filter((item) => !!item)
@@ -84,11 +85,38 @@ export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
   })
 }
 
-export function isMailServerBlacklisted (mail: string) {
+export function isMailServerBlacklisted (mail: string): boolean {
   const parts = mail.split('@')
   const domain = parts[parts.length - 1]
 
   return mailServerBlacklist.indexOf(domain.toLowerCase()) !== -1
+}
+
+export function isMailAddressCoveredByWhitelist (mail: string): boolean {
+  if (config.mailWhitelist.length === 0) {
+    return true
+  }
+
+  const mailParts = mail.split('@')
+  const mailDomain = mailParts[mailParts.length - 1]
+
+  for (let i = 0; i < config.mailWhitelist.length; i++) {
+    const whtielistItem = config.mailWhitelist[i]
+
+    const isDomain = whtielistItem.indexOf('@') === -1
+
+    if (isDomain) {
+      if (mailDomain === whtielistItem) {
+        return true
+      }
+    } else {
+      if (mail === whtielistItem) {
+        return true
+      }
+    }
+  }
+
+  return false
 }
 
 export function sanitizeMailAddress (input: string): string | null {

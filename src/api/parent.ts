@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,8 @@
 
 import { json } from 'body-parser'
 import { Router } from 'express'
-import { BadRequest, Unauthorized } from 'http-errors'
+import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
+import { config } from '../config'
 import { Database } from '../database'
 import { removeDevice } from '../function/device/remove-device'
 import { canRecoverPassword } from '../function/parent/can-recover-password'
@@ -47,7 +48,11 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       const { mailAuthToken } = req.body
       const { status, mail } = await getStatusByMailToken({ database, mailAuthToken })
 
-      res.json({ status, mail })
+      res.json({
+        status,
+        mail,
+        canCreateFamily: !config.disableSignup
+      })
     } catch (ex) {
       next(ex)
     }
@@ -55,6 +60,10 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
 
   router.post('/create-family', json(), async (req, res, next) => {
     try {
+      if (config.disableSignup) {
+        throw new Forbidden()
+      }
+
       if (!isCreateFamilyByMailTokenRequest(req.body)) {
         throw new BadRequest()
       }

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@ import { Router } from 'express'
 import { BadRequest } from 'http-errors'
 import { Database } from '../database'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail'
-import { isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail'
+import { isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail'
 import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
@@ -41,7 +41,9 @@ export const createAuthRouter = (database: Database) => {
         throw new BadRequest()
       }
 
-      if (isMailServerBlacklisted(mail)) {
+      if (!isMailAddressCoveredByWhitelist(mail)) {
+        res.json({ mailAddressNotWhitelisted: true })
+      } else if (isMailServerBlacklisted(mail)) {
         res.json({ mailServerBlacklisted: true })
       } else {
         const { mailLoginToken } = await sendLoginCode({
