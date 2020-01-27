@@ -120,7 +120,7 @@ export class Cache {
   })
 
   shouldDoFullSync = () => this.shouldTriggerFullSync
-  requireFullSync = () => this.shouldTriggerFullSync = true
+  requireFullSync: () => void = () => this.shouldTriggerFullSync = true
 
   async saveModifiedVersionNumbers () {
     const { database, transaction, familyId } = this

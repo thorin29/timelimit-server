@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@
 import {
   AddInstalledAppsAction,
   AddUsedTimeAction,
+  AddUsedTimeActionVersion2,
   AppLogicAction,
   RemoveInstalledAppsAction,
   SignOutAtDeviceAction,
@@ -28,6 +29,7 @@ import {
 import { Cache } from '../cache'
 import { dispatchAddInstalledApps } from './addinstalledapps'
 import { dispatchAddUsedTime } from './addusedtime'
+import { dispatchAddUsedTimeVersion2 } from './addusedtime2'
 import { dispatchRemoveInstalledApps } from './removeinstalledapps'
 import { dispatchSignOutAtDevice } from './signoutatdevice'
 import { dispatchTriedDisablingDeviceAdmin } from './trieddisablingdeviceadmin'
@@ -43,6 +45,8 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache }: {
     await dispatchAddInstalledApps({ deviceId, action, cache })
   } else if (action instanceof AddUsedTimeAction) {
     await dispatchAddUsedTime({ deviceId, action, cache })
+  } else if (action instanceof AddUsedTimeActionVersion2) {
+    await dispatchAddUsedTimeVersion2({ deviceId, action, cache })
   } else if (action instanceof RemoveInstalledAppsAction) {
     await dispatchRemoveInstalledApps({ deviceId, action, cache })
   } else if (action instanceof SignOutAtDeviceAction) {

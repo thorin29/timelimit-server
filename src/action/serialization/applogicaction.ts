@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { AddInstalledAppsAction, SerializedAddInstalledAppsAction } from '../addinstalledapps'
 import { AddUsedTimeAction, SerializedAddUsedTimeAction } from '../addusedtime'
+import { AddUsedTimeActionVersion2, SerializedAddUsedTimeActionVersion2 } from '../addusedtime2'
 import { AppLogicAction } from '../basetypes'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
 import { SerializedSignOutAtDeviceAction, SignOutAtDeviceAction } from '../signoutatdevice'
@@ -27,6 +28,7 @@ import { SerializedUpdateDeviceStatusAction, UpdateDeviceStatusAction } from '..
 export type SerializedAppLogicAction =
   SerializedAddInstalledAppsAction |
   SerializedAddUsedTimeAction |
+  SerializedAddUsedTimeActionVersion2 |
   SerializedRemoveInstalledAppsAction |
   SerializedSignOutAtDeviceAction |
   SerialiezdTriedDisablingDeviceAdminAction |
@@ -36,6 +38,8 @@ export type SerializedAppLogicAction =
 export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLogicAction => {
   if (serialized.type === 'ADD_USED_TIME') {
     return AddUsedTimeAction.parse(serialized)
+  } else if (serialized.type === 'ADD_USED_TIME_V2') {
+    return AddUsedTimeActionVersion2.parse(serialized)
   } else if (serialized.type === 'ADD_INSTALLED_APPS') {
     return AddInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'REMOVE_INSTALLED_APPS') {

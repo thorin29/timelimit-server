@@ -1152,6 +1152,49 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedAddUsedTimeActionVersion2": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "ADD_USED_TIME_V2"
+        ]
+      },
+      "d": {
+        "type": "number"
+      },
+      "i": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "categoryId": {
+              "type": "string"
+            },
+            "tta": {
+              "type": "number"
+            },
+            "etts": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "categoryId",
+            "etts",
+            "tta"
+          ]
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "d",
+      "i",
+      "type"
+    ]
+  },
   "SerializedRemoveInstalledAppsAction": {
     "type": "object",
     "properties": {
@@ -1691,6 +1734,9 @@ export const isSerializedAppLogicAction: (value: object) => value is SerializedA
     },
     {
       "$ref": "#/definitions/SerializedAddUsedTimeAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedAddUsedTimeActionVersion2"
     },
     {
       "$ref": "#/definitions/SerializedRemoveInstalledAppsAction"

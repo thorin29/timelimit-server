@@ -19,7 +19,7 @@ import * as Sequelize from 'sequelize'
 import { AddUsedTimeAction } from '../../../../action'
 import { Cache } from '../cache'
 
-const getRoundedTimestamp = () => {
+export const getRoundedTimestamp = () => {
   const now = Date.now()
 
   return now - (now % (1000 * 60 * 60 * 24 * 2 /* 2 days */))
