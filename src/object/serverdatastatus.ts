@@ -100,6 +100,7 @@ export interface ServerUpdatedCategoryBaseData {
   blockedTimes: string  // blockedMinutesInWeek
   extraTime: number
   tempBlocked: boolean
+  tempBlockTime: number
   version: string
   parentCategoryId: string
   blockAllNotifications: boolean

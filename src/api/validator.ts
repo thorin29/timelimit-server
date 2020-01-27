@@ -853,6 +853,9 @@ const definitions = {
       },
       "blocked": {
         "type": "boolean"
+      },
+      "endTime": {
+        "type": "number"
       }
     },
     "additionalProperties": false,

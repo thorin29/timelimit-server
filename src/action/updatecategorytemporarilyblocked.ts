@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,24 +21,41 @@ import { ParentAction } from './basetypes'
 export class UpdateCategoryTemporarilyBlockedAction extends ParentAction {
   readonly categoryId: string
   readonly blocked: boolean
+  readonly endTime?: number
 
-  constructor ({ categoryId, blocked }: {categoryId: string, blocked: boolean}) {
+  constructor ({ categoryId, blocked, endTime }: {
+    categoryId: string
+    blocked: boolean
+    endTime?: number
+  }) {
     super()
 
     assertIdWithinFamily(categoryId)
 
+    if (endTime !== undefined) {
+      if (!Number.isSafeInteger(endTime)) {
+        throw new Error()
+      }
+
+      if (!blocked) {
+        throw new Error()
+      }
+    }
+
     this.categoryId = categoryId
     this.blocked = blocked
+    this.endTime = endTime
   }
 
   serialize = (): SerializedUpdateCategoryTemporarilyBlockedAction => ({
     type: 'UPDATE_CATEGORY_TEMPORARILY_BLOCKED',
     categoryId: this.categoryId,
-    blocked: this.blocked
+    blocked: this.blocked,
+    endTime: this.endTime
   })
 
-  static parse = ({ categoryId, blocked }: SerializedUpdateCategoryTemporarilyBlockedAction) => (
-    new UpdateCategoryTemporarilyBlockedAction({ categoryId, blocked })
+  static parse = ({ categoryId, blocked, endTime }: SerializedUpdateCategoryTemporarilyBlockedAction) => (
+    new UpdateCategoryTemporarilyBlockedAction({ categoryId, blocked, endTime })
   )
 }
 
@@ -46,4 +63,5 @@ export interface SerializedUpdateCategoryTemporarilyBlockedAction {
   type: 'UPDATE_CATEGORY_TEMPORARILY_BLOCKED'
   categoryId: string
   blocked: boolean
+  endTime?: number
 }

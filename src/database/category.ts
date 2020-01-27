@@ -17,7 +17,7 @@
 
 import * as Sequelize from 'sequelize'
 import { serializedBitmaskRegex } from '../util/bitmask'
-import { booleanColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, versionColumn } from './columns'
+import { booleanColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn, versionColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
 export const allowedTimeWarningFlags = 1 | 2 | 4 | 8 | 16
@@ -53,8 +53,13 @@ export interface CategoryAttributesVersion5 {
   minBatteryMobile: number
 }
 
+export interface CategoryAttributesVersion6 {
+  temporarilyBlockedEndTime: number
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
-  CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5
+  CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5 &
+  CategoryAttributesVersion6
 
 export type CategoryModel = Sequelize.Model & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
@@ -145,12 +150,20 @@ export const attributesVersion5: SequelizeAttributes<CategoryAttributesVersion5>
   }
 }
 
+export const attributesVersion6: SequelizeAttributes<CategoryAttributesVersion6> = {
+  temporarilyBlockedEndTime: {
+    ...timestampColumn,
+    defaultValue: 0
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
   ...attributesVersion3,
   ...attributesVersion4,
-  ...attributesVersion5
+  ...attributesVersion5,
+  ...attributesVersion6
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic
