@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -38,7 +38,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
 
   app.disable('x-powered-by')
 
-  app.get('/time', (req, res) => {
+  app.get('/time', (_, res) => {
     res.json({
       ms: Date.now()
     })
@@ -53,6 +53,18 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
   app.use(
     '/admin',
     (req, res, next) => {
+      // required for webbrowser CORS support
+      res.header('Access-Control-Allow-Origin', '*')
+      res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept')
+      res.header('Access-Control-Allow-Methods', 'GET, POST')
+
+      // without it, browsers ignore the cors headers
+      if (req.method === 'OPTIONS') {
+        res.sendStatus(204)
+
+        return
+      }
+
       const user = basicAuth(req)
 
       if (adminToken !== '' && user && user.pass === adminToken) {
