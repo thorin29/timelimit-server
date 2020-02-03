@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,6 +23,7 @@ import { Database } from '../database'
 import { reportDeviceRemoved } from '../function/device/report-device-removed'
 import { applyActionsFromDevice } from '../function/sync/apply-actions'
 import { generateServerDataStatus } from '../function/sync/get-server-data-status'
+import { EventHandler } from '../monitoring/eventhandler'
 import { WebsocketApi } from '../websocket'
 import { isClientPullChangesRequest, isClientPushChangesRequest, isRequestWithAuthToken } from './validator'
 
@@ -32,10 +33,11 @@ const getRoundedTimestampForLastConnectivity = () => {
   return now - (now % (1000 * 60 * 60 * 12 /* 12 hours */))
 }
 
-export const createSyncRouter = ({ database, websocket, connectedDevicesManager }: {
+export const createSyncRouter = ({ database, websocket, connectedDevicesManager, eventHandler }: {
   database: Database
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
+  eventHandler: EventHandler
 }) => {
   const router = Router()
 
@@ -43,7 +45,11 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager 
     limit: '5120kb'
   }), async (req, res, next) => {
     try {
+      eventHandler.countEvent('pushChangesRequest')
+
       if (!isClientPushChangesRequest(req.body)) {
+        eventHandler.countEvent('pushChangesRequest invalid')
+
         throw new BadRequest()
       }
 
@@ -51,8 +57,13 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager 
         request: req.body,
         database,
         websocket,
-        connectedDevicesManager
+        connectedDevicesManager,
+        eventHandler
       })
+
+      if (shouldDoFullSync) {
+        eventHandler.countEvent('pushChangesRequest shouldDoFullSync')
+      }
 
       res.json({
         shouldDoFullSync
@@ -64,9 +75,13 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager 
 
   router.post('/pull-status', json(), async (req, res, next) => {
     try {
+      eventHandler.countEvent('pullStatusRequest')
+
       const { body } = req
 
       if (!isClientPullChangesRequest(body)) {
+        eventHandler.countEvent('pullStatusRequest invalid')
+
         throw new BadRequest()
       }
 
@@ -103,6 +118,14 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager 
           clientStatus: body.status,
           transaction
         })
+
+        if (serverStatus.devices) { eventHandler.countEvent('pullStatusRequest devices') }
+        if (serverStatus.apps) { eventHandler.countEvent('pullStatusRequest apps') }
+        if (serverStatus.categoryBase) { eventHandler.countEvent('pullStatusRequest categoryBase') }
+        if (serverStatus.categoryApp) { eventHandler.countEvent('pullStatusRequest categoryApp') }
+        if (serverStatus.usedTimes) { eventHandler.countEvent('pullStatusRequest usedTimes') }
+        if (serverStatus.rules) { eventHandler.countEvent('pullStatusRequest rules') }
+        if (serverStatus.users) { eventHandler.countEvent('pullStatusRequest users') }
 
         res.json(serverStatus)
       })

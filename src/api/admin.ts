@@ -21,19 +21,36 @@ import { BadRequest, Conflict } from 'http-errors'
 import { Database } from '../database'
 import { addPurchase } from '../function/purchase'
 import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
+import { EventHandler } from '../monitoring/eventhandler'
 import { generatePurchaseId } from '../util/token'
 import { WebsocketApi } from '../websocket'
 
-export const createAdminRouter = ({ database, websocket }: {
+export const createAdminRouter = ({ database, websocket, eventHandler }: {
   database: Database
   websocket: WebsocketApi
+  eventHandler: EventHandler
 }) => {
   const router = Router()
 
-  router.get('/status', (_, res) => {
-    res.json({
-      websocketClients: websocket.countConnections()
-    })
+  router.get('/status', async (_, res, next) => {
+    try {
+      res.json({
+        websocketClients: websocket.countConnections(),
+        counters: await eventHandler.getCounters()
+      })
+    } catch (ex) {
+      next(ex)
+    }
+  })
+
+  router.post('/reset-counters', async (_, res, next) => {
+    try {
+      await eventHandler.resetCounters()
+
+      res.json({ ok: true })
+    } catch (ex) {
+      next(ex)
+    }
   })
 
   router.get('/status-message', async (_, res, next) => {

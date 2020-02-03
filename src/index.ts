@@ -19,12 +19,15 @@ import { Server } from 'http'
 import { createApi } from './api'
 import { VisibleConnectedDevicesManager } from './connected-devices'
 import { defaultDatabase, defaultUmzug } from './database'
+import { EventHandler } from './monitoring/eventhandler'
+import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler'
 import { createWebsocketHandler } from './websocket'
 import { initWorkers } from './worker'
 
 async function main () {
   await defaultUmzug.up()
   const database = defaultDatabase
+  const eventHandler: EventHandler = new InMemoryEventHandler()
 
   const connectedDevicesManager = new VisibleConnectedDevicesManager({
     database
@@ -43,7 +46,8 @@ async function main () {
   const api = createApi({
     database,
     websocket: websocketApi,
-    connectedDevicesManager
+    connectedDevicesManager,
+    eventHandler
   })
 
   const server = new Server(api)

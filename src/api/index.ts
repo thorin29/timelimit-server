@@ -19,6 +19,7 @@ import * as basicAuth from 'basic-auth'
 import * as express from 'express'
 import { VisibleConnectedDevicesManager } from '../connected-devices'
 import { Database } from '../database'
+import { EventHandler } from '../monitoring/eventhandler'
 import { WebsocketApi } from '../websocket'
 import { createAdminRouter } from './admin'
 import { createAuthRouter } from './auth'
@@ -29,10 +30,11 @@ import { createSyncRouter } from './sync'
 
 const adminToken = process.env.ADMIN_TOKEN || ''
 
-export const createApi = ({ database, websocket, connectedDevicesManager }: {
+export const createApi = ({ database, websocket, connectedDevicesManager, eventHandler }: {
   database: Database
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
+  eventHandler: EventHandler
 }) => {
   const app = express()
 
@@ -48,7 +50,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
   app.use('/child', createChildRouter({ database, websocket }))
   app.use('/parent', createParentRouter({ database, websocket }))
   app.use('/purchase', createPurchaseRouter({ database, websocket }))
-  app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager }))
+  app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager, eventHandler }))
 
   app.use(
     '/admin',
@@ -74,7 +76,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager }: {
         res.sendStatus(401)
       }
     },
-    createAdminRouter({ database, websocket })
+    createAdminRouter({ database, websocket, eventHandler })
   )
 
   return app
