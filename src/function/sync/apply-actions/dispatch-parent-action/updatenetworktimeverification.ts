@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@ export async function dispatchUpdateNetworkTimeVerification ({ action, cache }: 
   action: UpdateNetworkTimeVerificationAction
   cache: Cache
 }) {
-  const [affectedRows] = await cache.database.device.update({
+  await cache.database.device.update({
     networkTime: action.mode
   }, {
     where: {
@@ -32,10 +32,6 @@ export async function dispatchUpdateNetworkTimeVerification ({ action, cache }: 
     transaction: cache.transaction
   })
 
-  if (affectedRows === 0) {
-    throw new Error('invalid device id')
-  } else {
-    cache.invalidiateDeviceList = true
-    cache.areChangesImportant = true
-  }
+  cache.invalidiateDeviceList = true
+  cache.areChangesImportant = true
 }
