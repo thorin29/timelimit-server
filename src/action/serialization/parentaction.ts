@@ -45,6 +45,7 @@ import { SerializedSetUserTimezoneAction, SetUserTimezoneAction } from '../setus
 import { SerializedUpdateCategoryBatteryLimitAction, UpdateCategoryBatteryLimitAction } from '../updatecategorybatterylimit'
 import { SerializedUpdateCategoryBlockAllNotificationsAction, UpdateCategoryBlockAllNotificationsAction } from '../updatecategoryblockallnotifications'
 import { SerializedUpdateCategoryBlockedTimesAction, UpdateCategoryBlockedTimesAction } from '../updatecategoryblockedtimes'
+import { SerializedUpdateCategorySortingAction, UpdateCategorySortingAction } from '../updatecategorysorting'
 import { SerializedUpdateCategoryTemporarilyBlockedAction, UpdateCategoryTemporarilyBlockedAction } from '../updatecategorytemporarilyblocked'
 import { SerializedUpdateCategoryTimeWarningsAction, UpdateCategoryTimeWarningsAction } from '../updatecategorytimewarnings'
 import { SerializedUpdateCategoryTitleAction, UpdateCategoryTitleAction } from '../updatecategorytitle'
@@ -85,6 +86,7 @@ export type SerializedParentAction =
   SerializedUpdateCategoryBatteryLimitAction |
   SerializedUpdateCategoryBlockAllNotificationsAction |
   SerializedUpdateCategoryBlockedTimesAction |
+  SerializedUpdateCategorySortingAction |
   SerializedUpdateCategoryTemporarilyBlockedAction |
   SerializedUpdateCategoryTimeWarningsAction |
   SerializedUpdateCategoryTitleAction |
@@ -154,6 +156,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateCategoryBlockAllNotificationsAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_BLOCKED_TIMES') {
     return UpdateCategoryBlockedTimesAction.parse(action)
+  } else if (action.type === 'UPDATE_CATEGORY_SORTING') {
+    return UpdateCategorySortingAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_TIME_WARNINGS') {
     return UpdateCategoryTimeWarningsAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_TITLE') {

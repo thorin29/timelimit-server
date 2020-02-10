@@ -46,6 +46,7 @@ import {
   UpdateCategoryBatteryLimitAction,
   UpdateCategoryBlockAllNotificationsAction,
   UpdateCategoryBlockedTimesAction,
+  UpdateCategorySortingAction,
   UpdateCategoryTemporarilyBlockedAction,
   UpdateCategoryTimeWarningsAction,
   UpdateCategoryTitleAction,
@@ -86,6 +87,7 @@ import { dispatchSetUserTimezone } from './setusertimezone'
 import { dispatchUpdateCategoryBatteryLimit } from './updatecategorybatterylimit'
 import { dispatchUpdateCategoryBlockAllNotifications } from './updatecategoryblockallnotifications'
 import { dispatchUpdateCategoryBlockedTimes } from './updatecategoryblockedtimes'
+import { dispatchUpdateCategorySorting } from './updatecategorysorting'
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
 import { dispatchUpdateCategoryTimeWarnings } from './updatecategorytimewarnings'
 import { dispatchUpdateCategoryTitle } from './updatecategorytitle'
@@ -148,6 +150,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchUpdateCategoryBlockAllNotifications({ action, cache })
   } else if (action instanceof UpdateCategoryBlockedTimesAction) {
     await dispatchUpdateCategoryBlockedTimes({ action, cache })
+  } else if (action instanceof UpdateCategorySortingAction) {
+    await dispatchUpdateCategorySorting({ action, cache })
   } else if (action instanceof IncrementCategoryExtraTimeAction) {
     await dispatchIncrementCategoryExtraTime({ action, cache })
   } else if (action instanceof UpdateCategoryTemporarilyBlockedAction) {

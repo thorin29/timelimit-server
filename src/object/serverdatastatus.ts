@@ -108,6 +108,7 @@ export interface ServerUpdatedCategoryBaseData {
   // mbl = minimum battery level
   mblCharging: number
   mblMobile: number
+  sort: number
 }
 
 export interface ServerUpdatedCategoryAssignedApps {

@@ -57,9 +57,13 @@ export interface CategoryAttributesVersion6 {
   temporarilyBlockedEndTime: number
 }
 
+export interface CategoryAttributesVersion7 {
+  sort: number
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
   CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5 &
-  CategoryAttributesVersion6
+  CategoryAttributesVersion6 & CategoryAttributesVersion7
 
 export type CategoryModel = Sequelize.Model & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
@@ -157,13 +161,25 @@ export const attributesVersion6: SequelizeAttributes<CategoryAttributesVersion6>
   }
 }
 
+export const attributesVersion7: SequelizeAttributes<CategoryAttributesVersion7> = {
+  sort: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
   ...attributesVersion3,
   ...attributesVersion4,
   ...attributesVersion5,
-  ...attributesVersion6
+  ...attributesVersion6,
+  ...attributesVersion7
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic

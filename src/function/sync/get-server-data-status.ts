@@ -342,7 +342,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'timeWarningFlags',
         'minBatteryCharging',
         'minBatteryMobile',
-        'temporarilyBlockedEndTime'
+        'temporarilyBlockedEndTime',
+        'sort'
       ],
       transaction
     })).map((item) => ({
@@ -358,7 +359,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       timeWarningFlags: item.timeWarningFlags,
       minBatteryCharging: item.minBatteryCharging,
       minBatteryMobile: item.minBatteryMobile,
-      temporarilyBlockedEndTime: item.temporarilyBlockedEndTime
+      temporarilyBlockedEndTime: item.temporarilyBlockedEndTime,
+      sort: item.sort
     }))
 
     result.categoryBase = dataForSyncing.map((item): ServerUpdatedCategoryBaseData => ({
@@ -374,7 +376,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       timeWarnings: item.timeWarningFlags,
       mblMobile: item.minBatteryMobile,
       mblCharging: item.minBatteryCharging,
-      tempBlockTime: item.temporarilyBlockedEndTime
+      tempBlockTime: item.temporarilyBlockedEndTime,
+      sort: item.sort
     }))
   }
 

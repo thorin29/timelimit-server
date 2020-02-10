@@ -839,6 +839,28 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateCategorySortingAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_CATEGORY_SORTING"
+        ]
+      },
+      "categoryIds": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryIds",
+      "type"
+    ]
+  },
   "SerializedUpdateCategoryTemporarilyBlockedAction": {
     "type": "object",
     "properties": {
@@ -1698,6 +1720,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryBlockedTimesAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateCategorySortingAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryTemporarilyBlockedAction"

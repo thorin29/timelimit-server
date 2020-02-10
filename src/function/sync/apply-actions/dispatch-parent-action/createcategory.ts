@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,6 +37,17 @@ export async function dispatchCreateCategory ({ action, cache }: {
     throw new Error('missing child for new category')
   }
 
+  const oldMaxSort: number = await cache.database.category.max('sort', {
+    transaction: cache.transaction,
+    where: {
+      familyId: cache.familyId,
+      childId: action.childId
+    }
+  })
+
+  // if there are no categories, then this is not a number
+  const sort = Number.isSafeInteger(oldMaxSort + 1) ? (oldMaxSort + 1) : 0
+
   // no version number needs to be updated
   await cache.database.category.create({
     familyId: cache.familyId,
@@ -53,7 +64,8 @@ export async function dispatchCreateCategory ({ action, cache }: {
     usedTimesVersion: generateVersionId(),
     parentCategoryId: '',
     blockAllNotifications: false,
-    timeWarningFlags: 0
+    timeWarningFlags: 0,
+    sort
   }, { transaction: cache.transaction })
 
   // update the cache
