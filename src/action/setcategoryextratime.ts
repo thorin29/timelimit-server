@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,8 +21,9 @@ import { ParentAction } from './basetypes'
 export class SetCategoryExtraTimeAction extends ParentAction {
   readonly categoryId: string
   readonly newExtraTime: number
+  readonly day: number
 
-  constructor ({ categoryId, newExtraTime }: {categoryId: string, newExtraTime: number}) {
+  constructor ({ categoryId, newExtraTime, day }: {categoryId: string, newExtraTime: number, day: number}) {
     super()
 
     assertIdWithinFamily(categoryId)
@@ -31,18 +32,24 @@ export class SetCategoryExtraTimeAction extends ParentAction {
       throw Error('newExtraTime must be >= 0')
     }
 
+    if (day < -1 || (!Number.isSafeInteger(day))) {
+      throw Error('day must be valid')
+    }
+
     this.categoryId = categoryId
     this.newExtraTime = newExtraTime
+    this.day = day
   }
 
   serialize = (): SerializedSetCategoryExtraTimeAction => ({
     type: 'SET_CATEGORY_EXTRA_TIME',
     categoryId: this.categoryId,
-    newExtraTime: this.newExtraTime
+    newExtraTime: this.newExtraTime,
+    day: this.day
   })
 
-  static parse = ({ categoryId, newExtraTime }: SerializedSetCategoryExtraTimeAction) => (
-    new SetCategoryExtraTimeAction({ categoryId, newExtraTime })
+  static parse = ({ categoryId, newExtraTime, day }: SerializedSetCategoryExtraTimeAction) => (
+    new SetCategoryExtraTimeAction({ categoryId, newExtraTime, day: day ?? -1 })
   )
 }
 
@@ -50,4 +57,5 @@ export interface SerializedSetCategoryExtraTimeAction {
   type: 'SET_CATEGORY_EXTRA_TIME'
   categoryId: string
   newExtraTime: number
+  day?: number
 }

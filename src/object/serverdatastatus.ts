@@ -99,6 +99,7 @@ export interface ServerUpdatedCategoryBaseData {
   title: string
   blockedTimes: string  // blockedMinutesInWeek
   extraTime: number
+  extraTimeDay: number
   tempBlocked: boolean
   tempBlockTime: number
   version: string

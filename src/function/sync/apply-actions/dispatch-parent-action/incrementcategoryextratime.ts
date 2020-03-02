@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Sequelize from 'sequelize'
 import { IncrementCategoryExtraTimeAction } from '../../../../action'
+import { CategoryModel } from '../../../../database/category'
 import { Cache } from '../cache'
 
 export async function dispatchIncrementCategoryExtraTime ({ action, cache }: {
@@ -27,30 +27,22 @@ export async function dispatchIncrementCategoryExtraTime ({ action, cache }: {
     throw new Error('action requires full version')
   }
 
-  const categoryEntryUnsafe = await cache.database.category.findOne({
-    where: {
-      familyId: cache.familyId,
-      categoryId: action.categoryId
-    },
-    transaction: cache.transaction,
-    attributes: [
-      'childId',
-      'parentCategoryId'
-    ]
-  })
+  async function handleCategory (category: CategoryModel) {
+    if (action.day === category.extraTimeDay || category.extraTimeDay === -1) {
+      category.extraTimeInMillis += action.addedExtraTime
+    } else {
+      category.extraTimeInMillis = action.addedExtraTime
+    }
 
-  if (!categoryEntryUnsafe) {
-    throw new Error(`tried to add extra time to ${action.categoryId} but it does not exist`)
+    category.extraTimeDay = action.day
+
+    await category.save({ transaction: cache.transaction })
+
+    cache.categoriesWithModifiedBaseData.push(category.categoryId)
+    cache.areChangesImportant = true
   }
 
-  const categoryEntry = {
-    childId: categoryEntryUnsafe.childId,
-    parentCategoryId: categoryEntryUnsafe.parentCategoryId
-  }
-
-  await cache.database.category.update({
-    extraTimeInMillis: Sequelize.literal(`extraTimeInMillis + ${action.addedExtraTime}`) as any
-  }, {
+  const categoryEntry = await cache.database.category.findOne({
     where: {
       familyId: cache.familyId,
       categoryId: action.categoryId
@@ -58,23 +50,23 @@ export async function dispatchIncrementCategoryExtraTime ({ action, cache }: {
     transaction: cache.transaction
   })
 
-  cache.categoriesWithModifiedBaseData.push(action.categoryId)
-  cache.areChangesImportant = true
+  if (!categoryEntry) {
+    throw new Error(`tried to add extra time to ${action.categoryId} but it does not exist`)
+  }
+
+  await handleCategory(categoryEntry)
 
   if (categoryEntry.parentCategoryId !== '') {
-    const [affectedRows] = await cache.database.category.update({
-      extraTimeInMillis: Sequelize.literal(`extraTimeInMillis + ${action.addedExtraTime}`) as any
-    }, {
+    const parentCategoryEntry = await cache.database.category.findOne({
       where: {
         familyId: cache.familyId,
-        categoryId: categoryEntry.parentCategoryId,
-        childId: categoryEntry.childId
+        categoryId: categoryEntry.parentCategoryId
       },
       transaction: cache.transaction
     })
 
-    if (affectedRows !== 0) {
-      cache.categoriesWithModifiedBaseData.push(categoryEntry.parentCategoryId)
+    if (parentCategoryEntry) {
+      await handleCategory(parentCategoryEntry)
     }
   }
 }

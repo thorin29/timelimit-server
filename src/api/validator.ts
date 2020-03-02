@@ -370,6 +370,9 @@ const definitions = {
       },
       "addedExtraTime": {
         "type": "number"
+      },
+      "day": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -482,6 +485,9 @@ const definitions = {
         "type": "string"
       },
       "newExtraTime": {
+        "type": "number"
+      },
+      "day": {
         "type": "number"
       }
     },

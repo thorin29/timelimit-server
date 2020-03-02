@@ -58,6 +58,7 @@ export async function dispatchCreateCategory ({ action, cache }: {
     temporarilyBlocked: false,
     temporarilyBlockedEndTime: 0,
     extraTimeInMillis: 0,
+    extraTimeDay: -1,
     timeLimitRulesVersion: generateVersionId(),
     baseVersion: generateVersionId(),
     assignedAppsVersion: generateVersionId(),
