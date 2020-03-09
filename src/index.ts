@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { Server } from 'http'
 import { createApi } from './api'
+import { config } from './config'
 import { VisibleConnectedDevicesManager } from './connected-devices'
 import { defaultDatabase, defaultUmzug } from './database'
 import { EventHandler } from './monitoring/eventhandler'
@@ -53,7 +54,8 @@ async function main () {
   const server = new Server(api)
 
   websocketServer.attach(server, {
-    serveClient: false
+    serveClient: false,
+    pingInterval: config.pingInterval
   })
 
   server.listen(process.env.PORT || 8080)

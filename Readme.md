@@ -68,6 +68,8 @@ This fixes the causes of lint warnings (where possible).
 - DISABLE_SIGNUP
   - ``yes`` or ``no`` (default: no)
   - disables creating new families if ``yes`` is selected
+- PING_INTERVAL_SEC
+  - ping interval at the websocket in seconds
 
 ## HTTPS
 
