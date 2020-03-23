@@ -38,10 +38,10 @@
     "@types/tokgen": "^1.0.0",
     "@types/umzug": "^2.2.3",
     "nodemon": "^1.19.4",
-    "tslint": "^5.20.1",
+    "tslint": "^6.1.0",
     "tslint-config-standard": "^9.0.0",
     "typescript": "^3.8.3",
-    "typescript-json-schema": "^0.40.0"
+    "typescript-json-schema": "^0.42.0"
   },
   "dependencies": {
     "ajv": "^6.12.0",
