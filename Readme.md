@@ -13,6 +13,8 @@ connected to different devices and the rate limiting is per instance.
 Option 1: Build (run ``sudo docker build -t timelimit-server .`` in this directory) and use a docker image  
 Option 2: Install Node.JS (see below for detailed usage)
 
+To test it, open ``http://server/time``, it should show a timestamp
+
 ## Commands
 
 ### npm start
