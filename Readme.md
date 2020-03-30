@@ -128,3 +128,31 @@ be found at <https://codeberg.org/timelimit/timelimit-android/src/commit/3da6778
 
 Additionally, there is the admin API which allows one to unlock the
 premium features.
+
+## example docker-compose.yml
+
+(don't forget to build the docker image first)
+
+```
+version: '2'
+services:
+  api:
+    image: 'timelimit-server:latest'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://user:pass@example.com:5432/dbname
+      PORT: 8080
+      # put additional config variables here
+    restart: always
+    # you should enable logging during testing
+    logging:
+      driver: none
+    # easy solution to use a database which does not run within docker
+    network_mode: "host"
+    # otherwise:
+    # redirect host port 9000 to guest port 8080 (to allow access to the API)
+    # ports:
+    #  - "9000:8080"
+    # in case the database runs outside of docker and you don't want to use the host network mode, see
+    # https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248
+```
