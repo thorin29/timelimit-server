@@ -131,7 +131,47 @@ be found at <https://codeberg.org/timelimit/timelimit-android/src/commit/3da6778
 Additionally, there is the admin API which allows one to unlock the
 premium features.
 
-## example docker-compose.yml
+## example docker-compose.yml with included database
+
+(don't forget to build the docker image first)
+
+```
+version: '3'
+services:
+  api:
+    image: 'timelimit-server:latest'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: mariadb://timelimit:timelimitpassword@database:3306/timelimit
+      PORT: 8080
+      # put additional config variables here
+    ports:
+     - "8080:8080"
+    restart: always
+    # you should enable logging/ comment this out during testing
+    #logging:
+    #  driver: none
+    links:
+    - database
+  database:
+    image: 'mariadb:10'
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: timelimit
+      MYSQL_USER: timelimit
+      MYSQL_PASSWORD: timelimitpassword
+    volumes:
+     - ./database:/var/lib/mysql
+```
+
+The database files will be saved at the folder which contains the docker-compose.yml.
+You should change the passwords.
+
+Docker starts both (TimeLimit and the database) at the same time,
+so the TimeLimit server will crash a few times due to the missing database
+before it starts working.
+
+## example docker-compose.yml with external databases
 
 (don't forget to build the docker image first)
 
