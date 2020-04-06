@@ -50,9 +50,15 @@ This fixes the causes of lint warnings (where possible).
 - MAIL_SENDER
   - sender (for the from-field) for sent mails
 - MAIL_TRANSPORT
-  - a JSON encoded configuration for nodemailer (object with service and auth)
-  - see <https://nodemailer.com/smtp/well-known/> for examples
+  - a JSON encoded configuration for nodemailer
+  - supports setting a smtp server configuration, see <https://nodemailer.com/smtp/>
+  - allows easier configuration in case of a [well known services](https://nodemailer.com/smtp/well-known/)
   - default value is ``null``
+  - examples
+    - ``{"host": "localhost", "port": 25}`` (using a local mail server which does not require any authentication)
+    - ``{"service": "1und1", "auth": {"user": "me@my.timelimit.server", "pass": "my password"}}`` (using a well known service)
+    - ``{"host": "my.mail.server", "secure": true, "auth": {"user": "me@my.timelimit.server", "pass": "my password"}}`` (using a external smtp server)
+  - in case of a docker-compose file, you should escape this, e.g. sourround it with ``'`` single quotes
 - MAIL_IMPRINT
   - a string which is added to the footer of the sent mails
   - default value: ``not defined``
@@ -144,13 +150,16 @@ services:
       NODE_ENV: production
       DATABASE_URL: mariadb://timelimit:timelimitpassword@database:3306/timelimit
       PORT: 8080
+      MAIL_SENDER: me@my.timelimit.server
+      MAIL_TRANSPORT: '{"host": "localhost", "port": 25}'
       # put additional config variables here
     ports:
      - "8080:8080"
     restart: always
-    # you should enable logging/ comment this out during testing
-    #logging:
-    #  driver: none
+    # you can enable logging during testing by commenting this out,
+    # but logging is not needed when everything works
+    logging:
+      driver: none
     links:
     - database
   database:
@@ -162,6 +171,10 @@ services:
       MYSQL_PASSWORD: timelimitpassword
     volumes:
      - ./database:/var/lib/mysql
+    # you can enable logging during testing by commenting this out,
+    # but logging is not needed when everything works
+    logging:
+      driver: none
 ```
 
 The database files will be saved at the folder which contains the docker-compose.yml.
@@ -184,9 +197,12 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgres://user:pass@example.com:5432/dbname
       PORT: 8080
+      MAIL_SENDER: me@my.timelimit.server
+      MAIL_TRANSPORT: '{"host": "localhost", "port": 25}'
       # put additional config variables here
     restart: always
-    # you should enable logging during testing
+    # you can enable logging during testing by commenting this out,
+    # but logging is not needed when everything works
     logging:
       driver: none
     # easy solution to use a database which does not run within docker
