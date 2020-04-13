@@ -41,12 +41,13 @@ This fixes the causes of lint warnings (where possible).
         - this only works for upgrading; if you intend to eventually downgrade, make a backup first (you should make backups in all cases before an upgrade)
 - PORT
   - the port at which the server should listen
+  - default value: 8080
 - NODE_ENV
   - should be set to ``production`` in production
   - when using ``development``, then mails are not sent; instead they are written to a html file which is opened
 - GOOGLE_PLAY_PUBLIC_KEY
   - key for validating purchases
-  - purchases using google play don't work without it
+  - purchases using google play don't work without it/ when it is not set
 - MAIL_SENDER
   - sender (for the from-field) for sent mails
 - MAIL_TRANSPORT
@@ -68,16 +69,19 @@ This fixes the causes of lint warnings (where possible).
 - MAIL_SERVER_BLACKLIST
   - list of domains, separated by comma
   - if the user tries to use such a mail service, then he will get the notification that this provider is not supported
+  - the blacklist is empty if this is not set
 - MAIL_WHITELIST
   - list of mail addresses (``someone@somewhere.com``) or domains (``mailbox.org``), separated by comma
   - if a user requests signing in with a mail address which is not in this list, then the request is rejected
-  - if the list is empty, then any mail address (except with domains from the blacklist) is allowed
+  - if the list is empty/ the variable is not set, then any mail address (except with domains from the blacklist) is allowed
   - note: this allows a third party who knows the server url to check if a certain mail address is allowed by trying to sign in with it
 - DISABLE_SIGNUP
   - ``yes`` or ``no`` (default: no)
   - disables creating new families if ``yes`` is selected
+  - the default value is ``no``
 - PING_INTERVAL_SEC
   - ping interval at the websocket in seconds
+  - the default value is ``25``
 
 ## HTTPS
 
