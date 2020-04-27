@@ -1,0 +1,192 @@
+# README
+
+## Top-level Schemas
+
+-   [CanDoPurchaseRequest](./candopurchaserequest.md) – `https://timelimit.io/CanDoPurchaseRequest`
+-   [CanRecoverPasswordRequest](./canrecoverpasswordrequest.md) – `https://timelimit.io/CanRecoverPasswordRequest`
+-   [ClientPullChangesRequest](./clientpullchangesrequest.md) – `https://timelimit.io/ClientPullChangesRequest`
+-   [ClientPushChangesRequest](./clientpushchangesrequest.md) – `https://timelimit.io/ClientPushChangesRequest`
+-   [CreateFamilyByMailTokenRequest](./createfamilybymailtokenrequest.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest`
+-   [CreateRegisterDeviceTokenRequest](./createregisterdevicetokenrequest.md) – `https://timelimit.io/CreateRegisterDeviceTokenRequest`
+-   [FinishPurchaseByGooglePlayRequest](./finishpurchasebygoogleplayrequest.md) – `https://timelimit.io/FinishPurchaseByGooglePlayRequest`
+-   [LinkParentMailAddressRequest](./linkparentmailaddressrequest.md) – `https://timelimit.io/LinkParentMailAddressRequest`
+-   [MailAuthTokenRequestBody](./mailauthtokenrequestbody.md) – `https://timelimit.io/MailAuthTokenRequestBody`
+-   [RecoverParentPasswordRequest](./recoverparentpasswordrequest.md) – `https://timelimit.io/RecoverParentPasswordRequest`
+-   [RegisterChildDeviceRequest](./registerchilddevicerequest.md) – `https://timelimit.io/RegisterChildDeviceRequest`
+-   [RemoveDeviceRequest](./removedevicerequest.md) – `https://timelimit.io/RemoveDeviceRequest`
+-   [RequestWithAuthToken](./requestwithauthtoken.md) – `https://timelimit.io/RequestWithAuthToken`
+-   [SendMailLoginCodeRequest](./sendmaillogincoderequest.md) – `https://timelimit.io/SendMailLoginCodeRequest`
+-   [SerializedAppLogicAction](./serializedapplogicaction.md) – `https://timelimit.io/SerializedAppLogicAction`
+-   [SerializedChildAction](./serializedchildaction.md) – `https://timelimit.io/SerializedChildAction`
+-   [SerializedParentAction](./serializedparentaction.md) – `https://timelimit.io/SerializedParentAction`
+-   [SignInByMailCodeRequest](./signinbymailcoderequest.md) – `https://timelimit.io/SignInByMailCodeRequest`
+-   [SignIntoFamilyRequest](./signintofamilyrequest.md) – `https://timelimit.io/SignIntoFamilyRequest`
+-   [UpdatePrimaryDeviceRequest](./updateprimarydevicerequest.md) – `https://timelimit.io/UpdatePrimaryDeviceRequest`
+
+## Other Schemas
+
+### Objects
+
+-   [CategoryDataStatus](./clientpullchangesrequest-definitions-clientdatastatus-properties-categories-categorydatastatus.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories/additionalProperties`
+-   [CategoryDataStatus](./clientpullchangesrequest-definitions-clientdatastatus-properties-categories-categorydatastatus.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories/additionalProperties`
+-   [CategoryDataStatus](./clientpullchangesrequest-definitions-categorydatastatus.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus`
+-   [ClientDataStatus](./clientpullchangesrequest-properties-clientdatastatus.md) – `https://timelimit.io/ClientPullChangesRequest#/properties/status`
+-   [ClientDataStatus](./clientpullchangesrequest-definitions-clientdatastatus.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus`
+-   [NewDeviceInfo](./registerchilddevicerequest-definitions-newdeviceinfo.md) – `https://timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo`
+-   [NewDeviceInfo](./registerchilddevicerequest-properties-newdeviceinfo.md) – `https://timelimit.io/RegisterChildDeviceRequest#/properties/childDevice`
+-   [NewDeviceInfo](./signintofamilyrequest-definitions-newdeviceinfo.md) – `https://timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo`
+-   [NewDeviceInfo](./signintofamilyrequest-properties-newdeviceinfo.md) – `https://timelimit.io/SignIntoFamilyRequest#/properties/parentDevice`
+-   [NewDeviceInfo](./createfamilybymailtokenrequest-definitions-newdeviceinfo.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/NewDeviceInfo`
+-   [NewDeviceInfo](./createfamilybymailtokenrequest-properties-newdeviceinfo.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentDevice`
+-   [ParentPassword](./serializedchildaction-definitions-serializedchildchangepasswordaction-properties-parentpassword.md) – `https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password`
+-   [ParentPassword](./createfamilybymailtokenrequest-properties-parentpassword.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentPassword`
+-   [ParentPassword](./recoverparentpasswordrequest-properties-parentpassword.md) – `https://timelimit.io/RecoverParentPasswordRequest#/properties/password`
+-   [ParentPassword](./recoverparentpasswordrequest-definitions-parentpassword.md) – `https://timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword`
+-   [ParentPassword](./serializedparentaction-definitions-serializedsetchildpasswordaction-properties-parentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/newPassword`
+-   [ParentPassword](./serializedparentaction-definitions-serializedadduseraction-properties-parentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password`
+-   [ParentPassword](./createfamilybymailtokenrequest-definitions-parentpassword.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword`
+-   [ParentPassword](./serializedparentaction-definitions-parentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/ParentPassword`
+-   [ParentPassword](./serializedparentaction-definitions-serializedsetchildpasswordaction-properties-parentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/newPassword`
+-   [ParentPassword](./serializedparentaction-definitions-serializedadduseraction-properties-parentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password`
+-   [ParentPassword](./serializedchildaction-definitions-parentpassword.md) – `https://timelimit.io/SerializedChildAction#/definitions/ParentPassword`
+-   [ParentPassword](./serializedchildaction-definitions-serializedchildchangepasswordaction-properties-parentpassword.md) – `https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password`
+-   [SerialiezdTriedDisablingDeviceAdminAction](./serializedapplogicaction-anyof-serialiezdtrieddisablingdeviceadminaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/5`
+-   [SerialiezdTriedDisablingDeviceAdminAction](./serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerialiezdTriedDisablingDeviceAdminAction`
+-   [SerialiizedUpdateNetworkTimeVerificationAction](./serializedparentaction-definitions-serialiizedupdatenetworktimeverificationaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerialiizedUpdateNetworkTimeVerificationAction`
+-   [SerialiizedUpdateNetworkTimeVerificationAction](./serializedparentaction-anyof-serialiizedupdatenetworktimeverificationaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/35`
+-   [SerializedAddCategoryAppsAction](./serializedparentaction-anyof-serializedaddcategoryappsaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/0`
+-   [SerializedAddCategoryAppsAction](./serializedparentaction-definitions-serializedaddcategoryappsaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction`
+-   [SerializedAddInstalledAppsAction](./serializedapplogicaction-definitions-serializedaddinstalledappsaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction`
+-   [SerializedAddInstalledAppsAction](./serializedapplogicaction-anyof-serializedaddinstalledappsaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/0`
+-   [SerializedAddUsedTimeAction](./serializedapplogicaction-definitions-serializedaddusedtimeaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction`
+-   [SerializedAddUsedTimeAction](./serializedapplogicaction-anyof-serializedaddusedtimeaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/1`
+-   [SerializedAddUsedTimeActionVersion2](./serializedapplogicaction-anyof-serializedaddusedtimeactionversion2.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/2`
+-   [SerializedAddUsedTimeActionVersion2](./serializedapplogicaction-definitions-serializedaddusedtimeactionversion2.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2`
+-   [SerializedAddUserAction](./serializedparentaction-definitions-serializedadduseraction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction`
+-   [SerializedAddUserAction](./serializedparentaction-anyof-serializedadduseraction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/1`
+-   [SerializedAppActivityItem](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-updatedoradded-serializedappactivityitem.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/updatedOrAdded/items`
+-   [SerializedAppActivityItem](./serializedapplogicaction-definitions-serializedappactivityitem.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem`
+-   [SerializedAppActivityItem](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-updatedoradded-serializedappactivityitem.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/updatedOrAdded/items`
+-   [SerializedChangeParentPasswordAction](./serializedparentaction-anyof-serializedchangeparentpasswordaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/2`
+-   [SerializedChangeParentPasswordAction](./serializedparentaction-definitions-serializedchangeparentpasswordaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedChangeParentPasswordAction`
+-   [SerializedChildChangePasswordAction](./serializedchildaction-anyof-serializedchildchangepasswordaction.md) – `https://timelimit.io/SerializedChildAction#/anyOf/0`
+-   [SerializedChildChangePasswordAction](./serializedchildaction-definitions-serializedchildchangepasswordaction.md) – `https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction`
+-   [SerializedChildSignInAction](./serializedchildaction-anyof-serializedchildsigninaction.md) – `https://timelimit.io/SerializedChildAction#/anyOf/1`
+-   [SerializedChildSignInAction](./serializedchildaction-definitions-serializedchildsigninaction.md) – `https://timelimit.io/SerializedChildAction#/definitions/SerializedChildSignInAction`
+-   [SerializedCreateCategoryAction](./serializedparentaction-definitions-serializedcreatecategoryaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedCreateCategoryAction`
+-   [SerializedCreateCategoryAction](./serializedparentaction-anyof-serializedcreatecategoryaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/3`
+-   [SerializedCreateTimelimtRuleAction](./serializedparentaction-anyof-serializedcreatetimelimtruleaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/4`
+-   [SerializedCreateTimelimtRuleAction](./serializedparentaction-definitions-serializedcreatetimelimtruleaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedCreateTimelimtRuleAction`
+-   [SerializedDeleteCategoryAction](./serializedparentaction-anyof-serializeddeletecategoryaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/5`
+-   [SerializedDeleteCategoryAction](./serializedparentaction-definitions-serializeddeletecategoryaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteCategoryAction`
+-   [SerializedDeleteTimeLimitRuleAction](./serializedparentaction-anyof-serializeddeletetimelimitruleaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/6`
+-   [SerializedDeleteTimeLimitRuleAction](./serializedparentaction-definitions-serializeddeletetimelimitruleaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteTimeLimitRuleAction`
+-   [SerializedIgnoreManipulationAction](./serializedparentaction-anyof-serializedignoremanipulationaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/7`
+-   [SerializedIgnoreManipulationAction](./serializedparentaction-definitions-serializedignoremanipulationaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction`
+-   [SerializedIncrementCategoryExtraTimeAction](./serializedparentaction-definitions-serializedincrementcategoryextratimeaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedIncrementCategoryExtraTimeAction`
+-   [SerializedIncrementCategoryExtraTimeAction](./serializedparentaction-anyof-serializedincrementcategoryextratimeaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/8`
+-   [SerializedInstalledApp](./serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps-serializedinstalledapp.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps/items`
+-   [SerializedInstalledApp](./serializedapplogicaction-definitions-serializedinstalledapp.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp`
+-   [SerializedInstalledApp](./serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps-serializedinstalledapp.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps/items`
+-   [SerializedRemoveCategoryAppsAction](./serializedparentaction-definitions-serializedremovecategoryappsaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRemoveCategoryAppsAction`
+-   [SerializedRemoveCategoryAppsAction](./serializedparentaction-anyof-serializedremovecategoryappsaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/9`
+-   [SerializedRemoveInstalledAppsAction](./serializedapplogicaction-definitions-serializedremoveinstalledappsaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction`
+-   [SerializedRemoveInstalledAppsAction](./serializedapplogicaction-anyof-serializedremoveinstalledappsaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/3`
+-   [SerializedRemoveUserAction](./serializedparentaction-definitions-serializedremoveuseraction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRemoveUserAction`
+-   [SerializedRemoveUserAction](./serializedparentaction-anyof-serializedremoveuseraction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/10`
+-   [SerializedRenameChildAction](./serializedparentaction-definitions-serializedrenamechildaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction`
+-   [SerializedRenameChildAction](./serializedparentaction-anyof-serializedrenamechildaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/11`
+-   [SerializedResetParentBlockedTimesAction](./serializedparentaction-definitions-serializedresetparentblockedtimesaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedResetParentBlockedTimesAction`
+-   [SerializedResetParentBlockedTimesAction](./serializedparentaction-anyof-serializedresetparentblockedtimesaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/12`
+-   [SerializedSetCategoryExtraTimeAction](./serializedparentaction-definitions-serializedsetcategoryextratimeaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryExtraTimeAction`
+-   [SerializedSetCategoryExtraTimeAction](./serializedparentaction-anyof-serializedsetcategoryextratimeaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/13`
+-   [SerializedSetCategoryForUnassignedAppsAction](./serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction`
+-   [SerializedSetCategoryForUnassignedAppsAction](./serializedparentaction-anyof-serializedsetcategoryforunassignedappsaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/14`
+-   [SerializedSetChildPasswordAction](./serializedparentaction-anyof-serializedsetchildpasswordaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/15`
+-   [SerializedSetChildPasswordAction](./serializedparentaction-definitions-serializedsetchildpasswordaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction`
+-   [SerializedSetConsiderRebootManipulationAction](./serializedparentaction-anyof-serializedsetconsiderrebootmanipulationaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/16`
+-   [SerializedSetConsiderRebootManipulationAction](./serializedparentaction-definitions-serializedsetconsiderrebootmanipulationaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetConsiderRebootManipulationAction`
+-   [SerializedSetDeviceDefaultUserAction](./serializedparentaction-definitions-serializedsetdevicedefaultuseraction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceDefaultUserAction`
+-   [SerializedSetDeviceDefaultUserAction](./serializedparentaction-anyof-serializedsetdevicedefaultuseraction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/17`
+-   [SerializedSetDeviceDefaultUserTimeoutAction](./serializedparentaction-anyof-serializedsetdevicedefaultusertimeoutaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/18`
+-   [SerializedSetDeviceDefaultUserTimeoutAction](./serializedparentaction-definitions-serializedsetdevicedefaultusertimeoutaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceDefaultUserTimeoutAction`
+-   [SerializedSetDeviceUserAction](./serializedparentaction-definitions-serializedsetdeviceuseraction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUserAction`
+-   [SerializedSetDeviceUserAction](./serializedparentaction-anyof-serializedsetdeviceuseraction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/19`
+-   [SerializedSetKeepSignedInAction](./serializedparentaction-anyof-serializedsetkeepsignedinaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/20`
+-   [SerializedSetKeepSignedInAction](./serializedparentaction-definitions-serializedsetkeepsignedinaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetKeepSignedInAction`
+-   [SerializedSetParentCategoryAction](./serializedparentaction-definitions-serializedsetparentcategoryaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetParentCategoryAction`
+-   [SerializedSetParentCategoryAction](./serializedparentaction-anyof-serializedsetparentcategoryaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/21`
+-   [SerializedSetRelaxPrimaryDeviceAction](./serializedparentaction-anyof-serializedsetrelaxprimarydeviceaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/22`
+-   [SerializedSetRelaxPrimaryDeviceAction](./serializedparentaction-definitions-serializedsetrelaxprimarydeviceaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetRelaxPrimaryDeviceAction`
+-   [SerializedSetSendDeviceConnected](./serializedparentaction-anyof-serializedsetsenddeviceconnected.md) – `https://timelimit.io/SerializedParentAction#/anyOf/23`
+-   [SerializedSetSendDeviceConnected](./serializedparentaction-definitions-serializedsetsenddeviceconnected.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetSendDeviceConnected`
+-   [SerializedSetUserDisableLimitsUntilAction](./serializedparentaction-definitions-serializedsetuserdisablelimitsuntilaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserDisableLimitsUntilAction`
+-   [SerializedSetUserDisableLimitsUntilAction](./serializedparentaction-anyof-serializedsetuserdisablelimitsuntilaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/24`
+-   [SerializedSetUserTimezoneAction](./serializedparentaction-anyof-serializedsetusertimezoneaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/25`
+-   [SerializedSetUserTimezoneAction](./serializedparentaction-definitions-serializedsetusertimezoneaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction`
+-   [SerializedSignOutAtDeviceAction](./serializedapplogicaction-anyof-serializedsignoutatdeviceaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/4`
+-   [SerializedSignOutAtDeviceAction](./serializedapplogicaction-definitions-serializedsignoutatdeviceaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSignOutAtDeviceAction`
+-   [SerializedTimeLimitRule](./serializedparentaction-definitions-serializedcreatetimelimtruleaction-properties-serializedtimelimitrule.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedCreateTimelimtRuleAction/properties/rule`
+-   [SerializedTimeLimitRule](./serializedparentaction-definitions-serializedtimelimitrule.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedTimeLimitRule`
+-   [SerializedTimeLimitRule](./serializedparentaction-definitions-serializedcreatetimelimtruleaction-properties-serializedtimelimitrule.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedCreateTimelimtRuleAction/properties/rule`
+-   [SerializedUpdateAppActivitiesAction](./serializedapplogicaction-anyof-serializedupdateappactivitiesaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/6`
+-   [SerializedUpdateAppActivitiesAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction`
+-   [SerializedUpdateCategoryBatteryLimitAction](./serializedparentaction-definitions-serializedupdatecategorybatterylimitaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction`
+-   [SerializedUpdateCategoryBatteryLimitAction](./serializedparentaction-anyof-serializedupdatecategorybatterylimitaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/26`
+-   [SerializedUpdateCategoryBlockAllNotificationsAction](./serializedparentaction-anyof-serializedupdatecategoryblockallnotificationsaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/27`
+-   [SerializedUpdateCategoryBlockAllNotificationsAction](./serializedparentaction-definitions-serializedupdatecategoryblockallnotificationsaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBlockAllNotificationsAction`
+-   [SerializedUpdateCategoryBlockedTimesAction](./serializedparentaction-anyof-serializedupdatecategoryblockedtimesaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/28`
+-   [SerializedUpdateCategoryBlockedTimesAction](./serializedparentaction-definitions-serializedupdatecategoryblockedtimesaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBlockedTimesAction`
+-   [SerializedUpdateCategorySortingAction](./serializedparentaction-definitions-serializedupdatecategorysortingaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction`
+-   [SerializedUpdateCategorySortingAction](./serializedparentaction-anyof-serializedupdatecategorysortingaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/29`
+-   [SerializedUpdateCategoryTemporarilyBlockedAction](./serializedparentaction-definitions-serializedupdatecategorytemporarilyblockedaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryTemporarilyBlockedAction`
+-   [SerializedUpdateCategoryTemporarilyBlockedAction](./serializedparentaction-anyof-serializedupdatecategorytemporarilyblockedaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/30`
+-   [SerializedUpdateCategoryTimeWarningsAction](./serializedparentaction-anyof-serializedupdatecategorytimewarningsaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/31`
+-   [SerializedUpdateCategoryTimeWarningsAction](./serializedparentaction-definitions-serializedupdatecategorytimewarningsaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryTimeWarningsAction`
+-   [SerializedUpdateCategoryTitleAction](./serializedparentaction-anyof-serializedupdatecategorytitleaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/32`
+-   [SerializedUpdateCategoryTitleAction](./serializedparentaction-definitions-serializedupdatecategorytitleaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryTitleAction`
+-   [SerializedUpdateDeviceNameAction](./serializedparentaction-definitions-serializedupdatedevicenameaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateDeviceNameAction`
+-   [SerializedUpdateDeviceNameAction](./serializedparentaction-anyof-serializedupdatedevicenameaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/33`
+-   [SerializedUpdateDeviceStatusAction](./serializedapplogicaction-anyof-serializedupdatedevicestatusaction.md) – `https://timelimit.io/SerializedAppLogicAction#/anyOf/7`
+-   [SerializedUpdateDeviceStatusAction](./serializedapplogicaction-definitions-serializedupdatedevicestatusaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction`
+-   [SerializedUpdateEnableActivityLevelBlockingAction](./serializedparentaction-anyof-serializedupdateenableactivitylevelblockingaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/34`
+-   [SerializedUpdateEnableActivityLevelBlockingAction](./serializedparentaction-definitions-serializedupdateenableactivitylevelblockingaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateEnableActivityLevelBlockingAction`
+-   [SerializedUpdateParentBlockedTimesAction](./serializedparentaction-definitions-serializedupdateparentblockedtimesaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateParentBlockedTimesAction`
+-   [SerializedUpdateParentBlockedTimesAction](./serializedparentaction-anyof-serializedupdateparentblockedtimesaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/36`
+-   [SerializedUpdateParentNotificationFlagsAction](./serializedparentaction-anyof-serializedupdateparentnotificationflagsaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/37`
+-   [SerializedUpdateParentNotificationFlagsAction](./serializedparentaction-definitions-serializedupdateparentnotificationflagsaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateParentNotificationFlagsAction`
+-   [SerializedUpdateTimelimitRuleAction](./serializedparentaction-anyof-serializedupdatetimelimitruleaction.md) – `https://timelimit.io/SerializedParentAction#/anyOf/38`
+-   [SerializedUpdateTimelimitRuleAction](./serializedparentaction-definitions-serializedupdatetimelimitruleaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction`
+-   [Untitled object in ClientPullChangesRequest](./clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps`
+-   [Untitled object in ClientPullChangesRequest](./clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps`
+-   [Untitled object in ClientPullChangesRequest](./clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories`
+-   [Untitled object in ClientPullChangesRequest](./clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories`
+-   [Untitled object in ClientPushChangesRequest](./clientpushchangesrequest-properties-actions-items.md) – `https://timelimit.io/ClientPushChangesRequest#/properties/actions/items`
+-   [Untitled object in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i/items`
+-   [Untitled object in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i/items`
+
+### Arrays
+
+-   [Untitled array in ClientPushChangesRequest](./clientpushchangesrequest-properties-actions.md) – `https://timelimit.io/ClientPushChangesRequest#/properties/actions`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedremoveinstalledappsaction-properties-packagenames.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction/properties/packageNames`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedremoveinstalledappsaction-properties-packagenames.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction/properties/packageNames`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed/items`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-updatedoradded.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/updatedOrAdded`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed/items`
+-   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-updatedoradded.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/updatedOrAdded`
+-   [Untitled array in SerializedParentAction](./serializedparentaction-definitions-serializedaddcategoryappsaction-properties-packagenames.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/packageNames`
+-   [Untitled array in SerializedParentAction](./serializedparentaction-definitions-serializedremovecategoryappsaction-properties-packagenames.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRemoveCategoryAppsAction/properties/packageNames`
+-   [Untitled array in SerializedParentAction](./serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-categoryids.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/categoryIds`
+-   [Untitled array in SerializedParentAction](./serializedparentaction-definitions-serializedaddcategoryappsaction-properties-packagenames.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/packageNames`
+-   [Untitled array in SerializedParentAction](./serializedparentaction-definitions-serializedremovecategoryappsaction-properties-packagenames.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRemoveCategoryAppsAction/properties/packageNames`
+-   [Untitled array in SerializedParentAction](./serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-categoryids.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/categoryIds`
+
+## Version Note
+
+The schemas linked above follow the JSON Schema Spec version: `http://json-schema.org/draft-07/schema#`

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -108,6 +108,92 @@ types.forEach((type) => {
   const functionName = 'is' + type.substr(0, 1).toUpperCase() + type.substr(1)
 
   output += 'export const ' + functionName + ': (value: object) => value is ' + type + ' = ' + functionBody + '\n'
+
+  const schemaToSave = {
+    ...addDefinitionTitles(removeUnusedDefinitions(schema)),
+    title: type,
+    $id: 'https://timelimit.io/' + type
+  }
+
+  writeFileSync(
+    resolve(__dirname, '../docs/schema/' + type + '.schema.json'),
+    JSON.stringify(schemaToSave, null, 2)
+  )
 })
 
 writeFileSync(resolve(__dirname, '../src/api/validator.ts'), output)
+
+function getUsedDefinitions(schema) {
+  const usedDefinitions = []
+
+  function addItem(item) {
+    if (usedDefinitions.indexOf(item) === -1) {
+      usedDefinitions.push(item)
+
+      const definition = schema.definitions[item]
+
+      handleUsedDefinitions(definition)
+    }
+  }
+
+  function handleUsedDefinitions(obj) {
+    if (typeof obj !== 'object') {
+      return
+    }
+
+    if (typeof obj.$ref === 'string') {
+      const value = obj.$ref
+
+      if (value.startsWith('#/definitions/')) {
+        addItem(value.substr('#/definitions/'.length))
+      }
+    }
+
+    each(obj, (value, name) => {
+      if (name !== 'definitions') {
+        handleUsedDefinitions(value)
+      }
+    })
+  }
+
+  handleUsedDefinitions(schema)
+
+  return usedDefinitions
+}
+
+function removeUnusedDefinitions(schema) {
+  if (!schema.definitions) {
+    return schema
+  }
+
+  const result = {
+    ...schema,
+    definitions: {}
+  }
+
+  getUsedDefinitions(schema).forEach((definition) => {
+    result.definitions[definition] = schema.definitions[definition]
+  })
+
+  return result
+}
+
+function addDefinitionTitles(schema) {
+  if (!schema.definitions) {
+    return schema
+  }
+
+  const result = {
+    ...schema,
+    definitions: {}
+  }
+
+  each(schema.definitions, (definition, title) => {
+    result.definitions[title] = {
+      ...definition,
+      title
+    }
+  })
+
+  return result
+}
