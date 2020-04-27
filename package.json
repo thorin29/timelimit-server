@@ -15,8 +15,7 @@
     "build:doc:json": "jsonschema2md -d docs/schema -o docs/schema -x -",
     "tool:find-old-families": "node build/cli/find-old-families.js",
     "tool:delete-old-families": "node build/cli/delete-old-families.js",
-    "tool:count-families": "node build/cli/count-families.js",
-    "watch": "nodemon ./build/index.js"
+    "tool:count-families": "node build/cli/count-families.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +39,6 @@
     "@types/socket.io": "^2.1.4",
     "@types/tokgen": "^1.0.0",
     "@types/umzug": "^2.2.3",
-    "nodemon": "^2.0.2",
     "tslint": "^6.1.0",
     "tslint-config-standard": "^9.0.0",
     "typescript": "^3.8.3",
