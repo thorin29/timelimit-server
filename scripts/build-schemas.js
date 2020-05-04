@@ -45,6 +45,15 @@ const types = [
   'SignInByMailCodeRequest'
 ]
 
+const docOnlyTypes = [
+  'ServerDataStatus'
+]
+
+const allTypes = [
+  ...types,
+  ...docOnlyTypes
+]
+
 const settings = {
   required: true,
   noExtraProps: true
@@ -66,7 +75,7 @@ let definitions = {}
 let schemas = {}
 let output = ''
 
-types.forEach((type) => {
+allTypes.forEach((type) => {
   const schema = generator.getSchemaForSymbol(type)
 
   schemas[type] = schema
@@ -108,6 +117,10 @@ types.forEach((type) => {
   const functionName = 'is' + type.substr(0, 1).toUpperCase() + type.substr(1)
 
   output += 'export const ' + functionName + ': (value: object) => value is ' + type + ' = ' + functionBody + '\n'
+})
+
+allTypes.forEach((type) => {
+  const schema = schemas[type]
 
   const schemaToSave = {
     ...addDefinitionTitles(removeUnusedDefinitions(schema)),
