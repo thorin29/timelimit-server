@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,7 +34,11 @@ export async function dispatchCreateTimeLimitRule ({ action, cache }: {
     categoryId: action.rule.categoryId,
     applyToExtraTimeUsage: action.rule.applyToExtraTimeUsage,
     maximumTimeInMillis: action.rule.maxTimeInMillis,
-    dayMaskAsBitmask: action.rule.dayMask
+    dayMaskAsBitmask: action.rule.dayMask,
+    startMinuteOfDay: action.rule.start,
+    endMinuteOfDay: action.rule.end,
+    sessionDurationMilliseconds: action.rule.sessionDurationMilliseconds,
+    sessionPauseMilliseconds: action.rule.sessionPauseMilliseconds
   }, { transaction: cache.transaction })
 
   cache.categoriesWithModifiedTimeLimitRules.push(action.rule.categoryId)

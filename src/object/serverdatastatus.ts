@@ -121,12 +121,44 @@ export interface ServerUpdatedCategoryAssignedApps {
 export interface ServerUpdatedCategoryUsedTimes {
   categoryId: string
   times: Array<ServerUsedTimeItem>
+  sessionDurations: Array<ServerSessionDurationItem>
   version: string
 }
 
 export interface ServerUsedTimeItem {
   day: number // day of epoch
   time: number  // in milliseconds
+  start: number
+  end: number
+}
+
+export interface ServerSessionDurationItem {
+  /**
+   * the maximum duration of a session (maxSessionDuration)
+   */
+  md: number
+  /**
+   * the pause duration after a session (sessionPauseDuration)
+   */
+  spd: number
+  /**
+   * the start minute of the day of the session/ the rule
+   * which created this session (startMinuteOfDay)
+   */
+  sm: number
+  /**
+   * the end minute of the day of the session/ the rule
+   * which created this session (endMinuteOfDay)
+   */
+  em: number
+  /**
+   * the timestamp of the last usage of this session (lastUsage)
+   */
+  l: number
+  /**
+   * the duration of the last/ current session (lastSessionDuration)
+   */
+  d: number
 }
 
 export interface ServerUpdatedTimeLimitRules {
@@ -140,6 +172,10 @@ export interface ServerTimeLimitRule {
   extraTime: boolean  // applyToExtraTimeUsage
   dayMask: number     // as binary bitmask
   maxTime: number     // maximumTimeInMillis
+  start: number       // startMinuteOfDay
+  end: number         // endMinuteOfDay
+  session: number     // maximum session duration
+  pause: number       // session pause duration
 }
 
 export interface ServerInstalledAppsData {

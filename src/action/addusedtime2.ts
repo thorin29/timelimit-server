@@ -16,6 +16,7 @@
  */
 
 import { uniq } from 'lodash'
+import { MinuteOfDay } from '../util/minuteofday'
 import { assertIdWithinFamily } from '../util/token'
 import { AppLogicAction } from './basetypes'
 
@@ -25,20 +26,30 @@ export class AddUsedTimeActionVersion2 extends AppLogicAction {
     readonly categoryId: string
     readonly timeToAdd: number
     readonly extraTimeToSubtract: number
+    readonly additionalCountingSlots: Array<AddUsedTimeActionItemAdditionalCountingSlot>
+    readonly sessionDurationLimits: Array<AddUsedTimeActionItemSessionDurationLimitSlot>
   }>
+  readonly trustedTimestamp: number
 
-  constructor ({ dayOfEpoch, items }: {
+  constructor ({ dayOfEpoch, items, trustedTimestamp }: {
     dayOfEpoch: number
     items: Array<{
       categoryId: string
       timeToAdd: number
       extraTimeToSubtract: number
+      additionalCountingSlots: Array<AddUsedTimeActionItemAdditionalCountingSlot>
+      sessionDurationLimits: Array<AddUsedTimeActionItemSessionDurationLimitSlot>
     }>
+    trustedTimestamp: number
   }) {
     super()
 
     if (dayOfEpoch < 0 || (!Number.isSafeInteger(dayOfEpoch))) {
       throw new Error('illegal dayOfEpoch')
+    }
+
+    if (trustedTimestamp < 0 || (!Number.isSafeInteger(trustedTimestamp))) {
+      throw new Error('illegal trustedTimestamp')
     }
 
     if (items.length === 0) {
@@ -59,10 +70,25 @@ export class AddUsedTimeActionVersion2 extends AppLogicAction {
       if (item.extraTimeToSubtract < 0 || (!Number.isSafeInteger(item.extraTimeToSubtract))) {
         throw new Error('illegal extra time to subtract')
       }
+
+      if (
+        uniq(item.additionalCountingSlots.map((item) => JSON.stringify(item.serialize()))).length !==
+        item.additionalCountingSlots.length
+      ) {
+        throw new Error()
+      }
+
+      if (
+        uniq(item.sessionDurationLimits.map((item) => JSON.stringify(item.serialize()))).length !==
+        item.sessionDurationLimits.length
+      ) {
+        throw new Error()
+      }
     })
 
     this.dayOfEpoch = dayOfEpoch
     this.items = items
+    this.trustedTimestamp = trustedTimestamp
   }
 
   serialize = (): SerializedAddUsedTimeActionVersion2 => ({
@@ -72,19 +98,82 @@ export class AddUsedTimeActionVersion2 extends AppLogicAction {
       categoryId: item.categoryId,
       tta: item.timeToAdd,
       etts: item.extraTimeToSubtract
-    }))
+    })),
+    t: this.trustedTimestamp
   })
 
-  static parse = ({ d, i }: SerializedAddUsedTimeActionVersion2) => (
+  static parse = ({ d, i, t }: SerializedAddUsedTimeActionVersion2) => (
     new AddUsedTimeActionVersion2({
       dayOfEpoch: d,
       items: i.map((item) => ({
         categoryId: item.categoryId,
         timeToAdd: item.tta,
-        extraTimeToSubtract: item.etts
-      }))
+        extraTimeToSubtract: item.etts,
+        sessionDurationLimits: (item.sdl ?? []).map((item) => AddUsedTimeActionItemSessionDurationLimitSlot.parse(item)),
+        additionalCountingSlots: (item.as ?? []).map((item) => AddUsedTimeActionItemAdditionalCountingSlot.parse(item))
+      })),
+      trustedTimestamp: t ?? 0
     })
   )
+}
+
+class AddUsedTimeActionItemAdditionalCountingSlot {
+  readonly start: number
+  readonly end: number
+
+  constructor ({ start, end }: { start: number, end: number }) {
+    if ((!Number.isSafeInteger(start)) || (!Number.isSafeInteger(end))) {
+      throw new Error()
+    }
+
+    if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
+      throw new Error()
+    }
+
+    if (start === MinuteOfDay.MIN && end === MinuteOfDay.MAX) {
+      throw new Error()
+    }
+
+    this.start = start
+    this.end = end
+  }
+
+  serialize = () => [ this.start, this.end ]
+
+  static parse = ([ start, end ]: [number, number]) => new AddUsedTimeActionItemAdditionalCountingSlot({ start, end })
+}
+
+class AddUsedTimeActionItemSessionDurationLimitSlot {
+  readonly start: number
+  readonly end: number
+  readonly duration: number
+  readonly pause: number
+
+  constructor ({ start, end, duration, pause }: { start: number, end: number, duration: number, pause: number }) {
+    if (
+      (!Number.isSafeInteger(start)) || (!Number.isSafeInteger(end)) ||
+      (!Number.isSafeInteger(duration)) || (!Number.isSafeInteger(pause))
+    ) {
+      throw new Error()
+    }
+
+    if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
+      throw new Error()
+    }
+
+    if (duration <= 0 || pause <= 0) {
+      throw new Error()
+    }
+
+    this.start = start
+    this.end = end
+    this.duration = duration
+    this.pause = pause
+  }
+
+  serialize = () => [ this.start, this.end ]
+
+  static parse = ([ start, end, duration, pause ]: [number, number, number, number]) => new AddUsedTimeActionItemSessionDurationLimitSlot({ start, end, duration, pause })
 }
 
 export interface SerializedAddUsedTimeActionVersion2 {
@@ -94,5 +183,10 @@ export interface SerializedAddUsedTimeActionVersion2 {
     categoryId: string
     tta: number
     etts: number
+    // start, end
+    as?: Array<[number, number]>
+    // start, end, length, pause
+    sdl?: Array<[number, number, number, number]>
   }>
+  t?: number
 }

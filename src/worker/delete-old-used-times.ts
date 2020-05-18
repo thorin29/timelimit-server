@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -45,7 +45,7 @@ async function deleteOldUsedTimes ({ database }: {
 
   await database.transaction(async (transaction) => {
     // get matching categories
-    const categoriesToCleanUp = await database.usedTime.findAll({
+    const categoriesToCleanUpOne = await database.usedTime.findAll({
       transaction,
       where: {
         lastUpdate: {
@@ -56,11 +56,32 @@ async function deleteOldUsedTimes ({ database }: {
         'familyId',
         'categoryId'
       ],
-      limit: 100
+      limit: 1000,
+      order: [['lastUpdate', 'ASC']]
     }).map((item) => ({
       familyId: item.familyId,
       categoryId: item.categoryId
     }))
+
+    const categoriesToCleanUpTwo = await database.sessionDuration.findAll({
+      transaction,
+      where: {
+        roundedLastUpdate: {
+          [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 24 * 3 /* 3 days */).toString()
+        }
+      },
+      attributes: [
+        'familyId',
+        'categoryId'
+      ],
+      limit: 1000,
+      order: [['roundedLastUpdate', 'ASC']]
+    }).map((item) => ({
+      familyId: item.familyId,
+      categoryId: item.categoryId
+    }))
+
+    const categoriesToCleanUp = [ ...categoriesToCleanUpOne, ...categoriesToCleanUpTwo ]
 
     const distinctCategoriesToCleanUp = uniqBy(categoriesToCleanUp, (item) => item.familyId + '_' + item.categoryId)
 
@@ -74,6 +95,18 @@ async function deleteOldUsedTimes ({ database }: {
           ),
           lastUpdate: {
             [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 24 * 10 /* 10 days */).toString()
+          }
+        }
+      })
+
+      await database.sessionDuration.destroy({
+        transaction,
+        where: {
+          [Sequelize.Op.or]: (
+            distinctCategoriesToCleanUp
+          ),
+          roundedLastUpdate: {
+            [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 24 * 3 /* 3 days */).toString()
           }
         }
       })

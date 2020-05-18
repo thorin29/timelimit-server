@@ -1285,11 +1285,12 @@ Reference this group by using
 {"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes"}
 ```
 
-| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                              |
-| :------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [categoryId](#categoryId) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-categoryid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/categoryId") |
-| [times](#times)           | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-times.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/times")           |
-| [version](#version)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-version.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/version")       |
+| Property                              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                          |
+| :------------------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [categoryId](#categoryId)             | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-categoryid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/categoryId")             |
+| [times](#times)                       | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-times.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/times")                       |
+| [sessionDurations](#sessionDurations) | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-sessiondurations.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/sessionDurations") |
+| [version](#version)                   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-version.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/version")                   |
 
 ### categoryId
 
@@ -1323,6 +1324,22 @@ Reference this group by using
 
 `object[]` ([ServerUsedTimeItem](serverdatastatus-definitions-serverusedtimeitem.md))
 
+### sessionDurations
+
+
+
+
+`sessionDurations`
+
+-   is required
+-   Type: `object[]` ([ServerSessionDurationItem](serverdatastatus-definitions-serversessiondurationitem.md))
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-sessiondurations.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/sessionDurations")
+
+#### sessionDurations Type
+
+`object[]` ([ServerSessionDurationItem](serverdatastatus-definitions-serversessiondurationitem.md))
+
 ### version
 
 
@@ -1347,10 +1364,12 @@ Reference this group by using
 {"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem"}
 ```
 
-| Property      | Type     | Required | Nullable       | Defined by                                                                                                                                                                          |
-| :------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [day](#day)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-day.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/day")   |
-| [time](#time) | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time") |
+| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                            |
+| :-------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [day](#day)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-day.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/day")     |
+| [time](#time)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time")   |
+| [start](#start) | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/start") |
+| [end](#end)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/end")     |
 
 ### day
 
@@ -1381,6 +1400,153 @@ Reference this group by using
 -   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time")
 
 #### time Type
+
+`number`
+
+### start
+
+
+
+
+`start`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/start")
+
+#### start Type
+
+`number`
+
+### end
+
+
+
+
+`end`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/end")
+
+#### end Type
+
+`number`
+
+## Definitions group ServerSessionDurationItem
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem"}
+```
+
+| Property    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                      |
+| :---------- | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [md](#md)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-md.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/md")   |
+| [spd](#spd) | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-spd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/spd") |
+| [sm](#sm)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-sm.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/sm")   |
+| [em](#em)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-em.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/em")   |
+| [l](#l)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-l.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/l")     |
+| [d](#d)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-d.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/d")     |
+
+### md
+
+the maximum duration of a session (maxSessionDuration)
+
+
+`md`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-md.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/md")
+
+#### md Type
+
+`number`
+
+### spd
+
+the pause duration after a session (sessionPauseDuration)
+
+
+`spd`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-spd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/spd")
+
+#### spd Type
+
+`number`
+
+### sm
+
+the start minute of the day of the session/ the rule
+which created this session (startMinuteOfDay)
+
+
+`sm`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-sm.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/sm")
+
+#### sm Type
+
+`number`
+
+### em
+
+the end minute of the day of the session/ the rule
+which created this session (endMinuteOfDay)
+
+
+`em`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-em.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/em")
+
+#### em Type
+
+`number`
+
+### l
+
+the timestamp of the last usage of this session (lastUsage)
+
+
+`l`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-l.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/l")
+
+#### l Type
+
+`number`
+
+### d
+
+the duration of the last/ current session (lastSessionDuration)
+
+
+`d`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serversessiondurationitem-properties-d.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerSessionDurationItem/properties/d")
+
+#### d Type
 
 `number`
 
@@ -1460,6 +1626,10 @@ Reference this group by using
 | [extraTime](#extraTime) | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-extratime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/extraTime") |
 | [dayMask](#dayMask)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-daymask.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/dayMask")     |
 | [maxTime](#maxTime)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-maxtime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/maxTime")     |
+| [start](#start)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/start")         |
+| [end](#end)             | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")             |
+| [session](#session)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")     |
+| [pause](#pause)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")         |
 
 ### id
 
@@ -1522,6 +1692,70 @@ Reference this group by using
 -   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-maxtime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/maxTime")
 
 #### maxTime Type
+
+`number`
+
+### start
+
+
+
+
+`start`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/start")
+
+#### start Type
+
+`number`
+
+### end
+
+
+
+
+`end`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")
+
+#### end Type
+
+`number`
+
+### session
+
+
+
+
+`session`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")
+
+#### session Type
+
+`number`
+
+### pause
+
+
+
+
+`pause`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")
+
+#### pause Type
 
 `number`
 

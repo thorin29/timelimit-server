@@ -25,12 +25,13 @@ Reference this group by using
 {"$ref":"https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus"}
 ```
 
-| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                          |
-| :------------------------ | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [devices](#devices)       | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devices.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devices")       |
-| [apps](#apps)             | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps")             |
-| [categories](#categories) | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories") |
-| [users](#users)           | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-users.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/users")           |
+| Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                            |
+| :-------------------------- | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [devices](#devices)         | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devices.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devices")         |
+| [apps](#apps)               | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps")               |
+| [categories](#categories)   | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories")   |
+| [users](#users)             | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-users.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/users")             |
+| [clientLevel](#clientLevel) | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel") |
 
 ### devices
 
@@ -95,6 +96,22 @@ Reference this group by using
 #### users Type
 
 `string`
+
+### clientLevel
+
+
+
+
+`clientLevel`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel")
+
+#### clientLevel Type
+
+`number`
 
 ## Definitions group CategoryDataStatus
 

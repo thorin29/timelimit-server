@@ -24,6 +24,10 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelim
 | [time](#time)           | `number`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-time.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/time")           |
 | [days](#days)           | `number`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-days.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/days")           |
 | [extraTime](#extraTime) | `boolean` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-extratime.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/extraTime") |
+| [start](#start)         | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-start.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/start")         |
+| [end](#end)             | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-end.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/end")             |
+| [dur](#dur)             | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-dur.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/dur")             |
+| [pause](#pause)         | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-pause.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/pause")         |
 
 ## type
 
@@ -112,3 +116,67 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelim
 ### extraTime Type
 
 `boolean`
+
+## start
+
+
+
+
+`start`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-start.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/start")
+
+### start Type
+
+`number`
+
+## end
+
+
+
+
+`end`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-end.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/end")
+
+### end Type
+
+`number`
+
+## dur
+
+
+
+
+`dur`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-dur.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/dur")
+
+### dur Type
+
+`number`
+
+## pause
+
+
+
+
+`pause`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-pause.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/pause")
+
+### pause Type
+
+`number`

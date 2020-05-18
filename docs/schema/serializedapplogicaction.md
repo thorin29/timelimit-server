@@ -298,6 +298,7 @@ Reference this group by using
 | [type](#type) | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/type") |
 | [d](#d)       | `number` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-d.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/d")       |
 | [i](#i)       | `array`  | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i")       |
+| [t](#t)       | `number` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-t.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/t")       |
 
 ### type
 
@@ -354,6 +355,22 @@ Reference this group by using
 #### i Type
 
 `object[]` ([Details](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items.md))
+
+### t
+
+
+
+
+`t`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-t.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/t")
+
+#### t Type
+
+`number`
 
 ## Definitions group SerializedRemoveInstalledAppsAction
 

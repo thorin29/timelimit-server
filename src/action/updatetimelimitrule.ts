@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { MinuteOfDay } from '../util/minuteofday'
 import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
 
@@ -23,12 +24,23 @@ export class UpdateTimelimitRuleAction extends ParentAction {
   readonly maximumTimeInMillis: number
   readonly dayMask: number
   readonly applyToExtraTimeUsage: boolean
+  readonly start: number
+  readonly end: number
+  readonly sessionDurationMilliseconds: number
+  readonly sessionPauseMilliseconds: number
 
-  constructor ({ ruleId, maximumTimeInMillis, dayMask, applyToExtraTimeUsage }: {
+  constructor ({
+    ruleId, maximumTimeInMillis, dayMask, applyToExtraTimeUsage,
+    start, end, sessionDurationMilliseconds, sessionPauseMilliseconds
+  }: {
     ruleId: string
     maximumTimeInMillis: number
     dayMask: number
     applyToExtraTimeUsage: boolean
+    start: number
+    end: number
+    sessionDurationMilliseconds: number
+    sessionPauseMilliseconds: number
   }) {
     super()
 
@@ -36,6 +48,10 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     this.maximumTimeInMillis = maximumTimeInMillis
     this.dayMask = dayMask
     this.applyToExtraTimeUsage = applyToExtraTimeUsage
+    this.start = start
+    this.end = end
+    this.sessionDurationMilliseconds = sessionDurationMilliseconds
+    this.sessionPauseMilliseconds = sessionPauseMilliseconds
 
     assertIdWithinFamily(ruleId)
 
@@ -50,6 +66,23 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     )) {
       throw new Error('invalid day mask')
     }
+
+    if (
+      (!Number.isSafeInteger(start)) ||
+      (!Number.isSafeInteger(end)) ||
+      (!Number.isSafeInteger(sessionDurationMilliseconds)) ||
+      (!Number.isSafeInteger(sessionPauseMilliseconds))
+    ) {
+      throw new Error()
+    }
+
+    if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
+      throw new Error()
+    }
+
+    if (sessionDurationMilliseconds < 0 || sessionPauseMilliseconds < 0) {
+      throw new Error()
+    }
   }
 
   serialize = (): SerializedUpdateTimelimitRuleAction => ({
@@ -57,15 +90,23 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     ruleId: this.ruleId,
     time: this.maximumTimeInMillis,
     days: this.dayMask,
-    extraTime: this.applyToExtraTimeUsage
+    extraTime: this.applyToExtraTimeUsage,
+    start: this.start,
+    end: this.end,
+    pause: this.sessionPauseMilliseconds,
+    dur: this.sessionDurationMilliseconds
   })
 
-  static parse = ({ ruleId, time, days, extraTime }: SerializedUpdateTimelimitRuleAction) => (
+  static parse = ({ ruleId, time, days, extraTime, start, end, dur, pause }: SerializedUpdateTimelimitRuleAction) => (
     new UpdateTimelimitRuleAction({
       ruleId,
       maximumTimeInMillis: time,
       dayMask: days,
-      applyToExtraTimeUsage: extraTime
+      applyToExtraTimeUsage: extraTime,
+      start: start ?? MinuteOfDay.MIN,
+      end: end ?? MinuteOfDay.MAX,
+      sessionDurationMilliseconds: dur ?? 0,
+      sessionPauseMilliseconds: pause ?? 0
     })
   )
 }
@@ -76,4 +117,8 @@ export interface SerializedUpdateTimelimitRuleAction {
   time: number
   days: number
   extraTime: boolean
+  start?: number
+  end?: number
+  dur?: number
+  pause?: number
 }

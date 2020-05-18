@@ -24,6 +24,9 @@ const definitions = {
       },
       "users": {
         "type": "string"
+      },
+      "clientLevel": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -252,6 +255,18 @@ const definitions = {
       },
       "extraTime": {
         "type": "boolean"
+      },
+      "start": {
+        "type": "number"
+      },
+      "end": {
+        "type": "number"
+      },
+      "dur": {
+        "type": "number"
+      },
+      "pause": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1087,6 +1102,18 @@ const definitions = {
       },
       "extraTime": {
         "type": "boolean"
+      },
+      "start": {
+        "type": "number"
+      },
+      "end": {
+        "type": "number"
+      },
+      "dur": {
+        "type": "number"
+      },
+      "pause": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1208,6 +1235,68 @@ const definitions = {
             },
             "etts": {
               "type": "number"
+            },
+            "as": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "minItems": 2,
+                "additionalItems": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              }
+            },
+            "sdl": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "minItems": 4,
+                "additionalItems": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              }
             }
           },
           "additionalProperties": false,
@@ -1217,6 +1306,9 @@ const definitions = {
             "tta"
           ]
         }
+      },
+      "t": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1750,6 +1842,12 @@ const definitions = {
           "$ref": "#/definitions/ServerUsedTimeItem"
         }
       },
+      "sessionDurations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ServerSessionDurationItem"
+        }
+      },
       "version": {
         "type": "string"
       }
@@ -1757,6 +1855,7 @@ const definitions = {
     "additionalProperties": false,
     "required": [
       "categoryId",
+      "sessionDurations",
       "times",
       "version"
     ]
@@ -1769,12 +1868,58 @@ const definitions = {
       },
       "time": {
         "type": "number"
+      },
+      "start": {
+        "type": "number"
+      },
+      "end": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
     "required": [
       "day",
+      "end",
+      "start",
       "time"
+    ]
+  },
+  "ServerSessionDurationItem": {
+    "type": "object",
+    "properties": {
+      "md": {
+        "description": "the maximum duration of a session (maxSessionDuration)",
+        "type": "number"
+      },
+      "spd": {
+        "description": "the pause duration after a session (sessionPauseDuration)",
+        "type": "number"
+      },
+      "sm": {
+        "description": "the start minute of the day of the session/ the rule\nwhich created this session (startMinuteOfDay)",
+        "type": "number"
+      },
+      "em": {
+        "description": "the end minute of the day of the session/ the rule\nwhich created this session (endMinuteOfDay)",
+        "type": "number"
+      },
+      "l": {
+        "description": "the timestamp of the last usage of this session (lastUsage)",
+        "type": "number"
+      },
+      "d": {
+        "description": "the duration of the last/ current session (lastSessionDuration)",
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "d",
+      "em",
+      "l",
+      "md",
+      "sm",
+      "spd"
     ]
   },
   "ServerUpdatedTimeLimitRules": {
@@ -1814,14 +1959,30 @@ const definitions = {
       },
       "maxTime": {
         "type": "number"
+      },
+      "start": {
+        "type": "number"
+      },
+      "end": {
+        "type": "number"
+      },
+      "session": {
+        "type": "number"
+      },
+      "pause": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
     "required": [
       "dayMask",
+      "end",
       "extraTime",
       "id",
-      "maxTime"
+      "maxTime",
+      "pause",
+      "session",
+      "start"
     ]
   },
   "ServerUserList": {

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import * as Sequelize from 'sequelize'
 import { AddUsedTimeAction } from '../../../../action'
+import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
 
 export const getRoundedTimestamp = () => {
@@ -68,7 +69,9 @@ export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
         where: {
           familyId: cache.familyId,
           categoryId: categoryId,
-          dayOfEpoch: action.dayOfEpoch
+          dayOfEpoch: action.dayOfEpoch,
+          startMinuteOfDay: MinuteOfDay.MIN,
+          endMinuteOfDay: MinuteOfDay.MAX
         },
         transaction: cache.transaction
       })
@@ -80,7 +83,9 @@ export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
           categoryId: categoryId,
           dayOfEpoch: action.dayOfEpoch,
           usedTime: action.timeToAdd,
-          lastUpdate: roundedTimestamp
+          lastUpdate: roundedTimestamp,
+          startMinuteOfDay: MinuteOfDay.MIN,
+          endMinuteOfDay: MinuteOfDay.MAX
         }, {
           transaction: cache.transaction
         })

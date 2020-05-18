@@ -307,6 +307,18 @@
         },
         "extraTime": {
           "type": "boolean"
+        },
+        "start": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        },
+        "dur": {
+          "type": "number"
+        },
+        "pause": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
@@ -1176,6 +1188,18 @@
         },
         "extraTime": {
           "type": "boolean"
+        },
+        "start": {
+          "type": "number"
+        },
+        "end": {
+          "type": "number"
+        },
+        "dur": {
+          "type": "number"
+        },
+        "pause": {
+          "type": "number"
         }
       },
       "additionalProperties": false,

@@ -29,6 +29,7 @@ import { createMailLoginTokenModel, MailLoginTokenModelStatic } from './maillogi
 import { createUmzug } from './migration/umzug'
 import { createOldDeviceModel, OldDeviceModelStatic } from './olddevice'
 import { createPurchaseModel, PurchaseModelStatic } from './purchase'
+import { createSessionDurationModel, SessionDurationModelStatic } from './sessionduration'
 import { createTimelimitRuleModel, TimelimitRuleModelStatic } from './timelimitrule'
 import { createUsedTimeModel, UsedTimeModelStatic } from './usedtime'
 import { createUserModel, UserModelStatic } from './user'
@@ -46,6 +47,7 @@ export interface Database {
   mailLoginToken: MailLoginTokenModelStatic
   oldDevice: OldDeviceModelStatic
   purchase: PurchaseModelStatic
+  sessionDuration: SessionDurationModelStatic
   timelimitRule: TimelimitRuleModelStatic
   usedTime: UsedTimeModelStatic
   user: UserModelStatic
@@ -65,6 +67,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   mailLoginToken: createMailLoginTokenModel(sequelize),
   oldDevice: createOldDeviceModel(sequelize),
   purchase: createPurchaseModel(sequelize),
+  sessionDuration: createSessionDurationModel(sequelize),
   timelimitRule: createTimelimitRuleModel(sequelize),
   usedTime: createUsedTimeModel(sequelize),
   user: createUserModel(sequelize),

@@ -25,6 +25,7 @@ import {
   ServerUpdatedCategoryBaseData, ServerUpdatedCategoryUsedTimes,
   ServerUpdatedTimeLimitRules
 } from '../../object/serverdatastatus'
+import { MinuteOfDay } from '../../util/minuteofday'
 
 export const generateServerDataStatus = async ({ database, clientStatus, familyId, transaction }: {
   database: Database,
@@ -429,7 +430,11 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         'categoryId',
         'applyToExtraTimeUsage',
         'maximumTimeInMillis',
-        'dayMaskAsBitmask'
+        'dayMaskAsBitmask',
+        'startMinuteOfDay',
+        'endMinuteOfDay',
+        'sessionDurationMilliseconds',
+        'sessionPauseMilliseconds'
       ],
       transaction
     })).map((item) => ({
@@ -437,7 +442,11 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       categoryId: item.categoryId,
       applyToExtraTimeUsage: item.applyToExtraTimeUsage,
       maximumTimeInMillis: item.maximumTimeInMillis,
-      dayMaskAsBitmask: item.dayMaskAsBitmask
+      dayMaskAsBitmask: item.dayMaskAsBitmask,
+      startMinuteOfDay: item.startMinuteOfDay,
+      endMinuteOfDay: item.endMinuteOfDay,
+      sessionDurationMilliseconds: item.sessionDurationMilliseconds,
+      sessionPauseMilliseconds: item.sessionPauseMilliseconds
     }))
 
     const getCategoryRulesVersion = (categoryId: string) => {
@@ -456,26 +465,65 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         id: item.ruleId,
         extraTime: item.applyToExtraTimeUsage,
         dayMask: item.dayMaskAsBitmask,
-        maxTime: item.maximumTimeInMillis
+        maxTime: item.maximumTimeInMillis,
+        start: item.startMinuteOfDay,
+        end: item.endMinuteOfDay,
+        session: item.sessionDurationMilliseconds,
+        pause: item.sessionPauseMilliseconds
       })),
       version: getCategoryRulesVersion(categoryId)
     }))
   }
 
   if (categoryIdsToSyncUsedTimes.length > 0) {
-    const dataForSyncing = (await database.usedTime.findAll({
+    const usedTimesForSyncing = (await database.usedTime.findAll({
+      where: {
+        familyId,
+        categoryId: {
+          [Sequelize.Op.in]: categoryIdsToSyncUsedTimes
+        },
+        ...(clientStatus.clientLevel === undefined || clientStatus.clientLevel < 2) ? {
+          startMinuteOfDay: MinuteOfDay.MIN,
+          endMinuteOfDay: MinuteOfDay.MAX
+        } : {}
+      },
+      attributes: [
+        'categoryId', 'dayOfEpoch', 'usedTime', 'startMinuteOfDay', 'endMinuteOfDay'
+      ],
+      transaction
+    })).map((item) => ({
+      categoryId: item.categoryId,
+      dayOfEpoch: item.dayOfEpoch,
+      usedTime: item.usedTime,
+      startMinuteOfDay: item.startMinuteOfDay,
+      endMinuteOfDay: item.endMinuteOfDay
+    }))
+
+    const sessionDurationsForSyncing = (await database.sessionDuration.findAll({
       where: {
         familyId,
         categoryId: {
           [Sequelize.Op.in]: categoryIdsToSyncUsedTimes
         }
       },
-      attributes: ['categoryId', 'dayOfEpoch', 'usedTime'],
+      attributes: [
+        'categoryId',
+        'maxSessionDuration',
+        'sessionPauseDuration',
+        'startMinuteOfDay',
+        'endMinuteOfDay',
+        'lastUsage',
+        'lastSessionDuration'
+      ],
       transaction
     })).map((item) => ({
       categoryId: item.categoryId,
-      dayOfEpoch: item.dayOfEpoch,
-      usedTime: item.usedTime
+      maxSessionDuration: item.maxSessionDuration,
+      sessionPauseDuration: item.sessionPauseDuration,
+      startMinuteOfDay: item.startMinuteOfDay,
+      endMinuteOfDay: item.endMinuteOfDay,
+      lastUsage: item.lastUsage,
+      lastSessionDuration: item.lastSessionDuration
     }))
 
     const getCategoryUsedTimesVersion = (categoryId: string) => {
@@ -490,9 +538,19 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
 
     result.usedTimes = categoryIdsToSyncUsedTimes.map((categoryId): ServerUpdatedCategoryUsedTimes => ({
       categoryId,
-      times: dataForSyncing.filter((item) => item.categoryId === categoryId).map((item) => ({
+      times: usedTimesForSyncing.filter((item) => item.categoryId === categoryId).map((item) => ({
         day: item.dayOfEpoch,
-        time: item.usedTime
+        time: item.usedTime,
+        start: item.startMinuteOfDay,
+        end: item.endMinuteOfDay
+      })),
+      sessionDurations: sessionDurationsForSyncing.filter((item) => item.categoryId === categoryId).map((item) => ({
+        md: item.maxSessionDuration,
+        spd: item.sessionPauseDuration,
+        sm: item.startMinuteOfDay,
+        em: item.endMinuteOfDay,
+        l: parseInt(item.lastUsage, 10),
+        d: item.lastSessionDuration
       })),
       version: getCategoryUsedTimesVersion(categoryId)
     }))

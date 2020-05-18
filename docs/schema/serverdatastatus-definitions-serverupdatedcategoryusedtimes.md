@@ -17,11 +17,12 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTime
 
 # ServerUpdatedCategoryUsedTimes Properties
 
-| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                              |
-| :------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [categoryId](#categoryId) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-categoryid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/categoryId") |
-| [times](#times)           | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-times.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/times")           |
-| [version](#version)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-version.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/version")       |
+| Property                              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                          |
+| :------------------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [categoryId](#categoryId)             | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-categoryid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/categoryId")             |
+| [times](#times)                       | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-times.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/times")                       |
+| [sessionDurations](#sessionDurations) | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-sessiondurations.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/sessionDurations") |
+| [version](#version)                   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-version.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/version")                   |
 
 ## categoryId
 
@@ -54,6 +55,22 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTime
 ### times Type
 
 `object[]` ([ServerUsedTimeItem](serverdatastatus-definitions-serverusedtimeitem.md))
+
+## sessionDurations
+
+
+
+
+`sessionDurations`
+
+-   is required
+-   Type: `object[]` ([ServerSessionDurationItem](serverdatastatus-definitions-serversessiondurationitem.md))
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-sessiondurations.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/sessionDurations")
+
+### sessionDurations Type
+
+`object[]` ([ServerSessionDurationItem](serverdatastatus-definitions-serversessiondurationitem.md))
 
 ## version
 

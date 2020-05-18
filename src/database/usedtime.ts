@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,6 +16,7 @@
  */
 
 import * as Sequelize from 'sequelize'
+import { MinuteOfDay } from '../util/minuteofday'
 import { familyIdColumn, idWithinFamilyColumn, timestampColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
@@ -30,7 +31,13 @@ export interface UsedTimeAttributesVersion2 {
   lastUpdate: string
 }
 
-export type UsedTimeAttributes = UsedTimeAttributesVersion1 & UsedTimeAttributesVersion2
+export interface UsedTimeAttributesVersion3 {
+  startMinuteOfDay: number
+  endMinuteOfDay: number
+}
+
+export type UsedTimeAttributes = UsedTimeAttributesVersion1 &
+  UsedTimeAttributesVersion2 & UsedTimeAttributesVersion3
 
 export type UsedTimeModel = Sequelize.Model & UsedTimeAttributes
 export type UsedTimeModelStatic = typeof Sequelize.Model & {
@@ -70,9 +77,44 @@ export const attributesVersion2: SequelizeAttributes<UsedTimeAttributesVersion2>
   }
 }
 
-export const attributes = {
+export const attributesVersion3: SequelizeAttributes<UsedTimeAttributesVersion3> = {
+  startMinuteOfDay: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: MinuteOfDay.MIN,
+    primaryKey: true,
+    validate: {
+      min: MinuteOfDay.MIN,
+      max: MinuteOfDay.MAX
+    }
+  },
+  endMinuteOfDay: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: MinuteOfDay.MAX,
+    primaryKey: true,
+    validate: {
+      min: MinuteOfDay.MIN,
+      max: MinuteOfDay.MAX,
+      customValidator (endMinuteOfDay: unknown) {
+        const startMinuteOfDay = this.startMinuteOfDay
+
+        if (typeof endMinuteOfDay !== 'number' || typeof startMinuteOfDay !== 'number') {
+          throw new Error('wrong data types')
+        }
+
+        if (startMinuteOfDay > endMinuteOfDay) {
+          throw new Error('startMinuteOfDay must not be bigger than endMinuteOfDay')
+        }
+      }
+    }
+  }
+}
+
+export const attributes: SequelizeAttributes<UsedTimeAttributesVersion3> = {
   ...attributesVersion1,
-  ...attributesVersion2
+  ...attributesVersion2,
+  ...attributesVersion3
 }
 
 export const createUsedTimeModel = (sequelize: Sequelize.Sequelize): UsedTimeModelStatic => sequelize.define('UsedTime', attributes) as UsedTimeModelStatic
