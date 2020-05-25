@@ -121,17 +121,17 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: 
       })
 
       if (oldItem) {
-        if (hasTrustedTimestamp) {
-          oldItem.lastUsage = action.trustedTimestamp.toString(10)
-        }
-
         if (
           hasTrustedTimestamp &&
-          action.trustedTimestamp > parseInt(oldItem.lastUsage, 10) + oldItem.sessionPauseDuration
+          action.trustedTimestamp - item.timeToAdd > parseInt(oldItem.lastUsage, 10) + oldItem.sessionPauseDuration
         ) {
           oldItem.lastSessionDuration = item.timeToAdd
         } else {
           oldItem.lastSessionDuration = oldItem.lastSessionDuration + item.timeToAdd
+        }
+
+        if (hasTrustedTimestamp) {
+          oldItem.lastUsage = action.trustedTimestamp.toString(10)
         }
 
         oldItem.roundedLastUpdate = roundedTimestampForSessionDuration
