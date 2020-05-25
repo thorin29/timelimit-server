@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -45,9 +45,9 @@ export const attributes: SequelizeAttributes<PurchaseAttributes> = {
     primaryKey: true
   },
   type: createEnumColumn(['month', 'year']),
-  loggedAt: timestampColumn,
-  previousFullVersionEndTime: timestampColumn,
-  newFullVersionEndTime: timestampColumn
+  loggedAt: { ...timestampColumn },
+  previousFullVersionEndTime: { ...timestampColumn },
+  newFullVersionEndTime: { ...timestampColumn }
 }
 
 export const createPurchaseModel = (sequelize: Sequelize.Sequelize): PurchaseModelStatic => sequelize.define('Purchase', attributes) as PurchaseModelStatic
