@@ -58,6 +58,7 @@ export interface ServerUserEntry {
   relaxPrimaryDevice: boolean
   mailNotificationFlags: number
   blockedTimes: string
+  flags: number
 }
 
 export interface ServerDeviceData {

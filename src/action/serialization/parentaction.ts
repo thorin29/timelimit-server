@@ -55,6 +55,7 @@ import { SerialiizedUpdateNetworkTimeVerificationAction, UpdateNetworkTimeVerifi
 import { SerializedUpdateParentBlockedTimesAction, UpdateParentBlockedTimesAction } from '../updateparentblockedtimes'
 import { SerializedUpdateParentNotificationFlagsAction, UpdateParentNotificationFlagsAction } from '../updateparentnotificationflags'
 import { SerializedUpdateTimelimitRuleAction, UpdateTimelimitRuleAction } from '../updatetimelimitrule'
+import { SerializedUpdateUserFlagsAction, UpdateUserFlagsAction } from '../updateuserflags'
 
 export type SerializedParentAction =
   SerializedAddCategoryAppsAction |
@@ -95,7 +96,8 @@ export type SerializedParentAction =
   SerialiizedUpdateNetworkTimeVerificationAction |
   SerializedUpdateParentBlockedTimesAction |
   SerializedUpdateParentNotificationFlagsAction |
-  SerializedUpdateTimelimitRuleAction
+  SerializedUpdateTimelimitRuleAction |
+  SerializedUpdateUserFlagsAction
 
 export const parseParentAction = (action: SerializedParentAction): ParentAction => {
   if (action.type === 'ADD_CATEGORY_APPS') {
@@ -176,6 +178,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateParentNotificationFlagsAction.parse(action)
   } else if (action.type === 'UPDATE_TIMELIMIT_RULE') {
     return UpdateTimelimitRuleAction.parse(action)
+  } else if (action.type === 'UPDATE_USER_FLAGS') {
+    return UpdateUserFlagsAction.parse(action)
   } else {
     throw new Error('illegal state: invalid type for action at parseParentAction')
   }

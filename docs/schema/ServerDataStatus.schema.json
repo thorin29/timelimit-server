@@ -641,6 +641,9 @@
         },
         "blockedTimes": {
           "type": "string"
+        },
+        "flags": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
@@ -649,6 +652,7 @@
         "categoryForNotAssignedApps",
         "currentDevice",
         "disableLimitsUntil",
+        "flags",
         "id",
         "mail",
         "mailNotificationFlags",

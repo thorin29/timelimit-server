@@ -66,3 +66,4 @@ export { UpdateNetworkTimeVerificationAction } from './updatenetworktimeverifica
 export { UpdateParentBlockedTimesAction } from './updateparentblockedtimes'
 export { UpdateParentNotificationFlagsAction } from './updateparentnotificationflags'
 export { UpdateTimelimitRuleAction } from './updatetimelimitrule'
+export { UpdateUserFlagsAction } from './updateuserflags'

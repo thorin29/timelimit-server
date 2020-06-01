@@ -55,7 +55,8 @@ import {
   UpdateNetworkTimeVerificationAction,
   UpdateParentBlockedTimesAction,
   UpdateParentNotificationFlagsAction,
-  UpdateTimelimitRuleAction
+  UpdateTimelimitRuleAction,
+  UpdateUserFlagsAction
 } from '../../../../action'
 import { Cache } from '../cache'
 import { dispatchAddCategoryApps } from './addcategoryapps'
@@ -97,6 +98,7 @@ import { dispatchUpdateNetworkTimeVerification } from './updatenetworktimeverifi
 import { dispatchUpdateParentBlockedTimes } from './updateparentblockedtimes'
 import { dispatchUpdateParentNotificationFlags } from './updateparentnotificationflags'
 import { dispatchUpdateTimelimitRule } from './updatetimelimitrule'
+import { dispatchUpdateUserFlagsAction } from './updateuserflags'
 
 export const dispatchParentAction = async ({ action, cache, parentUserId, sourceDeviceId }: {
   action: ParentAction
@@ -182,6 +184,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     await dispatchResetParentBlockedTimes({ action, cache })
   } else if (action instanceof UpdateParentBlockedTimesAction) {
     await dispatchUpdateParentBlockedTimes({ action, cache })
+  } else if (action instanceof UpdateUserFlagsAction) {
+    await dispatchUpdateUserFlagsAction({ action, cache })
   } else {
     throw new Error('unsupported action type')
   }

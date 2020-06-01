@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,6 +16,7 @@
  */
 
 import * as Sequelize from 'sequelize'
+import { UserFlags } from '../model/userflags'
 import { serializedBitmaskRegex } from '../util/bitmask'
 import { optionalPasswordRegex, optionalSaltRegex } from '../util/password'
 import { booleanColumn, createEnumColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn } from './columns'
@@ -54,8 +55,12 @@ export interface UserAttributesVersion5 {
   blockedTimes: string
 }
 
+export interface UserAttributesVersion6 {
+  flags: string
+}
+
 export type UserAttributes = UserAttributesVersion1 & UserAttributesVersion2 &
-  UserAttributesVersion3 & UserAttributesVersion4 & UserAttributesVersion5
+  UserAttributesVersion3 & UserAttributesVersion4 & UserAttributesVersion5 & UserAttributesVersion6
 
 export type UserModel = Sequelize.Model & UserAttributes
 export type UserModelStatic = typeof Sequelize.Model & {
@@ -139,12 +144,25 @@ export const attributesVersion5: SequelizeAttributes<UserAttributesVersion5> = {
   }
 }
 
+export const attributesVersion6: SequelizeAttributes<UserAttributesVersion6> = {
+  flags: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: UserFlags.ALL_FLAGS
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<UserAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
   ...attributesVersion3,
   ...attributesVersion4,
-  ...attributesVersion5
+  ...attributesVersion5,
+  ...attributesVersion6
 }
 
 export const createUserModel = (sequelize: Sequelize.Sequelize): UserModelStatic => sequelize.define('User', attributes) as UserModelStatic

@@ -1125,6 +1125,33 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateUserFlagsAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_USER_FLAGS"
+        ]
+      },
+      "userId": {
+        "type": "string"
+      },
+      "modified": {
+        "type": "number"
+      },
+      "values": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "modified",
+      "type",
+      "userId",
+      "values"
+    ]
+  },
   "SerializedAddInstalledAppsAction": {
     "type": "object",
     "properties": {
@@ -2049,6 +2076,9 @@ const definitions = {
       },
       "blockedTimes": {
         "type": "string"
+      },
+      "flags": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2057,6 +2087,7 @@ const definitions = {
       "categoryForNotAssignedApps",
       "currentDevice",
       "disableLimitsUntil",
+      "flags",
       "id",
       "mail",
       "mailNotificationFlags",
@@ -2384,6 +2415,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedUpdateTimelimitRuleAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateUserFlagsAction"
     }
   ],
   "definitions": definitions,
