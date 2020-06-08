@@ -23,6 +23,7 @@ import {
   addPurchase,
   areGooglePlayPaymentsPossible,
   canDoNextPurchase,
+  googlePlayPublicKey,
   isGooglePlayPurchaseSignatureValid,
   requireFamilyEntry
 } from '../function/purchase'
@@ -54,7 +55,8 @@ export const createPurchaseRouter = ({ database, websocket }: {
       const result = canDoNextPurchase({ fullVersionUntil: parseInt(familyEntry.fullVersionUntil, 10) })
 
       res.json({
-        canDoPurchase: result ? 'yes' : 'no due to old purchase'
+        canDoPurchase: result ? 'yes' : 'no due to old purchase',
+        googlePlayPublicKey
       })
     } catch (ex) {
       next(ex)

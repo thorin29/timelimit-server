@@ -19,7 +19,7 @@ const IABVerifier: new (publicKey: string) => {
   verifyReceipt: (data: string, signature: string) => boolean
 } = require('iab_verifier')
 
-const googlePlayPublicKey = process.env.GOOGLE_PLAY_PUBLIC_KEY || ''
+export const googlePlayPublicKey = process.env.GOOGLE_PLAY_PUBLIC_KEY || ''
 
 const verifier = new IABVerifier(googlePlayPublicKey)
 
