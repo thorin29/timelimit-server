@@ -21,16 +21,10 @@ import { Database } from '../../database'
 import { deleteFamilies } from './delete-families'
 
 export async function deleteOldFamilies (database: Database) {
-  console.log('deleteOldFamilies()')
-
   const oldFamilyIds = await findOldFamilyIds(database)
-
-  console.log('oldFamilyIds: ' + JSON.stringify(oldFamilyIds))
 
   if (oldFamilyIds.length > 0) {
     const familyIdsToDelete = oldFamilyIds.slice(0, 16) /* limit to 16 families per execution */
-
-    console.log('familyIdsToDelete: ' + JSON.stringify(familyIdsToDelete))
 
     await deleteFamilies({
       database,
