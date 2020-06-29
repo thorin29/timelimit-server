@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,33 +35,44 @@ export async function dispatchSetParentCategory ({ action, cache }: {
   }
 
   if (action.parentCategory !== '') {
-    const parentCategoryEntry = await cache.database.category.findOne({
+    const categoriesByUserId = (await cache.database.category.findAll({
       where: {
         familyId: cache.familyId,
-        categoryId: action.parentCategory,
         childId: categoryEntry.childId
       },
+      attributes: ['categoryId', 'parentCategoryId'],
       transaction: cache.transaction
-    })
+    })).map((item) => ({
+      categoryId: item.categoryId,
+      parentCategoryId: item.parentCategoryId
+    }))
 
-    if (!parentCategoryEntry) {
-      throw new Error('tried to set parent category to non existent category')
+    if (categoriesByUserId.find((item) => item.categoryId === action.parentCategory) === undefined) {
+      throw new Error('selected parent category does not exist')
     }
 
-    if (parentCategoryEntry.parentCategoryId !== '') {
-      throw new Error('tried to set a category as parent which itself has got a parent')
+    const childCategoryIds = new Set<string>()
+
+    {
+      const processedCategoryIds = new Set<string>()
+
+      const handle = (currentCategoryId: string) => {
+        if (processedCategoryIds.has(currentCategoryId)) return
+        processedCategoryIds.add(currentCategoryId)
+
+        const childCategories = categoriesByUserId.filter((item) => item.parentCategoryId === currentCategoryId)
+
+        childCategories.forEach((childCategory) => {
+          childCategoryIds.add(childCategory.categoryId)
+          handle(childCategory.categoryId)
+        })
+      }
+
+      handle(action.categoryId)
     }
 
-    const countChildCategories = await cache.database.category.findAndCountAll({
-      where: {
-        familyId: cache.familyId,
-        parentCategoryId: action.categoryId
-      },
-      transaction: cache.transaction
-    })
-
-    if (countChildCategories.count > 0) {
-      throw new Error('tried to make category a child category altough it is already a parent category')
+    if (childCategoryIds.has(action.parentCategory) || action.parentCategory === action.categoryId) {
+      throw new Error('can not set a category as parent which is a child of the category')
     }
   }
 
