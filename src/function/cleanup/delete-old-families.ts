@@ -24,7 +24,7 @@ export async function deleteOldFamilies (database: Database) {
   const oldFamilyIds = await findOldFamilyIds(database)
 
   if (oldFamilyIds.length > 0) {
-    const familyIdsToDelete = oldFamilyIds.slice(0, 16) /* limit to 16 families per execution */
+    const familyIdsToDelete = oldFamilyIds.slice(0, 256) /* limit to 256 families per execution */
 
     await deleteFamilies({
       database,
