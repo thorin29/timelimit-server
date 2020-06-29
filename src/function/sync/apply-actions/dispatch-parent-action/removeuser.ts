@@ -17,6 +17,7 @@
 
 import { createHash } from 'crypto'
 import { InternalServerError } from 'http-errors'
+import { difference } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { RemoveUserAction } from '../../../../action'
 import { Cache } from '../cache'
@@ -70,6 +71,29 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
       if (usersWithLinkedMail <= 1) {
         throw new Error('this user is the last one with a linked mail address')
       }
+    }
+
+    const usersWithLimitLoginCategories = (await cache.database.userLimitLoginCategory.findAll({
+      transaction: cache.transaction,
+      where: {
+        familyId: cache.familyId
+      },
+      attributes: ['userId']
+    })).map((item) => item.userId)
+
+    const allParentUserIds = (await cache.database.user.findAll({
+      transaction: cache.transaction,
+      where: {
+        familyId: cache.familyId,
+        type: 'parent'
+      },
+      attributes: ['userId']
+    })).map((item) => item.userId)
+
+    const allOtherParentUserIds = allParentUserIds.filter((item) => item !== action.userId)
+
+    if (difference(allOtherParentUserIds, usersWithLimitLoginCategories).length === 0) {
+      throw new Error('can not delete the last user without limit login category')
     }
   }
 

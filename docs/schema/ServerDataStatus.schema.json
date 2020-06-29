@@ -644,6 +644,9 @@
         },
         "flags": {
           "type": "number"
+        },
+        "llc": {
+          "type": "string"
         }
       },
       "additionalProperties": false,

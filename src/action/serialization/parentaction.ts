@@ -56,6 +56,7 @@ import { SerializedUpdateParentBlockedTimesAction, UpdateParentBlockedTimesActio
 import { SerializedUpdateParentNotificationFlagsAction, UpdateParentNotificationFlagsAction } from '../updateparentnotificationflags'
 import { SerializedUpdateTimelimitRuleAction, UpdateTimelimitRuleAction } from '../updatetimelimitrule'
 import { SerializedUpdateUserFlagsAction, UpdateUserFlagsAction } from '../updateuserflags'
+import { SerializedUpdateUserLimitLoginCategory, UpdateUserLimitLoginCategory } from '../updateuserlimitlogincategory'
 
 export type SerializedParentAction =
   SerializedAddCategoryAppsAction |
@@ -97,7 +98,8 @@ export type SerializedParentAction =
   SerializedUpdateParentBlockedTimesAction |
   SerializedUpdateParentNotificationFlagsAction |
   SerializedUpdateTimelimitRuleAction |
-  SerializedUpdateUserFlagsAction
+  SerializedUpdateUserFlagsAction |
+  SerializedUpdateUserLimitLoginCategory
 
 export const parseParentAction = (action: SerializedParentAction): ParentAction => {
   if (action.type === 'ADD_CATEGORY_APPS') {
@@ -180,6 +182,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateTimelimitRuleAction.parse(action)
   } else if (action.type === 'UPDATE_USER_FLAGS') {
     return UpdateUserFlagsAction.parse(action)
+  } else if (action.type === 'UPDATE_USER_LIMIT_LOGIN_CATEGORY') {
+    return UpdateUserLimitLoginCategory.parse(action)
   } else {
     throw new Error('illegal state: invalid type for action at parseParentAction')
   }

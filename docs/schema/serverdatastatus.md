@@ -1828,6 +1828,7 @@ Reference this group by using
 | [mailNotificationFlags](#mailNotificationFlags)           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mailnotificationflags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mailNotificationFlags")           |
 | [blockedTimes](#blockedTimes)                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")                             |
 | [flags](#flags)                                           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")                                           |
+| [llc](#llc)                                               | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")                                               |
 
 ### id
 
@@ -2061,6 +2062,22 @@ Reference this group by using
 #### flags Type
 
 `number`
+
+### llc
+
+
+
+
+`llc`
+
+-   is optional
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")
+
+#### llc Type
+
+`string`
 
 # ServerDataStatus Properties
 

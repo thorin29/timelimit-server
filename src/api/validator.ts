@@ -1152,6 +1152,28 @@ const definitions = {
       "values"
     ]
   },
+  "SerializedUpdateUserLimitLoginCategory": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_USER_LIMIT_LOGIN_CATEGORY"
+        ]
+      },
+      "userId": {
+        "type": "string"
+      },
+      "categoryId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "type",
+      "userId"
+    ]
+  },
   "SerializedAddInstalledAppsAction": {
     "type": "object",
     "properties": {
@@ -2079,6 +2101,9 @@ const definitions = {
       },
       "flags": {
         "type": "number"
+      },
+      "llc": {
+        "type": "string"
       }
     },
     "additionalProperties": false,
@@ -2418,6 +2443,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedUpdateUserFlagsAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateUserLimitLoginCategory"
     }
   ],
   "definitions": definitions,

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,6 +33,7 @@ import { createSessionDurationModel, SessionDurationModelStatic } from './sessio
 import { createTimelimitRuleModel, TimelimitRuleModelStatic } from './timelimitrule'
 import { createUsedTimeModel, UsedTimeModelStatic } from './usedtime'
 import { createUserModel, UserModelStatic } from './user'
+import { createUserLimitLoginCategoryModel, UserLimitLoginCategoryModelStatic } from './userlimitlogincategory'
 
 export interface Database {
   addDeviceToken: AddDeviceTokenModelStatic
@@ -51,6 +52,7 @@ export interface Database {
   timelimitRule: TimelimitRuleModelStatic
   usedTime: UsedTimeModelStatic
   user: UserModelStatic
+  userLimitLoginCategory: UserLimitLoginCategoryModelStatic
   transaction: <T> (autoCallback: (t: Sequelize.Transaction) => Promise<T>) => Promise<T>
 }
 
@@ -71,6 +73,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   timelimitRule: createTimelimitRuleModel(sequelize),
   usedTime: createUsedTimeModel(sequelize),
   user: createUserModel(sequelize),
+  userLimitLoginCategory: createUserLimitLoginCategoryModel(sequelize),
   transaction: <T> (autoCallback: (transaction: Sequelize.Transaction) => Promise<T>) => (sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
   }, autoCallback) as any) as Promise<T>

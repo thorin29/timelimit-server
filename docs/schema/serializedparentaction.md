@@ -57,6 +57,7 @@ any of
 -   [SerializedUpdateParentNotificationFlagsAction](serializedparentaction-definitions-serializedupdateparentnotificationflagsaction.md "check type definition")
 -   [SerializedUpdateTimelimitRuleAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction.md "check type definition")
 -   [SerializedUpdateUserFlagsAction](serializedparentaction-definitions-serializedupdateuserflagsaction.md "check type definition")
+-   [SerializedUpdateUserLimitLoginCategory](serializedparentaction-definitions-serializedupdateuserlimitlogincategory.md "check type definition")
 
 # SerializedParentAction Definitions
 
@@ -3512,3 +3513,73 @@ Reference this group by using
 #### values Type
 
 `number`
+
+## Definitions group SerializedUpdateUserLimitLoginCategory
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory"}
+```
+
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                |
+| :------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdateuserlimitlogincategory-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory/properties/type")             |
+| [userId](#userId)         | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdateuserlimitlogincategory-properties-userid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory/properties/userId")         |
+| [categoryId](#categoryId) | `string` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdateuserlimitlogincategory-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory/properties/categoryId") |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdateuserlimitlogincategory-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                                | Explanation |
+| :----------------------------------- | ----------- |
+| `"UPDATE_USER_LIMIT_LOGIN_CATEGORY"` |             |
+
+### userId
+
+
+
+
+`userId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdateuserlimitlogincategory-properties-userid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory/properties/userId")
+
+#### userId Type
+
+`string`
+
+### categoryId
+
+
+
+
+`categoryId`
+
+-   is optional
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdateuserlimitlogincategory-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateUserLimitLoginCategory/properties/categoryId")
+
+#### categoryId Type
+
+`string`

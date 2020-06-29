@@ -146,6 +146,30 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       flags: item.flags
     }))
 
+    const limitLoginCategories = (await database.userLimitLoginCategory.findAll({
+      where: {
+        familyId
+      },
+      attributes: [
+        'userId',
+        'categoryId'
+      ],
+      transaction
+    })).map((item) => ({
+      userId: item.userId,
+      categoryId: item.categoryId
+    }))
+
+    const getLimitLoginCategory = (userId: string) => {
+      const item = limitLoginCategories.find((item) => item.userId === userId)
+
+      if (item) {
+        return item.categoryId
+      } else {
+        return undefined
+      }
+    }
+
     result.users = {
       version: familyEntry.userListVersion,
       data: users.map((item) => ({
@@ -162,7 +186,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
         relaxPrimaryDevice: item.relaxPrimaryDeviceRule,
         mailNotificationFlags: item.mailNotificationFlags,
         blockedTimes: item.blockedTimes,
-        flags: parseInt(item.flags, 10)
+        flags: parseInt(item.flags, 10),
+        llc: getLimitLoginCategory(item.userId)
       }))
     }
   }

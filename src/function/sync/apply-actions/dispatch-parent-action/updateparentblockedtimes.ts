@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,10 +18,15 @@
 import { UpdateParentBlockedTimesAction } from '../../../../action'
 import { Cache } from '../cache'
 
-export async function dispatchUpdateParentBlockedTimes ({ action, cache }: {
+export async function dispatchUpdateParentBlockedTimes ({ action, cache, parentUserId }: {
   action: UpdateParentBlockedTimesAction
   cache: Cache
+  parentUserId: string
 }) {
+  if (parentUserId !== action.parentId && action.blockedTimes !== '') {
+    throw new Error('only a parent itself can add limits')
+  }
+
   const [affectedRows] = await cache.database.user.update({
     blockedTimes: action.blockedTimes
   }, {

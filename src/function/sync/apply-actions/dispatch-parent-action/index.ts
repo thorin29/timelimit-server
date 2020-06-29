@@ -56,7 +56,8 @@ import {
   UpdateParentBlockedTimesAction,
   UpdateParentNotificationFlagsAction,
   UpdateTimelimitRuleAction,
-  UpdateUserFlagsAction
+  UpdateUserFlagsAction,
+  UpdateUserLimitLoginCategory
 } from '../../../../action'
 import { Cache } from '../cache'
 import { dispatchAddCategoryApps } from './addcategoryapps'
@@ -99,6 +100,7 @@ import { dispatchUpdateParentBlockedTimes } from './updateparentblockedtimes'
 import { dispatchUpdateParentNotificationFlags } from './updateparentnotificationflags'
 import { dispatchUpdateTimelimitRule } from './updatetimelimitrule'
 import { dispatchUpdateUserFlagsAction } from './updateuserflags'
+import { dispatchUpdateUserLimitLoginCategoryAction } from './updateuserlimitlogincategory'
 
 export const dispatchParentAction = async ({ action, cache, parentUserId, sourceDeviceId }: {
   action: ParentAction
@@ -183,9 +185,11 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
   } else if (action instanceof ResetParentBlockedTimesAction) {
     await dispatchResetParentBlockedTimes({ action, cache })
   } else if (action instanceof UpdateParentBlockedTimesAction) {
-    await dispatchUpdateParentBlockedTimes({ action, cache })
+    await dispatchUpdateParentBlockedTimes({ action, cache, parentUserId })
   } else if (action instanceof UpdateUserFlagsAction) {
     await dispatchUpdateUserFlagsAction({ action, cache })
+  } else if (action instanceof UpdateUserLimitLoginCategory) {
+    await dispatchUpdateUserLimitLoginCategoryAction({ action, cache, parentUserId })
   } else {
     throw new Error('unsupported action type')
   }

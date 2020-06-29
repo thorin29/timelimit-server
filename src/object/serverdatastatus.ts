@@ -59,6 +59,7 @@ export interface ServerUserEntry {
   mailNotificationFlags: number
   blockedTimes: string
   flags: number
+  llc?: string  // limit login category
 }
 
 export interface ServerDeviceData {
