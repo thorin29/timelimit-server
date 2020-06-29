@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,7 +48,9 @@ export async function dispatchAddCategoryApps ({ action, cache }: {
     transaction: cache.transaction
   }).map((item) => ({ categoryId: item.categoryId }))
 
-  await cache.database.categoryApp.destroy({
+  const oldCategories = await cache.database.categoryApp.findAll({
+    attributes: [ 'categoryId' ],
+    group: [ 'categoryId' ],
     where: {
       familyId: cache.familyId,
       categoryId: {
@@ -59,7 +61,22 @@ export async function dispatchAddCategoryApps ({ action, cache }: {
       }
     },
     transaction: cache.transaction
-  })
+  }).map((item) => item.categoryId)
+
+  if (oldCategories.length > 0) {
+    await cache.database.categoryApp.destroy({
+      where: {
+        familyId: cache.familyId,
+        categoryId: {
+          [Sequelize.Op.in]: categoriesOfSameChild.map((item) => item.categoryId)
+        },
+        packageName: {
+          [Sequelize.Op.in]: action.packageNames
+        }
+      },
+      transaction: cache.transaction
+    })
+  }
 
   await cache.database.categoryApp.bulkCreate(
     action.packageNames.map((packageName): CategoryAppAttributes => ({
@@ -72,6 +89,7 @@ export async function dispatchAddCategoryApps ({ action, cache }: {
     }
   )
 
+  oldCategories.forEach((categoryId) => cache.categoriesWithModifiedApps.push(categoryId))
   cache.categoriesWithModifiedApps.push(action.categoryId)
   cache.areChangesImportant = true
 }
