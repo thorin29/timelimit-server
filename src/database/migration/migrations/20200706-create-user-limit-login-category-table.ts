@@ -23,7 +23,7 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
   }, async (transaction) => {
     await sequelize.query(
       'CREATE TABLE `UserLimitLoginCategories`' +
-      '(`familyId` TEXT NOT NULL, `userId` TEXT NOT NULL, `categoryId` TEXT NOT NULL,' +
+      '(`familyId` VARCHAR(10) NOT NULL, `userId` VARCHAR(6) NOT NULL, `categoryId` VARCHAR(6) NOT NULL,' +
       'PRIMARY KEY(`familyId`, `userId`), FOREIGN KEY(`familyId`, `userId`) REFERENCES `Users`(`familyId`, `userId`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`familyId`, `categoryId`) REFERENCES `Categories`(`familyId`, `categoryId`) ON UPDATE CASCADE ON DELETE CASCADE )',
       { transaction }
     )
