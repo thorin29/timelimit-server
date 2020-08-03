@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,10 +18,34 @@
 import { UpdateCategoryBlockAllNotificationsAction } from '../../../../action'
 import { Cache } from '../cache'
 
-export async function dispatchUpdateCategoryBlockAllNotifications ({ action, cache }: {
+export async function dispatchUpdateCategoryBlockAllNotifications ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryBlockAllNotificationsAction
   cache: Cache
+  fromChildSelfLimitAddChildUserId: string | null
 }) {
+  const categoryEntryUnsafe = await cache.database.category.findOne({
+    where: {
+      familyId: cache.familyId,
+      categoryId: action.categoryId
+    },
+    transaction: cache.transaction,
+    attributes: ['childId']
+  })
+
+  if (!categoryEntryUnsafe) {
+    throw new Error('invalid category id for updating notification blocking')
+  }
+
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    if (fromChildSelfLimitAddChildUserId !== categoryEntryUnsafe.childId) {
+      throw new Error('can not add rules for other users')
+    }
+
+    if (!action.blocked) {
+      throw new Error('can not disable filter as child')
+    }
+  }
+
   const [affectedRows] = await cache.database.category.update({
     blockAllNotifications: action.blocked
   }, {

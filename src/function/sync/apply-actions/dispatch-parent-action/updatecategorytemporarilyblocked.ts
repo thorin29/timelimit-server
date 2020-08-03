@@ -18,13 +18,49 @@
 import { UpdateCategoryTemporarilyBlockedAction } from '../../../../action'
 import { Cache } from '../cache'
 
-export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache }: {
+export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryTemporarilyBlockedAction
   cache: Cache
+  fromChildSelfLimitAddChildUserId: string | null
 }) {
   if (action.blocked === true) {
     if (!cache.hasFullVersion) {
       throw new Error('action requires full version')
+    }
+  }
+
+  const categoryEntryUnsafe = await cache.database.category.findOne({
+    where: {
+      familyId: cache.familyId,
+      categoryId: action.categoryId
+    },
+    transaction: cache.transaction,
+    attributes: ['childId', 'temporarilyBlocked', 'temporarilyBlockedEndTime']
+  })
+
+  if (!categoryEntryUnsafe) {
+    throw new Error('invalid category id for updating temporarily blocking')
+  }
+
+  const categoryEntry = {
+    childId: categoryEntryUnsafe.childId,
+    temporarilyBlocked: categoryEntryUnsafe.temporarilyBlocked,
+    temporarilyBlockedEndTime: categoryEntryUnsafe.temporarilyBlockedEndTime
+  }
+
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    if (fromChildSelfLimitAddChildUserId !== categoryEntry.childId) {
+      throw new Error('can not update temporarily blocking as child for other users')
+    }
+
+    if (action.endTime === undefined || !action.blocked) {
+      throw new Error('the child may only enable a temporarily blocking')
+    }
+
+    if (categoryEntry.temporarilyBlocked) {
+      if (action.endTime < categoryEntry.temporarilyBlockedEndTime || categoryEntry.temporarilyBlockedEndTime === 0) {
+        throw new Error('the child may not reduce the temporarily blocking')
+      }
     }
   }
 

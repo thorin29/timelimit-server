@@ -19,10 +19,17 @@ import { CreateCategoryAction } from '../../../../action'
 import { generateVersionId } from '../../../../util/token'
 import { Cache } from '../cache'
 
-export async function dispatchCreateCategory ({ action, cache }: {
+export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: CreateCategoryAction
   cache: Cache
+  fromChildSelfLimitAddChildUserId: string | null
 }) {
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    if (fromChildSelfLimitAddChildUserId !== action.childId) {
+      throw new Error('can not create categories for other child users')
+    }
+  }
+
   // check that the child exists
   const childEntry = await cache.database.user.findOne({
     where: {

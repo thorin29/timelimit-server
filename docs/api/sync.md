@@ -44,6 +44,7 @@ The integrity field of a action may have got one of the following values:
 - an empty string when no user authentication is required/ for app logic actions (e.g. incrementing the used time)
 - the string ``device`` in case of parent actions if a parent is assigned to the device and asking for the password was disabled
 - ``sha512(sequence number as string with the base 10 + the device id as string + the hash of the user password using the second salt as string + the encoded action as string)`` for parent and child actions
+- the string ``childDevice`` in case the child wants to add limits for itself using parent actions; this feature must be enabled for the child and this allows only some actions with some parameters
 
 In case of a invalid integrity value, the action is ignored and the client is told to do a full sync
 

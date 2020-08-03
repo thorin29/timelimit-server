@@ -16,11 +16,13 @@
  */
 
 import { SetParentCategoryAction } from '../../../../action'
+import { getCategoryWithParentCategories } from '../../../../util/category'
 import { Cache } from '../cache'
 
-export async function dispatchSetParentCategory ({ action, cache }: {
+export async function dispatchSetParentCategory ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: SetParentCategoryAction
   cache: Cache
+  fromChildSelfLimitAddChildUserId: string | null
 }) {
   const categoryEntry = await cache.database.category.findOne({
     where: {
@@ -32,6 +34,12 @@ export async function dispatchSetParentCategory ({ action, cache }: {
 
   if (!categoryEntry) {
     throw new Error('tried to set parent category of non existent category')
+  }
+
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    if (categoryEntry.childId !== fromChildSelfLimitAddChildUserId) {
+      throw new Error('can not set parent category for other user')
+    }
   }
 
   if (action.parentCategory !== '') {
@@ -73,6 +81,16 @@ export async function dispatchSetParentCategory ({ action, cache }: {
 
     if (childCategoryIds.has(action.parentCategory) || action.parentCategory === action.categoryId) {
       throw new Error('can not set a category as parent which is a child of the category')
+    }
+
+    if (fromChildSelfLimitAddChildUserId !== null) {
+      const ownParentCategory = categoriesByUserId.find((item) => item.categoryId === categoryEntry.parentCategoryId)
+      const enableDueToLimitAddingWhenChild = ownParentCategory === undefined ||
+        getCategoryWithParentCategories(categoriesByUserId, action.parentCategory).indexOf(ownParentCategory.categoryId) !== -1
+
+      if (!enableDueToLimitAddingWhenChild) {
+        throw new Error('can not change parent categories in a way which reduces limits')
+      }
     }
   }
 

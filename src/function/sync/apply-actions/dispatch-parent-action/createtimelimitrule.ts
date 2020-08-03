@@ -18,14 +18,28 @@
 import { CreateTimeLimitRuleAction } from '../../../../action'
 import { Cache } from '../cache'
 
-export async function dispatchCreateTimeLimitRule ({ action, cache }: {
+export async function dispatchCreateTimeLimitRule ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: CreateTimeLimitRuleAction
   cache: Cache
+  fromChildSelfLimitAddChildUserId: string | null
 }) {
-  const doesCategoryExist = await cache.doesCategoryExist(action.rule.categoryId)
+  const categoryEntryUnsafe = await cache.database.category.findOne({
+    where: {
+      familyId: cache.familyId,
+      categoryId: action.rule.categoryId
+    },
+    transaction: cache.transaction,
+    attributes: ['childId']
+  })
 
-  if (!doesCategoryExist) {
+  if (!categoryEntryUnsafe) {
     throw new Error('invalid category id for new rule')
+  }
+
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    if (fromChildSelfLimitAddChildUserId !== categoryEntryUnsafe.childId) {
+      throw new Error('can not add rules for other users')
+    }
   }
 
   await cache.database.timelimitRule.create({

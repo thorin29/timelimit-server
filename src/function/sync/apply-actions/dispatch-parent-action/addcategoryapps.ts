@@ -18,11 +18,13 @@
 import * as Sequelize from 'sequelize'
 import { AddCategoryAppsAction } from '../../../../action'
 import { CategoryAppAttributes } from '../../../../database/categoryapp'
+import { getCategoryWithParentCategories } from '../../../../util/category'
 import { Cache } from '../cache'
 
-export async function dispatchAddCategoryApps ({ action, cache }: {
+export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: AddCategoryAppsAction
   cache: Cache
+  fromChildSelfLimitAddChildUserId: string | null
 }) {
   const categoryEntryUnsafe = await cache.database.category.findOne({
     where: {
@@ -39,14 +41,25 @@ export async function dispatchAddCategoryApps ({ action, cache }: {
 
   const { childId } = categoryEntryUnsafe
 
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    if (childId !== fromChildSelfLimitAddChildUserId) {
+      throw new Error('can not add apps to other users')
+    }
+  }
+
   const categoriesOfSameChild = await cache.database.category.findAll({
     where: {
       familyId: cache.familyId,
       childId
     },
-    attributes: ['categoryId'],
+    attributes: ['categoryId', 'parentCategoryId'],
     transaction: cache.transaction
-  }).map((item) => ({ categoryId: item.categoryId }))
+  }).map((item) => ({
+    categoryId: item.categoryId,
+    parentCategoryId: item.parentCategoryId
+  }))
+
+  const userCategoryIds = categoriesOfSameChild.map((item) => item.categoryId)
 
   const oldCategories = await cache.database.categoryApp.findAll({
     attributes: [ 'categoryId' ],
@@ -54,7 +67,7 @@ export async function dispatchAddCategoryApps ({ action, cache }: {
     where: {
       familyId: cache.familyId,
       categoryId: {
-        [Sequelize.Op.in]: categoriesOfSameChild.map((item) => item.categoryId)
+        [Sequelize.Op.in]: userCategoryIds
       },
       packageName: {
         [Sequelize.Op.in]: action.packageNames
@@ -62,6 +75,68 @@ export async function dispatchAddCategoryApps ({ action, cache }: {
     },
     transaction: cache.transaction
   }).map((item) => item.categoryId)
+
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    const parentCategoriesOfTargetCategory = getCategoryWithParentCategories(categoriesOfSameChild, action.categoryId)
+    const userEntryUnsafe = await cache.database.user.findOne({
+      attributes: [ 'categoryForNotAssignedApps' ],
+      where: {
+        familyId: cache.familyId,
+        userId: fromChildSelfLimitAddChildUserId
+      },
+      transaction: cache.transaction
+    })
+
+    if (!userEntryUnsafe) {
+      throw new Error('illegal state')
+    }
+
+    const userEntry = { categoryForNotAssignedApps: userEntryUnsafe.categoryForNotAssignedApps }
+    const validatedDefaultCategoryId = categoriesOfSameChild.find((item) => item.categoryId === userEntry.categoryForNotAssignedApps)?.categoryId
+    const allowUnassignedElements = validatedDefaultCategoryId !== undefined &&
+      parentCategoriesOfTargetCategory.indexOf(validatedDefaultCategoryId) !== -1
+
+    const assertCanAddApp = async (packageName: string, isApp: boolean) => {
+      const categoryAppEntryUnsafe = await cache.database.categoryApp.findOne({
+        attributes: [ 'categoryId' ],
+        where: {
+          familyId: cache.familyId,
+          categoryId: {
+            [Sequelize.Op.in]: userCategoryIds
+          },
+          packageName: packageName
+        },
+        transaction: cache.transaction
+      })
+
+      const categoryAppEntry = categoryAppEntryUnsafe ? { categoryId: categoryAppEntryUnsafe.categoryId } : null
+
+      if (categoryAppEntry === null) {
+        if ((isApp && allowUnassignedElements) || (!isApp)) {
+          // allow
+        } else {
+          throw new Error('can not assign apps without category as child')
+        }
+      } else {
+        if (parentCategoriesOfTargetCategory.indexOf(categoryAppEntry.categoryId) !== -1) {
+          // allow
+        } else {
+          throw new Error('can not add app which is not contained in the parent category')
+        }
+      }
+    }
+
+    for (let i = 0; i < action.packageNames.length; i++) {
+      const packageName = action.packageNames[i]
+
+      if (packageName.indexOf(':') !== -1) {
+        await assertCanAddApp(packageName.substring(0, packageName.indexOf(':')), true)
+        await assertCanAddApp(packageName, false)
+      } else {
+        await assertCanAddApp(packageName, true)
+      }
+    }
+  }
 
   if (oldCategories.length > 0) {
     await cache.database.categoryApp.destroy({

@@ -17,5 +17,6 @@
 
 export const UserFlags = {
   RESTRICT_VIEWING_TO_PARENTS: 1,
-  ALL_FLAGS: 1
+  ALLOW_SELF_LIMIT_ADD: 2,
+  ALL_FLAGS: 1 | 2
 }

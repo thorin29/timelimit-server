@@ -22,6 +22,7 @@ import { ClientPushChangesRequest } from '../../../api/schema'
 import { isSerializedAppLogicAction, isSerializedChildAction, isSerializedParentAction } from '../../../api/validator'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
 import { Database } from '../../../database'
+import { UserFlags } from '../../../model/userflags'
 import { EventHandler } from '../../../monitoring/eventhandler'
 import { WebsocketApi } from '../../../websocket'
 import { notifyClientsAboutChanges } from '../../websocket'
@@ -106,6 +107,8 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
         // update the next sequence number
         nextSequenceNumber = action.sequenceNumber + 1
 
+        let isChildLimitAdding = false
+
         if (action.type === 'parent') {
           if (action.integrity === 'device') {
             const deviceEntryUnsafe2 = await cache.database.device.findOne({
@@ -125,6 +128,9 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
 
             // this ensures that the parent exists
             await cache.getSecondPasswordHashOfParent(action.userId)
+          } else if (action.integrity === 'childDevice') {
+            // will be checked later
+            isChildLimitAdding = true
           } else {
             const parentSecondHash = await cache.getSecondPasswordHashOfParent(action.userId)
 
@@ -191,19 +197,68 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
             throw new Error('invalid action' + action.encodedAction)
           }
 
-          eventHandler.countEvent('applyActionsFromDevice action:' + parsedSerializedAction.type)
+          eventHandler.countEvent('applyActionsFromDevice, childAddLimit: ' + isChildLimitAdding + ' action:' + parsedSerializedAction.type)
 
           const parsedAction = parseParentAction(parsedSerializedAction)
 
           try {
-            await dispatchParentAction({
-              action: parsedAction,
-              cache,
-              parentUserId: action.userId,
-              sourceDeviceId: deviceEntry.deviceId
-            })
+            if (isChildLimitAdding) {
+              const deviceEntryUnsafe2 = await cache.database.device.findOne({
+                attributes: ['currentUserId'],
+                where: {
+                  familyId: cache.familyId,
+                  deviceId: deviceEntry.deviceId,
+                  currentUserId: action.userId
+                },
+                transaction: cache.transaction
+              })
+
+              if (!deviceEntryUnsafe2) {
+                throw new Error('illegal state')
+              }
+
+              const deviceUserId = deviceEntryUnsafe2.currentUserId
+
+              if (!deviceUserId) {
+                throw new Error('no device user id set but child add self limit action requested')
+              }
+
+              const deviceUserEntryUnsafe = await cache.database.user.findOne({
+                attributes: ['flags'],
+                where: {
+                  familyId: cache.familyId,
+                  userId: deviceUserId,
+                  type: 'child'
+                },
+                transaction: cache.transaction
+              })
+
+              if (!deviceUserEntryUnsafe) {
+                throw new Error('no child user found for child limit adding action')
+              }
+
+              if ((parseInt(deviceUserEntryUnsafe.flags, 10) & UserFlags.ALLOW_SELF_LIMIT_ADD) !== UserFlags.ALLOW_SELF_LIMIT_ADD) {
+                throw new Error('child add limit action found but not allowed')
+              }
+
+              await dispatchParentAction({
+                action: parsedAction,
+                cache,
+                parentUserId: action.userId,
+                sourceDeviceId: deviceEntry.deviceId,
+                fromChildSelfLimitAddChildUserId: deviceUserId
+              })
+            } else {
+              await dispatchParentAction({
+                action: parsedAction,
+                cache,
+                parentUserId: action.userId,
+                sourceDeviceId: deviceEntry.deviceId,
+                fromChildSelfLimitAddChildUserId: null
+              })
+            }
           } catch (ex) {
-            eventHandler.countEvent('applyActionsFromDevice actionWithError:' + parsedSerializedAction.type)
+            eventHandler.countEvent('applyActionsFromDeviceWithError, childAddLimit: ' + isChildLimitAdding + ' action:' + parsedSerializedAction.type)
 
             throw ex
           }
