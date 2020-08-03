@@ -20,6 +20,7 @@ interface Config {
   mailWhitelist: Array<string>
   disableSignup: boolean
   pingInterval: number
+  alwaysPro: boolean
 }
 
 function parseYesNo (value: string) {
@@ -28,12 +29,13 @@ function parseYesNo (value: string) {
   } else if (value === 'no') {
     return false
   } else {
-    throw new Error('invalid value "' + value + '", expected "" or "no"')
+    throw new Error('invalid value "' + value + '", expected "yes" or "no"')
   }
 }
 
 export const config: Config = {
   mailWhitelist: (process.env.MAIL_WHITELIST || '').split(',').map((item) => item.trim()).filter((item) => item.length > 0),
   disableSignup: parseYesNo(process.env.DISABLE_SIGNUP || 'no'),
-  pingInterval: parseInt(process.env.PING_INTERVAL_SEC || '25', 10) * 1000
+  pingInterval: parseInt(process.env.PING_INTERVAL_SEC || '25', 10) * 1000,
+  alwaysPro: process.env.ALWAYS_PRO ? parseYesNo(process.env.ALWAYS_PRO) : false
 }

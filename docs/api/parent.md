@@ -20,12 +20,13 @@ On a invalid request body: HTTP status code 400 Bad Request
 
 If the mail auth token is invalid/ expired: HTTP status code 401 Unauthorized
 
-On success: a object with the properties ``status`` (string), ``mail`` (string) and
-``canCreateFamily`` (boolean)
+On success: a object with the properties ``status`` (string), ``mail`` (string),
+``canCreateFamily`` (boolean) and ``alwaysPro`` (boolean)
 
 - ``status`` is ``with family`` or ``without family``
 - ``mail`` is the mail address for which the auth token was created
 - ``canCreateFamily`` is false if the sign up of new families was disabled and otherwise true
+- ``alwaysPro`` is true if the premium version is always unlocked
 
 ## POST /parent/create-family
 

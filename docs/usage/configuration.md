@@ -48,7 +48,9 @@
 - DISABLE_SIGNUP
   - ``yes`` or ``no`` (default: no)
   - disables creating new families if ``yes`` is selected
-  - the default value is ``no``
+- ALWAYS_PRO
+  - ``yes`` or ``no`` (default: ``no``)
+  - if ``yes``, then the features of the premium version are unlocked for all users
 - PING_INTERVAL_SEC
   - ping interval at the websocket in seconds
   - the default value is ``25``

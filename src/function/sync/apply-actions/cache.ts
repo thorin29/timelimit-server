@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { memoize, uniq } from 'lodash'
 import * as Sequelize from 'sequelize'
+import { config } from '../../../config'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
 import { Database } from '../../../database'
 import { generateVersionId } from '../../../util/token'
@@ -49,7 +50,7 @@ export class Cache {
     connectedDevicesManager: VisibleConnectedDevicesManager
   }) {
     this.familyId = familyId
-    this.hasFullVersion = hasFullVersion
+    this.hasFullVersion = hasFullVersion || config.alwaysPro
     this.database = database
     this.transaction = transaction
     this.connectedDevicesManager = connectedDevicesManager

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { Conflict, Unauthorized } from 'http-errors'
 import * as Sequelize from 'sequelize'
+import { config } from '../../config'
 import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
@@ -104,7 +105,7 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
         hasFullVersion: familyEntryUnsafe.hasFullVersion
       }
 
-      if (!familyEntry.hasFullVersion) {
+      if (!(familyEntry.hasFullVersion || config.alwaysPro)) {
         return {
           response: 'requires full version',
           sourceDeviceId: deviceEntry.deviceId,

@@ -17,6 +17,7 @@
 
 import { difference, filter, intersection } from 'lodash'
 import * as Sequelize from 'sequelize'
+import { config } from '../../config'
 import { Database } from '../../database'
 import { getStatusMessage } from '../../function/statusmessage'
 import { ClientDataStatus } from '../../object/clientdatastatus'
@@ -58,7 +59,9 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
   }
 
   let result: ServerDataStatus = {
-    fullVersion: familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0,
+    fullVersion: config.alwaysPro ? 1 : (
+      familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
+    ),
     message: await getStatusMessage({ database, transaction }) || undefined
   }
 

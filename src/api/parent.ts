@@ -51,7 +51,8 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       res.json({
         status,
         mail,
-        canCreateFamily: !config.disableSignup
+        canCreateFamily: !config.disableSignup,
+        alwaysPro: config.alwaysPro
       })
     } catch (ex) {
       next(ex)
