@@ -10,6 +10,9 @@ within the root directory of this git repository) or you can replace it by
 ``image: docker.timelimit.io/timelimit-server`` which will use prebuilt docker
 images.
 
+In case of self building the image, don't forget to run ``docker-compose up`` again
+to make docker use the new image.
+
 ## example docker-compose.yml with included database
 
 ```
