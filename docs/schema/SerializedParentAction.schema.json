@@ -4,6 +4,9 @@
       "$ref": "#/definitions/SerializedAddCategoryAppsAction"
     },
     {
+      "$ref": "#/definitions/SerializedAddCategoryNetworkIdAction"
+    },
+    {
       "$ref": "#/definitions/SerializedAddUserAction"
     },
     {
@@ -35,6 +38,9 @@
     },
     {
       "$ref": "#/definitions/SerializedRenameChildAction"
+    },
+    {
+      "$ref": "#/definitions/SerializeResetCategoryNetworkIdsAction"
     },
     {
       "$ref": "#/definitions/SerializedResetParentBlockedTimesAction"
@@ -151,6 +157,34 @@
         "type"
       ],
       "title": "SerializedAddCategoryAppsAction"
+    },
+    "SerializedAddCategoryNetworkIdAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ADD_CATEGORY_NETWORK_ID"
+          ]
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "itemId": {
+          "type": "string"
+        },
+        "hashedNetworkId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryId",
+        "hashedNetworkId",
+        "itemId",
+        "type"
+      ],
+      "title": "SerializedAddCategoryNetworkIdAction"
     },
     "SerializedAddUserAction": {
       "type": "object",
@@ -533,6 +567,26 @@
         "type"
       ],
       "title": "SerializedRenameChildAction"
+    },
+    "SerializeResetCategoryNetworkIdsAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "RESET_CATEGORY_NETWORK_IDS"
+          ]
+        },
+        "categoryId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryId",
+        "type"
+      ],
+      "title": "SerializeResetCategoryNetworkIdsAction"
     },
     "SerializedResetParentBlockedTimesAction": {
       "type": "object",

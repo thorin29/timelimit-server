@@ -974,6 +974,7 @@ Reference this group by using
 | [mblCharging](#mblCharging)                     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-mblcharging.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/mblCharging")                     |
 | [mblMobile](#mblMobile)                         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-mblmobile.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/mblMobile")                         |
 | [sort](#sort)                                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-sort.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/sort")                                   |
+| [networks](#networks)                           | `array`   | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-networks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/networks")                           |
 
 ### categoryId
 
@@ -1214,6 +1215,67 @@ Reference this group by using
 #### sort Type
 
 `number`
+
+### networks
+
+
+
+
+`networks`
+
+-   is required
+-   Type: `object[]` ([ServerCategoryNetworkId](serverdatastatus-definitions-servercategorynetworkid.md))
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-networks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/networks")
+
+#### networks Type
+
+`object[]` ([ServerCategoryNetworkId](serverdatastatus-definitions-servercategorynetworkid.md))
+
+## Definitions group ServerCategoryNetworkId
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId"}
+```
+
+| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                          |
+| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [itemId](#itemId)                   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-itemid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/itemId")                   |
+| [hashedNetworkId](#hashedNetworkId) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-hashednetworkid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/hashedNetworkId") |
+
+### itemId
+
+
+
+
+`itemId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-itemid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/itemId")
+
+#### itemId Type
+
+`string`
+
+### hashedNetworkId
+
+
+
+
+`hashedNetworkId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-hashednetworkid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/hashedNetworkId")
+
+#### hashedNetworkId Type
+
+`string`
 
 ## Definitions group ServerUpdatedCategoryAssignedApps
 

@@ -119,6 +119,33 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedAddCategoryNetworkIdAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "ADD_CATEGORY_NETWORK_ID"
+        ]
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "itemId": {
+        "type": "string"
+      },
+      "hashedNetworkId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
+      "hashedNetworkId",
+      "itemId",
+      "type"
+    ]
+  },
   "SerializedAddUserAction": {
     "type": "object",
     "properties": {
@@ -465,6 +492,25 @@ const definitions = {
     "required": [
       "childId",
       "newName",
+      "type"
+    ]
+  },
+  "SerializeResetCategoryNetworkIdsAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "RESET_CATEGORY_NETWORK_IDS"
+        ]
+      },
+      "categoryId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
       "type"
     ]
   },
@@ -1835,6 +1881,12 @@ const definitions = {
       },
       "sort": {
         "type": "number"
+      },
+      "networks": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ServerCategoryNetworkId"
+        }
       }
     },
     "additionalProperties": false,
@@ -1847,6 +1899,7 @@ const definitions = {
       "extraTimeDay",
       "mblCharging",
       "mblMobile",
+      "networks",
       "parentCategoryId",
       "sort",
       "tempBlockTime",
@@ -1854,6 +1907,22 @@ const definitions = {
       "timeWarnings",
       "title",
       "version"
+    ]
+  },
+  "ServerCategoryNetworkId": {
+    "type": "object",
+    "properties": {
+      "itemId": {
+        "type": "string"
+      },
+      "hashedNetworkId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "hashedNetworkId",
+      "itemId"
     ]
   },
   "ServerUpdatedCategoryAssignedApps": {
@@ -2328,6 +2397,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
       "$ref": "#/definitions/SerializedAddCategoryAppsAction"
     },
     {
+      "$ref": "#/definitions/SerializedAddCategoryNetworkIdAction"
+    },
+    {
       "$ref": "#/definitions/SerializedAddUserAction"
     },
     {
@@ -2359,6 +2431,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedRenameChildAction"
+    },
+    {
+      "$ref": "#/definitions/SerializeResetCategoryNetworkIdsAction"
     },
     {
       "$ref": "#/definitions/SerializedResetParentBlockedTimesAction"

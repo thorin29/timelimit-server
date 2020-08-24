@@ -397,6 +397,25 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       sort: item.sort
     }))
 
+    const networkIdsForSyncing = (await database.categoryNetworkId.findAll({
+      where: {
+        familyId,
+        categoryId: {
+          [Sequelize.Op.in]: categoryIdsToSyncBaseData
+        }
+      },
+      attributes: [
+        'categoryId',
+        'networkItemId',
+        'hashedNetworkId'
+      ],
+      transaction
+    })).map((item) => ({
+      categoryId: item.categoryId,
+      networkItemId: item.networkItemId,
+      hashedNetworkId: item.hashedNetworkId
+    }))
+
     result.categoryBase = dataForSyncing.map((item): ServerUpdatedCategoryBaseData => ({
       categoryId: item.categoryId,
       childId: item.childId,
@@ -412,7 +431,13 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       mblMobile: item.minBatteryMobile,
       mblCharging: item.minBatteryCharging,
       tempBlockTime: item.temporarilyBlockedEndTime,
-      sort: item.sort
+      sort: item.sort,
+      networks: networkIdsForSyncing
+        .filter((network) => network.categoryId === item.categoryId)
+        .map((network) => ({
+          itemId: network.networkItemId,
+          hashedNetworkId: network.hashedNetworkId
+        }))
     }))
   }
 

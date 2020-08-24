@@ -18,6 +18,7 @@ merged type ([SerializedParentAction](serializedparentaction.md))
 any of
 
 -   [SerializedAddCategoryAppsAction](serializedparentaction-definitions-serializedaddcategoryappsaction.md "check type definition")
+-   [SerializedAddCategoryNetworkIdAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction.md "check type definition")
 -   [SerializedAddUserAction](serializedparentaction-definitions-serializedadduseraction.md "check type definition")
 -   [SerializedChangeParentPasswordAction](serializedparentaction-definitions-serializedchangeparentpasswordaction.md "check type definition")
 -   [SerializedCreateCategoryAction](serializedparentaction-definitions-serializedcreatecategoryaction.md "check type definition")
@@ -29,6 +30,7 @@ any of
 -   [SerializedRemoveCategoryAppsAction](serializedparentaction-definitions-serializedremovecategoryappsaction.md "check type definition")
 -   [SerializedRemoveUserAction](serializedparentaction-definitions-serializedremoveuseraction.md "check type definition")
 -   [SerializedRenameChildAction](serializedparentaction-definitions-serializedrenamechildaction.md "check type definition")
+-   [SerializeResetCategoryNetworkIdsAction](serializedparentaction-definitions-serializeresetcategorynetworkidsaction.md "check type definition")
 -   [SerializedResetParentBlockedTimesAction](serializedparentaction-definitions-serializedresetparentblockedtimesaction.md "check type definition")
 -   [SerializedSetCategoryExtraTimeAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction.md "check type definition")
 -   [SerializedSetCategoryForUnassignedAppsAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction.md "check type definition")
@@ -130,6 +132,93 @@ Reference this group by using
 #### packageNames Type
 
 `string[]`
+
+## Definitions group SerializedAddCategoryNetworkIdAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction"}
+```
+
+| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                      |
+| :---------------------------------- | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)                       | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/type")                       |
+| [categoryId](#categoryId)           | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/categoryId")           |
+| [itemId](#itemId)                   | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-itemid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/itemId")                   |
+| [hashedNetworkId](#hashedNetworkId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-hashednetworkid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/hashedNetworkId") |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                       | Explanation |
+| :-------------------------- | ----------- |
+| `"ADD_CATEGORY_NETWORK_ID"` |             |
+
+### categoryId
+
+
+
+
+`categoryId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/categoryId")
+
+#### categoryId Type
+
+`string`
+
+### itemId
+
+
+
+
+`itemId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-itemid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/itemId")
+
+#### itemId Type
+
+`string`
+
+### hashedNetworkId
+
+
+
+
+`hashedNetworkId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-hashednetworkid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/hashedNetworkId")
+
+#### hashedNetworkId Type
+
+`string`
 
 ## Definitions group SerializedAddUserAction
 
@@ -1371,6 +1460,59 @@ Reference this group by using
 -   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedrenamechildaction-properties-newname.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction/properties/newName")
 
 #### newName Type
+
+`string`
+
+## Definitions group SerializeResetCategoryNetworkIdsAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializeResetCategoryNetworkIdsAction"}
+```
+
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                |
+| :------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeresetcategorynetworkidsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializeResetCategoryNetworkIdsAction/properties/type")             |
+| [categoryId](#categoryId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeresetcategorynetworkidsaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializeResetCategoryNetworkIdsAction/properties/categoryId") |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializeresetcategorynetworkidsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializeResetCategoryNetworkIdsAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                          | Explanation |
+| :----------------------------- | ----------- |
+| `"RESET_CATEGORY_NETWORK_IDS"` |             |
+
+### categoryId
+
+
+
+
+`categoryId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializeresetcategorynetworkidsaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializeResetCategoryNetworkIdsAction/properties/categoryId")
+
+#### categoryId Type
 
 `string`
 

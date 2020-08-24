@@ -17,6 +17,7 @@
 
 import {
   AddCategoryAppsAction,
+  AddCategoryNetworkIdAction,
   AddUserAction,
   ChangeParentPasswordAction,
   CreateCategoryAction,
@@ -29,6 +30,7 @@ import {
   RemoveCategoryAppsAction,
   RemoveUserAction,
   RenameChildAction,
+  ResetCategoryNetworkIdsAction,
   ResetParentBlockedTimesAction,
   SetCategoryExtraTimeAction,
   SetCategoryForUnassignedAppsAction,
@@ -61,6 +63,7 @@ import {
 } from '../../../../action'
 import { Cache } from '../cache'
 import { dispatchAddCategoryApps } from './addcategoryapps'
+import { dispatchAddCategoryNetworkId } from './addcategorynetworkid'
 import { dispatchAddUser } from './adduser'
 import { dispatchChangeParentPassword } from './changeparentpassword'
 import { dispatchCreateCategory } from './createcategory'
@@ -72,6 +75,7 @@ import { dispatchIncrementCategoryExtraTime } from './incrementcategoryextratime
 import { dispatchRemoveCategoryApps } from './removecategoryapps'
 import { dispatchRemoveUser } from './removeuser'
 import { dispatchRenameChild } from './renamechild'
+import { dispatchResetCategoryNetworkIds } from './resetcategorynetworkids'
 import { dispatchResetParentBlockedTimes } from './resetparentblockedtimes'
 import { dispatchSetCategoryExtraTime } from './setcategoryextratime'
 import { dispatchSetCategoryForUnassignedApps } from './setcategoryforunassignedapps'
@@ -124,7 +128,9 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
   }
 
   if (fromChildSelfLimitAddChildUserId === null) {
-    if (action instanceof AddUserAction) {
+    if (action instanceof AddCategoryNetworkIdAction) {
+      return dispatchAddCategoryNetworkId({ action, cache })
+    } else if (action instanceof AddUserAction) {
       return dispatchAddUser({ action, cache })
     } else if (action instanceof RemoveCategoryAppsAction) {
       return dispatchRemoveCategoryApps({ action, cache })
@@ -178,6 +184,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       return dispatchUpdateTimelimitRule({ action, cache })
     } else if (action instanceof RemoveUserAction) {
       return dispatchRemoveUser({ action, cache, parentUserId })
+    } else if (action instanceof ResetCategoryNetworkIdsAction) {
+      return dispatchResetCategoryNetworkIds({ action, cache })
     } else if (action instanceof RenameChildAction) {
       return dispatchRenameChild({ action, cache })
     } else if (action instanceof ChangeParentPasswordAction) {

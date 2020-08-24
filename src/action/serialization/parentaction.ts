@@ -16,6 +16,7 @@
  */
 
 import { AddCategoryAppsAction, SerializedAddCategoryAppsAction } from '../addcategoryapps'
+import { AddCategoryNetworkIdAction, SerializedAddCategoryNetworkIdAction } from '../addcategorynetworkid'
 import { AddUserAction, SerializedAddUserAction } from '../adduser'
 import { ParentAction } from '../basetypes'
 import { ChangeParentPasswordAction, SerializedChangeParentPasswordAction } from '../changeparentpassword'
@@ -28,6 +29,7 @@ import { IncrementCategoryExtraTimeAction, SerializedIncrementCategoryExtraTimeA
 import { RemoveCategoryAppsAction, SerializedRemoveCategoryAppsAction } from '../removecategoryapps'
 import { RemoveUserAction, SerializedRemoveUserAction } from '../removeuser'
 import { RenameChildAction, SerializedRenameChildAction } from '../renamechild'
+import { ResetCategoryNetworkIdsAction, SerializeResetCategoryNetworkIdsAction } from '../resetcategorynetworkids'
 import { ResetParentBlockedTimesAction, SerializedResetParentBlockedTimesAction } from '../resetparentblockedtimes'
 import { SerializedSetCategoryExtraTimeAction, SetCategoryExtraTimeAction } from '../setcategoryextratime'
 import { SerializedSetCategoryForUnassignedAppsAction, SetCategoryForUnassignedAppsAction } from '../setcategoryforunassignedapps'
@@ -60,6 +62,7 @@ import { SerializedUpdateUserLimitLoginCategory, UpdateUserLimitLoginCategory } 
 
 export type SerializedParentAction =
   SerializedAddCategoryAppsAction |
+  SerializedAddCategoryNetworkIdAction |
   SerializedAddUserAction |
   SerializedChangeParentPasswordAction |
   SerializedCreateCategoryAction |
@@ -71,6 +74,7 @@ export type SerializedParentAction =
   SerializedRemoveCategoryAppsAction |
   SerializedRemoveUserAction |
   SerializedRenameChildAction |
+  SerializeResetCategoryNetworkIdsAction |
   SerializedResetParentBlockedTimesAction |
   SerializedSetCategoryForUnassignedAppsAction |
   SerializedSetChildPasswordAction |
@@ -104,6 +108,8 @@ export type SerializedParentAction =
 export const parseParentAction = (action: SerializedParentAction): ParentAction => {
   if (action.type === 'ADD_CATEGORY_APPS') {
     return AddCategoryAppsAction.parse(action)
+  } else if (action.type === 'ADD_CATEGORY_NETWORK_ID') {
+    return AddCategoryNetworkIdAction.parse(action)
   } else if (action.type === 'ADD_USER') {
     return AddUserAction.parse(action)
   } else if (action.type === 'CHANGE_PARENT_PASSWORD') {
@@ -126,6 +132,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return RemoveUserAction.parse(action)
   } else if (action.type === 'RENAME_CHILD') {
     return RenameChildAction.parse(action)
+  } else if (action.type === 'RESET_CATEGORY_NETWORK_IDS') {
+    return ResetCategoryNetworkIdsAction.parse(action)
   } else if (action.type === 'RESET_PARENT_BLOCKED_TIMES') {
     return ResetParentBlockedTimesAction.parse(action)
   } else if (action.type === 'SET_CATEGORY_EXTRA_TIME') {

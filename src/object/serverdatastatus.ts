@@ -112,6 +112,12 @@ export interface ServerUpdatedCategoryBaseData {
   mblCharging: number
   mblMobile: number
   sort: number
+  networks: Array<ServerCategoryNetworkId>
+}
+
+export interface ServerCategoryNetworkId {
+  itemId: string
+  hashedNetworkId: string
 }
 
 export interface ServerUpdatedCategoryAssignedApps {

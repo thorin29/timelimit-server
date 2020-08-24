@@ -370,6 +370,12 @@
         },
         "sort": {
           "type": "number"
+        },
+        "networks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServerCategoryNetworkId"
+          }
         }
       },
       "additionalProperties": false,
@@ -382,6 +388,7 @@
         "extraTimeDay",
         "mblCharging",
         "mblMobile",
+        "networks",
         "parentCategoryId",
         "sort",
         "tempBlockTime",
@@ -391,6 +398,23 @@
         "version"
       ],
       "title": "ServerUpdatedCategoryBaseData"
+    },
+    "ServerCategoryNetworkId": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string"
+        },
+        "hashedNetworkId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "hashedNetworkId",
+        "itemId"
+      ],
+      "title": "ServerCategoryNetworkId"
     },
     "ServerUpdatedCategoryAssignedApps": {
       "type": "object",

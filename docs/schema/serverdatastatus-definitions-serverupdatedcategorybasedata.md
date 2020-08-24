@@ -34,6 +34,7 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData
 | [mblCharging](#mblCharging)                     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-mblcharging.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/mblCharging")                     |
 | [mblMobile](#mblMobile)                         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-mblmobile.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/mblMobile")                         |
 | [sort](#sort)                                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-sort.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/sort")                                   |
+| [networks](#networks)                           | `array`   | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-networks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/networks")                           |
 
 ## categoryId
 
@@ -274,3 +275,19 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData
 ### sort Type
 
 `number`
+
+## networks
+
+
+
+
+`networks`
+
+-   is required
+-   Type: `object[]` ([ServerCategoryNetworkId](serverdatastatus-definitions-servercategorynetworkid.md))
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-networks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/networks")
+
+### networks Type
+
+`object[]` ([ServerCategoryNetworkId](serverdatastatus-definitions-servercategorynetworkid.md))
