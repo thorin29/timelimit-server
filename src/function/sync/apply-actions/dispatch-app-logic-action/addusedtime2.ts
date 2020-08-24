@@ -64,9 +64,12 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: 
 
     // tslint:disable-next-line:no-inner-declarations
     async function handle (start: number, end: number) {
+      const lengthInMinutes = (end - start) + 1
+      const lengthInMs = lengthInMinutes * 1000 * 60
+
       // try to update first
       const [updatedRows] = await cache.database.usedTime.update({
-        usedTime: Sequelize.literal(`usedTime + ${item.timeToAdd}`) as any,
+        usedTime: Sequelize.literal(`MAX(0, MIN(usedTime + ${item.timeToAdd}, ${lengthInMs}))`) as any,
         lastUpdate: roundedTimestampForUsedTime
       }, {
         where: {
@@ -85,7 +88,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: 
           familyId: cache.familyId,
           categoryId: item.categoryId,
           dayOfEpoch: action.dayOfEpoch,
-          usedTime: item.timeToAdd,
+          usedTime: Math.min(item.timeToAdd, lengthInMs),
           lastUpdate: roundedTimestampForUsedTime,
           startMinuteOfDay: start,
           endMinuteOfDay: end

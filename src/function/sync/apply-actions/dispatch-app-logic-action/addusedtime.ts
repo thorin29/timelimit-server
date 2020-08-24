@@ -26,6 +26,9 @@ export const getRoundedTimestamp = () => {
   return now - (now % (1000 * 60 * 60 * 24 * 2 /* 2 days */))
 }
 
+const dayLengthInMinutes = MinuteOfDay.LENGTH
+const dayLengthInMs = dayLengthInMinutes * 1000 * 60
+
 export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
   deviceId: string
   action: AddUsedTimeAction
@@ -63,7 +66,7 @@ export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
     if (action.timeToAdd !== 0) {
       // try to update first
       const [updatedRows] = await cache.database.usedTime.update({
-        usedTime: Sequelize.literal(`usedTime + ${action.timeToAdd}`) as any,
+        usedTime: Sequelize.literal(`MAX(0, MIN(usedTime + ${action.timeToAdd}, ${dayLengthInMs}))`) as any,
         lastUpdate: roundedTimestamp
       }, {
         where: {
@@ -82,7 +85,7 @@ export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
           familyId: cache.familyId,
           categoryId: categoryId,
           dayOfEpoch: action.dayOfEpoch,
-          usedTime: action.timeToAdd,
+          usedTime: Math.min(action.timeToAdd, dayLengthInMs),
           lastUpdate: roundedTimestamp,
           startMinuteOfDay: MinuteOfDay.MIN,
           endMinuteOfDay: MinuteOfDay.MAX
