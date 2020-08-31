@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,6 +19,8 @@ import { validateBitmask } from '../util/bitmask'
 import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
 
+export const blockedTimesBitmaskLength = 60 * 24 * 7 /* number of minutes per week */
+
 export class UpdateCategoryBlockedTimesAction extends ParentAction {
   readonly categoryId: string
   readonly blockedTimes: string
@@ -30,7 +32,7 @@ export class UpdateCategoryBlockedTimesAction extends ParentAction {
     super()
 
     assertIdWithinFamily(categoryId)
-    validateBitmask(blockedTimes, 60 * 24 * 7 /* number of minutes per week */)
+    validateBitmask(blockedTimes, blockedTimesBitmaskLength)
 
     this.categoryId = categoryId
     this.blockedTimes = blockedTimes

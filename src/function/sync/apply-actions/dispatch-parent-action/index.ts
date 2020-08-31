@@ -125,6 +125,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     return dispatchSetParentCategory({ action, cache, fromChildSelfLimitAddChildUserId })
   } else if (action instanceof UpdateCategoryTemporarilyBlockedAction) {
     return dispatchUpdateCategoryTemporarilyBlocked({ action, cache, fromChildSelfLimitAddChildUserId })
+  } else if (action instanceof UpdateCategoryBlockedTimesAction) {
+    return dispatchUpdateCategoryBlockedTimes({ action, cache, fromChildSelfLimitAddChildUserId })
   }
 
   if (fromChildSelfLimitAddChildUserId === null) {
@@ -164,8 +166,6 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       return dispatchSetUserTimezone({ action, cache })
     } else if (action instanceof UpdateCategoryBatteryLimitAction) {
       return dispatchUpdateCategoryBatteryLimit({ action, cache })
-    } else if (action instanceof UpdateCategoryBlockedTimesAction) {
-      return dispatchUpdateCategoryBlockedTimes({ action, cache })
     } else if (action instanceof UpdateCategorySortingAction) {
       return dispatchUpdateCategorySorting({ action, cache })
     } else if (action instanceof IncrementCategoryExtraTimeAction) {
