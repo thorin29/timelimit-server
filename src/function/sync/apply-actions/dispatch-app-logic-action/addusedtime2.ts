@@ -67,9 +67,12 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: 
       const lengthInMinutes = (end - start) + 1
       const lengthInMs = lengthInMinutes * 1000 * 60
 
+      const maxOperator = cache.database.dialect === 'sqlite' ? 'MAX' : 'GREATEST'
+      const minOperator = cache.database.dialect === 'sqlite' ? 'MIN' : 'LEAST'
+
       // try to update first
       const [updatedRows] = await cache.database.usedTime.update({
-        usedTime: Sequelize.literal(`MAX(0, MIN(usedTime + ${item.timeToAdd}, ${lengthInMs}))`) as any,
+        usedTime: Sequelize.literal(`${maxOperator}(0, ${minOperator}(usedTime + ${item.timeToAdd}, ${lengthInMs}))`) as any,
         lastUpdate: roundedTimestampForUsedTime
       }, {
         where: {

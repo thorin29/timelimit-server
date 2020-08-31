@@ -56,6 +56,7 @@ export interface Database {
   user: UserModelStatic
   userLimitLoginCategory: UserLimitLoginCategoryModelStatic
   transaction: <T> (autoCallback: (t: Sequelize.Transaction) => Promise<T>) => Promise<T>
+  dialect: string
 }
 
 const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
@@ -79,7 +80,8 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   userLimitLoginCategory: createUserLimitLoginCategoryModel(sequelize),
   transaction: <T> (autoCallback: (transaction: Sequelize.Transaction) => Promise<T>) => (sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
-  }, autoCallback) as any) as Promise<T>
+  }, autoCallback) as any) as Promise<T>,
+  dialect: sequelize.getDialect()
 })
 
 export const sequelize = new Sequelize.Sequelize(process.env.DATABASE_URL || 'sqlite://test.db', {
