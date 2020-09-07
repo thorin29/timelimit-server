@@ -26,6 +26,7 @@ import {
   UpdateAppActivitiesAction,
   UpdateDeviceStatusAction
 } from '../../../../action'
+import { EventHandler } from '../../../../monitoring/eventhandler'
 import { Cache } from '../cache'
 import { dispatchAddInstalledApps } from './addinstalledapps'
 import { dispatchAddUsedTime } from './addusedtime'
@@ -36,17 +37,18 @@ import { dispatchTriedDisablingDeviceAdmin } from './trieddisablingdeviceadmin'
 import { dispatchUpdateAppActivities } from './updateappactivities'
 import { dispatchUpdateDeviceStatus } from './updatedevicestatus'
 
-export const dispatchAppLogicAction = async ({ action, deviceId, cache }: {
+export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHandler }: {
   action: AppLogicAction
   deviceId: string
   cache: Cache
+  eventHandler: EventHandler
 }) => {
   if (action instanceof AddInstalledAppsAction) {
     await dispatchAddInstalledApps({ deviceId, action, cache })
   } else if (action instanceof AddUsedTimeAction) {
     await dispatchAddUsedTime({ deviceId, action, cache })
   } else if (action instanceof AddUsedTimeActionVersion2) {
-    await dispatchAddUsedTimeVersion2({ deviceId, action, cache })
+    await dispatchAddUsedTimeVersion2({ deviceId, action, cache, eventHandler })
   } else if (action instanceof RemoveInstalledAppsAction) {
     await dispatchRemoveInstalledApps({ deviceId, action, cache })
   } else if (action instanceof SignOutAtDeviceAction) {

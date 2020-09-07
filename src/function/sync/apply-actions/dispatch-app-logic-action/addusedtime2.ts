@@ -17,6 +17,7 @@
 
 import * as Sequelize from 'sequelize'
 import { AddUsedTimeActionVersion2 } from '../../../../action'
+import { EventHandler } from '../../../../monitoring/eventhandler'
 import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
 import { getRoundedTimestamp as getRoundedTimestampForUsedTime } from './addusedtime'
@@ -27,13 +28,33 @@ export const getRoundedTimestampForSessionDuration = () => {
   return now - (now % (1000 * 60 * 60 * 12 /* 12 hours */))
 }
 
-export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: {
+export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, eventHandler }: {
   deviceId: string
   action: AddUsedTimeActionVersion2
   cache: Cache
+  eventHandler: EventHandler
 }) {
+  const deviceEntryUnsafe = await cache.database.device.findOne({
+    where: {
+      familyId: cache.familyId,
+      deviceId: deviceId
+    },
+    attributes: ['currentUserId'],
+    transaction: cache.transaction
+  })
+
+  if (!deviceEntryUnsafe) {
+    throw new Error('source device not found')
+  }
+
+  const deviceEntry = {
+    currentUserId: deviceEntryUnsafe.currentUserId
+  }
+
   const roundedTimestampForUsedTime = getRoundedTimestampForUsedTime().toString(10)
   const roundedTimestampForSessionDuration = getRoundedTimestampForSessionDuration().toString(10)
+
+  let addUsedTimeForADifferentUserThanTheCurrentUserOfTheDevice = false
 
   for (let i = 0; i < action.items.length; i++) {
     const item = action.items[i]
@@ -60,6 +81,10 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: 
     const categoryEntry = {
       childId: categoryEntryUnsafe.childId,
       extraTimeInMillis: categoryEntryUnsafe.extraTimeInMillis
+    }
+
+    if (categoryEntry.childId !== deviceEntry.currentUserId) {
+      addUsedTimeForADifferentUserThanTheCurrentUserOfTheDevice = true
     }
 
     // tslint:disable-next-line:no-inner-declarations
@@ -173,6 +198,21 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache }: 
       })
 
       cache.categoriesWithModifiedBaseData.push(item.categoryId)
+    }
+
+    if (addUsedTimeForADifferentUserThanTheCurrentUserOfTheDevice) {
+      // there are two possible causes for this:
+      // - a device user was changed remotely while it was used by this user for
+      //   limited Apps (rarely)
+      // - a parent added time manually (rarely)
+      //
+      // For the second case, it's important to sync this change.
+      // As it should occur not too often, a full sync should be no problem.
+      // To keep an eye on it, it is counted.
+
+      cache.areChangesImportant = true
+
+      eventHandler.countEvent('add used time for a different user than the current user of the device')
     }
   }
 }

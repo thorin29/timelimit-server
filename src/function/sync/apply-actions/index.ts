@@ -183,7 +183,8 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
             await dispatchAppLogicAction({
               action: parsedAction,
               cache,
-              deviceId: deviceEntry.deviceId
+              deviceId: deviceEntry.deviceId,
+              eventHandler
             })
           } catch (ex) {
             eventHandler.countEvent('applyActionsFromDevice actionWithError:' + parsedSerializedAction.type)
