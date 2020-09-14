@@ -19,6 +19,7 @@ import { AddInstalledAppsAction, SerializedAddInstalledAppsAction } from '../add
 import { AddUsedTimeAction, SerializedAddUsedTimeAction } from '../addusedtime'
 import { AddUsedTimeActionVersion2, SerializedAddUsedTimeActionVersion2 } from '../addusedtime2'
 import { AppLogicAction } from '../basetypes'
+import { ForceSyncAction, SerializedForceSyncAction } from '../forcesync'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
 import { SerializedSignOutAtDeviceAction, SignOutAtDeviceAction } from '../signoutatdevice'
 import { SerialiezdTriedDisablingDeviceAdminAction, TriedDisablingDeviceAdminAction } from '../trieddisablingdeviceadmin'
@@ -29,6 +30,7 @@ export type SerializedAppLogicAction =
   SerializedAddInstalledAppsAction |
   SerializedAddUsedTimeAction |
   SerializedAddUsedTimeActionVersion2 |
+  SerializedForceSyncAction |
   SerializedRemoveInstalledAppsAction |
   SerializedSignOutAtDeviceAction |
   SerialiezdTriedDisablingDeviceAdminAction |
@@ -42,6 +44,8 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
     return AddUsedTimeActionVersion2.parse(serialized)
   } else if (serialized.type === 'ADD_INSTALLED_APPS') {
     return AddInstalledAppsAction.parse(serialized)
+  } else if (serialized.type === 'FORCE_SYNC') {
+    return ForceSyncAction.parse(serialized)
   } else if (serialized.type === 'REMOVE_INSTALLED_APPS') {
     return RemoveInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'SIGN_OUT_AT_DEVICE') {

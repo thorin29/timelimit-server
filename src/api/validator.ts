@@ -1413,6 +1413,21 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedForceSyncAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "FORCE_SYNC"
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "type"
+    ]
+  },
   "SerializedRemoveInstalledAppsAction": {
     "type": "object",
     "properties": {
@@ -2536,6 +2551,9 @@ export const isSerializedAppLogicAction: (value: object) => value is SerializedA
     },
     {
       "$ref": "#/definitions/SerializedAddUsedTimeActionVersion2"
+    },
+    {
+      "$ref": "#/definitions/SerializedForceSyncAction"
     },
     {
       "$ref": "#/definitions/SerializedRemoveInstalledAppsAction"

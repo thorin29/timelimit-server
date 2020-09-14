@@ -20,6 +20,7 @@ any of
 -   [SerializedAddInstalledAppsAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction.md "check type definition")
 -   [SerializedAddUsedTimeAction](serializedapplogicaction-definitions-serializedaddusedtimeaction.md "check type definition")
 -   [SerializedAddUsedTimeActionVersion2](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2.md "check type definition")
+-   [SerializedForceSyncAction](serializedapplogicaction-definitions-serializedforcesyncaction.md "check type definition")
 -   [SerializedRemoveInstalledAppsAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction.md "check type definition")
 -   [SerializedSignOutAtDeviceAction](serializedapplogicaction-definitions-serializedsignoutatdeviceaction.md "check type definition")
 -   [SerialiezdTriedDisablingDeviceAdminAction](serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction.md "check type definition")
@@ -371,6 +372,42 @@ Reference this group by using
 #### t Type
 
 `number`
+
+## Definitions group SerializedForceSyncAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedForceSyncAction"}
+```
+
+| Property      | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                |
+| :------------ | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [type](#type) | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedforcesyncaction-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedForceSyncAction/properties/type") |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedforcesyncaction-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedForceSyncAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value          | Explanation |
+| :------------- | ----------- |
+| `"FORCE_SYNC"` |             |
 
 ## Definitions group SerializedRemoveInstalledAppsAction
 
