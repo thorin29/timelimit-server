@@ -171,7 +171,7 @@ class AddUsedTimeActionItemSessionDurationLimitSlot {
     this.pause = pause
   }
 
-  serialize = () => [ this.start, this.end ]
+  serialize = () => [ this.start, this.end, this.duration, this.pause ]
 
   static parse = ([ start, end, duration, pause ]: [number, number, number, number]) => new AddUsedTimeActionItemSessionDurationLimitSlot({ start, end, duration, pause })
 }
