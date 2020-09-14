@@ -152,20 +152,38 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
       })
 
       if (oldItem) {
-        if (
-          hasTrustedTimestamp &&
-          action.trustedTimestamp - item.timeToAdd > parseInt(oldItem.lastUsage, 10) + oldItem.sessionPauseDuration
-        ) {
-          oldItem.lastSessionDuration = item.timeToAdd
+        let extendSession: boolean
+
+        if (!hasTrustedTimestamp) {
+          extendSession = true
         } else {
-          oldItem.lastSessionDuration = oldItem.lastSessionDuration + item.timeToAdd
+          /*
+           * Why the tolerance?
+           *
+           * The main loop is executed in some interval and it assumes
+           * at the end of the interval that the same application was used during
+           * the previous phase.
+           *
+           * Now, if the session duration limit ends during this phase and the application is
+           * launched again, then it extends the session (because it is assumed to be running
+           * before the session ended) and blocks again.
+           *
+           * Due to this, a session is reset if it would be over in a few seconds, too.
+           */
+
+          const tolerance = 5 * 1000  // 5 seconds
+          const timeWhenStartingCurrentUsage = action.trustedTimestamp - item.timeToAdd
+          const nextSessionStart = parseInt(oldItem.lastUsage, 10) + oldItem.sessionPauseDuration - tolerance
+
+          extendSession = timeWhenStartingCurrentUsage <= nextSessionStart
         }
+
+        oldItem.lastSessionDuration = extendSession ? oldItem.lastSessionDuration + item.timeToAdd : item.timeToAdd
+        oldItem.roundedLastUpdate = roundedTimestampForSessionDuration
 
         if (hasTrustedTimestamp) {
           oldItem.lastUsage = action.trustedTimestamp.toString(10)
         }
-
-        oldItem.roundedLastUpdate = roundedTimestampForSessionDuration
 
         await oldItem.save({ transaction: cache.transaction })
       } else {
