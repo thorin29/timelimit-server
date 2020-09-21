@@ -49,13 +49,6 @@ export class UpdateCategoryBatteryLimitAction extends ParentAction {
     this.mobileLimit = mobileLimit
   }
 
-  serialize = (): SerializedUpdateCategoryBatteryLimitAction => ({
-    type: 'UPDATE_CATEGORY_BATTERY_LIMIT',
-    categoryId: this.categoryId,
-    mobileLimit: this.mobileLimit,
-    chargeLimit: this.chargeLimit
-  })
-
   static parse = ({ categoryId, chargeLimit, mobileLimit }: SerializedUpdateCategoryBatteryLimitAction) => (
     new UpdateCategoryBatteryLimitAction({ categoryId, chargeLimit, mobileLimit })
   )

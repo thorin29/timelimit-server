@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -66,18 +66,6 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     this.didReboot = didReboot
     this.isQOrLaterNow = isQOrLaterNow
   }
-
-  serialize = (): SerializedUpdateDeviceStatusAction => ({
-    type: 'UPDATE_DEVICE_STATUS',
-    protectionLevel: this.newProtetionLevel,
-    usageStats: this.newUsageStatsPermissionStatus,
-    notificationAccess: this.newNotificationAccessPermission,
-    overlayPermission: this.newOverlayPermission,
-    accessibilityServiceEnabled: this.newAccessibilityServiceEnabled,
-    appVersion: this.newAppVersion,
-    didReboot: this.didReboot,
-    isQOrLaterNow: this.isQOrLaterNow
-  })
 
   static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, accessibilityServiceEnabled, appVersion, didReboot, isQOrLaterNow }: SerializedUpdateDeviceStatusAction) => (
     new UpdateDeviceStatusAction({

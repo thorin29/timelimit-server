@@ -41,13 +41,6 @@ export class IncrementCategoryExtraTimeAction extends ParentAction {
     this.day = day
   }
 
-  serialize = (): SerializedIncrementCategoryExtraTimeAction => ({
-    type: 'INCREMENT_CATEGORY_EXTRATIME',
-    categoryId: this.categoryId,
-    addedExtraTime: this.addedExtraTime,
-    day: this.day
-  })
-
   static parse = ({ categoryId, addedExtraTime, day }: SerializedIncrementCategoryExtraTimeAction) => (
     new IncrementCategoryExtraTimeAction({ categoryId, addedExtraTime, day: day ?? -1 })
   )

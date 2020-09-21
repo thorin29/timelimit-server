@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,13 +41,6 @@ export class UpdateCategoryTimeWarningsAction extends ParentAction {
     this.enable = enable
     this.flags = flags
   }
-
-  serialize = (): SerializedUpdateCategoryTimeWarningsAction => ({
-    type: 'UPDATE_CATEGORY_TIME_WARNINGS',
-    categoryId: this.categoryId,
-    enable: this.enable,
-    flags: this.flags
-  })
 
   static parse = ({ categoryId, enable, flags }: SerializedUpdateCategoryTimeWarningsAction) => (
     new UpdateCategoryTimeWarningsAction({ categoryId, enable, flags })

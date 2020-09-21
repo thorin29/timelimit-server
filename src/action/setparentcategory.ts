@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,12 +37,6 @@ export class SetParentCategoryAction extends ParentAction {
     this.categoryId = categoryId
     this.parentCategory = parentCategory
   }
-
-  serialize = (): SerializedSetParentCategoryAction => ({
-    type: 'SET_PARENT_CATEGORY',
-    categoryId: this.categoryId,
-    parentCategory: this.parentCategory
-  })
 
   static parse = ({ categoryId, parentCategory }: SerializedSetParentCategoryAction) => (
     new SetParentCategoryAction({

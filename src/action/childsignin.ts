@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,6 @@ export class ChildSignInAction extends ChildAction {
   constructor () {
     super()
   }
-
-  serialize = (): SerializedChildSignInAction => ({
-    type: 'CHILD_SIGN_IN'
-  })
 
   static parse = (action: SerializedChildSignInAction) => (
     new ChildSignInAction()

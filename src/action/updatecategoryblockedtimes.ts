@@ -38,12 +38,6 @@ export class UpdateCategoryBlockedTimesAction extends ParentAction {
     this.blockedTimes = blockedTimes
   }
 
-  serialize = (): SerializedUpdateCategoryBlockedTimesAction => ({
-    type: 'UPDATE_CATEGORY_BLOCKED_TIMES',
-    categoryId: this.categoryId,
-    times: this.blockedTimes
-  })
-
   static parse = ({ categoryId, times }: SerializedUpdateCategoryBlockedTimesAction) => (
     new UpdateCategoryBlockedTimesAction({
       categoryId,

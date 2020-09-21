@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,12 +37,6 @@ export class SetDeviceDefaultUserAction extends ParentAction {
     this.deviceId = deviceId
     this.defaultUserId = defaultUserId
   }
-
-  serialize = (): SerializedSetDeviceDefaultUserAction => ({
-    type: 'SET_DEVICE_DEFAULT_USER',
-    deviceId: this.deviceId,
-    defaultUserId: this.defaultUserId
-  })
 
   static parse = ({ deviceId, defaultUserId }: SerializedSetDeviceDefaultUserAction) => (
     new SetDeviceDefaultUserAction({ deviceId, defaultUserId })

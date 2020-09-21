@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -36,12 +36,6 @@ export class RemoveUserAction extends ParentAction {
     this.userId = userId
     this.authentication = authentication
   }
-
-  serialize = (): SerializedRemoveUserAction => ({
-    type: 'REMOVE_USER',
-    userId: this.userId,
-    authentication: this.authentication
-  })
 
   static parse = ({ userId, authentication }: SerializedRemoveUserAction) => (
     new RemoveUserAction({ userId, authentication })

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,12 +37,6 @@ export class SetUserDisableLimitsUntilAction extends ParentAction {
     this.childId = childId
     this.timestamp = timestamp
   }
-
-  serialize = (): SerializedSetUserDisableLimitsUntilAction => ({
-    type: 'SET_USER_DISABLE_LIMITS_UNTIL',
-    childId: this.childId,
-    time: this.timestamp
-  })
 
   static parse = ({ childId, time }: SerializedSetUserDisableLimitsUntilAction) => (
     new SetUserDisableLimitsUntilAction({

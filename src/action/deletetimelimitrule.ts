@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,11 +28,6 @@ export class DeleteTimeLimitRuleAction extends ParentAction {
 
     this.ruleId = ruleId
   }
-
-  serialize = (): SerializedDeleteTimeLimitRuleAction => ({
-    type: 'DELETE_TIMELIMIT_RULE',
-    ruleId: this.ruleId
-  })
 
   static parse = ({ ruleId }: SerializedDeleteTimeLimitRuleAction) => (
     new DeleteTimeLimitRuleAction({ ruleId })

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -44,13 +44,6 @@ export class UpdateParentNotificationFlagsAction extends ParentAction {
     this.flags = flags
     this.set = set
   }
-
-  serialize = (): SerializedUpdateParentNotificationFlagsAction => ({
-    type: 'UPDATE_PARENT_NOTIFICATION_FLAGS',
-    parentId: this.parentId,
-    flags: this.flags,
-    set: this.set
-  })
 
   static parse = ({ parentId, flags, set }: SerializedUpdateParentNotificationFlagsAction) => (
     new UpdateParentNotificationFlagsAction({ parentId, flags, set })

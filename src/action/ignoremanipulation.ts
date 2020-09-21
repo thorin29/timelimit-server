@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -72,20 +72,6 @@ export class IgnoreManipulationAction extends ParentAction {
     this.ignoreHadManipulation = ignoreHadManipulation
     this.ignoreHadManipulationFlags = ignoreHadManipulationFlags
   }
-
-  serialize = (): SerializedIgnoreManipulationAction => ({
-    type: 'IGNORE_MANIPULATION',
-    deviceId: this.deviceId,
-    admin: this.ignoreDeviceAdminManipulation,
-    adminA: this.ignoreDeviceAdminManipulationAttempt,
-    downgrade: this.ignoreAppDowngrade,
-    notification: this.ignoreNotificationAccessManipulation,
-    overlay: this.ignoreOverlayPermissionManipulation,
-    accessibilityService: this.ignoreAccessibilityServiceManipulation,
-    usageStats: this.ignoreUsageStatsAccessManipulation,
-    hadManipulation: this.ignoreHadManipulation,
-    ignoreHadManipulationFlags: this.ignoreHadManipulationFlags
-  })
 
   static parse = ({ deviceId, admin, adminA, downgrade, notification, usageStats, overlay, accessibilityService, reboot, hadManipulation, ignoreHadManipulationFlags }: SerializedIgnoreManipulationAction) => (
     new IgnoreManipulationAction({

@@ -31,11 +31,6 @@ export class ResetCategoryNetworkIdsAction extends ParentAction {
     this.categoryId = categoryId
   }
 
-  serialize = (): SerializeResetCategoryNetworkIdsAction => ({
-    type: 'RESET_CATEGORY_NETWORK_IDS',
-    categoryId: this.categoryId
-  })
-
   static parse = ({ categoryId }: SerializeResetCategoryNetworkIdsAction) => (
     new ResetCategoryNetworkIdsAction({
       categoryId

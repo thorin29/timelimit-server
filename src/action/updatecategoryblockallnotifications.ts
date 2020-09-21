@@ -31,12 +31,6 @@ export class UpdateCategoryBlockAllNotificationsAction extends ParentAction {
     this.blocked = blocked
   }
 
-  serialize = (): SerializedUpdateCategoryBlockAllNotificationsAction => ({
-    type: 'UPDATE_CATEGORY_BLOCK_ALL_NOTIFICATIONS',
-    categoryId: this.categoryId,
-    blocked: this.blocked
-  })
-
   static parse = ({ categoryId, blocked }: SerializedUpdateCategoryBlockAllNotificationsAction) => (
     new UpdateCategoryBlockAllNotificationsAction({ categoryId, blocked })
   )

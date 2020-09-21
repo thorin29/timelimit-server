@@ -24,10 +24,6 @@ export class ForceSyncAction extends AppLogicAction {
     super()
   }
 
-  serialize = (): SerializedForceSyncAction => ({
-    type: 'FORCE_SYNC'
-  })
-
   static parse = (_: SerializedForceSyncAction) => ForceSyncAction.instance
 }
 

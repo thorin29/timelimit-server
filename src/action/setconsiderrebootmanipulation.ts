@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,12 +30,6 @@ export class SetConsiderRebootManipulationAction extends ParentAction {
     this.deviceId = deviceId
     this.enable = enable
   }
-
-  serialize = (): SerializedSetConsiderRebootManipulationAction => ({
-    type: 'SET_CONSIDER_REBOOT_MANIPULATION',
-    deviceId: this.deviceId,
-    enable: this.enable
-  })
 
   static parse = ({ deviceId, enable }: SerializedSetConsiderRebootManipulationAction) => (
     new SetConsiderRebootManipulationAction({ deviceId, enable })

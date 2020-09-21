@@ -40,11 +40,6 @@ export class UpdateCategorySortingAction extends ParentAction {
     this.categoryIds = categoryIds
   }
 
-  serialize = (): SerializedUpdateCategorySortingAction => ({
-    type: 'UPDATE_CATEGORY_SORTING',
-    categoryIds: this.categoryIds
-  })
-
   static parse = ({ categoryIds }: SerializedUpdateCategorySortingAction) => (
     new UpdateCategorySortingAction({ categoryIds })
   )

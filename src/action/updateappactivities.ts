@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -39,12 +39,6 @@ export class UpdateAppActivitiesAction extends AppLogicAction {
     this.removed = removed
     this.updatedOrAdded = updatedOrAdded
   }
-
-  serialize = (): SerializedUpdateAppActivitiesAction => ({
-    type: 'UPDATE_APP_ACTIVITIES',
-    removed: this.removed.map((item) => item.serialize()),
-    updatedOrAdded: this.updatedOrAdded.map((item) => item.serialize())
-  })
 
   static parse = ({ removed, updatedOrAdded }: SerializedUpdateAppActivitiesAction) => (
     new UpdateAppActivitiesAction({

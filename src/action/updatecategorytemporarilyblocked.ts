@@ -47,13 +47,6 @@ export class UpdateCategoryTemporarilyBlockedAction extends ParentAction {
     this.endTime = endTime
   }
 
-  serialize = (): SerializedUpdateCategoryTemporarilyBlockedAction => ({
-    type: 'UPDATE_CATEGORY_TEMPORARILY_BLOCKED',
-    categoryId: this.categoryId,
-    blocked: this.blocked,
-    endTime: this.endTime
-  })
-
   static parse = ({ categoryId, blocked, endTime }: SerializedUpdateCategoryTemporarilyBlockedAction) => (
     new UpdateCategoryTemporarilyBlockedAction({ categoryId, blocked, endTime })
   )

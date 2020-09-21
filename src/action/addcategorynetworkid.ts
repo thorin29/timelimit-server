@@ -42,13 +42,6 @@ export class AddCategoryNetworkIdAction extends ParentAction {
     this.hashedNetworkId = hashedNetworkId
   }
 
-  serialize = (): SerializedAddCategoryNetworkIdAction => ({
-    type: 'ADD_CATEGORY_NETWORK_ID',
-    categoryId: this.categoryId,
-    itemId: this.itemId,
-    hashedNetworkId: this.hashedNetworkId
-  })
-
   static parse = ({ categoryId, itemId, hashedNetworkId }: SerializedAddCategoryNetworkIdAction) => (
     new AddCategoryNetworkIdAction({
       categoryId,

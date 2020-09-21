@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -61,15 +61,6 @@ export class ChangeParentPasswordAction extends ParentAction {
     this.newPasswordSecondHashEncrypted = newPasswordSecondHashEncrypted
     this.integrity = integrity
   }
-
-  serialize = (): SerializedChangeParentPasswordAction => ({
-    type: 'CHANGE_PARENT_PASSWORD',
-    userId: this.parentUserId,
-    hash: this.newPasswordFirstHash,
-    secondSalt: this.newPasswordSecondSalt,
-    secondHashEncrypted: this.newPasswordSecondHashEncrypted,
-    integrity: this.integrity
-  })
 
   static parse = ({ userId, hash, secondSalt, secondHashEncrypted, integrity }: SerializedChangeParentPasswordAction) => (
     new ChangeParentPasswordAction({

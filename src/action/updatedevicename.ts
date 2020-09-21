@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,12 +37,6 @@ export class UpdateDeviceNameAction extends ParentAction {
       throw new Error('new device name must not be blank')
     }
   }
-
-  serialize = (): SerializedUpdateDeviceNameAction => ({
-    type: 'UPDATE_DEVICE_NAME',
-    deviceId: this.deviceId,
-    name: this.name
-  })
 
   static parse = ({ deviceId, name }: SerializedUpdateDeviceNameAction) => (
     new UpdateDeviceNameAction({ deviceId, name })

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,12 +33,6 @@ export class SetSendDeviceConnected extends ParentAction {
     this.deviceId = deviceId
     this.enable = enable
   }
-
-  serialize = (): SerializedSetSendDeviceConnected => ({
-    type: 'SET_SEND_DEVICE_CONNECTED',
-    deviceId: this.deviceId,
-    enable: this.enable
-  })
 
   static parse = ({ deviceId, enable }: SerializedSetSendDeviceConnected) => (
     new SetSendDeviceConnected({

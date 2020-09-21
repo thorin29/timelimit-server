@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -51,14 +51,6 @@ export class AddUsedTimeAction extends AppLogicAction {
     this.timeToAdd = timeToAdd
     this.extraTimeToSubtract = extraTimeToSubtract
   }
-
-  serialize = (): SerializedAddUsedTimeAction => ({
-    type: 'ADD_USED_TIME',
-    categoryId: this.categoryId,
-    day: this.dayOfEpoch,
-    timeToAdd: this.timeToAdd,
-    extraTimeToSubtract: this.extraTimeToSubtract
-  })
 
   static parse = ({ categoryId, day, timeToAdd, extraTimeToSubtract }: SerializedAddUsedTimeAction) => (
     new AddUsedTimeAction({

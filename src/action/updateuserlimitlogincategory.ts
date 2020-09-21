@@ -38,12 +38,6 @@ export class UpdateUserLimitLoginCategory extends ParentAction {
     this.categoryId = categoryId
   }
 
-  serialize = (): SerializedUpdateUserLimitLoginCategory => ({
-    type: 'UPDATE_USER_LIMIT_LOGIN_CATEGORY',
-    userId: this.userId,
-    categoryId: this.categoryId
-  })
-
   static parse = ({ userId, categoryId }: SerializedUpdateUserLimitLoginCategory) => (
     new UpdateUserLimitLoginCategory({
       userId,

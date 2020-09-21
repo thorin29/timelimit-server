@@ -41,13 +41,6 @@ export class SetCategoryExtraTimeAction extends ParentAction {
     this.day = day
   }
 
-  serialize = (): SerializedSetCategoryExtraTimeAction => ({
-    type: 'SET_CATEGORY_EXTRA_TIME',
-    categoryId: this.categoryId,
-    newExtraTime: this.newExtraTime,
-    day: this.day
-  })
-
   static parse = ({ categoryId, newExtraTime, day }: SerializedSetCategoryExtraTimeAction) => (
     new SetCategoryExtraTimeAction({ categoryId, newExtraTime, day: day ?? -1 })
   )

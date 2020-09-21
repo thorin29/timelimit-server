@@ -91,17 +91,6 @@ export class AddUsedTimeActionVersion2 extends AppLogicAction {
     this.trustedTimestamp = trustedTimestamp
   }
 
-  serialize = (): SerializedAddUsedTimeActionVersion2 => ({
-    type: 'ADD_USED_TIME_V2',
-    d: this.dayOfEpoch,
-    i: this.items.map((item) => ({
-      categoryId: item.categoryId,
-      tta: item.timeToAdd,
-      etts: item.extraTimeToSubtract
-    })),
-    t: this.trustedTimestamp
-  })
-
   static parse = ({ d, i, t }: SerializedAddUsedTimeActionVersion2) => (
     new AddUsedTimeActionVersion2({
       dayOfEpoch: d,

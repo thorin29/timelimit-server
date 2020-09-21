@@ -46,13 +46,6 @@ export class UpdateUserFlagsAction extends ParentAction {
     this.newValues = newValues
   }
 
-  serialize = (): SerializedUpdateUserFlagsAction => ({
-    type: 'UPDATE_USER_FLAGS',
-    userId: this.userId,
-    modified: this.modifiedBits,
-    values: this.newValues
-  })
-
   static parse = ({ userId, modified, values }: SerializedUpdateUserFlagsAction) => (
     new UpdateUserFlagsAction({
       userId,

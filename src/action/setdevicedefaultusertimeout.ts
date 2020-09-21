@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -37,12 +37,6 @@ export class SetDeviceDefaultUserTimeoutAction extends ParentAction {
     this.deviceId = deviceId
     this.timeout = timeout
   }
-
-  serialize = (): SerializedSetDeviceDefaultUserTimeoutAction => ({
-    type: 'SET_DEVICE_DEFAULT_USER_TIMEOUT',
-    deviceId: this.deviceId,
-    timeout: this.timeout
-  })
 
   static parse = ({ deviceId, timeout }: SerializedSetDeviceDefaultUserTimeoutAction) => (
     new SetDeviceDefaultUserTimeoutAction({ deviceId, timeout })

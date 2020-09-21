@@ -85,18 +85,6 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     }
   }
 
-  serialize = (): SerializedUpdateTimelimitRuleAction => ({
-    type: 'UPDATE_TIMELIMIT_RULE',
-    ruleId: this.ruleId,
-    time: this.maximumTimeInMillis,
-    days: this.dayMask,
-    extraTime: this.applyToExtraTimeUsage,
-    start: this.start,
-    end: this.end,
-    pause: this.sessionPauseMilliseconds,
-    dur: this.sessionDurationMilliseconds
-  })
-
   static parse = ({ ruleId, time, days, extraTime, start, end, dur, pause }: SerializedUpdateTimelimitRuleAction) => (
     new UpdateTimelimitRuleAction({
       ruleId,

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,12 +33,6 @@ export class SetRelaxPrimaryDeviceAction extends ParentAction {
     this.userId = userId
     this.relax = relax
   }
-
-  serialize = (): SerializedSetRelaxPrimaryDeviceAction => ({
-    type: 'SET_RELAX_PRIMARY_DEVICE',
-    userId: this.userId,
-    relax: this.relax
-  })
 
   static parse = ({ userId, relax }: SerializedSetRelaxPrimaryDeviceAction) => (
     new SetRelaxPrimaryDeviceAction({ userId, relax })

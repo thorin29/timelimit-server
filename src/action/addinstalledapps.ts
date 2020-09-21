@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,11 +29,6 @@ export class AddInstalledAppsAction extends AppLogicAction {
 
     this.apps = apps
   }
-
-  serialize = (): SerializedAddInstalledAppsAction => ({
-    type: 'ADD_INSTALLED_APPS',
-    apps: this.apps.map((app) => app.serialize())
-  })
 
   static parse = ({ apps }: SerializedAddInstalledAppsAction) => (
     new AddInstalledAppsAction({
