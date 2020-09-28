@@ -17,6 +17,9 @@
 
 import { UpdateCategoryTemporarilyBlockedAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
+import { PremiumVersionMissingException } from '../exception/premium'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryTemporarilyBlockedAction
@@ -25,7 +28,7 @@ export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache,
 }) {
   if (action.blocked === true) {
     if (!cache.hasFullVersion) {
-      throw new Error('action requires full version')
+      throw new PremiumVersionMissingException()
     }
   }
 
@@ -39,7 +42,7 @@ export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache,
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id for updating temporarily blocking')
+    throw new MissingCategoryException()
   }
 
   const categoryEntry = {
@@ -50,16 +53,16 @@ export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache,
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (fromChildSelfLimitAddChildUserId !== categoryEntry.childId) {
-      throw new Error('can not update temporarily blocking as child for other users')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
 
     if (action.endTime === undefined || !action.blocked) {
-      throw new Error('the child may only enable a temporarily blocking')
+      throw new SelfLimitationException({ staticMessage: 'the child may only enable a temporarily blocking' })
     }
 
     if (categoryEntry.temporarilyBlocked) {
       if (action.endTime < categoryEntry.temporarilyBlockedEndTime || categoryEntry.temporarilyBlockedEndTime === 0) {
-        throw new Error('the child may not reduce the temporarily blocking')
+        throw new SelfLimitationException({ staticMessage: 'the child may not reduce the temporarily blocking' })
       }
     }
   }

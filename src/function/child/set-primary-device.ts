@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict, Unauthorized } from 'http-errors'
+import { Conflict, InternalServerError, Unauthorized } from 'http-errors'
 import * as Sequelize from 'sequelize'
 import { config } from '../../config'
 import { Database } from '../../database'
@@ -147,7 +147,7 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
         throw new Conflict()
       }
     } else {
-      throw new Error('illegal state')
+      throw new InternalServerError('illegal state')
     }
 
     // invalidiate user list

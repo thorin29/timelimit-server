@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,16 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export function assertIsHexString (value: string) {
+export function checkIfHexString (value: string) {
   if (value.length % 2 !== 0) {
-    throw new Error('expected hex string but has got uneven length')
+    return false
   }
 
   for (let i = 0; i < value.length; i++) {
     const char = value[i]
 
     if ('0123456789abcdef'.indexOf(char) === -1) {
-      throw new Error('expected hex string but got invalid char')
+      return false
     }
   }
+
+  return true
 }
+
+export function assertIsHexString (value: string) {
+  if (!checkIfHexString(value)) {
+    throw new HexStringValidationException('wanted hex string but did not get one')
+  }
+}
+
+export class HexStringValidationException extends Error {}

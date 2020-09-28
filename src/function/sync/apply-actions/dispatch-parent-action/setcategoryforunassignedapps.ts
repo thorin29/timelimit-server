@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,11 +17,26 @@
 
 import { SetCategoryForUnassignedAppsAction } from '../../../../action'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchSetCategoryForUnassignedApps ({ action, cache }: {
   action: SetCategoryForUnassignedAppsAction
   cache: Cache
 }) {
+  const oldUserEntry = await cache.database.user.findOne({
+    where: {
+      familyId: cache.familyId,
+      userId: action.childId,
+      type: 'child'
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldUserEntry) {
+    throw new MissingUserException()
+  }
+
   if (action.categoryId === '') {
     // nothing to check
   } else {
@@ -35,7 +50,9 @@ export async function dispatchSetCategoryForUnassignedApps ({ action, cache }: {
     })
 
     if (!categoryEntryUnsafe) {
-      throw new Error('can not set a category which does not exist as category for unassigned apps')
+      throw new ApplyActionException({
+        staticMessage: 'can not set a category which does not exist as category for unassigned apps'
+      })
     }
 
     const categoryEntry = {
@@ -43,11 +60,13 @@ export async function dispatchSetCategoryForUnassignedApps ({ action, cache }: {
     }
 
     if (categoryEntry.childId !== action.childId) {
-      throw new Error('can not set a category of one child as category for unassigned apps for an other child')
+      throw new ApplyActionException({
+        staticMessage: 'can not set a category of one child as category for unassigned apps for an other child'
+      })
     }
   }
 
-  const [affectedRows] = await cache.database.user.update({
+  await cache.database.user.update({
     categoryForNotAssignedApps: action.categoryId
   }, {
     where: {
@@ -57,10 +76,6 @@ export async function dispatchSetCategoryForUnassignedApps ({ action, cache }: {
     },
     transaction: cache.transaction
   })
-
-  if (affectedRows !== 1) {
-    throw new Error('could not find a child with matching id for setting the category for not assigned apps')
-  }
 
   cache.invalidiateUserList = true
   cache.areChangesImportant = true

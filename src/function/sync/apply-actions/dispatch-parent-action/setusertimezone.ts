@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,12 +17,25 @@
 
 import { SetUserTimezoneAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchSetUserTimezone ({ action, cache }: {
   action: SetUserTimezoneAction
   cache: Cache
 }) {
-  const [affectedRows] = await cache.database.user.update({
+  const oldUser = await cache.database.user.findOne({
+    where: {
+      familyId: cache.familyId,
+      userId: action.userId
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldUser) {
+    throw new MissingUserException()
+  }
+
+  await cache.database.user.update({
     timeZone: action.timezone
   }, {
     transaction: cache.transaction,
@@ -31,10 +44,6 @@ export async function dispatchSetUserTimezone ({ action, cache }: {
       userId: action.userId
     }
   })
-
-  if (affectedRows === 0) {
-    throw new Error('did not find user to update timezone')
-  }
 
   cache.invalidiateUserList = true
   cache.areChangesImportant = true

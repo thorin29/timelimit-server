@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily, assertSafeInteger } from './meta/util'
+
+const actionType = 'SetDeviceDefaultUserTimeoutAction'
 
 export class SetDeviceDefaultUserTimeoutAction extends ParentAction {
   readonly deviceId: string
@@ -28,10 +31,15 @@ export class SetDeviceDefaultUserTimeoutAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(deviceId)
+    assertIdWithinFamily({ actionType, field: 'deviceId', value: deviceId })
+    assertSafeInteger({ actionType, field: 'timeout', value: timeout })
 
-    if ((!Number.isInteger(timeout)) || (timeout < 0)) {
-      throw new Error('timeout must be a non-negative integer')
+    if (timeout < 0) {
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'timeout must be a non-negative integer',
+        dynamicMessage: 'timeout must be a non-negative integer, was ' + timeout
+      })
     }
 
     this.deviceId = deviceId

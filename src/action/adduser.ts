@@ -15,9 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertParentPasswordValid, ParentPassword } from '../api/schema'
-import { assertIdWithinFamily } from '../util/token'
+import { assertParentPasswordValid, ParentPassword, ParentPasswordValidationException } from '../api/schema'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'AddUserAction'
 
 export class AddUserAction extends ParentAction {
   readonly userId: string
@@ -35,7 +38,7 @@ export class AddUserAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(userId)
+    assertIdWithinFamily({ actionType, field: 'userId', value: userId })
 
     this.userId = userId
     this.name = name
@@ -45,12 +48,24 @@ export class AddUserAction extends ParentAction {
 
     if (userType === 'parent') {
       if (!password) {
-        throw new Error('parent users must have got an password')
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'parent users must have got an password'
+        })
       }
     }
 
     if (password) {
-      assertParentPasswordValid(password)
+      try {
+        assertParentPasswordValid(password)
+      } catch (ex) {
+        if (ex instanceof ParentPasswordValidationException) {
+          throw new InvalidActionParameterException({
+            actionType,
+            staticMessage: 'invalid password data'
+          })
+        } else throw ex
+      }
     }
   }
 

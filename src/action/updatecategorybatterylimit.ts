@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'UpdateCategoryBatteryLimitAction'
 
 export class UpdateCategoryBatteryLimitAction extends ParentAction {
   readonly categoryId: string
@@ -30,17 +32,21 @@ export class UpdateCategoryBatteryLimitAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
     if (chargeLimit !== undefined) {
-      if ((!Number.isSafeInteger(chargeLimit)) || chargeLimit < 0 || chargeLimit > 100) {
-        throw new Error('charge limit out of range')
+      assertSafeInteger({ actionType, field: 'chargeLimit', value: chargeLimit })
+
+      if (chargeLimit < 0 || chargeLimit > 100) {
+        throwOutOfRange({ actionType, field: 'chargeLimit', value: chargeLimit })
       }
     }
 
     if (mobileLimit !== undefined) {
-      if ((!Number.isSafeInteger(mobileLimit)) || mobileLimit < 0 || mobileLimit > 100) {
-        throw new Error('mobile limit out of range')
+      assertSafeInteger({ actionType, field: 'mobileLimit', value: mobileLimit })
+
+      if (mobileLimit < 0 || mobileLimit > 100) {
+        throwOutOfRange({ actionType, field: 'mobileLimit', value: mobileLimit })
       }
     }
 

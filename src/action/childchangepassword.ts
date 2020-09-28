@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertParentPasswordValid, ParentPassword } from '../api/schema'
+import { assertParentPasswordValid, ParentPassword, ParentPasswordValidationException } from '../api/schema'
 import { ChildAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+
+const actionType = 'ChildChangePasswordAction'
 
 export class ChildChangePasswordAction extends ChildAction {
   readonly password: ParentPassword
@@ -26,7 +29,16 @@ export class ChildChangePasswordAction extends ChildAction {
   }) {
     super()
 
-    assertParentPasswordValid(password)
+    try {
+      assertParentPasswordValid(password)
+    } catch (ex) {
+      if (ex instanceof ParentPasswordValidationException) {
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'invalid password'
+        })
+      } else throw ex
+    }
 
     this.password = password
   }

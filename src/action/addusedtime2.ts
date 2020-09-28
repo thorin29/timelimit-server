@@ -15,10 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { uniq } from 'lodash'
 import { MinuteOfDay } from '../util/minuteofday'
-import { assertIdWithinFamily } from '../util/token'
 import { AppLogicAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily, assertListWithoutDuplicates, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'AddUsedTimeActionVersion2'
 
 export class AddUsedTimeActionVersion2 extends AppLogicAction {
   readonly dayOfEpoch: number
@@ -44,46 +46,54 @@ export class AddUsedTimeActionVersion2 extends AppLogicAction {
   }) {
     super()
 
-    if (dayOfEpoch < 0 || (!Number.isSafeInteger(dayOfEpoch))) {
-      throw new Error('illegal dayOfEpoch')
+    assertSafeInteger({ actionType, field: 'dayOfEpoch', value: dayOfEpoch })
+
+    if (dayOfEpoch < 0) {
+      throwOutOfRange({ actionType, field: 'dayOfEpoch', value: dayOfEpoch })
     }
 
-    if (trustedTimestamp < 0 || (!Number.isSafeInteger(trustedTimestamp))) {
-      throw new Error('illegal trustedTimestamp')
+    assertSafeInteger({ actionType, field: 'trustedTimestamp', value: trustedTimestamp })
+
+    if (trustedTimestamp < 0) {
+      throwOutOfRange({ actionType, field: 'trustedTimestamp', value: trustedTimestamp })
     }
 
     if (items.length === 0) {
-      throw new Error('missing items')
+      throw new InvalidActionParameterException({ actionType, staticMessage: 'no items' })
     }
 
-    if (items.length !== uniq(items.map((item) => item.categoryId)).length) {
-      throw new Error('duplicate category ids')
-    }
+    assertListWithoutDuplicates({
+      actionType,
+      field: 'categoryIds',
+      list: items.map((item) => item.categoryId)
+    })
 
     items.forEach((item) => {
-      assertIdWithinFamily(item.categoryId)
+      assertIdWithinFamily({ actionType, field: 'categoryId', value: item.categoryId })
 
-      if (item.timeToAdd < 0 || (!Number.isSafeInteger(item.timeToAdd))) {
-        throw new Error('illegal timeToAdd')
+      assertSafeInteger({ actionType, field: 'timeToAdd', value: item.timeToAdd })
+
+      if (item.timeToAdd < 0) {
+        throwOutOfRange({ actionType, field: 'timeToAdd', value: item.timeToAdd })
       }
 
-      if (item.extraTimeToSubtract < 0 || (!Number.isSafeInteger(item.extraTimeToSubtract))) {
-        throw new Error('illegal extra time to subtract')
+      assertSafeInteger({ actionType, field: 'extraTimeToSubtract', value: item.extraTimeToSubtract })
+
+      if (item.extraTimeToSubtract < 0) {
+        throwOutOfRange({ actionType, field: 'extraTimeToSubtract', value: item.extraTimeToSubtract })
       }
 
-      if (
-        uniq(item.additionalCountingSlots.map((item) => JSON.stringify(item.serialize()))).length !==
-        item.additionalCountingSlots.length
-      ) {
-        throw new Error()
-      }
+      assertListWithoutDuplicates({
+        actionType,
+        field: 'additionalCountingSlots',
+        list: item.additionalCountingSlots.map((item) => JSON.stringify(item.serialize()))
+      })
 
-      if (
-        uniq(item.sessionDurationLimits.map((item) => JSON.stringify(item.serialize()))).length !==
-        item.sessionDurationLimits.length
-      ) {
-        throw new Error()
-      }
+      assertListWithoutDuplicates({
+        actionType,
+        field: 'sessionDurationLimits',
+        list: item.sessionDurationLimits.map((item) => JSON.stringify(item.serialize()))
+      })
     })
 
     this.dayOfEpoch = dayOfEpoch
@@ -111,16 +121,15 @@ class AddUsedTimeActionItemAdditionalCountingSlot {
   readonly end: number
 
   constructor ({ start, end }: { start: number, end: number }) {
-    if ((!Number.isSafeInteger(start)) || (!Number.isSafeInteger(end))) {
-      throw new Error()
-    }
+    assertSafeInteger({ actionType, field: 'start', value: start })
+    assertSafeInteger({ actionType, field: 'end', value: end })
 
     if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
-      throw new Error()
+      throw new InvalidActionParameterException({ actionType, staticMessage: 'start or end out of range' })
     }
 
     if (start === MinuteOfDay.MIN && end === MinuteOfDay.MAX) {
-      throw new Error()
+      throw new InvalidActionParameterException({ actionType, staticMessage: 'couting slot can not fill the whole day' })
     }
 
     this.start = start
@@ -139,19 +148,17 @@ class AddUsedTimeActionItemSessionDurationLimitSlot {
   readonly pause: number
 
   constructor ({ start, end, duration, pause }: { start: number, end: number, duration: number, pause: number }) {
-    if (
-      (!Number.isSafeInteger(start)) || (!Number.isSafeInteger(end)) ||
-      (!Number.isSafeInteger(duration)) || (!Number.isSafeInteger(pause))
-    ) {
-      throw new Error()
-    }
+    assertSafeInteger({ actionType, field: 'start', value: start })
+    assertSafeInteger({ actionType, field: 'end', value: end })
+    assertSafeInteger({ actionType, field: 'duration', value: duration })
+    assertSafeInteger({ actionType, field: 'pause', value: pause })
 
     if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
-      throw new Error()
+      throw new InvalidActionParameterException({ actionType, staticMessage: 'start or end out of range' })
     }
 
     if (duration <= 0 || pause <= 0) {
-      throw new Error()
+      throw new InvalidActionParameterException({ actionType, staticMessage: 'duration and pause must not be zero or smaller' })
     }
 
     this.start = start

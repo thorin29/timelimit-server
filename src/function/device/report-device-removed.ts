@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Unauthorized } from 'http-errors'
 import { Database } from '../../database'
 import { generateAuthToken, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
@@ -83,7 +84,7 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
       })
 
       if (!oldDeviceEntry) {
-        throw new Error('device not found')
+        throw new Unauthorized('device not found')
       }
     }
   })

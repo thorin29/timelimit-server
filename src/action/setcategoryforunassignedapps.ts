@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'SetCategoryForUnassignedAppsAction'
 
 export class SetCategoryForUnassignedAppsAction extends ParentAction {
   readonly childId: string
@@ -28,10 +30,10 @@ export class SetCategoryForUnassignedAppsAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(childId)
+    assertIdWithinFamily({ actionType, field: 'childId', value: childId })
 
     if (categoryId !== '') {
-      assertIdWithinFamily(categoryId)
+      assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
     }
 
     this.childId = childId

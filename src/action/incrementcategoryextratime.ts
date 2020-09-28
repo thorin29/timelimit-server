@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'IncrementCategoryExtraTimeAction'
 
 export class IncrementCategoryExtraTimeAction extends ParentAction {
   readonly categoryId: string
@@ -26,14 +28,18 @@ export class IncrementCategoryExtraTimeAction extends ParentAction {
   constructor ({ categoryId, addedExtraTime, day }: {categoryId: string, addedExtraTime: number, day: number}) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
-    if (addedExtraTime <= 0 || (!Number.isSafeInteger(addedExtraTime))) {
-      throw new Error('must add some extra time with IncrementCategoryExtraTimeAction')
+    assertSafeInteger({ actionType, field: 'addedExtraTime', value: addedExtraTime })
+
+    if (addedExtraTime < 0) {
+      throwOutOfRange({ actionType, field: 'addedExtraTime', value: addedExtraTime })
     }
 
-    if (day < -1 || (!Number.isSafeInteger(day))) {
-      throw Error('day must be valid')
+    assertSafeInteger({ actionType, field: 'day', value: day })
+
+    if (day < -1) {
+      throwOutOfRange({ actionType, field: 'day', value: day })
     }
 
     this.categoryId = categoryId

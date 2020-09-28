@@ -16,8 +16,10 @@
  */
 
 import { allowedTimeWarningFlags } from '../database/category'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'UpdateCategoryTimeWarningsAction'
 
 export class UpdateCategoryTimeWarningsAction extends ParentAction {
   readonly categoryId: string
@@ -31,10 +33,11 @@ export class UpdateCategoryTimeWarningsAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
+    assertSafeInteger({ actionType, field: 'flags', value: flags })
 
     if ((flags & allowedTimeWarningFlags) !== flags) {
-      throw new Error('illegal flags')
+      throwOutOfRange({ actionType, field: 'flags', value: flags })
     }
 
     this.categoryId = categoryId

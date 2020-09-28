@@ -16,8 +16,11 @@
  */
 
 import { MinuteOfDay } from '../util/minuteofday'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'UpdateTimelimitRuleAction'
 
 export class UpdateTimelimitRuleAction extends ParentAction {
   readonly ruleId: string
@@ -53,35 +56,37 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     this.sessionDurationMilliseconds = sessionDurationMilliseconds
     this.sessionPauseMilliseconds = sessionPauseMilliseconds
 
-    assertIdWithinFamily(ruleId)
+    assertIdWithinFamily({ actionType, field: 'ruleId', value: ruleId })
 
-    if (maximumTimeInMillis < 0 || (!Number.isSafeInteger(maximumTimeInMillis))) {
-      throw new Error('maximumTimeInMillis must be >= 0')
+    assertSafeInteger({ actionType, field: 'maximumTimeInMillis', value: maximumTimeInMillis })
+
+    if (maximumTimeInMillis < 0) {
+      throwOutOfRange({ actionType, field: 'maximumTimeInMillis', value: maximumTimeInMillis })
     }
 
-    if (!(
-      Number.isSafeInteger(dayMask) ||
-      dayMask < 0 ||
-      dayMask > (1 | 2 | 4 | 8 | 16 | 32 | 64)
-    )) {
-      throw new Error('invalid day mask')
+    assertSafeInteger({ actionType, field: 'dayMask', value: dayMask })
+
+    if (dayMask < 0 || dayMask > (1 | 2 | 4 | 8 | 16 | 32 | 64)) {
+      throwOutOfRange({ actionType, field: 'dayMask', value: dayMask })
     }
 
-    if (
-      (!Number.isSafeInteger(start)) ||
-      (!Number.isSafeInteger(end)) ||
-      (!Number.isSafeInteger(sessionDurationMilliseconds)) ||
-      (!Number.isSafeInteger(sessionPauseMilliseconds))
-    ) {
-      throw new Error()
-    }
+    assertSafeInteger({ actionType, field: 'start', value: start })
+    assertSafeInteger({ actionType, field: 'end', value: end })
+    assertSafeInteger({ actionType, field: 'sessionDurationMilliseconds', value: sessionDurationMilliseconds })
+    assertSafeInteger({ actionType, field: 'sessionPauseMilliseconds', value: sessionPauseMilliseconds })
 
     if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
-      throw new Error()
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'time slot out of range'
+      })
     }
 
     if (sessionDurationMilliseconds < 0 || sessionPauseMilliseconds < 0) {
-      throw new Error()
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'session duration lesser than zero'
+      })
     }
   }
 

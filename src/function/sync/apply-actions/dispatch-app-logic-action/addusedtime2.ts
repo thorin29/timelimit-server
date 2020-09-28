@@ -20,6 +20,7 @@ import { AddUsedTimeActionVersion2 } from '../../../../action'
 import { EventHandler } from '../../../../monitoring/eventhandler'
 import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
+import { SourceDeviceNotFoundException } from '../exception/illegal-state'
 import { getRoundedTimestamp as getRoundedTimestampForUsedTime } from './addusedtime'
 
 export const getRoundedTimestampForSessionDuration = () => {
@@ -44,7 +45,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
   })
 
   if (!deviceEntryUnsafe) {
-    throw new Error('source device not found')
+    throw new SourceDeviceNotFoundException()
   }
 
   const deviceEntry = {
@@ -56,9 +57,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
 
   let addUsedTimeForADifferentUserThanTheCurrentUserOfTheDevice = false
 
-  for (let i = 0; i < action.items.length; i++) {
-    const item = action.items[i]
-
+  for (const item of action.items) {
     const categoryEntryUnsafe = await cache.database.category.findOne({
       where: {
         familyId: cache.familyId,
@@ -73,9 +72,10 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
 
     // verify that the category exists
     if (!categoryEntryUnsafe) {
+      eventHandler.countEvent('add used time category to add time for not found')
       cache.requireFullSync()
 
-      return
+      continue
     }
 
     const categoryEntry = {

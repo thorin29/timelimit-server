@@ -19,6 +19,9 @@ import { NewPermissionStatus } from '../model/newpermissionstatus'
 import { ProtectionLevel } from '../model/protectionlevel'
 import { RuntimePermissionStatus } from '../model/runtimepermissionstatus'
 import { AppLogicAction } from './basetypes'
+import { assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'UpdateDeviceStatusAction'
 
 export class UpdateDeviceStatusAction extends AppLogicAction {
   readonly newProtetionLevel?: ProtectionLevel
@@ -52,8 +55,10 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     super()
 
     if (newAppVersion !== undefined) {
-      if (!Number.isSafeInteger(newAppVersion) || (newAppVersion < 0)) {
-        throw new Error('invalid new ap version')
+      assertSafeInteger({ actionType, field: 'newAppVersion', value: newAppVersion })
+
+      if (newAppVersion < 0) {
+        throwOutOfRange({ actionType, field: 'newAppVersion', value: newAppVersion })
       }
     }
 

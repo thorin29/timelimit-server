@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { DeleteTimeLimitRuleAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingRuleException } from '../exception/missing-item'
 
 export async function dispatchDeleteTimeLimitRule ({ action, cache }: {
   action: DeleteTimeLimitRuleAction
@@ -30,10 +31,12 @@ export async function dispatchDeleteTimeLimitRule ({ action, cache }: {
     transaction: cache.transaction
   })
 
-  if (ruleEntry) {
-    await ruleEntry.destroy({ transaction: cache.transaction })
-
-    cache.categoriesWithModifiedTimeLimitRules.push(ruleEntry.categoryId)
-    cache.areChangesImportant = true
+  if (!ruleEntry) {
+    throw new MissingRuleException()
   }
+
+  await ruleEntry.destroy({ transaction: cache.transaction })
+
+  cache.categoriesWithModifiedTimeLimitRules.push(ruleEntry.categoryId)
+  cache.areChangesImportant = true
 }

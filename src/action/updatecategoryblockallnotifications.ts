@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'UpdateCategoryBlockAllNotificationsAction'
 
 export class UpdateCategoryBlockAllNotificationsAction extends ParentAction {
   readonly categoryId: string
@@ -25,7 +27,7 @@ export class UpdateCategoryBlockAllNotificationsAction extends ParentAction {
   constructor ({ categoryId, blocked }: {categoryId: string, blocked: boolean}) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
     this.categoryId = categoryId
     this.blocked = blocked

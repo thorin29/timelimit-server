@@ -17,6 +17,8 @@
 
 import { CreateTimeLimitRuleAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
+import { CanNotModifyOtherUsersBySelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchCreateTimeLimitRule ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: CreateTimeLimitRuleAction
@@ -33,12 +35,12 @@ export async function dispatchCreateTimeLimitRule ({ action, cache, fromChildSel
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id for new rule')
+    throw new MissingCategoryException()
   }
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (fromChildSelfLimitAddChildUserId !== categoryEntryUnsafe.childId) {
-      throw new Error('can not add rules for other users')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
   }
 

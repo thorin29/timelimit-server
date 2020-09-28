@@ -17,16 +17,30 @@
 
 import { SetCategoryExtraTimeAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
+import { PremiumVersionMissingException } from '../exception/premium'
 
 export async function dispatchSetCategoryExtraTime ({ action, cache }: {
   action: SetCategoryExtraTimeAction
   cache: Cache
 }) {
   if (!cache.hasFullVersion) {
-    throw new Error('action requires full version')
+    throw new PremiumVersionMissingException()
   }
 
-  const [affectedRows] = await cache.database.category.update({
+  const oldItem = await cache.database.category.findOne({
+    where: {
+      familyId: cache.familyId,
+      categoryId: action.categoryId
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldItem) {
+    throw new MissingCategoryException()
+  }
+
+  await cache.database.category.update({
     extraTimeInMillis: action.newExtraTime,
     extraTimeDay: action.day
   }, {
@@ -37,8 +51,6 @@ export async function dispatchSetCategoryExtraTime ({ action, cache }: {
     transaction: cache.transaction
   })
 
-  if (affectedRows !== 0) {
-    cache.categoriesWithModifiedBaseData.push(action.categoryId)
-    cache.areChangesImportant = true
-  }
+  cache.categoriesWithModifiedBaseData.push(action.categoryId)
+  cache.areChangesImportant = true
 }

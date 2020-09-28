@@ -21,7 +21,7 @@ export const serializedBitmaskRegex = /^(\d*,\d*(,\d*,\d*)*)?$/
 
 export const validateBitmask = (bitmask: string, maxLength: number) => {
   if (!serializedBitmaskRegex.test(bitmask)) {
-    throw new Error('bitmask does not match regex')
+    throw new BitmapValidationException('bitmask does not match regex')
   }
 
   if (bitmask === '') {
@@ -31,22 +31,22 @@ export const validateBitmask = (bitmask: string, maxLength: number) => {
   const splitpoints = split(bitmask, ',').map((item) => parseInt(item, 10))
 
   if (splitpoints.findIndex((item) => !Number.isSafeInteger(item)) !== -1) {
-    throw new Error('bitmask contains non-safe integers')
+    throw new BitmapValidationException('bitmask contains non-safe integers')
   }
 
   if (splitpoints.findIndex((item) => item < 0) !== -1) {
-    throw new Error('bitmask contains negative integers')
+    throw new BitmapValidationException('bitmask contains negative integers')
   }
 
   if (splitpoints.findIndex((item) => item > maxLength) !== -1) {
-    throw new Error('bitmask contains integers bigger than maxSize')
+    throw new BitmapValidationException('bitmask contains integers bigger than maxSize')
   }
 
   let previousValue = -1
 
   splitpoints.forEach((item) => {
     if (item <= previousValue) {
-      throw new Error('bitmask numbers are not strictly sorted')
+      throw new BitmapValidationException('bitmask numbers are not strictly sorted')
     }
 
     previousValue = item
@@ -72,3 +72,5 @@ export const validateAndParseBitmask = (bitmask: string, maxLength: number) => {
 
   return result
 }
+
+export class BitmapValidationException extends Error {}

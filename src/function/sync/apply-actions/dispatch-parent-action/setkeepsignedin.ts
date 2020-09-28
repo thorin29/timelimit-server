@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,9 @@
 
 import { SetKeepSignedInAction } from '../../../../action'
 import { Cache } from '../cache'
+import { SourceUserNotFoundException } from '../exception/illegal-state'
+import { ApplyActionException } from '../exception/index'
+import { MissingDeviceException } from '../exception/missing-item'
 
 export async function dispatchSetKeepSignedIn ({ action, cache, parentUserId }: {
   action: SetKeepSignedInAction
@@ -26,7 +29,7 @@ export async function dispatchSetKeepSignedIn ({ action, cache, parentUserId }: 
   const doesUserExist = await cache.doesUserExist(parentUserId)
 
   if (!doesUserExist) {
-    throw new Error('invalid user id provided')
+    throw new SourceUserNotFoundException()
   }
 
   const deviceEntry = await cache.database.device.findOne({
@@ -38,12 +41,12 @@ export async function dispatchSetKeepSignedIn ({ action, cache, parentUserId }: 
   })
 
   if (!deviceEntry) {
-    throw new Error('device does not exist')
+    throw new MissingDeviceException()
   }
 
   if (deviceEntry.currentUserId !== parentUserId) {
     if (action.keepSignedIn) {
-      throw new Error('only the user itself can disable asking for the password')
+      throw new ApplyActionException({ staticMessage: 'only the user itself can disable asking for the password' })
     }
   }
 

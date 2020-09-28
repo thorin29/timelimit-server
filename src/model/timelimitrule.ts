@@ -57,7 +57,7 @@ export class TimelimitRule {
     assertIdWithinFamily(categoryId)
 
     if (maxTimeInMillis < 0 || (!Number.isSafeInteger(maxTimeInMillis))) {
-      throw new Error('maxTimeInMillis must be >= 0')
+      throw new ParseTimeLimitRuleException('maxTimeInMillis must be >= 0')
     }
 
     if (!(
@@ -65,7 +65,7 @@ export class TimelimitRule {
       dayMask < 0 ||
       dayMask > (1 | 2 | 4 | 8 | 16 | 32 | 64)
     )) {
-      throw new Error('invalid day mask')
+      throw new ParseTimeLimitRuleException('invalid day mask')
     }
 
     if (
@@ -74,15 +74,15 @@ export class TimelimitRule {
       (!Number.isSafeInteger(sessionDurationMilliseconds)) ||
       (!Number.isSafeInteger(sessionPauseMilliseconds))
     ) {
-      throw new Error()
+      throw new ParseTimeLimitRuleException()
     }
 
     if (start < MinuteOfDay.MIN || end > MinuteOfDay.MAX || start > end) {
-      throw new Error()
+      throw new ParseTimeLimitRuleException()
     }
 
     if (sessionDurationMilliseconds < 0 || sessionPauseMilliseconds < 0) {
-      throw new Error()
+      throw new ParseTimeLimitRuleException()
     }
   }
 
@@ -124,3 +124,5 @@ export interface SerializedTimeLimitRule {
   dur?: number
   pause?: number
 }
+
+export class ParseTimeLimitRuleException extends Error {}

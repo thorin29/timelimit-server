@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,12 +17,25 @@
 
 import { SetDeviceDefaultUserTimeoutAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingDeviceException } from '../exception/missing-item'
 
 export async function dispatchSetDeviceDefaultUserTimeout ({ action, cache }: {
   action: SetDeviceDefaultUserTimeoutAction
   cache: Cache
 }) {
-  const [affectedRows] = await cache.database.device.update({
+  const oldDeviceItem = await cache.database.device.findOne({
+    transaction: cache.transaction,
+    where: {
+      familyId: cache.familyId,
+      deviceId: action.deviceId
+    }
+  })
+
+  if (!oldDeviceItem) {
+    throw new MissingDeviceException()
+  }
+
+  await cache.database.device.update({
     defaultUserTimeout: action.timeout
   }, {
     transaction: cache.transaction,
@@ -31,10 +44,6 @@ export async function dispatchSetDeviceDefaultUserTimeout ({ action, cache }: {
       deviceId: action.deviceId
     }
   })
-
-  if (affectedRows === 0) {
-    throw new Error('did not find device to update default user timeout')
-  }
 
   cache.invalidiateDeviceList = true
   cache.areChangesImportant = true

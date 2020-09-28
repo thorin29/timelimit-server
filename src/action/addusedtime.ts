@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { AppLogicAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'AddUsedTimeAction'
 
 export class AddUsedTimeAction extends AppLogicAction {
   readonly categoryId: string
@@ -32,18 +35,30 @@ export class AddUsedTimeAction extends AppLogicAction {
   }) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
     if (dayOfEpoch < 0 || (!Number.isSafeInteger(dayOfEpoch))) {
-      throw new Error('illegal dayOfEpoch')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'invalid dayOfEpoch',
+        dynamicMessage: 'invalid dayOfEpoch: ' + dayOfEpoch
+      })
     }
 
     if (timeToAdd < 0 || (!Number.isSafeInteger(timeToAdd))) {
-      throw new Error('illegal timeToAdd')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'illegal timeToAdd',
+        dynamicMessage: 'illegal timeToAdd: ' + timeToAdd
+      })
     }
 
     if (extraTimeToSubtract < 0 || (!Number.isSafeInteger(extraTimeToSubtract))) {
-      throw new Error('illegal extra time to subtract')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'illegal extra time to subtract',
+        dynamicMessage: 'illegal extra time to subtract: ' + extraTimeToSubtract
+      })
     }
 
     this.categoryId = categoryId

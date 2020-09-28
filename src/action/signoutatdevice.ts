@@ -24,7 +24,7 @@ export class SignOutAtDeviceAction extends AppLogicAction {
     super()
   }
 
-  static parse = (action: SerializedSignOutAtDeviceAction) => SignOutAtDeviceAction.instance
+  static parse = (_: SerializedSignOutAtDeviceAction) => SignOutAtDeviceAction.instance
 }
 
 export interface SerializedSignOutAtDeviceAction {

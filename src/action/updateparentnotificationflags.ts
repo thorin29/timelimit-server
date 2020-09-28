@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'UpdateParentNotificationFlagsAction'
 
 export class UpdateParentNotificationFlagsAction extends ParentAction {
   readonly parentId: string
@@ -30,14 +32,12 @@ export class UpdateParentNotificationFlagsAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(parentId)
+    assertIdWithinFamily({ actionType, field: 'parentId', value: parentId })
 
-    if (!Number.isSafeInteger(flags)) {
-      throw new Error('flags must be an integer')
-    }
+    assertSafeInteger({ actionType, field: 'flags', value: flags })
 
     if (flags < 0 || flags > 1) {
-      throw new Error('flags are out of the valid range')
+      throwOutOfRange({ actionType, field: 'flags', value: flags })
     }
 
     this.parentId = parentId

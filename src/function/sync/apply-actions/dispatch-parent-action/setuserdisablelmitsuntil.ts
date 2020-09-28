@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,8 @@
 
 import { SetUserDisableLimitsUntilAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingUserException } from '../exception/missing-item'
+import { PremiumVersionMissingException } from '../exception/premium'
 
 export async function dispatchUserSetDisableLimitsUntil ({ action, cache }: {
   action: SetUserDisableLimitsUntilAction
@@ -24,11 +26,24 @@ export async function dispatchUserSetDisableLimitsUntil ({ action, cache }: {
 }) {
   if (action.timestamp !== 0) {
     if (!cache.hasFullVersion) {
-      throw new Error('action requires full version')
+      throw new PremiumVersionMissingException()
     }
   }
 
-  const [affectedRows] = await cache.database.user.update({
+  const oldUser = await cache.database.user.findOne({
+    where: {
+      familyId: cache.familyId,
+      userId: action.childId,
+      type: 'child'
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldUser) {
+    throw new MissingUserException()
+  }
+
+  await cache.database.user.update({
     disableTimelimitsUntil: action.timestamp.toString(10)
   }, {
     where: {
@@ -38,10 +53,6 @@ export async function dispatchUserSetDisableLimitsUntil ({ action, cache }: {
     },
     transaction: cache.transaction
   })
-
-  if (affectedRows === 0) {
-    throw new Error('invalid user id provided')
-  }
 
   cache.invalidiateUserList = true
   cache.areChangesImportant = true

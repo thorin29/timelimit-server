@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily, assertSafeInteger } from './meta/util'
+
+const actionType = 'UpdateCategoryTemporarilyBlockedAction'
 
 export class UpdateCategoryTemporarilyBlockedAction extends ParentAction {
   readonly categoryId: string
@@ -30,15 +33,16 @@ export class UpdateCategoryTemporarilyBlockedAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
     if (endTime !== undefined) {
-      if (!Number.isSafeInteger(endTime)) {
-        throw new Error()
-      }
+      assertSafeInteger({ actionType, field: 'endTime', value: endTime })
 
       if (!blocked) {
-        throw new Error()
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'can not set a end time when disabling blocking'
+        })
       }
     }
 

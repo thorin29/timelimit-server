@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'RemoveUserAction'
 
 export class RemoveUserAction extends ParentAction {
   readonly userId: string
@@ -31,7 +33,7 @@ export class RemoveUserAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(userId)
+    assertIdWithinFamily({ actionType, field: 'userId', value: userId })
 
     this.userId = userId
     this.authentication = authentication

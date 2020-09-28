@@ -62,6 +62,8 @@ import {
   UpdateUserLimitLoginCategory
 } from '../../../../action'
 import { Cache } from '../cache'
+import { ActionObjectTypeNotHandledException } from '../exception/illegal-state'
+import { ActionNotSupportedBySelfLimitationException } from '../exception/self-limit'
 import { dispatchAddCategoryApps } from './addcategoryapps'
 import { dispatchAddCategoryNetworkId } from './addcategorynetworkid'
 import { dispatchAddUser } from './adduser'
@@ -129,7 +131,9 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     return dispatchUpdateCategoryBlockedTimes({ action, cache, fromChildSelfLimitAddChildUserId })
   }
 
-  if (fromChildSelfLimitAddChildUserId === null) {
+  if (fromChildSelfLimitAddChildUserId !== null) {
+    throw new ActionNotSupportedBySelfLimitationException()
+  } else {
     if (action instanceof AddCategoryNetworkIdAction) {
       return dispatchAddCategoryNetworkId({ action, cache })
     } else if (action instanceof AddUserAction) {
@@ -202,8 +206,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       return dispatchUpdateUserFlagsAction({ action, cache })
     } else if (action instanceof UpdateUserLimitLoginCategory) {
       return dispatchUpdateUserLimitLoginCategoryAction({ action, cache, parentUserId })
+    } else {
+      throw new ActionObjectTypeNotHandledException()
     }
-  } else {
-    throw new Error('unsupported action type')
   }
 }

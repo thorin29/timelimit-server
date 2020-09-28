@@ -29,6 +29,7 @@ import {
 } from '../../../../action'
 import { EventHandler } from '../../../../monitoring/eventhandler'
 import { Cache } from '../cache'
+import { ActionObjectTypeNotHandledException } from '../exception/illegal-state'
 import { dispatchAddInstalledApps } from './addinstalledapps'
 import { dispatchAddUsedTime } from './addusedtime'
 import { dispatchAddUsedTimeVersion2 } from './addusedtime2'
@@ -64,6 +65,6 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHan
   } else if (action instanceof TriedDisablingDeviceAdminAction) {
     await dispatchTriedDisablingDeviceAdmin({ deviceId, action, cache })
   } else {
-    throw new Error('unsupported action type')
+    throw new ActionObjectTypeNotHandledException()
   }
 }

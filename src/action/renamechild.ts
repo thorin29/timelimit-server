@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'RenameChildAction'
 
 export class RenameChildAction extends ParentAction {
   readonly childId: string
@@ -28,10 +31,13 @@ export class RenameChildAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(childId)
+    assertIdWithinFamily({ actionType, field: 'childId', value: childId })
 
     if (newName === '') {
-      throw new Error('new name must not be empty')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'new name must not be empty'
+      })
     }
 
     this.childId = childId

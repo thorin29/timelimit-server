@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,14 +18,16 @@
 import { SetDeviceUserAction, SignOutAtDeviceAction } from '../../../../action'
 import { Cache } from '../cache'
 import { dispatchSetDeviceUser } from '../dispatch-parent-action/setdeviceuser'
+import { IllegalStateException, SourceDeviceNotFoundException } from '../exception/illegal-state'
+import { PremiumVersionMissingException } from '../exception/premium'
 
-export async function dispatchSignOutAtDevice ({ deviceId, action, cache }: {
+export async function dispatchSignOutAtDevice ({ deviceId, cache }: {
   deviceId: string
   action: SignOutAtDeviceAction
   cache: Cache
 }) {
   if (!cache.hasFullVersion) {
-    throw new Error('action requires full version')
+    throw new PremiumVersionMissingException()
   }
 
   const deviceEntry = await cache.database.device.findOne({
@@ -37,11 +39,13 @@ export async function dispatchSignOutAtDevice ({ deviceId, action, cache }: {
   })
 
   if (!deviceEntry) {
-    throw new Error('illegal state: missing device which dispatched the action')
+    throw new SourceDeviceNotFoundException()
   }
 
   if (deviceEntry.defaultUserId === '') {
-    throw new Error('no default user available')
+    throw new IllegalStateException({
+      staticMessage: 'tried to switch to the default user where it does not exist'
+    })
   }
 
   if (deviceEntry.currentUserId !== deviceEntry.defaultUserId) {

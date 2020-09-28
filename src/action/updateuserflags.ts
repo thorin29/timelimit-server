@@ -16,8 +16,11 @@
  */
 
 import { UserFlags } from '../model/userflags'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily, assertSafeInteger } from './meta/util'
+
+const actionType = 'UpdateUserFlagsAction'
 
 export class UpdateUserFlagsAction extends ParentAction {
   readonly userId: string
@@ -31,14 +34,16 @@ export class UpdateUserFlagsAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(userId)
-
-    if ((!Number.isSafeInteger(modifiedBits)) || (!Number.isSafeInteger(newValues))) {
-      throw new Error('flags must be an integer')
-    }
+    assertIdWithinFamily({ actionType, field: 'userId', value: userId })
+    assertSafeInteger({ actionType, field: 'modifiedBits', value: modifiedBits })
+    assertSafeInteger({ actionType, field: 'newValues', value: newValues })
 
     if ((modifiedBits | UserFlags.ALL_FLAGS) !== UserFlags.ALL_FLAGS || (modifiedBits | newValues) !== modifiedBits) {
-      throw new Error('flags are out of the valid range')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'flags are out of the valid range',
+        dynamicMessage: 'flags are out of the valid range: ' + modifiedBits + ', ' + newValues
+      })
     }
 
     this.userId = userId

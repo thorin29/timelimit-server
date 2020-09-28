@@ -17,13 +17,14 @@
 
 import { createHash } from 'crypto'
 import { ClientPushChangesRequestAction } from '../../../api/schema'
-import { EventHandler } from '../../../monitoring/eventhandler'
 import { Cache } from './cache'
+import {
+  InvalidChildActionIntegrityValue, InvalidParentActionIntegrityValue, ParentDeviceActionWithoutParentDeviceException
+} from './exception/integrity'
 
-export async function assertActionIntegrity ({ action, cache, eventHandler, deviceId }: {
+export async function assertActionIntegrity ({ action, cache, deviceId }: {
   action: ClientPushChangesRequestAction
   cache: Cache
-  eventHandler: EventHandler
   deviceId: string
 }): Promise<{ isChildLimitAdding: boolean }> {
   let isChildLimitAdding = false
@@ -42,7 +43,7 @@ export async function assertActionIntegrity ({ action, cache, eventHandler, devi
       })
 
       if (!deviceEntryUnsafe) {
-        throw new Error('user is not signed in at this device')
+        throw new ParentDeviceActionWithoutParentDeviceException()
       }
 
       // this ensures that the parent exists
@@ -61,9 +62,7 @@ export async function assertActionIntegrity ({ action, cache, eventHandler, devi
       const expectedIntegrityValue = createHash('sha512').update(integrityData).digest('hex')
 
       if (action.integrity !== expectedIntegrityValue) {
-        eventHandler.countEvent('applyActionsFromDevice parentActionInvalidIntegrityValue')
-
-        throw new Error('invalid integrity value')
+        throw new InvalidParentActionIntegrityValue()
       }
     }
   }
@@ -79,9 +78,7 @@ export async function assertActionIntegrity ({ action, cache, eventHandler, devi
     const expectedIntegrityValue = createHash('sha512').update(integrityData).digest('hex')
 
     if (action.integrity !== expectedIntegrityValue) {
-      eventHandler.countEvent('applyActionsFromDevice childActionInvalidIntegrityValue')
-
-      throw new Error('invalid integrity value')
+      throw new InvalidChildActionIntegrityValue()
     }
   }
 

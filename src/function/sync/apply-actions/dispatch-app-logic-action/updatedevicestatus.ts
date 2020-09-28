@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,6 +23,7 @@ import { runtimePermissionStatusValues } from '../../../../model/runtimepermissi
 import { enumMax } from '../../../../util/enum'
 import { sendManipulationWarnings } from '../../../warningmail/manipulation'
 import { Cache } from '../cache'
+import { SourceDeviceNotFoundException } from '../exception/illegal-state'
 
 export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
   deviceId: string
@@ -38,7 +39,7 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
   })
 
   if (!deviceEntry) {
-    throw new Error('device not found')
+    throw new SourceDeviceNotFoundException()
   }
 
   const hadManipulationBefore = hasDeviceManipulation(deviceEntry)

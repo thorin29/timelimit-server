@@ -15,9 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { validateAndParseBitmask } from '../util/bitmask'
-import { assertIdWithinFamily } from '../util/token'
+import { BitmapValidationException, validateAndParseBitmask } from '../util/bitmask'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'UpdateParentBlockedTimesAction'
 
 export class UpdateParentBlockedTimesAction extends ParentAction {
   readonly parentId: string
@@ -29,9 +32,9 @@ export class UpdateParentBlockedTimesAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(parentId)
+    assertIdWithinFamily({ actionType, field: 'parentId', value: parentId })
 
-    {
+    try {
       const parsedBlockedTimes = validateAndParseBitmask(blockedTimes, 60 * 24 * 7 /* number of minutes per week */)
 
       for (let day = 0; day < 7; day++) {
@@ -44,9 +47,19 @@ export class UpdateParentBlockedTimesAction extends ParentAction {
         }
 
         if (blockedMinutes > 60 * 18 /* 18 hours */) {
-          throw new Error('too much blocked minutes per day')
+          throw new InvalidActionParameterException({
+            actionType,
+            staticMessage: 'too much blocked minutes per day'
+          })
         }
       }
+    } catch (ex) {
+      if (ex instanceof BitmapValidationException) {
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'invalid bitmask'
+        })
+      } else throw ex
     }
 
     this.parentId = parentId

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,14 +17,24 @@
 
 import { DeleteCategoryAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
 
 export async function dispatchDeleteCategory ({ action, cache }: {
   action: DeleteCategoryAction
   cache: Cache
 }) {
-  // no version number needs to be updated
   const { familyId, transaction } = cache
   const { categoryId } = action
+
+  const categoryEntry = await cache.database.category.findOne({
+    where: {
+      familyId,
+      categoryId
+    },
+    transaction
+  })
+
+  if (!categoryEntry) { throw new MissingCategoryException() }
 
   await cache.database.timelimitRule.destroy({
     where: {
@@ -75,4 +85,6 @@ export async function dispatchDeleteCategory ({ action, cache }: {
   if (affectedUserRows !== 0) {
     cache.invalidiateUserList = true
   }
+
+  // no version number needs to be updated
 }

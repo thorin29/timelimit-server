@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { SetDeviceUserAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingDeviceException, MissingUserException } from '../exception/missing-item'
 
 export async function dispatchSetDeviceUser ({ action, cache }: {
   action: SetDeviceUserAction
@@ -26,11 +27,23 @@ export async function dispatchSetDeviceUser ({ action, cache }: {
     const doesUserExist = await cache.doesUserExist(action.userId)
 
     if (!doesUserExist) {
-      throw new Error('invalid user id provided')
+      throw new MissingUserException()
     }
   }
 
-  const [affectedRows] = await cache.database.device.update({
+  const oldDeviceItem = await cache.database.device.findOne({
+    where: {
+      familyId: cache.familyId,
+      deviceId: action.deviceId
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldDeviceItem) {
+    throw new MissingDeviceException()
+  }
+
+  await cache.database.device.update({
     currentUserId: action.userId,
     isUserKeptSignedIn: false
   }, {
@@ -41,8 +54,6 @@ export async function dispatchSetDeviceUser ({ action, cache }: {
     transaction: cache.transaction
   })
 
-  if (affectedRows !== 0) {
-    cache.invalidiateDeviceList = true
-    cache.areChangesImportant = true
-  }
+  cache.invalidiateDeviceList = true
+  cache.areChangesImportant = true
 }

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,11 +17,24 @@
 
 import { UpdateDeviceNameAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingDeviceException } from '../exception/missing-item'
 
 export async function dispatchUpdateDeviceName ({ action, cache }: {
   action: UpdateDeviceNameAction
   cache: Cache
 }) {
+  const oldDevice = await cache.database.device.findOne({
+    where: {
+      familyId: cache.familyId,
+      deviceId: action.deviceId
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldDevice) {
+    throw new MissingDeviceException()
+  }
+
   const [affectedRows] = await cache.database.device.update({
     name: action.name
   }, {
@@ -32,9 +45,7 @@ export async function dispatchUpdateDeviceName ({ action, cache }: {
     transaction: cache.transaction
   })
 
-  if (affectedRows === 0) {
-    throw new Error('invalid device id')
-  } else {
+  if (affectedRows !== 0) {
     cache.invalidiateDeviceList = true
     cache.areChangesImportant = true
   }

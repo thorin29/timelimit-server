@@ -18,6 +18,8 @@
 import { CreateCategoryAction } from '../../../../action'
 import { generateVersionId } from '../../../../util/token'
 import { Cache } from '../cache'
+import { MissingUserException } from '../exception/missing-item'
+import { CanNotModifyOtherUsersBySelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: CreateCategoryAction
@@ -26,7 +28,7 @@ export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimi
 }) {
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (fromChildSelfLimitAddChildUserId !== action.childId) {
-      throw new Error('can not create categories for other child users')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
   }
 
@@ -41,7 +43,7 @@ export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimi
   })
 
   if (!childEntry) {
-    throw new Error('missing child for new category')
+    throw new MissingUserException()
   }
 
   const oldMaxSort: number = await cache.database.category.max('sort', {

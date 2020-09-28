@@ -16,8 +16,11 @@
  */
 
 import { SetParentCategoryAction } from '../../../../action'
-import { getCategoryWithParentCategories } from '../../../../util/category'
+import { getCategoryWithParentCategories, GetParentCategoriesException } from '../../../../util/category'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { MissingCategoryException } from '../exception/missing-item'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchSetParentCategory ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: SetParentCategoryAction
@@ -33,12 +36,12 @@ export async function dispatchSetParentCategory ({ action, cache, fromChildSelfL
   })
 
   if (!categoryEntry) {
-    throw new Error('tried to set parent category of non existent category')
+    throw new MissingCategoryException()
   }
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (categoryEntry.childId !== fromChildSelfLimitAddChildUserId) {
-      throw new Error('can not set parent category for other user')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
   }
 
@@ -56,7 +59,7 @@ export async function dispatchSetParentCategory ({ action, cache, fromChildSelfL
     }))
 
     if (categoriesByUserId.find((item) => item.categoryId === action.parentCategory) === undefined) {
-      throw new Error('selected parent category does not exist')
+      throw new MissingCategoryException()
     }
 
     const childCategoryIds = new Set<string>()
@@ -80,16 +83,26 @@ export async function dispatchSetParentCategory ({ action, cache, fromChildSelfL
     }
 
     if (childCategoryIds.has(action.parentCategory) || action.parentCategory === action.categoryId) {
-      throw new Error('can not set a category as parent which is a child of the category')
+      throw new ApplyActionException({
+        staticMessage: 'can not set a category as parent which is a child of the category'
+      })
     }
 
     if (fromChildSelfLimitAddChildUserId !== null) {
-      const ownParentCategory = categoriesByUserId.find((item) => item.categoryId === categoryEntry.parentCategoryId)
-      const enableDueToLimitAddingWhenChild = ownParentCategory === undefined ||
-        getCategoryWithParentCategories(categoriesByUserId, action.parentCategory).indexOf(ownParentCategory.categoryId) !== -1
+      try {
+        const ownParentCategory = categoriesByUserId.find((item) => item.categoryId === categoryEntry.parentCategoryId)
+        const enableDueToLimitAddingWhenChild = ownParentCategory === undefined ||
+          getCategoryWithParentCategories(categoriesByUserId, action.parentCategory).indexOf(ownParentCategory.categoryId) !== -1
 
-      if (!enableDueToLimitAddingWhenChild) {
-        throw new Error('can not change parent categories in a way which reduces limits')
+        if (!enableDueToLimitAddingWhenChild) {
+          throw new SelfLimitationException({
+            staticMessage: 'can not change parent categories in a way which reduces limits'
+          })
+        }
+      } catch (ex) {
+        if (ex instanceof GetParentCategoriesException) {
+          throw new MissingCategoryException()
+        } else throw ex
       }
     }
   }

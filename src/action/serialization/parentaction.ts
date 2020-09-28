@@ -26,6 +26,7 @@ import { DeleteCategoryAction, SerializedDeleteCategoryAction } from '../deletec
 import { DeleteTimeLimitRuleAction, SerializedDeleteTimeLimitRuleAction } from '../deletetimelimitrule'
 import { IgnoreManipulationAction, SerializedIgnoreManipulationAction } from '../ignoremanipulation'
 import { IncrementCategoryExtraTimeAction, SerializedIncrementCategoryExtraTimeAction } from '../incrementcategoryextratime'
+import { UnknownActionTypeException } from '../meta/exception'
 import { RemoveCategoryAppsAction, SerializedRemoveCategoryAppsAction } from '../removecategoryapps'
 import { RemoveUserAction, SerializedRemoveUserAction } from '../removeuser'
 import { RenameChildAction, SerializedRenameChildAction } from '../renamechild'
@@ -193,6 +194,6 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
   } else if (action.type === 'UPDATE_USER_LIMIT_LOGIN_CATEGORY') {
     return UpdateUserLimitLoginCategory.parse(action)
   } else {
-    throw new Error('illegal state: invalid type for action at parseParentAction')
+    throw new UnknownActionTypeException({ group: 'parent' })
   }
 }

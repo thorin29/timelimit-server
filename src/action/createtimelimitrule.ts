@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SerializedTimeLimitRule, TimelimitRule } from '../model/timelimitrule'
+import { ParseTimeLimitRuleException, SerializedTimeLimitRule, TimelimitRule } from '../model/timelimitrule'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+
+const actionType = 'CreateTimeLimitRuleAction'
 
 export class CreateTimeLimitRuleAction extends ParentAction {
   rule: TimelimitRule
@@ -27,11 +30,21 @@ export class CreateTimeLimitRuleAction extends ParentAction {
     this.rule = rule
   }
 
-  static parse = ({ rule }: SerializedCreateTimelimtRuleAction) => (
-    new CreateTimeLimitRuleAction({
-      rule: TimelimitRule.parse(rule)
-    })
-  )
+  static parse = ({ rule }: SerializedCreateTimelimtRuleAction) => {
+    try {
+      return new CreateTimeLimitRuleAction({
+        rule: TimelimitRule.parse(rule)
+      })
+    } catch (ex) {
+      if (ex instanceof ParseTimeLimitRuleException) {
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'invalid time limit rule',
+          dynamicMessage: 'invalid time limit rule: ' + ex.toString()
+        })
+      } else throw ex
+    }
+  }
 }
 
 export interface SerializedCreateTimelimtRuleAction {

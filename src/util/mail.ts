@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,6 +19,7 @@ import { parseOneAddress } from 'email-addresses'
 import * as Email from 'email-templates'
 import { join } from 'path'
 import { config } from '../config'
+import { IllegalStateException } from '../exception'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
 const mailServerBlacklist = (process.env.MAIL_SERVER_BLACKLIST || '').split(',').filter((item) => !!item)
@@ -129,7 +130,7 @@ export function sanitizeMailAddress (input: string): string | null {
   const address = (parsed as any).address
 
   if (typeof address !== 'string') {
-    throw new Error('illegal state')
+    throw new IllegalStateException({ staticMessage: 'mail address is not a string' })
   }
 
   return address

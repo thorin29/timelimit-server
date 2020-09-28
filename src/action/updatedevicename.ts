@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'UpdateDeviceNameAction'
 
 export class UpdateDeviceNameAction extends ParentAction {
   readonly deviceId: string
@@ -31,10 +34,13 @@ export class UpdateDeviceNameAction extends ParentAction {
     this.deviceId = deviceId
     this.name = name
 
-    assertIdWithinFamily(deviceId)
+    assertIdWithinFamily({ actionType, field: 'deviceId', value: deviceId })
 
     if (name.trim().length === 0) {
-      throw new Error('new device name must not be blank')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'new device name must not be blank'
+      })
     }
   }
 

@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertNonEmptyListWithoutDuplicates } from '../util/list'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertNonEmptyListWithoutDuplicates } from './meta/util'
+
+const actionType = 'AddCategoryApps'
 
 export class AddCategoryAppsAction extends ParentAction {
   readonly categoryId: string
@@ -26,8 +27,8 @@ export class AddCategoryAppsAction extends ParentAction {
   constructor ({ categoryId, packageNames }: {categoryId: string, packageNames: Array<string>}) {
     super()
 
-    assertIdWithinFamily(categoryId)
-    assertNonEmptyListWithoutDuplicates(packageNames)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
+    assertNonEmptyListWithoutDuplicates({ actionType, field: 'packageNames', list: packageNames })
 
     this.categoryId = categoryId
     this.packageNames = packageNames

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,11 +17,24 @@
 
 import { UpdateCategoryTitleAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
 
 export async function dispatchUpdateCategoryTitle ({ action, cache }: {
   action: UpdateCategoryTitleAction
   cache: Cache
 }) {
+  const oldCategory = await cache.database.category.findOne({
+    where: {
+      familyId: cache.familyId,
+      categoryId: action.categoryId
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldCategory) {
+    throw new MissingCategoryException()
+  }
+
   const [affectedRows] = await cache.database.category.update({
     title: action.newTitle
   }, {

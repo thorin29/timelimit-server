@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,9 +29,7 @@ export async function dispatchUpdateAppActivities ({ deviceId, action, cache }: 
   if (action.updatedOrAdded.length > 0) {
     const chuncks = chunk(action.updatedOrAdded, 500)
 
-    for (let i = 0; i < chuncks.length; i++) {
-      const items = chuncks[i]
-
+    for (const items of chuncks) {
       await cache.database.appActivity.destroy({
         where: {
           familyId: cache.familyId,
@@ -62,9 +60,7 @@ export async function dispatchUpdateAppActivities ({ deviceId, action, cache }: 
   if (action.removed.length > 0) {
     const chunks = chunk(action.removed, 500)
 
-    for (let i = 0; i < chunks.length; i++) {
-      const items = chunks[i]
-
+    for (const items of chunks) {
       await cache.database.appActivity.destroy({
         where: {
           familyId: cache.familyId,

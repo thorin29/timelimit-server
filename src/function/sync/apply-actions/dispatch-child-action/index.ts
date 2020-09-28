@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,6 +21,7 @@ import {
   ChildSignInAction
 } from '../../../../action'
 import { Cache } from '../cache'
+import { ActionObjectTypeNotHandledException } from '../exception/illegal-state'
 import { dispatchChildChangePassword } from './childchangepassword'
 import { dispatchChildSignIn } from './childsignin'
 
@@ -35,6 +36,6 @@ export const dispatchChildAction = async ({ action, deviceId, childUserId, cache
   } else if (action instanceof ChildSignInAction) {
     await dispatchChildSignIn({ action, childUserId, deviceId, cache })
   } else {
-    throw new Error('unsupported action type')
+    throw new ActionObjectTypeNotHandledException()
   }
 }

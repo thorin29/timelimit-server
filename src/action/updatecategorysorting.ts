@@ -15,9 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { uniq } from 'lodash'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertNonEmptyListWithoutDuplicates } from './meta/util'
+
+const actionType = 'UpdateCategorySortingAction'
 
 export class UpdateCategorySortingAction extends ParentAction {
   readonly categoryIds: Array<string>
@@ -27,15 +28,13 @@ export class UpdateCategorySortingAction extends ParentAction {
   }) {
     super()
 
-    if (categoryIds.length === 0) {
-      throw new Error('empty category sorting list')
-    }
+    assertNonEmptyListWithoutDuplicates({ actionType, field: 'categoryIds', list: categoryIds })
 
-    if (uniq(categoryIds).length !== categoryIds.length) {
-      throw new Error('category sorting list has duplicates')
-    }
-
-    categoryIds.forEach((categoryId) => assertIdWithinFamily(categoryId))
+    categoryIds.forEach((categoryId) => assertIdWithinFamily({
+      actionType,
+      field: 'categoryIds',
+      value: categoryId
+    }))
 
     this.categoryIds = categoryIds
   }

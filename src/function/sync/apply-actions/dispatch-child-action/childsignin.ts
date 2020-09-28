@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,15 +18,17 @@
 import { ChildSignInAction, SetDeviceUserAction } from '../../../../action'
 import { Cache } from '../cache'
 import { dispatchSetDeviceUser } from '../dispatch-parent-action/setdeviceuser'
+import { SourceUserNotFoundException } from '../exception/illegal-state'
+import { PremiumVersionMissingException } from '../exception/premium'
 
-export const dispatchChildSignIn = async ({ action, deviceId, childUserId, cache }: {
+export const dispatchChildSignIn = async ({ deviceId, childUserId, cache }: {
   action: ChildSignInAction
   deviceId: string
   childUserId: string
   cache: Cache
 }) => {
   if (!cache.hasFullVersion) {
-    throw new Error('action requires full version')
+    throw new PremiumVersionMissingException()
   }
 
   await dispatchSetDeviceUser({
@@ -50,7 +52,7 @@ export const dispatchChildSignIn = async ({ action, deviceId, childUserId, cache
   })
 
   if (!userEntryUnsafe) {
-    throw new Error('illegal state')
+    throw new SourceUserNotFoundException()
   }
 
   if (userEntryUnsafe.currentDevice === deviceId) {

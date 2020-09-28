@@ -18,6 +18,8 @@
 import { blockedTimesBitmaskLength, UpdateCategoryBlockedTimesAction } from '../../../../action/updatecategoryblockedtimes'
 import { validateAndParseBitmask } from '../../../../util/bitmask'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchUpdateCategoryBlockedTimes ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryBlockedTimesAction
@@ -34,7 +36,7 @@ export async function dispatchUpdateCategoryBlockedTimes ({ action, cache, fromC
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('can not update blocked time areas for a category which does not exist')
+    throw new MissingCategoryException()
   }
 
   const categoryEntry = {
@@ -44,7 +46,7 @@ export async function dispatchUpdateCategoryBlockedTimes ({ action, cache, fromC
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (categoryEntry.childId !== fromChildSelfLimitAddChildUserId) {
-      throw new Error('can not update blocked time areas for other child users')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
 
     const oldBlocked = validateAndParseBitmask(categoryEntry.blockedMinutesInWeek, blockedTimesBitmaskLength)
@@ -52,7 +54,7 @@ export async function dispatchUpdateCategoryBlockedTimes ({ action, cache, fromC
 
     oldBlocked.forEach((value, index) => {
       if (value && !newBlocked[index]) {
-        throw new Error('new blocked time areas are smaller')
+        throw new SelfLimitationException({ staticMessage: 'new blocked time areas are smaller' })
       }
     })
   }

@@ -16,9 +16,11 @@
  */
 
 import { createDecipheriv, createHash } from 'crypto'
-import { assertIsHexString } from '../util/hexstring'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertHexString, assertIdWithinFamily } from './meta/util'
+
+const actionType = 'ChangeParentPasswordAction'
 
 export class ChangeParentPasswordAction extends ParentAction {
   readonly parentUserId: string
@@ -36,7 +38,7 @@ export class ChangeParentPasswordAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(parentUserId)
+    assertIdWithinFamily({ actionType, field: 'parentUserId', value: parentUserId })
 
     if (
       (!parentUserId) ||
@@ -45,15 +47,25 @@ export class ChangeParentPasswordAction extends ParentAction {
       (!newPasswordSecondHashEncrypted) ||
       (!integrity)
     ) {
-      throw new Error('missing required parameter for change parent password')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'missing required parameter for change parent password'
+      })
     }
 
     if (integrity.length !== 128) {
-      throw new Error('wrong length of integrity data')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'wrong length of integrity data'
+      })
     }
 
-    assertIsHexString(newPasswordSecondHashEncrypted)
-    assertIsHexString(integrity)
+    assertHexString({ actionType, field: 'newPasswordSecondHashEncrypted', value: newPasswordSecondHashEncrypted })
+    assertHexString({ actionType, field: 'integrity', value: integrity })
+
+    if (newPasswordSecondHashEncrypted.length <= 70) {
+      throw new InvalidActionParameterException({ actionType, staticMessage: 'wrong length of the new password' })
+    }
 
     this.parentUserId = parentUserId
     this.newPasswordFirstHash = newPasswordFirstHash
@@ -82,15 +94,11 @@ export class ChangeParentPasswordAction extends ParentAction {
     const expected = createHash('sha512').update(integrityData).digest('hex')
 
     if (expected !== this.integrity) {
-      throw new Error('invalid integrity for change parent password action')
+      throw new InvalidChangeParentPasswordIntegrityException()
     }
   }
 
-  decryptSecondHash ({ oldPasswordSecondHash }: {oldPasswordSecondHash: string}) {
-    if (this.newPasswordSecondHashEncrypted.length <= 70) {
-      throw new Error('wrong length of the new password')
-    }
-
+  decryptSecondHash ({ oldPasswordSecondHash }: { oldPasswordSecondHash: string }) {
     const ivHex = this.newPasswordSecondHashEncrypted.substring(0, 32)
     const salt = this.newPasswordSecondHashEncrypted.substring(32, 64)
     const encryptedData = this.newPasswordSecondHashEncrypted.substring(64)
@@ -114,4 +122,8 @@ export interface SerializedChangeParentPasswordAction {
   secondSalt: string
   secondHashEncrypted: string
   integrity: string
+}
+
+export class InvalidChangeParentPasswordIntegrityException extends Error {
+  constructor () { super('invalid integrity for change parent password action') }
 }

@@ -15,20 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BadRequest, Unauthorized } from 'http-errors'
-import { parseAppLogicAction, parseChildAction, parseParentAction } from '../../../action/serialization'
+import { BadRequest } from 'http-errors'
 import { ClientPushChangesRequest } from '../../../api/schema'
-import { isSerializedAppLogicAction, isSerializedChildAction, isSerializedParentAction } from '../../../api/validator'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
 import { Database } from '../../../database'
-import { UserFlags } from '../../../model/userflags'
 import { EventHandler } from '../../../monitoring/eventhandler'
 import { WebsocketApi } from '../../../websocket'
 import { notifyClientsAboutChangesDelayed } from '../../websocket'
+import { getApplyActionBaseInfo } from './baseinfo'
 import { Cache } from './cache'
-import { dispatchAppLogicAction } from './dispatch-app-logic-action'
-import { dispatchChildAction } from './dispatch-child-action'
-import { dispatchParentAction } from './dispatch-parent-action'
+import { dispatchAppLogicAction, dispatchChildAction, dispatchParentAction } from './dispatch-helper'
+import { ApplyActionException } from './exception'
+import { IllegalStateException } from './exception/illegal-state'
+import { SequenceNumberRepeatedException } from './exception/sequence'
 import { assertActionIntegrity } from './integrity'
 
 export const applyActionsFromDevice = async ({ database, request, websocket, connectedDevicesManager, eventHandler }: {
@@ -37,6 +36,7 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
   request: ClientPushChangesRequest
   connectedDevicesManager: VisibleConnectedDevicesManager
   eventHandler: EventHandler
+  // no transaction here because this is directly called from an API endpoint
 }): Promise<{ shouldDoFullSync: boolean }> => {
   eventHandler.countEvent('applyActionsFromDevice')
 
@@ -47,213 +47,83 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
   }
 
   return database.transaction(async (transaction) => {
-    const deviceEntryUnsafe = await database.device.findOne({
-      where: {
-        deviceAuthToken: request.deviceAuthToken
-      },
-      attributes: ['familyId', 'deviceId', 'nextSequenceNumber'],
-      transaction
-    })
-
-    if (!deviceEntryUnsafe) {
-      throw new Unauthorized()
-    }
-
-    const deviceEntry = {
-      familyId: deviceEntryUnsafe.familyId,
-      deviceId: deviceEntryUnsafe.deviceId,
-      nextSequenceNumber: deviceEntryUnsafe.nextSequenceNumber
-    }
-
-    const familyEntryUnsafe = await database.family.findOne({
-      where: {
-        familyId: deviceEntry.familyId
-      },
-      transaction,
-      attributes: ['hasFullVersion']
-    })
-
-    if (!familyEntryUnsafe) {
-      throw new Error('missing family entry')
-    }
-
-    const familyEntry = {
-      hasFullVersion: familyEntryUnsafe.hasFullVersion
-    }
+    const baseInfo = await getApplyActionBaseInfo({ database, transaction, deviceAuthToken: request.deviceAuthToken })
 
     const cache = new Cache({
       database,
-      hasFullVersion: familyEntry.hasFullVersion,
+      hasFullVersion: baseInfo.hasFullVersion,
       transaction,
-      familyId: deviceEntry.familyId,
+      familyId: baseInfo.familyId,
       connectedDevicesManager
     })
 
-    let { nextSequenceNumber } = deviceEntry
+    let { nextSequenceNumber } = baseInfo
 
     for (const action of request.actions) {
-      if (action.sequenceNumber < nextSequenceNumber) {
-        // action was already received
-
-        eventHandler.countEvent('applyActionsFromDevice sequenceNumberRepeated')
-
-        cache.requireFullSync()
-        continue
-      }
-
       try {
+        if (action.sequenceNumber < nextSequenceNumber) {
+          // action was already received
+          throw new SequenceNumberRepeatedException()
+        }
+
         await cache.subtransaction(async () => {
           // update the next sequence number
           nextSequenceNumber = action.sequenceNumber + 1
 
           const { isChildLimitAdding } = await assertActionIntegrity({
-            deviceId: deviceEntry.deviceId,
+            deviceId: baseInfo.deviceId,
             cache,
-            eventHandler,
             action
           })
 
-          const parsedSerializedAction = JSON.parse(action.encodedAction)
-
           if (action.type === 'appLogic') {
-            if (!isSerializedAppLogicAction(parsedSerializedAction)) {
-              eventHandler.countEvent('applyActionsFromDevice invalidAppLogicAction')
-
-              throw new Error('invalid action: ' + action.encodedAction)
-            }
-
-            eventHandler.countEvent('applyActionsFromDevice action:' + parsedSerializedAction.type)
-
-            const parsedAction = parseAppLogicAction(parsedSerializedAction)
-
-            try {
-              await dispatchAppLogicAction({
-                action: parsedAction,
-                cache,
-                deviceId: deviceEntry.deviceId,
-                eventHandler
-              })
-            } catch (ex) {
-              eventHandler.countEvent('applyActionsFromDevice actionWithError:' + parsedSerializedAction.type)
-
-              throw ex
-            }
+            await dispatchAppLogicAction({
+              action,
+              cache,
+              deviceId: baseInfo.deviceId,
+              eventHandler
+            })
           } else if (action.type === 'parent') {
-            if (!isSerializedParentAction(parsedSerializedAction)) {
-              eventHandler.countEvent('applyActionsFromDevice invalidParentAction')
-
-              throw new Error('invalid action' + action.encodedAction)
-            }
-
-            eventHandler.countEvent('applyActionsFromDevice, childAddLimit: ' + isChildLimitAdding + ' action:' + parsedSerializedAction.type)
-
-            const parsedAction = parseParentAction(parsedSerializedAction)
-
-            try {
-              if (isChildLimitAdding) {
-                const deviceEntryUnsafe2 = await cache.database.device.findOne({
-                  attributes: ['currentUserId'],
-                  where: {
-                    familyId: cache.familyId,
-                    deviceId: deviceEntry.deviceId,
-                    currentUserId: action.userId
-                  },
-                  transaction: cache.transaction
-                })
-
-                if (!deviceEntryUnsafe2) {
-                  throw new Error('illegal state')
-                }
-
-                const deviceUserId = deviceEntryUnsafe2.currentUserId
-
-                if (!deviceUserId) {
-                  throw new Error('no device user id set but child add self limit action requested')
-                }
-
-                const deviceUserEntryUnsafe = await cache.database.user.findOne({
-                  attributes: ['flags'],
-                  where: {
-                    familyId: cache.familyId,
-                    userId: deviceUserId,
-                    type: 'child'
-                  },
-                  transaction: cache.transaction
-                })
-
-                if (!deviceUserEntryUnsafe) {
-                  throw new Error('no child user found for child limit adding action')
-                }
-
-                if ((parseInt(deviceUserEntryUnsafe.flags, 10) & UserFlags.ALLOW_SELF_LIMIT_ADD) !== UserFlags.ALLOW_SELF_LIMIT_ADD) {
-                  throw new Error('child add limit action found but not allowed')
-                }
-
-                await dispatchParentAction({
-                  action: parsedAction,
-                  cache,
-                  parentUserId: action.userId,
-                  sourceDeviceId: deviceEntry.deviceId,
-                  fromChildSelfLimitAddChildUserId: deviceUserId
-                })
-              } else {
-                await dispatchParentAction({
-                  action: parsedAction,
-                  cache,
-                  parentUserId: action.userId,
-                  sourceDeviceId: deviceEntry.deviceId,
-                  fromChildSelfLimitAddChildUserId: null
-                })
-              }
-            } catch (ex) {
-              eventHandler.countEvent('applyActionsFromDeviceWithError, childAddLimit: ' + isChildLimitAdding + ' action:' + parsedSerializedAction.type)
-
-              throw ex
-            }
+            await dispatchParentAction({
+              action,
+              cache,
+              deviceId: baseInfo.deviceId,
+              eventHandler,
+              isChildLimitAdding
+            })
           } else if (action.type === 'child') {
-            if (!isSerializedChildAction(parsedSerializedAction)) {
-              eventHandler.countEvent('applyActionsFromDevice invalidChildAction')
-
-              throw new Error('invalid action: ' + action.encodedAction)
-            }
-
-            eventHandler.countEvent('applyActionsFromDevice action:' + parsedSerializedAction.type)
-
-            const parsedAction = parseChildAction(parsedSerializedAction)
-
-            try {
-              await dispatchChildAction({
-                action: parsedAction,
-                cache,
-                childUserId: action.userId,
-                deviceId: deviceEntry.deviceId
-              })
-            } catch (ex) {
-              eventHandler.countEvent('applyActionsFromDevice actionWithError:' + parsedSerializedAction.type)
-
-              throw ex
-            }
+            await dispatchChildAction({
+              action,
+              cache,
+              childUserId: action.userId,
+              deviceId: baseInfo.deviceId,
+              eventHandler
+            })
           } else {
-            throw new Error('illegal state')
+            throw new IllegalStateException({ staticMessage: 'not possible action.type value' })
           }
         })
       } catch (ex) {
-        eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction')
+        if (ex instanceof ApplyActionException) {
+          eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:' + ex.staticMessage)
+        } else {
+          eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:other')
+        }
 
         cache.requireFullSync()
       }
     }
 
     // save new next sequence number
-    if (nextSequenceNumber !== deviceEntry.nextSequenceNumber) {
+    if (nextSequenceNumber !== baseInfo.nextSequenceNumber) {
       eventHandler.countEvent('applyActionsFromDevice updateSequenceNumber')
 
       await database.device.update({
         nextSequenceNumber
       }, {
         where: {
-          familyId: deviceEntry.familyId,
-          deviceId: deviceEntry.deviceId
+          familyId: baseInfo.familyId,
+          deviceId: baseInfo.deviceId
         },
         transaction
       })
@@ -262,8 +132,8 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
     await cache.saveModifiedVersionNumbers()
 
     await notifyClientsAboutChangesDelayed({
-      familyId: deviceEntry.familyId,
-      sourceDeviceId: deviceEntry.deviceId,
+      familyId: baseInfo.familyId,
+      sourceDeviceId: baseInfo.deviceId,
       isImportant: cache.areChangesImportant,
       websocket,
       database,

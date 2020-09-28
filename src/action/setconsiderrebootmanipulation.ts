@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'SetConsiderRebootManipulationAction'
 
 export class SetConsiderRebootManipulationAction extends ParentAction {
   readonly deviceId: string
@@ -25,7 +27,7 @@ export class SetConsiderRebootManipulationAction extends ParentAction {
   constructor ({ deviceId, enable }: {deviceId: string, enable: boolean}) {
     super()
 
-    assertIdWithinFamily(deviceId)
+    assertIdWithinFamily({ actionType, field: 'deviceId', value: deviceId })
 
     this.deviceId = deviceId
     this.enable = enable

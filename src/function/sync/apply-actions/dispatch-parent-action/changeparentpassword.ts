@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,10 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { ChangeParentPasswordAction } from '../../../../action'
+import { ChangeParentPasswordAction, InvalidChangeParentPasswordIntegrityException } from '../../../../action/changeparentpassword'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchChangeParentPassword ({ action, cache }: {
   action: ChangeParentPasswordAction
@@ -34,10 +36,17 @@ export async function dispatchChangeParentPassword ({ action, cache }: {
   })
 
   if (!parentEntry) {
-    throw new Error('parent entry not found')
+    throw new MissingUserException()
   }
 
-  action.assertIntegrityValid({ oldPasswordSecondHash: parentEntry.secondPasswordHash })
+  try {
+    action.assertIntegrityValid({ oldPasswordSecondHash: parentEntry.secondPasswordHash })
+  } catch (ex) {
+    if (ex instanceof InvalidChangeParentPasswordIntegrityException) {
+      throw new ApplyActionException({ staticMessage: 'invalid new password integrity' })
+    } else throw ex
+  }
+
   const newSecondPasswordHash = action.decryptSecondHash({ oldPasswordSecondHash: parentEntry.secondPasswordHash })
 
   parentEntry.passwordHash = action.newPasswordFirstHash

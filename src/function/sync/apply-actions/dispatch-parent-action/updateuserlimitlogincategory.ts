@@ -17,6 +17,8 @@
 
 import { UpdateUserLimitLoginCategory } from '../../../../action'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { MissingCategoryException, MissingUserException } from '../exception/missing-item'
 
 export async function dispatchUpdateUserLimitLoginCategoryAction ({ action, cache, parentUserId }: {
   action: UpdateUserLimitLoginCategory
@@ -26,21 +28,20 @@ export async function dispatchUpdateUserLimitLoginCategoryAction ({ action, cach
   const userEntry = await cache.database.user.findOne({
     where: {
       familyId: cache.familyId,
-      userId: action.userId
+      userId: action.userId,
+      type: 'parent'
     },
     transaction: cache.transaction
   })
 
   if (!userEntry) {
-    throw new Error('user not found')
-  }
-
-  if (userEntry.type !== 'parent') {
-    throw new Error('user must be a parent')
+    throw new MissingUserException()
   }
 
   if (action.categoryId !== undefined && parentUserId !== action.userId) {
-    throw new Error('only the user itself can add a limit')
+    throw new ApplyActionException({
+      staticMessage: 'only the parent user itself can add a limit login category'
+    })
   }
 
   await cache.database.userLimitLoginCategory.destroy({
@@ -61,7 +62,7 @@ export async function dispatchUpdateUserLimitLoginCategoryAction ({ action, cach
     })
 
     if (!categoryEntry) {
-      throw new Error('category must exist')
+      throw new MissingCategoryException()
     }
 
     await cache.database.userLimitLoginCategory.create({

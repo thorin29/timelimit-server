@@ -17,6 +17,7 @@
 
 import { ResetCategoryNetworkIdsAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
 
 export async function dispatchResetCategoryNetworkIds ({ action, cache }: {
   action: ResetCategoryNetworkIdsAction
@@ -32,7 +33,7 @@ export async function dispatchResetCategoryNetworkIds ({ action, cache }: {
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id for new rule')
+    throw new MissingCategoryException()
   }
 
   await cache.database.categoryNetworkId.destroy({

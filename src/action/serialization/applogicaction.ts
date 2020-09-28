@@ -20,6 +20,7 @@ import { AddUsedTimeAction, SerializedAddUsedTimeAction } from '../addusedtime'
 import { AddUsedTimeActionVersion2, SerializedAddUsedTimeActionVersion2 } from '../addusedtime2'
 import { AppLogicAction } from '../basetypes'
 import { ForceSyncAction, SerializedForceSyncAction } from '../forcesync'
+import { UnknownActionTypeException } from '../meta/exception'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
 import { SerializedSignOutAtDeviceAction, SignOutAtDeviceAction } from '../signoutatdevice'
 import { SerialiezdTriedDisablingDeviceAdminAction, TriedDisablingDeviceAdminAction } from '../trieddisablingdeviceadmin'
@@ -57,6 +58,6 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
   } else if (serialized.type === 'UPDATE_DEVICE_STATUS') {
     return UpdateDeviceStatusAction.parse(serialized)
   } else {
-    throw new Error('illegal state: unsupported type at parseAppLogicAction')
+    throw new UnknownActionTypeException({ group: 'app logic' })
   }
 }

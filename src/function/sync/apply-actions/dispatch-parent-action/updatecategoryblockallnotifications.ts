@@ -17,6 +17,8 @@
 
 import { UpdateCategoryBlockAllNotificationsAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchUpdateCategoryBlockAllNotifications ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryBlockAllNotificationsAction
@@ -33,16 +35,16 @@ export async function dispatchUpdateCategoryBlockAllNotifications ({ action, cac
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id for updating notification blocking')
+    throw new MissingCategoryException()
   }
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (fromChildSelfLimitAddChildUserId !== categoryEntryUnsafe.childId) {
-      throw new Error('can not add rules for other users')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
 
     if (!action.blocked) {
-      throw new Error('can not disable filter as child')
+      throw new SelfLimitationException({ staticMessage: 'can not disable notification filter as child' })
     }
   }
 

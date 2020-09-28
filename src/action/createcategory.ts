@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'CreateCategoryAction'
 
 export class CreateCategoryAction extends ParentAction {
   readonly categoryId: string
@@ -26,8 +28,8 @@ export class CreateCategoryAction extends ParentAction {
   constructor ({ categoryId, childId, title }: {categoryId: string, childId: string, title: string}) {
     super()
 
-    assertIdWithinFamily(categoryId)
-    assertIdWithinFamily(childId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
+    assertIdWithinFamily({ actionType, field: 'childId', value: childId })
 
     this.categoryId = categoryId
     this.childId = childId

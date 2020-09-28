@@ -15,9 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { AppActivityItem, RemovedAppActivityItem, SerializedAppActivityItem, SerializedRemovedAppActivityItem } from '../model/appactivity'
-import { assertListWithoutDuplicates } from '../util/list'
+import {
+  AppActivityItem, IncompleteAppActivityItemException, RemovedAppActivityItem, SerializedAppActivityItem, SerializedRemovedAppActivityItem
+} from '../model/appactivity'
 import { AppLogicAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertListWithoutDuplicates } from './meta/util'
+
+const actionType = 'UpdateAppActivitiesAction'
 
 export class UpdateAppActivitiesAction extends AppLogicAction {
   readonly removed: Array<RemovedAppActivityItem>
@@ -29,23 +34,44 @@ export class UpdateAppActivitiesAction extends AppLogicAction {
   }) {
     super()
 
-    assertListWithoutDuplicates(removed.map((item) => item.packageName + ':' + item.activityName))
-    assertListWithoutDuplicates(updatedOrAdded.map((item) => item.packageName + ':' + item.activityName))
+    assertListWithoutDuplicates({
+      actionType,
+      field: 'removed',
+      list: removed.map((item) => item.packageName + ':' + item.activityName)
+    })
+
+    assertListWithoutDuplicates({
+      actionType,
+      field: 'updatedOrAdded',
+      list: updatedOrAdded.map((item) => item.packageName + ':' + item.activityName)
+    })
 
     if (removed.length === 0 && updatedOrAdded.length === 0) {
-      throw new Error('UpdateAppActivitiesAction is empty')
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'UpdateAppActivitiesAction is empty'
+      })
     }
 
     this.removed = removed
     this.updatedOrAdded = updatedOrAdded
   }
 
-  static parse = ({ removed, updatedOrAdded }: SerializedUpdateAppActivitiesAction) => (
-    new UpdateAppActivitiesAction({
-      removed: removed.map((item) => RemovedAppActivityItem.parse(item)),
-      updatedOrAdded: updatedOrAdded.map((item) => AppActivityItem.parse(item))
-    })
-  )
+  static parse = ({ removed, updatedOrAdded }: SerializedUpdateAppActivitiesAction) => {
+    try {
+      return new UpdateAppActivitiesAction({
+        removed: removed.map((item) => RemovedAppActivityItem.parse(item)),
+        updatedOrAdded: updatedOrAdded.map((item) => AppActivityItem.parse(item))
+      })
+    } catch (ex) {
+      if (ex instanceof IncompleteAppActivityItemException) {
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'invalid app activity item'
+        })
+      } else throw ex
+    }
+  }
 }
 
 export interface SerializedUpdateAppActivitiesAction {

@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'ResetParentBlockedTimesAction'
 
 export class ResetParentBlockedTimesAction extends ParentAction {
   readonly parentId: string
@@ -26,7 +28,7 @@ export class ResetParentBlockedTimesAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(parentId)
+    assertIdWithinFamily({ actionType, field: 'parentId', value: parentId })
 
     this.parentId = parentId
   }

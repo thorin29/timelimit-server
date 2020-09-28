@@ -15,11 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { validateBitmask } from '../util/bitmask'
-import { assertIdWithinFamily } from '../util/token'
+import { BitmapValidationException, validateBitmask } from '../util/bitmask'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily } from './meta/util'
 
 export const blockedTimesBitmaskLength = 60 * 24 * 7 /* number of minutes per week */
+
+const actionType = 'UpdateCategoryBlockedTimesAction'
 
 export class UpdateCategoryBlockedTimesAction extends ParentAction {
   readonly categoryId: string
@@ -31,8 +34,18 @@ export class UpdateCategoryBlockedTimesAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(categoryId)
-    validateBitmask(blockedTimes, blockedTimesBitmaskLength)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
+
+    try {
+      validateBitmask(blockedTimes, blockedTimesBitmaskLength)
+    } catch (ex) {
+      if (ex instanceof BitmapValidationException) {
+        throw new InvalidActionParameterException({
+          actionType,
+          staticMessage: 'invalid bitmask'
+        })
+      } else throw ex
+    }
 
     this.categoryId = categoryId
     this.blockedTimes = blockedTimes

@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'UpdateCategoryTitleAction'
 
 export class UpdateCategoryTitleAction extends ParentAction {
   readonly categoryId: string
@@ -25,7 +27,7 @@ export class UpdateCategoryTitleAction extends ParentAction {
   constructor ({ categoryId, newTitle }: {categoryId: string, newTitle: string}) {
     super()
 
-    assertIdWithinFamily(categoryId)
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
     this.categoryId = categoryId
     this.newTitle = newTitle

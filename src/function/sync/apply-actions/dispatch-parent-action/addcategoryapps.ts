@@ -18,8 +18,11 @@
 import * as Sequelize from 'sequelize'
 import { AddCategoryAppsAction } from '../../../../action'
 import { CategoryAppAttributes } from '../../../../database/categoryapp'
-import { getCategoryWithParentCategories } from '../../../../util/category'
+import { getCategoryWithParentCategories, GetParentCategoriesException } from '../../../../util/category'
 import { Cache } from '../cache'
+import { SourceUserNotFoundException } from '../exception/illegal-state'
+import { MissingCategoryException } from '../exception/missing-item'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
 
 export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: AddCategoryAppsAction
@@ -36,14 +39,14 @@ export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLim
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id')
+    throw new MissingCategoryException()
   }
 
   const { childId } = categoryEntryUnsafe
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     if (childId !== fromChildSelfLimitAddChildUserId) {
-      throw new Error('can not add apps to other users')
+      throw new CanNotModifyOtherUsersBySelfLimitationException()
     }
   }
 
@@ -77,64 +80,74 @@ export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLim
   }).map((item) => item.categoryId)
 
   if (fromChildSelfLimitAddChildUserId !== null) {
-    const parentCategoriesOfTargetCategory = getCategoryWithParentCategories(categoriesOfSameChild, action.categoryId)
-    const userEntryUnsafe = await cache.database.user.findOne({
-      attributes: [ 'categoryForNotAssignedApps' ],
-      where: {
-        familyId: cache.familyId,
-        userId: fromChildSelfLimitAddChildUserId
-      },
-      transaction: cache.transaction
-    })
-
-    if (!userEntryUnsafe) {
-      throw new Error('illegal state')
-    }
-
-    const userEntry = { categoryForNotAssignedApps: userEntryUnsafe.categoryForNotAssignedApps }
-    const validatedDefaultCategoryId = categoriesOfSameChild.find((item) => item.categoryId === userEntry.categoryForNotAssignedApps)?.categoryId
-    const allowUnassignedElements = validatedDefaultCategoryId !== undefined &&
-      parentCategoriesOfTargetCategory.indexOf(validatedDefaultCategoryId) !== -1
-
-    const assertCanAddApp = async (packageName: string, isApp: boolean) => {
-      const categoryAppEntryUnsafe = await cache.database.categoryApp.findOne({
-        attributes: [ 'categoryId' ],
+    try {
+      const parentCategoriesOfTargetCategory = getCategoryWithParentCategories(categoriesOfSameChild, action.categoryId)
+      const userEntryUnsafe = await cache.database.user.findOne({
+        attributes: [ 'categoryForNotAssignedApps' ],
         where: {
           familyId: cache.familyId,
-          categoryId: {
-            [Sequelize.Op.in]: userCategoryIds
-          },
-          packageName: packageName
+          userId: fromChildSelfLimitAddChildUserId
         },
         transaction: cache.transaction
       })
 
-      const categoryAppEntry = categoryAppEntryUnsafe ? { categoryId: categoryAppEntryUnsafe.categoryId } : null
+      if (!userEntryUnsafe) {
+        throw new SourceUserNotFoundException()
+      }
 
-      if (categoryAppEntry === null) {
-        if ((isApp && allowUnassignedElements) || (!isApp)) {
-          // allow
+      const userEntry = { categoryForNotAssignedApps: userEntryUnsafe.categoryForNotAssignedApps }
+      const validatedDefaultCategoryId = categoriesOfSameChild.find((item) => item.categoryId === userEntry.categoryForNotAssignedApps)?.categoryId
+      const allowUnassignedElements = validatedDefaultCategoryId !== undefined &&
+        parentCategoriesOfTargetCategory.indexOf(validatedDefaultCategoryId) !== -1
+
+      const assertCanAddApp = async (packageName: string, isApp: boolean) => {
+        const categoryAppEntryUnsafe = await cache.database.categoryApp.findOne({
+          attributes: [ 'categoryId' ],
+          where: {
+            familyId: cache.familyId,
+            categoryId: {
+              [Sequelize.Op.in]: userCategoryIds
+            },
+            packageName: packageName
+          },
+          transaction: cache.transaction
+        })
+
+        const categoryAppEntry = categoryAppEntryUnsafe ? { categoryId: categoryAppEntryUnsafe.categoryId } : null
+
+        if (categoryAppEntry === null) {
+          if ((isApp && allowUnassignedElements) || (!isApp)) {
+            // allow
+          } else {
+            throw new SelfLimitationException({
+              staticMessage: 'can not assign apps without category as child'
+            })
+          }
         } else {
-          throw new Error('can not assign apps without category as child')
-        }
-      } else {
-        if (parentCategoriesOfTargetCategory.indexOf(categoryAppEntry.categoryId) !== -1) {
-          // allow
-        } else {
-          throw new Error('can not add app which is not contained in the parent category')
+          if (parentCategoriesOfTargetCategory.indexOf(categoryAppEntry.categoryId) !== -1) {
+            // allow
+          } else {
+            throw new SelfLimitationException({
+              staticMessage: 'can not add app which is not contained in the parent category as child'
+            })
+          }
         }
       }
-    }
 
-    for (let i = 0; i < action.packageNames.length; i++) {
-      const packageName = action.packageNames[i]
+      for (let i = 0; i < action.packageNames.length; i++) {
+        const packageName = action.packageNames[i]
 
-      if (packageName.indexOf(':') !== -1) {
-        await assertCanAddApp(packageName.substring(0, packageName.indexOf(':')), true)
-        await assertCanAddApp(packageName, false)
-      } else {
-        await assertCanAddApp(packageName, true)
+        if (packageName.indexOf(':') !== -1) {
+          await assertCanAddApp(packageName.substring(0, packageName.indexOf(':')), true)
+          await assertCanAddApp(packageName, false)
+        } else {
+          await assertCanAddApp(packageName, true)
+        }
       }
+    } catch (ex) {
+      if (ex instanceof GetParentCategoriesException) {
+        throw new MissingCategoryException()
+      } else throw ex
     }
   }
 

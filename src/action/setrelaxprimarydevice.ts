@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'SetRelaxPrimaryDeviceAction'
 
 export class SetRelaxPrimaryDeviceAction extends ParentAction {
   readonly userId: string
@@ -28,7 +30,7 @@ export class SetRelaxPrimaryDeviceAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(userId)
+    assertIdWithinFamily({ actionType, field: 'userId', value: userId })
 
     this.userId = userId
     this.relax = relax

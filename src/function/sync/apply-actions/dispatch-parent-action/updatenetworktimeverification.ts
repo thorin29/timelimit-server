@@ -17,11 +17,24 @@
 
 import { UpdateNetworkTimeVerificationAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingDeviceException } from '../exception/missing-item'
 
 export async function dispatchUpdateNetworkTimeVerification ({ action, cache }: {
   action: UpdateNetworkTimeVerificationAction
   cache: Cache
 }) {
+  const oldDevice = await cache.database.device.findOne({
+    transaction: cache.transaction,
+    where: {
+      familyId: cache.familyId,
+      deviceId: action.deviceId
+    }
+  })
+
+  if (!oldDevice) {
+    throw new MissingDeviceException()
+  }
+
   await cache.database.device.update({
     networkTime: action.mode
   }, {

@@ -16,6 +16,7 @@
  */
 
 import * as TokenGenerator from 'tokgen'
+import { ValidationException } from '../exception'
 
 const authTokenGenerator = new TokenGenerator({
   length: 32,
@@ -33,7 +34,10 @@ export const generateIdWithinFamily = () => idWithinFamilyGenerator.generate()
 export const isIdWithinFamily = (id: string) => id.length === 6 && /^[a-zA-Z0-9]+$/.test(id)
 export const assertIdWithinFamily = (id: string) => {
   if (!isIdWithinFamily(id)) {
-    throw new Error('invalid id within family')
+    throw new ValidationException({
+      staticMessage: 'invalid id within family',
+      dynamicMessage: 'invalid id within family: ' + id
+    })
   }
 }
 

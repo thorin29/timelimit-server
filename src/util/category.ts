@@ -23,7 +23,7 @@ export function getCategoryWithParentCategories (categories: Array<{ categoryId:
   const startCategory = categoryById.get(startCategoryId)
 
   if (!startCategory) {
-    throw new Error('start category not found')
+    throw new GetParentCategoriesException('start category not found')
   }
 
   const categoryIds = [ startCategoryId ]
@@ -38,3 +38,5 @@ export function getCategoryWithParentCategories (categories: Array<{ categoryId:
 
   return categoryIds
 }
+
+export class GetParentCategoriesException extends Error {}

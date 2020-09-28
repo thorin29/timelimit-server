@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'DeleteTimeLimitRuleAction'
 
 export class DeleteTimeLimitRuleAction extends ParentAction {
   readonly ruleId: string
@@ -24,7 +26,7 @@ export class DeleteTimeLimitRuleAction extends ParentAction {
   constructor ({ ruleId }: {ruleId: string}) {
     super()
 
-    assertIdWithinFamily(ruleId)
+    assertIdWithinFamily({ actionType, field: 'ruleId', value: ruleId })
 
     this.ruleId = ruleId
   }

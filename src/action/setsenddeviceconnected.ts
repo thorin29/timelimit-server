@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'SetSendDeviceConnected'
 
 export class SetSendDeviceConnected extends ParentAction {
   readonly deviceId: string
@@ -28,7 +30,7 @@ export class SetSendDeviceConnected extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(deviceId)
+    assertIdWithinFamily({ actionType, field: 'deviceId', value: deviceId })
 
     this.deviceId = deviceId
     this.enable = enable

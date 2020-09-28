@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { SetDeviceDefaultUserAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingDeviceException, MissingUserException } from '../exception/missing-item'
 
 export async function dispatchSetDeviceDefaultUser ({ action, cache }: {
   action: SetDeviceDefaultUserAction
@@ -26,11 +27,23 @@ export async function dispatchSetDeviceDefaultUser ({ action, cache }: {
     const doesUserExist = await cache.doesUserExist(action.defaultUserId)
 
     if (!doesUserExist) {
-      throw new Error('can not set invalid user as default user')
+      throw new MissingUserException()
     }
   }
 
-  const [affectedRows] = await cache.database.device.update({
+  const oldDeviceItem = await cache.database.device.findOne({
+    transaction: cache.transaction,
+    where: {
+      familyId: cache.familyId,
+      deviceId: action.deviceId
+    }
+  })
+
+  if (!oldDeviceItem) {
+    throw new MissingDeviceException()
+  }
+
+  await cache.database.device.update({
     defaultUserId: action.defaultUserId
   }, {
     transaction: cache.transaction,
@@ -39,10 +52,6 @@ export async function dispatchSetDeviceDefaultUser ({ action, cache }: {
       deviceId: action.deviceId
     }
   })
-
-  if (affectedRows === 0) {
-    throw new Error('did not find device to update default user')
-  }
 
   cache.invalidiateDeviceList = true
   cache.areChangesImportant = true

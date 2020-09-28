@@ -17,6 +17,7 @@
 
 import { UpdateTimelimitRuleAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingRuleException } from '../exception/missing-item'
 
 export async function dispatchUpdateTimelimitRule ({ action, cache }: {
   action: UpdateTimelimitRuleAction
@@ -31,7 +32,7 @@ export async function dispatchUpdateTimelimitRule ({ action, cache }: {
   })
 
   if (!ruleEntry) {
-    throw new Error('invalid rule id provided')
+    throw new MissingRuleException()
   }
 
   ruleEntry.applyToExtraTimeUsage = action.applyToExtraTimeUsage

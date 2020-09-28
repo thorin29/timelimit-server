@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { SetSendDeviceConnected } from '../../../../action'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
 
 export async function dispatchSetSendDeviceConnected ({ action, cache, sourceDeviceId }: {
   action: SetSendDeviceConnected
@@ -24,10 +25,12 @@ export async function dispatchSetSendDeviceConnected ({ action, cache, sourceDev
   sourceDeviceId: string | null
 }) {
   if (sourceDeviceId === null || action.deviceId !== sourceDeviceId) {
-    throw new Error('only can do that from the device itself')
+    throw new ApplyActionException({
+      staticMessage: 'only can do that from the device itself if the connection status should be sent'
+    })
   }
 
-  const [affectedRows] = await cache.database.device.update({
+  await cache.database.device.update({
     showDeviceConnected: action.enable
   }, {
     transaction: cache.transaction,
@@ -36,10 +39,6 @@ export async function dispatchSetSendDeviceConnected ({ action, cache, sourceDev
       deviceId: action.deviceId
     }
   })
-
-  if (affectedRows === 0) {
-    throw new Error('did not find device to update send if connected')
-  }
 
   cache.devicesWithModifiedShowDeviceConnected.set(action.deviceId, action.enable)
   cache.invalidiateDeviceList = true

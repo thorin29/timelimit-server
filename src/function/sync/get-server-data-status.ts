@@ -19,6 +19,7 @@ import { difference, filter, intersection } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { config } from '../../config'
 import { Database } from '../../database'
+import { StaticMessageException } from '../../exception'
 import { getStatusMessage } from '../../function/statusmessage'
 import { ClientDataStatus } from '../../object/clientdatastatus'
 import {
@@ -48,7 +49,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
   })
 
   if (!familyEntryUnsafe) {
-    throw new Error('illegal state')
+    throw new GetServerDataStatusIllegalStateException({ staticMessage: 'could not find family entry' })
   }
 
   const familyEntry = {
@@ -210,7 +211,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
     const entry = serverInstalledAppsVersions.find((item) => item.deviceId === deviceId)
 
     if (!entry) {
-      throw new Error('illegal state')
+      throw new GetServerDataStatusIllegalStateException({ staticMessage: 'could not find device entry' })
     }
 
     return entry.installedAppsVersion
@@ -333,7 +334,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
     const clientEntry = clientStatus.categories[categoryId]
 
     if ((!serverEntry) || (!clientEntry)) {
-      throw new Error('illegal state')
+      throw new GetServerDataStatusIllegalStateException({ staticMessage: 'could not find category overview item again' })
     }
 
     if (serverEntry.baseVersion !== clientEntry.base) {
@@ -460,7 +461,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       const categoryEntry = serverCategoriesVersions.find((item) => item.categoryId === categoryId)
 
       if (!categoryEntry) {
-        throw new Error('illegal state')
+        throw new GetServerDataStatusIllegalStateException({ staticMessage: 'could not find category entry' })
       }
 
       return categoryEntry.assignedAppsVersion
@@ -509,7 +510,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       const categoryEntry = serverCategoriesVersions.find((item) => item.categoryId === categoryId)
 
       if (!categoryEntry) {
-        throw new Error('illegal state')
+        throw new GetServerDataStatusIllegalStateException({ staticMessage: 'could not find category entry' })
       }
 
       return categoryEntry.timeLimitRulesVersion
@@ -586,7 +587,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       const categoryEntry = serverCategoriesVersions.find((item) => item.categoryId === categoryId)
 
       if (!categoryEntry) {
-        throw new Error('illegal state')
+        throw new GetServerDataStatusIllegalStateException({ staticMessage: 'could not find category entry' })
       }
 
       return categoryEntry.usedTimesVersion
@@ -613,4 +614,10 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
   }
 
   return result
+}
+
+export class GetServerDataStatusIllegalStateException extends StaticMessageException {
+  constructor ({ staticMessage }: { staticMessage: string }) {
+    super({ staticMessage: 'GetServerDataStatusIllegalStateException: ' + staticMessage })
+  }
 }

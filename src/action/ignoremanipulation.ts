@@ -16,8 +16,10 @@
  */
 
 import { DeviceHadManipulationFlags } from '../database/device'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+
+const actionType = 'IgnoreManipulationAction'
 
 export class IgnoreManipulationAction extends ParentAction {
   readonly deviceId: string
@@ -51,13 +53,14 @@ export class IgnoreManipulationAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(deviceId)
+    assertIdWithinFamily({ actionType, field: 'deviceId', value: deviceId })
+
+    assertSafeInteger({ actionType, field: 'ignoreHadManipulationFlags', value: ignoreHadManipulationFlags })
 
     if (
-      (!Number.isSafeInteger(ignoreHadManipulationFlags)) ||
       ignoreHadManipulationFlags < 0 || ignoreHadManipulationFlags > DeviceHadManipulationFlags.ALL
     ) {
-      throw new Error('invalid ignoreHadManipulationFlags')
+      throwOutOfRange({ actionType, field: 'ignoreHadManipulationFlags', value: ignoreHadManipulationFlags })
     }
 
     this.deviceId = deviceId

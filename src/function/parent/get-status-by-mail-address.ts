@@ -16,13 +16,14 @@
  */
 
 import { Database, Transaction } from '../../database'
+import { StaticMessageException } from '../../exception'
 import { requireMailByAuthToken } from '../authentication'
 
 const getStatusByMailAddress = async ({
   mail, database, transaction
 }: { mail: string, database: Database, transaction: Transaction }) => {
   if (!mail) {
-    throw new Error('no mail address')
+    throw new StaticMessageException({ staticMessage: 'getStatusByMailAddress: no mail address provided' })
   }
 
   const entry = await database.user.findOne({

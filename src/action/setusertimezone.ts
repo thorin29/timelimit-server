@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'SetUserTimezoneAction'
 
 export class SetUserTimezoneAction extends ParentAction {
   readonly userId: string
@@ -28,7 +30,7 @@ export class SetUserTimezoneAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(userId)
+    assertIdWithinFamily({ actionType, field: 'userId', value: userId })
 
     this.userId = userId
     this.timezone = timezone

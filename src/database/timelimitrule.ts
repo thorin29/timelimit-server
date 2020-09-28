@@ -16,6 +16,7 @@
  */
 
 import * as Sequelize from 'sequelize'
+import { ValidationException } from '../exception'
 import { MinuteOfDay } from '../util/minuteofday'
 import { booleanColumn, familyIdColumn, idWithinFamilyColumn } from './columns'
 import { SequelizeAttributes } from './types'
@@ -90,11 +91,11 @@ export const attributesVersion2: SequelizeAttributes<TimelimitRuleAttributesVers
         const startMinuteOfDay = this.startMinuteOfDay
 
         if (typeof endMinuteOfDay !== 'number' || typeof startMinuteOfDay !== 'number') {
-          throw new Error('wrong data types')
+          throw new ValidationException({ staticMessage: 'wrong data types for start and end minute at the time limit rule' })
         }
 
         if (startMinuteOfDay > endMinuteOfDay) {
-          throw new Error('startMinuteOfDay must not be bigger than endMinuteOfDay')
+          throw new ValidationException({ staticMessage: 'startMinuteOfDay must not be bigger than endMinuteOfDay for a time limit rule' })
         }
       }
     },

@@ -16,9 +16,11 @@
  */
 
 import { anonymizedNetworkIdLength } from '../database/categorynetworkid'
-import { assertIsHexString } from '../util/hexstring'
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertHexString, assertIdWithinFamily } from './meta/util'
+
+const actionType = 'AddCategoryNetworkIdAction'
 
 export class AddCategoryNetworkIdAction extends ParentAction {
   readonly categoryId: string
@@ -32,10 +34,16 @@ export class AddCategoryNetworkIdAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(categoryId)
-    assertIdWithinFamily(itemId)
-    assertIsHexString(hashedNetworkId)
-    if (hashedNetworkId.length !== anonymizedNetworkIdLength) throw new Error('wrong network id length')
+    assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
+    assertIdWithinFamily({ actionType, field: 'itemId', value: itemId })
+    assertHexString({ actionType, field: 'hashedNetworkId', value: hashedNetworkId })
+
+    if (hashedNetworkId.length !== anonymizedNetworkIdLength) {
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'wrong network id length'
+      })
+    }
 
     this.categoryId = categoryId
     this.itemId = itemId

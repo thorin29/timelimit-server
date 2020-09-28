@@ -85,7 +85,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
         throw new BadRequest()
       }
 
-      await database.transaction(async (transaction) => {
+      const serverStatus = await database.transaction(async (transaction) => {
         const deviceEntryUnsafe = await database.device.findOne({
           where: {
             deviceAuthToken: body.deviceAuthToken
@@ -112,23 +112,23 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
           })
         }
 
-        const serverStatus = await generateServerDataStatus({
+        return generateServerDataStatus({
           database,
           familyId,
           clientStatus: body.status,
           transaction
         })
-
-        if (serverStatus.devices) { eventHandler.countEvent('pullStatusRequest devices') }
-        if (serverStatus.apps) { eventHandler.countEvent('pullStatusRequest apps') }
-        if (serverStatus.categoryBase) { eventHandler.countEvent('pullStatusRequest categoryBase') }
-        if (serverStatus.categoryApp) { eventHandler.countEvent('pullStatusRequest categoryApp') }
-        if (serverStatus.usedTimes) { eventHandler.countEvent('pullStatusRequest usedTimes') }
-        if (serverStatus.rules) { eventHandler.countEvent('pullStatusRequest rules') }
-        if (serverStatus.users) { eventHandler.countEvent('pullStatusRequest users') }
-
-        res.json(serverStatus)
       })
+
+      if (serverStatus.devices) { eventHandler.countEvent('pullStatusRequest devices') }
+      if (serverStatus.apps) { eventHandler.countEvent('pullStatusRequest apps') }
+      if (serverStatus.categoryBase) { eventHandler.countEvent('pullStatusRequest categoryBase') }
+      if (serverStatus.categoryApp) { eventHandler.countEvent('pullStatusRequest categoryApp') }
+      if (serverStatus.usedTimes) { eventHandler.countEvent('pullStatusRequest usedTimes') }
+      if (serverStatus.rules) { eventHandler.countEvent('pullStatusRequest rules') }
+      if (serverStatus.users) { eventHandler.countEvent('pullStatusRequest users') }
+
+      res.json(serverStatus)
     } catch (ex) {
       next(ex)
     }

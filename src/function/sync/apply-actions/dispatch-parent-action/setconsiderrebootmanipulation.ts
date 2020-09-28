@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,12 +17,25 @@
 
 import { SetConsiderRebootManipulationAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingDeviceException } from '../exception/missing-item'
 
 export async function dispatchSetConsiderRebootManipulation ({ action, cache }: {
   action: SetConsiderRebootManipulationAction
   cache: Cache
 }) {
-  const [affectedRows] = await cache.database.device.update({
+  const oldDevice = await cache.database.device.findOne({
+    transaction: cache.transaction,
+    where: {
+      familyId: cache.familyId,
+      deviceId: action.deviceId
+    }
+  })
+
+  if (!oldDevice) {
+    throw new MissingDeviceException()
+  }
+
+  await cache.database.device.update({
     considerRebootManipulation: action.enable
   }, {
     transaction: cache.transaction,
@@ -31,10 +44,6 @@ export async function dispatchSetConsiderRebootManipulation ({ action, cache }: 
       deviceId: action.deviceId
     }
   })
-
-  if (affectedRows === 0) {
-    throw new Error('did not find device to update consider reboot manipulation')
-  }
 
   cache.invalidiateDeviceList = true
   cache.areChangesImportant = true

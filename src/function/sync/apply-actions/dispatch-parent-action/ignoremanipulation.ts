@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { IgnoreManipulationAction } from '../../../../action'
 import { Cache } from '../cache'
+import { SourceDeviceNotFoundException } from '../exception/illegal-state'
 
 export async function dispatchIgnoreManipulation ({ action, cache }: {
   action: IgnoreManipulationAction
@@ -31,7 +32,7 @@ export async function dispatchIgnoreManipulation ({ action, cache }: {
   })
 
   if (deviceEntry === null) {
-    throw new Error('illegal state: missing device which dispatched the action')
+    throw new SourceDeviceNotFoundException()
   }
 
   if (action.ignoreDeviceAdminManipulation) {

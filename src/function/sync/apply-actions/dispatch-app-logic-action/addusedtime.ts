@@ -19,6 +19,7 @@ import * as Sequelize from 'sequelize'
 import { AddUsedTimeAction } from '../../../../action'
 import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
 
 export const getRoundedTimestamp = () => {
   const now = Date.now()
@@ -29,7 +30,7 @@ export const getRoundedTimestamp = () => {
 const dayLengthInMinutes = MinuteOfDay.LENGTH
 const dayLengthInMs = dayLengthInMinutes * 1000 * 60
 
-export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
+export async function dispatchAddUsedTime ({ action, cache }: {
   deviceId: string
   action: AddUsedTimeAction
   cache: Cache
@@ -50,7 +51,7 @@ export async function dispatchAddUsedTime ({ deviceId, action, cache }: {
   })
   // verify that the category exists
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id')
+    throw new MissingCategoryException()
   }
 
   const categoryEntry = {

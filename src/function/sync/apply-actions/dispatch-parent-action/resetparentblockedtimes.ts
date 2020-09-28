@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,12 +17,26 @@
 
 import { ResetParentBlockedTimesAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchResetParentBlockedTimes ({ action, cache }: {
   action: ResetParentBlockedTimesAction
   cache: Cache
 }) {
-  const [affectedRows] = await cache.database.user.update({
+  const oldItem = await cache.database.user.findOne({
+    where: {
+      familyId: cache.familyId,
+      userId: action.parentId,
+      type: 'parent'
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldItem) {
+    throw new MissingUserException()
+  }
+
+  await cache.database.user.update({
     blockedTimes: ''
   }, {
     where: {
@@ -32,10 +46,6 @@ export async function dispatchResetParentBlockedTimes ({ action, cache }: {
     },
     transaction: cache.transaction
   })
-
-  if (affectedRows === 0) {
-    throw new Error('invalid parent user id provided')
-  }
 
   cache.invalidiateUserList = true
   cache.areChangesImportant = true

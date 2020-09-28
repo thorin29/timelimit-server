@@ -16,6 +16,7 @@
  */
 
 import * as Sequelize from 'sequelize'
+import { ValidationException } from '../exception'
 import { MinuteOfDay } from '../util/minuteofday'
 import { familyIdColumn, idWithinFamilyColumn, timestampColumn } from './columns'
 import { SequelizeAttributes } from './types'
@@ -85,11 +86,11 @@ export const attributesVersion1: SequelizeAttributes<SessionDurationAttributesVe
         const startMinuteOfDay = this.startMinuteOfDay
 
         if (typeof endMinuteOfDay !== 'number' || typeof startMinuteOfDay !== 'number') {
-          throw new Error('wrong data types')
+          throw new ValidationException({ staticMessage: 'wrong data types for start and end minute at the session duration' })
         }
 
         if (startMinuteOfDay > endMinuteOfDay) {
-          throw new Error('startMinuteOfDay must not be bigger than endMinuteOfDay')
+          throw new ValidationException({ staticMessage: 'startMinuteOfDay must not be bigger than endMinuteOfDay for a session duration' })
         }
       }
     }

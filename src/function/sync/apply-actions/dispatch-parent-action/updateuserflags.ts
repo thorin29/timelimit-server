@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,8 @@
 
 import { UpdateUserFlagsAction } from '../../../../action'
 import { Cache } from '../cache'
+import { IllegalStateException } from '../exception/illegal-state'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchUpdateUserFlagsAction ({ action, cache }: {
   action: UpdateUserFlagsAction
@@ -31,13 +33,13 @@ export async function dispatchUpdateUserFlagsAction ({ action, cache }: {
   })
 
   if (!userEntry) {
-    throw new Error('user not found')
+    throw new MissingUserException()
   }
 
   const oldFlags = parseInt(userEntry.flags, 10)
 
   if (!Number.isSafeInteger(oldFlags)) {
-    throw new Error()
+    throw new IllegalStateException({ staticMessage: 'oldFlags is not a safe integer' })
   }
 
   const newFlags = (oldFlags & ~action.modifiedBits) | action.newValues

@@ -15,7 +15,7 @@ export class AppActivityItem {
     title: string
   }) {
     if ((!packageName) || (!activityName)) {
-      throw new Error('incomplete app activity')
+      throw new IncompleteAppActivityItemException('incomplete app activity')
     }
 
     this.packageName = packageName
@@ -49,7 +49,7 @@ export class RemovedAppActivityItem {
     activityName: string
   }) {
     if ((!packageName) || (!activityName)) {
-      throw new Error('incomplete app activity')
+      throw new IncompleteAppActivityItemException('incomplete app activity')
     }
 
     this.packageName = packageName
@@ -68,3 +68,5 @@ export class RemovedAppActivityItem {
     this.activityName
   ])
 }
+
+export class IncompleteAppActivityItemException extends Error {}

@@ -15,8 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { InvalidActionParameterException } from './meta/exception'
+import { assertIdWithinFamily, assertSafeInteger } from './meta/util'
+
+const actionType = 'SetUserDisableLimitsUntilAction'
 
 export class SetUserDisableLimitsUntilAction extends ParentAction {
   readonly childId: string
@@ -28,10 +31,15 @@ export class SetUserDisableLimitsUntilAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(childId)
+    assertIdWithinFamily({ actionType, field: 'childId', value: childId })
+    assertSafeInteger({ actionType, field: 'timestamp', value: timestamp })
 
-    if (timestamp < 0 || (!Number.isSafeInteger(timestamp))) {
-      throw new Error('timestamp for set user disabe limits until must be >= 0')
+    if (timestamp < 0) {
+      throw new InvalidActionParameterException({
+        actionType,
+        staticMessage: 'timestamp for set user disabe limits until must be >= 0',
+        dynamicMessage: 'timestamp for set user disabe limits until must be >= 0, but was ' + timestamp
+      })
     }
 
     this.childId = childId

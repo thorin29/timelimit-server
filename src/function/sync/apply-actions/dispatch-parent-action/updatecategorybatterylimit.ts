@@ -17,6 +17,7 @@
 
 import { UpdateCategoryBatteryLimitAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
 
 export async function dispatchUpdateCategoryBatteryLimit ({ action, cache }: {
   action: UpdateCategoryBatteryLimitAction
@@ -31,7 +32,7 @@ export async function dispatchUpdateCategoryBatteryLimit ({ action, cache }: {
   })
 
   if (!categoryEntry) {
-    throw new Error('invalid category id')
+    throw new MissingCategoryException()
   }
 
   if (action.chargeLimit !== undefined) {

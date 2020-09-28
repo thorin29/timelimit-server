@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertNonEmptyListWithoutDuplicates } from '../util/list'
 import { AppLogicAction } from './basetypes'
+import { assertNonEmptyListWithoutDuplicates } from './meta/util'
+
+const actionType = 'RemoveInstalledAppsAction'
 
 export class RemoveInstalledAppsAction extends AppLogicAction {
   readonly packageNames: Array<string>
@@ -24,7 +26,7 @@ export class RemoveInstalledAppsAction extends AppLogicAction {
   constructor ({ packageNames }: {packageNames: Array<string>}) {
     super()
 
-    assertNonEmptyListWithoutDuplicates(packageNames)
+    assertNonEmptyListWithoutDuplicates({ actionType, field: 'packageNames', list: packageNames })
 
     this.packageNames = packageNames
   }

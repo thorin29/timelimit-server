@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,6 +21,9 @@ import { difference } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { RemoveUserAction } from '../../../../action'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { ApplyActionIntegrityException } from '../exception/integrity'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
   action: RemoveUserAction
@@ -36,7 +39,7 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
   })
 
   if (!user) {
-    throw new Error('invalid user id')
+    throw new MissingUserException()
   }
 
   if (user.type === 'parent') {
@@ -45,7 +48,7 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
     }
 
     if (parentUserId === action.userId) {
-      throw new Error('users can not delete themself')
+      throw new ApplyActionException({ staticMessage: 'users can not delete themself' })
     }
 
     const expectedIntegrityValue = createHash('sha512').update(
@@ -53,7 +56,7 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
     ).digest('hex').substring(0, 16)
 
     if (expectedIntegrityValue !== action.authentication) {
-      throw new Error('invalid authentication value')
+      throw new ApplyActionIntegrityException({ staticMessage: 'invalid authentication value for removing a user' })
     }
 
     if (user.mail !== '') {
@@ -69,7 +72,7 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
       })
 
       if (usersWithLinkedMail <= 1) {
-        throw new Error('this user is the last one with a linked mail address')
+        throw new ApplyActionException({ staticMessage: 'this user is the last one with a linked mail address' })
       }
     }
 
@@ -93,7 +96,7 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
     const allOtherParentUserIds = allParentUserIds.filter((item) => item !== action.userId)
 
     if (difference(allOtherParentUserIds, usersWithLimitLoginCategories).length === 0) {
-      throw new Error('can not delete the last user without limit login category')
+      throw new ApplyActionException({ staticMessage: 'can not delete the last user without limit login category' })
     }
   }
 

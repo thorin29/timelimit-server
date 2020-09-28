@@ -18,6 +18,8 @@
 import { AddCategoryNetworkIdAction } from '../../../../action'
 import { maxNetworkIdsPerCategory } from '../../../../database/categorynetworkid'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { MissingCategoryException } from '../exception/missing-item'
 
 export async function dispatchAddCategoryNetworkId ({ action, cache }: {
   action: AddCategoryNetworkIdAction
@@ -33,7 +35,7 @@ export async function dispatchAddCategoryNetworkId ({ action, cache }: {
   })
 
   if (!categoryEntryUnsafe) {
-    throw new Error('invalid category id for new rule')
+    throw new MissingCategoryException()
   }
 
   const count = await cache.database.categoryNetworkId.count({
@@ -45,7 +47,9 @@ export async function dispatchAddCategoryNetworkId ({ action, cache }: {
   })
 
   if (count + 1 > maxNetworkIdsPerCategory) {
-    throw new Error('category network limit reached')
+    throw new ApplyActionException({
+      staticMessage: 'can not add a category network id because the category network limit reached'
+    })
   }
 
   const hasOldItem = (await cache.database.categoryNetworkId.count({
@@ -58,7 +62,9 @@ export async function dispatchAddCategoryNetworkId ({ action, cache }: {
   })) !== 0
 
   if (hasOldItem) {
-    throw new Error('id already used')
+    throw new ApplyActionException({
+      staticMessage: 'can not add a category network id because the id is already used'
+    })
   }
 
   await cache.database.categoryNetworkId.create({

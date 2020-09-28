@@ -18,13 +18,15 @@
 import { IncrementCategoryExtraTimeAction } from '../../../../action'
 import { CategoryModel } from '../../../../database/category'
 import { Cache } from '../cache'
+import { MissingCategoryException } from '../exception/missing-item'
+import { PremiumVersionMissingException } from '../exception/premium'
 
 export async function dispatchIncrementCategoryExtraTime ({ action, cache }: {
   action: IncrementCategoryExtraTimeAction
   cache: Cache
 }) {
   if (!cache.hasFullVersion) {
-    throw new Error('action requires full version')
+    throw new PremiumVersionMissingException()
   }
 
   async function handleCategory (category: CategoryModel) {
@@ -51,7 +53,7 @@ export async function dispatchIncrementCategoryExtraTime ({ action, cache }: {
   })
 
   if (!categoryEntry) {
-    throw new Error(`tried to add extra time to ${action.categoryId} but it does not exist`)
+    throw new MissingCategoryException()
   }
 
   await handleCategory(categoryEntry)

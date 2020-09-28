@@ -22,7 +22,7 @@ export class ChildSignInAction extends ChildAction {
     super()
   }
 
-  static parse = (action: SerializedChildSignInAction) => (
+  static parse = (_: SerializedChildSignInAction) => (
     new ChildSignInAction()
   )
 }

@@ -17,6 +17,8 @@
 
 import { UpdateParentBlockedTimesAction } from '../../../../action'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception/index'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchUpdateParentBlockedTimes ({ action, cache, parentUserId }: {
   action: UpdateParentBlockedTimesAction
@@ -24,10 +26,23 @@ export async function dispatchUpdateParentBlockedTimes ({ action, cache, parentU
   parentUserId: string
 }) {
   if (parentUserId !== action.parentId && action.blockedTimes !== '') {
-    throw new Error('only a parent itself can add limits')
+    throw new ApplyActionException({ staticMessage: 'only a parent itself can add limits' })
   }
 
-  const [affectedRows] = await cache.database.user.update({
+  const oldUser = await cache.database.user.findOne({
+    where: {
+      familyId: cache.familyId,
+      userId: action.parentId,
+      type: 'parent'
+    },
+    transaction: cache.transaction
+  })
+
+  if (!oldUser) {
+    throw new MissingUserException()
+  }
+
+  await cache.database.user.update({
     blockedTimes: action.blockedTimes
   }, {
     where: {
@@ -37,10 +52,6 @@ export async function dispatchUpdateParentBlockedTimes ({ action, cache, parentU
     },
     transaction: cache.transaction
   })
-
-  if (affectedRows === 0) {
-    throw new Error('invalid parent user id provided')
-  }
 
   cache.invalidiateUserList = true
   cache.areChangesImportant = true

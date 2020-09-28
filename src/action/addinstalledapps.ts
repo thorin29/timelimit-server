@@ -16,8 +16,10 @@
  */
 
 import { InstalledApp, SerializedInstalledApp } from '../model/installedapp'
-import { assertNonEmptyListWithoutDuplicates } from '../util/list'
 import { AppLogicAction } from './basetypes'
+import { assertNonEmptyListWithoutDuplicates } from './meta/util'
+
+const actionType = 'AddInstalledAppsAction'
 
 export class AddInstalledAppsAction extends AppLogicAction {
   readonly apps: Array<InstalledApp>
@@ -25,7 +27,7 @@ export class AddInstalledAppsAction extends AppLogicAction {
   constructor ({ apps }: {apps: Array<InstalledApp>}) {
     super()
 
-    assertNonEmptyListWithoutDuplicates(apps.map((app) => app.packageName))
+    assertNonEmptyListWithoutDuplicates({ actionType, field: 'apps', list: apps.map((app) => app.packageName) })
 
     this.apps = apps
   }

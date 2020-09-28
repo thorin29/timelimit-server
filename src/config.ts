@@ -29,7 +29,7 @@ function parseYesNo (value: string) {
   } else if (value === 'no') {
     return false
   } else {
-    throw new Error('invalid value "' + value + '", expected "yes" or "no"')
+    throw new ParseYesNoException('invalid value "' + value + '", expected "yes" or "no"')
   }
 }
 
@@ -39,3 +39,5 @@ export const config: Config = {
   pingInterval: parseInt(process.env.PING_INTERVAL_SEC || '25', 10) * 1000,
   alwaysPro: process.env.ALWAYS_PRO ? parseYesNo(process.env.ALWAYS_PRO) : false
 }
+
+class ParseYesNoException extends Error {}

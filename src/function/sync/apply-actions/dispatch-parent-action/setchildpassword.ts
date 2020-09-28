@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@
 import * as Sequelize from 'sequelize'
 import { SetChildPasswordAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchSetChildPassword ({ action, cache }: {
   action: SetChildPasswordAction
@@ -34,7 +35,7 @@ export async function dispatchSetChildPassword ({ action, cache }: {
   })
 
   if (!childEntry) {
-    throw new Error('parent entry not found')
+    throw new MissingUserException()
   }
 
   childEntry.passwordHash = action.newPassword.hash

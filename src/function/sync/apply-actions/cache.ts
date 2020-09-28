@@ -21,6 +21,8 @@ import { config } from '../../../config'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
 import { Database } from '../../../database'
 import { generateVersionId } from '../../../util/token'
+import { SourceUserNotFoundException } from './exception/illegal-state'
+import { InvalidChildActionIntegrityValue } from './exception/integrity'
 
 export class Cache {
   readonly familyId: string
@@ -84,7 +86,7 @@ export class Cache {
     })
 
     if (!userEntryUnsafe) {
-      throw new Error('user not found')
+      throw new SourceUserNotFoundException()
     }
 
     return userEntryUnsafe.secondPasswordHash
@@ -102,11 +104,11 @@ export class Cache {
     })
 
     if (!userEntryUnsafe) {
-      throw new Error('user not found')
+      throw new SourceUserNotFoundException()
     }
 
     if (!userEntryUnsafe.secondPasswordHash) {
-      throw new Error('user does not have a password')
+      throw new InvalidChildActionIntegrityValue()
     }
 
     return userEntryUnsafe.secondPasswordHash

@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertIdWithinFamily } from '../util/token'
 import { ParentAction } from './basetypes'
+import { assertIdWithinFamily } from './meta/util'
+
+const actionType = 'SetKeepSignedInAction'
 
 export class SetKeepSignedInAction extends ParentAction {
   readonly deviceId: string
@@ -28,7 +30,7 @@ export class SetKeepSignedInAction extends ParentAction {
   }) {
     super()
 
-    assertIdWithinFamily(deviceId)
+    assertIdWithinFamily({ actionType, field: 'deviceId', value: deviceId })
 
     this.deviceId = deviceId
     this.keepSignedIn = keepSignedIn

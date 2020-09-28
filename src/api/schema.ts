@@ -52,13 +52,15 @@ export interface ParentPassword {
 
 export const assertParentPasswordValid = (password: ParentPassword) => {
   if (password.hash === '' || password.secondHash === '' || password.secondSalt === '') {
-    throw new Error('missing fields at parent password')
+    throw new ParentPasswordValidationException('missing fields at parent password')
   }
 
   if (!(optionalPasswordRegex.test(password.hash) && optionalPasswordRegex.test(password.secondHash) && optionalSaltRegex.test(password.secondSalt))) {
-    throw new Error('invalid parent password')
+    throw new ParentPasswordValidationException('invalid parent password')
   }
 }
+
+export class ParentPasswordValidationException extends Error {}
 
 export interface CreateFamilyByMailTokenRequest {
   mailAuthToken: string

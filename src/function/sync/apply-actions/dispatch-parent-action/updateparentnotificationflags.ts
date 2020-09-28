@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { UpdateParentNotificationFlagsAction } from '../../../../action'
 import { Cache } from '../cache'
+import { MissingUserException } from '../exception/missing-item'
 
 export async function dispatchUpdateParentNotificationFlags ({ action, cache }: {
   action: UpdateParentNotificationFlagsAction
@@ -32,7 +33,7 @@ export async function dispatchUpdateParentNotificationFlags ({ action, cache }: 
   })
 
   if (!parentEntry) {
-    throw new Error('parent not found')
+    throw new MissingUserException()
   }
 
   if (action.set) {
