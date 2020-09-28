@@ -15,20 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface ClientDataStatus {
-  devices: string // deviceListVersion
-  apps: ClientDataStatusApps
-  categories: ClientDataStatusCategories
-  users: string // userListVersion
-  clientLevel?: number
-}
-
-export type ClientDataStatusApps = {[key: string]: string} // installedAppsVersionsByDeviceId
-export type ClientDataStatusCategories = {[key: string]: CategoryDataStatus}
-
-export interface CategoryDataStatus {
-  base: string  // baseVersion
-  apps: string  // assignedAppsVersion
-  rules: string  // timeLimitRulesVersion
-  usedTime: string  // usedTimeItemsVersion
-}
+export { getCategoryDataToSync } from './diff'
+export { getCategoryBaseDatas } from './base-data'
+export { getRules } from './rules'
+export { getUsedTimes } from './used-times'
+export { getCategoryAssignedApps } from './assigned-apps'

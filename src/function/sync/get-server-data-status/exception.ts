@@ -15,20 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface ClientDataStatus {
-  devices: string // deviceListVersion
-  apps: ClientDataStatusApps
-  categories: ClientDataStatusCategories
-  users: string // userListVersion
-  clientLevel?: number
-}
+import { StaticMessageException } from '../../../exception'
 
-export type ClientDataStatusApps = {[key: string]: string} // installedAppsVersionsByDeviceId
-export type ClientDataStatusCategories = {[key: string]: CategoryDataStatus}
-
-export interface CategoryDataStatus {
-  base: string  // baseVersion
-  apps: string  // assignedAppsVersion
-  rules: string  // timeLimitRulesVersion
-  usedTime: string  // usedTimeItemsVersion
+export class GetServerDataStatusIllegalStateException extends StaticMessageException {
+  constructor ({ staticMessage }: { staticMessage: string }) {
+    super({ staticMessage: 'GetServerDataStatusIllegalStateException: ' + staticMessage })
+  }
 }
