@@ -177,7 +177,7 @@ export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLim
     }
   )
 
-  oldCategories.forEach((categoryId) => cache.categoriesWithModifiedApps.push(categoryId))
-  cache.categoriesWithModifiedApps.push(action.categoryId)
+  oldCategories.forEach((categoryId) => cache.categoriesWithModifiedApps.add(categoryId))
+  cache.categoriesWithModifiedApps.add(action.categoryId)
   cache.areChangesImportant = true
 }

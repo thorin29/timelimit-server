@@ -46,7 +46,7 @@ export async function dispatchUpdateCategoryTitle ({ action, cache }: {
   })
 
   if (affectedRows !== 0) {
-    cache.categoriesWithModifiedBaseData.push(action.categoryId)
+    cache.categoriesWithModifiedBaseData.add(action.categoryId)
     cache.areChangesImportant = true
   }
 }

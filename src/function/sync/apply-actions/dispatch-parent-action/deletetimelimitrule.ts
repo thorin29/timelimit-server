@@ -37,6 +37,6 @@ export async function dispatchDeleteTimeLimitRule ({ action, cache }: {
 
   await ruleEntry.destroy({ transaction: cache.transaction })
 
-  cache.categoriesWithModifiedTimeLimitRules.push(ruleEntry.categoryId)
+  cache.categoriesWithModifiedTimeLimitRules.add(ruleEntry.categoryId)
   cache.areChangesImportant = true
 }

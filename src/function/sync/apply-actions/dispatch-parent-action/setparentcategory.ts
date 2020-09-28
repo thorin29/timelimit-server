@@ -117,6 +117,6 @@ export async function dispatchSetParentCategory ({ action, cache, fromChildSelfL
     transaction: cache.transaction
   })
 
-  cache.categoriesWithModifiedBaseData.push(action.categoryId)
+  cache.categoriesWithModifiedBaseData.add(action.categoryId)
   cache.areChangesImportant = true
 }

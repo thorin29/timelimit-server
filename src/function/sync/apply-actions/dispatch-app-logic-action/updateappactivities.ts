@@ -77,5 +77,5 @@ export async function dispatchUpdateAppActivities ({ deviceId, action, cache }: 
     }
   }
 
-  cache.devicesWithModifiedInstalledApps.push(deviceId)
+  cache.devicesWithModifiedInstalledApps.add(deviceId)
 }

@@ -40,6 +40,6 @@ export async function dispatchUpdateCategorySorting ({ action, cache }: {
       }
     })
 
-    cache.categoriesWithModifiedBaseData.push(categoryId)
+    cache.categoriesWithModifiedBaseData.add(categoryId)
   }
 }

@@ -69,6 +69,6 @@ export async function dispatchUpdateCategoryBlockedTimes ({ action, cache, fromC
     transaction: cache.transaction
   })
 
-  cache.categoriesWithModifiedBaseData.push(action.categoryId)
+  cache.categoriesWithModifiedBaseData.add(action.categoryId)
   cache.areChangesImportant = true
 }

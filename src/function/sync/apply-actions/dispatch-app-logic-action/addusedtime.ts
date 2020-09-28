@@ -110,10 +110,10 @@ export async function dispatchAddUsedTime ({ action, cache }: {
         transaction: cache.transaction
       })
 
-      cache.categoriesWithModifiedBaseData.push(categoryId)
+      cache.categoriesWithModifiedBaseData.add(categoryId)
     }
 
-    cache.categoriesWithModifiedUsedTimes.push(categoryId)
+    cache.categoriesWithModifiedUsedTimes.add(categoryId)
   }
 
   await handleAddUsedTime({

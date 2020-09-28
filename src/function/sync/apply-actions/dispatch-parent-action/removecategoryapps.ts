@@ -41,6 +41,6 @@ export async function dispatchRemoveCategoryApps ({ action, cache }: {
     })
   }
 
-  cache.categoriesWithModifiedApps.push(action.categoryId)
+  cache.categoriesWithModifiedApps.add(action.categoryId)
   cache.areChangesImportant = true
 }

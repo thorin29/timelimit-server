@@ -202,7 +202,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
       }
     }
 
-    cache.categoriesWithModifiedUsedTimes.push(item.categoryId)
+    cache.categoriesWithModifiedUsedTimes.add(item.categoryId)
 
     if (item.extraTimeToSubtract !== 0) {
       await cache.database.category.update({
@@ -215,7 +215,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
         transaction: cache.transaction
       })
 
-      cache.categoriesWithModifiedBaseData.push(item.categoryId)
+      cache.categoriesWithModifiedBaseData.add(item.categoryId)
     }
 
     if (addUsedTimeForADifferentUserThanTheCurrentUserOfTheDevice) {

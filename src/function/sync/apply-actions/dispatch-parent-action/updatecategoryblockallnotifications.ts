@@ -59,7 +59,7 @@ export async function dispatchUpdateCategoryBlockAllNotifications ({ action, cac
   })
 
   if (affectedRows !== 0) {
-    cache.categoriesWithModifiedBaseData.push(action.categoryId)
+    cache.categoriesWithModifiedBaseData.add(action.categoryId)
     cache.areChangesImportant = true
   }
 }

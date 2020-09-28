@@ -15,11 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { memoize, uniq } from 'lodash'
+import { memoize } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { config } from '../../../config'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
 import { Database } from '../../../database'
+import { setToList } from '../../../util/list'
 import { generateVersionId } from '../../../util/token'
 import { SourceUserNotFoundException } from './exception/illegal-state'
 import { InvalidChildActionIntegrityValue } from './exception/integrity'
@@ -32,12 +33,12 @@ export class Cache {
   readonly connectedDevicesManager: VisibleConnectedDevicesManager
   private shouldTriggerFullSync = false
 
-  categoriesWithModifiedApps: Array<string> = []
-  categoriesWithModifiedBaseData: Array<string> = []
-  categoriesWithModifiedTimeLimitRules: Array<string> = []
-  categoriesWithModifiedUsedTimes: Array<string> = []
+  categoriesWithModifiedApps = new Set<string>()
+  categoriesWithModifiedBaseData = new Set<string>()
+  categoriesWithModifiedTimeLimitRules = new Set<string>()
+  categoriesWithModifiedUsedTimes = new Set<string>()
 
-  devicesWithModifiedInstalledApps: Array<string> = []
+  devicesWithModifiedInstalledApps = new Set<string>()
   devicesWithModifiedShowDeviceConnected = new Map<string, boolean>()
 
   invalidiateUserList = false
@@ -144,84 +145,84 @@ export class Cache {
   async saveModifiedVersionNumbers () {
     const { database, transaction, familyId } = this
 
-    if (this.categoriesWithModifiedApps.length > 0) {
+    if (this.categoriesWithModifiedApps.size > 0) {
       await database.category.update({
         assignedAppsVersion: generateVersionId()
       }, {
         where: {
           familyId,
           categoryId: {
-            [Sequelize.Op.in]: uniq(this.categoriesWithModifiedApps)
+            [Sequelize.Op.in]: setToList(this.categoriesWithModifiedApps)
           }
         },
         transaction
       })
 
-      this.categoriesWithModifiedApps = []
+      this.categoriesWithModifiedApps.clear()
     }
 
-    if (this.categoriesWithModifiedBaseData.length > 0) {
+    if (this.categoriesWithModifiedBaseData.size > 0) {
       await database.category.update({
         baseVersion: generateVersionId()
       }, {
         where: {
           familyId,
           categoryId: {
-            [Sequelize.Op.in]: uniq(this.categoriesWithModifiedBaseData)
+            [Sequelize.Op.in]: setToList(this.categoriesWithModifiedBaseData)
           }
         },
         transaction
       })
 
-      this.categoriesWithModifiedBaseData = []
+      this.categoriesWithModifiedBaseData.clear()
     }
 
-    if (this.categoriesWithModifiedTimeLimitRules.length > 0) {
+    if (this.categoriesWithModifiedTimeLimitRules.size > 0) {
       await database.category.update({
         timeLimitRulesVersion: generateVersionId()
       }, {
         where: {
           familyId,
           categoryId: {
-            [Sequelize.Op.in]: uniq(this.categoriesWithModifiedTimeLimitRules)
+            [Sequelize.Op.in]: setToList(this.categoriesWithModifiedTimeLimitRules)
           }
         },
         transaction
       })
 
-      this.categoriesWithModifiedTimeLimitRules = []
+      this.categoriesWithModifiedTimeLimitRules.clear()
     }
 
-    if (this.categoriesWithModifiedUsedTimes.length > 0) {
+    if (this.categoriesWithModifiedUsedTimes.size > 0) {
       await database.category.update({
         usedTimesVersion: generateVersionId()
       }, {
         where: {
           familyId,
           categoryId: {
-            [Sequelize.Op.in]: uniq(this.categoriesWithModifiedUsedTimes)
+            [Sequelize.Op.in]: setToList(this.categoriesWithModifiedUsedTimes)
           }
         },
         transaction
       })
 
-      this.categoriesWithModifiedUsedTimes = []
+      this.categoriesWithModifiedUsedTimes.clear()
     }
 
-    if (this.devicesWithModifiedInstalledApps.length > 0) {
+    if (this.devicesWithModifiedInstalledApps.size > 0) {
       await database.device.update({
         installedAppsVersion: generateVersionId()
       }, {
         where: {
           familyId,
           deviceId: {
-            [Sequelize.Op.in]: uniq(this.devicesWithModifiedInstalledApps)
+            [Sequelize.Op.in]: setToList(this.devicesWithModifiedInstalledApps)
           }
         },
         transaction
       })
 
-      this.devicesWithModifiedInstalledApps = []
+      this.devicesWithModifiedInstalledApps.clear()
     }
 
     if (this.invalidiateUserList) {

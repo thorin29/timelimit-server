@@ -40,7 +40,7 @@ export async function dispatchIncrementCategoryExtraTime ({ action, cache }: {
 
     await category.save({ transaction: cache.transaction })
 
-    cache.categoriesWithModifiedBaseData.push(category.categoryId)
+    cache.categoriesWithModifiedBaseData.add(category.categoryId)
     cache.areChangesImportant = true
   }
 

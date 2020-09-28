@@ -35,5 +35,5 @@ export async function dispatchRemoveInstalledApps ({ deviceId, action, cache }: 
     transaction: cache.transaction
   })
 
-  cache.devicesWithModifiedInstalledApps.push(deviceId)
+  cache.devicesWithModifiedInstalledApps.add(deviceId)
 }

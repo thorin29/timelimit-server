@@ -45,6 +45,6 @@ export async function dispatchUpdateTimelimitRule ({ action, cache }: {
 
   await ruleEntry.save({ transaction: cache.transaction })
 
-  cache.categoriesWithModifiedTimeLimitRules.push(ruleEntry.categoryId)
+  cache.categoriesWithModifiedTimeLimitRules.add(ruleEntry.categoryId)
   cache.areChangesImportant = true
 }

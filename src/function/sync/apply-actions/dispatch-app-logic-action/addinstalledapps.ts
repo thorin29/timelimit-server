@@ -48,5 +48,5 @@ export async function dispatchAddInstalledApps ({ deviceId, action, cache }: {
     { transaction: cache.transaction }
   )
 
-  cache.devicesWithModifiedInstalledApps.push(deviceId)
+  cache.devicesWithModifiedInstalledApps.add(deviceId)
 }

@@ -74,6 +74,6 @@ export async function dispatchAddCategoryNetworkId ({ action, cache }: {
     hashedNetworkId: action.hashedNetworkId
   }, { transaction: cache.transaction })
 
-  cache.categoriesWithModifiedBaseData.push(action.categoryId)
+  cache.categoriesWithModifiedBaseData.add(action.categoryId)
   cache.areChangesImportant = true
 }

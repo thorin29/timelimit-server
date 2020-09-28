@@ -20,3 +20,11 @@ import { uniq } from 'lodash'
 export function hasDuplicates (list: Array<string>): boolean {
   return uniq(list).length !== list.length
 }
+
+export function setToList<T> (set: Set<T>): Array<T> {
+  const result: Array<T> = []
+
+  set.forEach((item) => result.push(item))
+
+  return result
+}
