@@ -36,7 +36,8 @@ export const notifyClientsAboutChangesDelayed = async ({ familyId, sourceDeviceI
     } : {
       familyId
     },
-    attributes: ['deviceAuthToken']
+    attributes: ['deviceAuthToken'],
+    transaction
   })).map((item) => ({
     deviceAuthToken: item.deviceAuthToken
   }))
