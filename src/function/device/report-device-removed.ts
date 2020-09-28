@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,14 +19,15 @@ import { Database } from '../../database'
 import { generateAuthToken, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
 import { sendUninstallWarnings } from '../warningmail/uninstall'
-import { notifyClientsAboutChanges } from '../websocket'
+import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export async function reportDeviceRemoved ({ database, deviceAuthToken, websocket }: {
   database: Database
   deviceAuthToken: string
   websocket: WebsocketApi
+  // no transaction here because this is directly called from an API endpoint
 }) {
-  const result = await database.transaction(async (transaction) => {
+  await database.transaction(async (transaction) => {
     const deviceEntry = await database.device.findOne({
       where: {
         deviceAuthToken
@@ -58,7 +59,21 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
         transaction
       })
 
-      return { familyId: deviceEntry.familyId, deviceName: deviceEntry.name }
+      await notifyClientsAboutChangesDelayed({
+        database,
+        websocket,
+        familyId: deviceEntry.familyId,
+        sourceDeviceId: null,
+        isImportant: false,
+        transaction
+      })
+
+      await sendUninstallWarnings({
+        database,
+        familyId: deviceEntry.familyId,
+        deviceName: deviceEntry.name,
+        transaction
+      })
     } else {
       const oldDeviceEntry = await database.oldDevice.findOne({
         where: {
@@ -70,24 +85,6 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
       if (!oldDeviceEntry) {
         throw new Error('device not found')
       }
-
-      return null
     }
   })
-
-  if (result) {
-    await notifyClientsAboutChanges({
-      database,
-      websocket,
-      familyId: result.familyId,
-      sourceDeviceId: null,
-      isImportant: false
-    })
-
-    await sendUninstallWarnings({
-      database,
-      familyId: result.familyId,
-      deviceName: result.deviceName
-    })
-  }
 }

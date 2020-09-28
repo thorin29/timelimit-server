@@ -21,7 +21,7 @@ import { config } from '../../config'
 import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
-import { notifyClientsAboutChanges } from '../websocket'
+import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, currentUserId, action }: {
   database: Database
@@ -29,12 +29,9 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
   deviceAuthToken: string
   currentUserId: string
   action: 'set this device' | 'unset this device'
+  // no transaction here because this is directly called from an API endpoint
 }): Promise<'assigned to other device' | 'requires full version' | 'success'> => {
-  const response = await database.transaction(async (transaction): Promise<{
-    response: 'assigned to other device' | 'requires full version' | 'success',
-    sourceDeviceId: string,
-    familyId: string
-  }> => {
+  return database.transaction(async (transaction): Promise<'assigned to other device' | 'requires full version' | 'success'> => {
     const deviceEntryUnsafe = await database.device.findOne({
       where: {
         deviceAuthToken
@@ -106,22 +103,14 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
       }
 
       if (!(familyEntry.hasFullVersion || config.alwaysPro)) {
-        return {
-          response: 'requires full version',
-          sourceDeviceId: deviceEntry.deviceId,
-          familyId: deviceEntry.familyId
-        }
+        return 'requires full version'
       }
     }
 
     if (action === 'set this device') {
       // check that no other device is selected
       if (userDeviceEntries.find((item) => item.deviceId === userEntry.currentDevice)) {
-        return {
-          response: 'assigned to other device',
-          sourceDeviceId: deviceEntry.deviceId,
-          familyId: deviceEntry.familyId
-        }
+        return 'assigned to other device'
       }
 
       // update
@@ -171,23 +160,16 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
       }
     })
 
-    return {
-      response: 'success',
-      sourceDeviceId: deviceEntry.deviceId,
-      familyId: deviceEntry.familyId
-    }
-  })
-
-  if (response.response === 'success') {
     // trigger sync
-    await notifyClientsAboutChanges({
-      familyId: response.familyId,
-      sourceDeviceId: response.sourceDeviceId,
+    await notifyClientsAboutChangesDelayed({
+      familyId: deviceEntry.familyId,
+      sourceDeviceId: deviceEntry.deviceId,
       websocket,
       database,
-      isImportant: false  // the source device knows it already
+      isImportant: false,  // the source device knows it already
+      transaction
     })
-  }
 
-  return response.response
+    return 'success'
+  })
 }

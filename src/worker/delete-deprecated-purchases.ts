@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,7 @@
 
 import * as Sequelize from 'sequelize'
 import { Database } from '../database'
-import { notifyClientsAboutChanges } from '../function/websocket'
+import { notifyClientsAboutChangesDelayed } from '../function/websocket'
 import { WebsocketApi } from '../websocket'
 
 export function initDeleteDeprecatedPurchasesWorker ({ database, websocket }: {
@@ -43,7 +43,7 @@ async function deleteDeprecatedPurchases ({ database, websocket }: {
   database: Database
   websocket: WebsocketApi
 }) {
-  const { affectedFamilyIds } = await database.transaction(async (transaction) => {
+  await database.transaction(async (transaction) => {
     const affectedFamilyIds = await database.family.findAll({
       where: {
         hasFullVersion: true,
@@ -68,18 +68,17 @@ async function deleteDeprecatedPurchases ({ database, websocket }: {
       transaction
     })
 
+    for (const familyId of affectedFamilyIds) {
+      await notifyClientsAboutChangesDelayed({
+        familyId,
+        sourceDeviceId: null,
+        database,
+        websocket,
+        isImportant: true,
+        transaction
+      })
+    }
+
     return { affectedFamilyIds }
   })
-
-  for (let i = 0; i < affectedFamilyIds.length; i++) {
-    const familyId = affectedFamilyIds[i]
-
-    await notifyClientsAboutChanges({
-      familyId,
-      sourceDeviceId: null,
-      database,
-      websocket,
-      isImportant: true
-    })
-  }
 }

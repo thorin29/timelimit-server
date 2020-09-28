@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database } from '../../database'
+import { Database, Transaction } from '../../database'
 import { requireMailByAuthToken } from '../authentication'
 
-const getStatusByMailAddress = async ({ mail, database }: {mail: string, database: Database}) => {
+const getStatusByMailAddress = async ({
+  mail, database, transaction
+}: { mail: string, database: Database, transaction: Transaction }) => {
   if (!mail) {
     throw new Error('no mail address')
   }
@@ -26,7 +28,8 @@ const getStatusByMailAddress = async ({ mail, database }: {mail: string, databas
   const entry = await database.user.findOne({
     where: {
       mail
-    }
+    },
+    transaction
   })
 
   if (entry) {
@@ -36,9 +39,11 @@ const getStatusByMailAddress = async ({ mail, database }: {mail: string, databas
   }
 }
 
-export const getStatusByMailToken = async ({ mailAuthToken, database }: {mailAuthToken: string, database: Database}) => {
-  const mail = await requireMailByAuthToken({ mailAuthToken, database })
-  const status = await getStatusByMailAddress({ mail, database })
+export const getStatusByMailToken = async ({
+  mailAuthToken, database, transaction
+}: { mailAuthToken: string, database: Database, transaction: Transaction }) => {
+  const mail = await requireMailByAuthToken({ mailAuthToken, database, transaction })
+  const status = await getStatusByMailAddress({ mail, database, transaction })
 
   return { mail, status }
 }

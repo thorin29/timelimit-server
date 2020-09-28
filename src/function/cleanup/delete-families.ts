@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,6 +22,7 @@ import { Database } from '../../database'
 export async function deleteFamilies ({ database, familiyIds }: {
   database: Database
   familiyIds: Array<string>
+  // no transaction here because this should run isolated
 }) {
   if (familiyIds.length === 0) {
     return

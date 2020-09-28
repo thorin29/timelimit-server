@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,6 +23,7 @@ export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websock
   deviceAuthToken: string
   database: Database
   websocket: WebsocketApi
+  // no transaction here because this is directly called from an API endpoint
 }) => {
   await database.transaction(async (transaction) => {
     const ownDeviceEntryUnsafe = await database.device.findOne({

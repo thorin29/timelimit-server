@@ -25,7 +25,7 @@ import { generateVersionId } from '../../../util/token'
 export class Cache {
   readonly familyId: string
   readonly hasFullVersion: boolean
-  readonly transaction: Sequelize.Transaction
+  transaction: Sequelize.Transaction
   readonly database: Database
   readonly connectedDevicesManager: VisibleConnectedDevicesManager
   private shouldTriggerFullSync = false
@@ -54,6 +54,22 @@ export class Cache {
     this.database = database
     this.transaction = transaction
     this.connectedDevicesManager = connectedDevicesManager
+  }
+
+  async subtransaction<T> (callback: () => Promise<T>): Promise<T> {
+    const oldTransaction = this.transaction
+
+    return this.database.transaction(async (newTransaction) => {
+      try {
+        this.transaction = newTransaction
+
+        const result = await callback()
+
+        return result
+      } finally {
+        this.transaction = oldTransaction
+      }
+    }, { transaction: oldTransaction })
   }
 
   getSecondPasswordHashOfParent = memoize(async (parentId: string) => {

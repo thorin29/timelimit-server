@@ -158,14 +158,19 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
         throw new BadRequest()
       }
 
-      const removedEntry = await database.oldDevice.findOne({
-        where: {
-          deviceAuthToken: req.body.deviceAuthToken
-        }
+      const isDeviceRemoved: boolean = await database.transaction(async (transaction) => {
+        const removedEntry = await database.oldDevice.findOne({
+          where: {
+            deviceAuthToken: req.body.deviceAuthToken
+          },
+          transaction
+        })
+
+        return !!removedEntry
       })
 
       res.json({
-        isDeviceRemoved: !!removedEntry
+        isDeviceRemoved
       })
     } catch (ex) {
       next(ex)

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,17 +16,19 @@
  */
 
 import { InternalServerError, Unauthorized } from 'http-errors'
-import { Database } from '../../database'
+import { Database, Transaction } from '../../database'
 
-export const requireFamilyEntry = async ({ database, deviceAuthToken }: {
+export const requireFamilyEntry = async ({ database, deviceAuthToken, transaction }: {
   database: Database
   deviceAuthToken: string
+  transaction: Transaction
 }) => {
   const deviceEntryUnsafe = await database.device.findOne({
     where: {
       deviceAuthToken
     },
-    attributes: ['familyId']
+    attributes: ['familyId'],
+    transaction
   })
 
   if (!deviceEntryUnsafe) {
@@ -41,7 +43,8 @@ export const requireFamilyEntry = async ({ database, deviceAuthToken }: {
     where: {
       familyId: deviceEntry.familyId
     },
-    attributes: ['fullVersionUntil']
+    attributes: ['fullVersionUntil'],
+    transaction
   })
 
   if (!familyEntryUnsafe) {

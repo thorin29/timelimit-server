@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,16 +16,16 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { Database } from '../../database'
+import { Database, Transaction } from '../../database'
 import { WebsocketApi } from '../../websocket'
 
-// this should be called AFTER an transaction was commited
-export const notifyClientsAboutChanges = async ({ familyId, sourceDeviceId, database, websocket, isImportant }: {
+export const notifyClientsAboutChangesDelayed = async ({ familyId, sourceDeviceId, database, websocket, isImportant, transaction }: {
   familyId: string
   sourceDeviceId: string | null  // this device will not get an push
   database: Database
   websocket: WebsocketApi
   isImportant: boolean
+  transaction: Transaction
 }) => {
   const relatedDeviceEntries = (await database.device.findAll({
     where: sourceDeviceId ? {
@@ -41,10 +41,12 @@ export const notifyClientsAboutChanges = async ({ familyId, sourceDeviceId, data
     deviceAuthToken: item.deviceAuthToken
   }))
 
-  relatedDeviceEntries.forEach((item) => {
-    websocket.triggerSyncByDeviceAuthToken({
-      deviceAuthToken: item.deviceAuthToken,
-      isImportant
+  transaction.afterCommit(() => {
+    relatedDeviceEntries.forEach((item) => {
+      websocket.triggerSyncByDeviceAuthToken({
+        deviceAuthToken: item.deviceAuthToken,
+        isImportant
+      })
     })
   })
 }

@@ -15,7 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Promise as BluePromise } from 'bluebird'
 import * as Sequelize from 'sequelize'
+import { generateIdWithinFamily } from '../util/token'
 import { AddDeviceTokenModelStatic, createAddDeviceTokenModel } from './adddevicetoken'
 import { AppModelStatic, createAppModel } from './app'
 import { AppActivityModelStatic, createAppActivityModel } from './appactivity'
@@ -23,7 +25,7 @@ import { AuthTokenModelStatic, createAuthtokenModel } from './authtoken'
 import { CategoryModelStatic, createCategoryModel } from './category'
 import { CategoryAppModelStatic, createCategoryAppModel } from './categoryapp'
 import { CategoryNetworkIdModelStatic, createCategoryNetworkIdModel } from './categorynetworkid'
-import { ConfigModelStatic, createConfigModel } from './config'
+import { configItemIds, ConfigModelStatic, createConfigModel } from './config'
 import { createDeviceModel, DeviceModelStatic } from './device'
 import { createFamilyModel, FamilyModelStatic } from './family'
 import { createMailLoginTokenModel, MailLoginTokenModelStatic } from './maillogintoken'
@@ -35,6 +37,8 @@ import { createTimelimitRuleModel, TimelimitRuleModelStatic } from './timelimitr
 import { createUsedTimeModel, UsedTimeModelStatic } from './usedtime'
 import { createUserModel, UserModelStatic } from './user'
 import { createUserLimitLoginCategoryModel, UserLimitLoginCategoryModelStatic } from './userlimitlogincategory'
+
+export type Transaction = Sequelize.Transaction
 
 export interface Database {
   addDeviceToken: AddDeviceTokenModelStatic
@@ -55,7 +59,7 @@ export interface Database {
   usedTime: UsedTimeModelStatic
   user: UserModelStatic
   userLimitLoginCategory: UserLimitLoginCategoryModelStatic
-  transaction: <T> (autoCallback: (t: Sequelize.Transaction) => Promise<T>) => Promise<T>
+  transaction: <T> (autoCallback: (t: Transaction) => Promise<T>, options?: { transaction: Transaction }) => Promise<T>
   dialect: string
 }
 
@@ -78,8 +82,9 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   usedTime: createUsedTimeModel(sequelize),
   user: createUserModel(sequelize),
   userLimitLoginCategory: createUserLimitLoginCategoryModel(sequelize),
-  transaction: <T> (autoCallback: (transaction: Sequelize.Transaction) => Promise<T>) => (sequelize.transaction({
-    isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
+  transaction: <T> (autoCallback: (transaction: Transaction) => Promise<T>, options?: { transaction: Transaction }) => (sequelize.transaction({
+    isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+    transaction: options?.transaction
   }, autoCallback) as any) as Promise<T>,
   dialect: sequelize.getDialect()
 })
@@ -93,3 +98,48 @@ export const sequelize = new Sequelize.Sequelize(process.env.DATABASE_URL || 'sq
 
 export const defaultDatabase = createDatabase(sequelize)
 export const defaultUmzug = createUmzug(sequelize)
+
+class NestedTransactionTestException extends Error {}
+class TestRollbackException extends NestedTransactionTestException {}
+class NestedTransactionsNotWorkingException extends NestedTransactionTestException { constructor () { super('NestedTransactionsNotWorkingException') } }
+class IllegalStateException extends NestedTransactionTestException {}
+
+export const wrapPromise = <T>(promise: Promise<T>) => BluePromise.resolve(promise)
+export const warpPromiseReturner = <T>(fun: () => Promise<T>) => () => wrapPromise(fun())
+
+export async function assertNestedTransactionsAreWorking (database: Database) {
+  const testValue = generateIdWithinFamily()
+
+  // clean up just for the case
+  await database.config.destroy({ where: { id: configItemIds.selfTestData } })
+
+  await database.transaction(async (transaction) => {
+    const readOne = await database.config.findOne({ where: { id: configItemIds.selfTestData }, transaction })
+
+    if (readOne) throw new IllegalStateException()
+
+    await database.transaction(async (transaction) => {
+      await database.config.create({ id: configItemIds.selfTestData, value: testValue }, { transaction })
+
+      const readTwo = await database.config.findOne({ where: { id: configItemIds.selfTestData }, transaction })
+
+      if (readTwo?.value !== testValue) throw new IllegalStateException()
+
+      try {
+        await database.transaction(async (transaction) => {
+          await database.config.destroy({ where: { id: configItemIds.selfTestData }, transaction })
+
+          throw new TestRollbackException()
+        }, { transaction })
+      } catch (ex) {
+        if (!(ex instanceof TestRollbackException)) throw ex
+      }
+
+      const readThree = await database.config.findOne({ where: { id: configItemIds.selfTestData }, transaction })
+
+      if (readThree?.value !== testValue) throw new NestedTransactionsNotWorkingException()
+
+      await database.config.destroy({ where: { id: configItemIds.selfTestData }, transaction })
+    }, { transaction })
+  })
+}

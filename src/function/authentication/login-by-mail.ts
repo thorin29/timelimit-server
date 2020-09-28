@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Forbidden, Gone, InternalServerError, TooManyRequests } from 'http-errors'
+import { Forbidden, Gone, TooManyRequests } from 'http-errors'
 import { Database } from '../../database'
 import { sendAuthenticationMail } from '../../util/mail'
 import { areWordSequencesEqual, randomWords } from '../../util/random-words'
@@ -27,7 +27,8 @@ export const sendLoginCode = async ({ mail, locale, database }: {
   mail: string
   locale: string
   database: Database
-}): Promise<{mailLoginToken: string}> => {
+  // no transaction here because this is directly called from an API endpoint
+}): Promise<{ mailLoginToken: string }> => {
   try {
     await checkMailSendLimit(mail)
   } catch (ex) {
@@ -43,12 +44,14 @@ export const sendLoginCode = async ({ mail, locale, database }: {
     locale
   })
 
-  await database.mailLoginToken.create({
-    mailLoginToken,
-    receivedCode: code,
-    mail,
-    createdAt: Date.now().toString(10),
-    remainingAttempts: 3
+  await database.transaction(async (transaction) => {
+    await database.mailLoginToken.create({
+      mailLoginToken,
+      receivedCode: code,
+      mail,
+      createdAt: Date.now().toString(10),
+      remainingAttempts: 3
+    }, { transaction })
   })
 
   return {
@@ -62,8 +65,9 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
   mailLoginToken: string
   receivedCode: string
   database: Database
-}): Promise<{mailAuthToken: string}> => {
-  const { mail, status } = await database.transaction(async (transaction) => {
+  // no transaction here because this is directly called from an API endpoint
+}): Promise<{ mailAuthToken: string }> => {
+  return database.transaction(async (transaction) => {
     const entry = await database.mailLoginToken.findOne({
       where: {
         mailLoginToken
@@ -72,10 +76,7 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
     })
 
     if ((!entry) || entry.remainingAttempts === 0) {
-      return {
-        mail: null,
-        status: 'gone'
-      }
+      throw new Gone()
     }
 
     if (!areWordSequencesEqual(entry.receivedCode, receivedCode)) {
@@ -84,35 +85,14 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
       await entry.save({ transaction })
 
       if (entry.remainingAttempts === 0) {
-        return {
-          mail: null,
-          status: 'gone'
-        }
+        throw new Gone()
       } else {
-        return {
-          mail: null,
-          status: 'forbidden'
-        }
+        throw new Forbidden()
       }
     }
 
-    return {
-      mail: entry.mail,
-      status: null
-    }
+    const mailAuthToken = await createAuthTokenByMailAddress({ mail: entry.mail, database, transaction })
+
+    return { mailAuthToken }
   })
-
-  if (!mail) {
-    if (status === 'gone') {
-      throw new Gone()
-    } else if (status === 'forbidden') {
-      throw new Forbidden()
-    } else {
-      throw new InternalServerError()
-    }
-  }
-
-  const mailAuthToken = await createAuthTokenByMailAddress({ mail, database })
-
-  return { mailAuthToken }
 }

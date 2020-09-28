@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -34,30 +34,34 @@ export async function deleteOldFamilies (database: Database) {
 }
 
 export async function findOldFamilyIds (database: Database) {
-  const familyIdsWithExpiredLicenses = await database.family.findAll({
-    where: {
-      fullVersionUntil: {
-        [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
-      }
-    },
-    attributes: ['familyId']
-  }).map((item) => item.familyId)
-
-  if (familyIdsWithExpiredLicenses.length === 0) {
-    return []
-  }
-
-  const recentlyUsedFamilyIds = await database.device.findAll({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familyIdsWithExpiredLicenses
+  return database.transaction(async (transaction) => {
+    const familyIdsWithExpiredLicenses = await database.family.findAll({
+      where: {
+        fullVersionUntil: {
+          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
+        }
       },
-      lastConnectivity: {
-        [Sequelize.Op.gt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
-      }
-    },
-    attributes: ['familyId']
-  }).map((item) => item.familyId)
+      attributes: ['familyId'],
+      transaction
+    }).map((item) => item.familyId)
 
-  return difference(familyIdsWithExpiredLicenses, recentlyUsedFamilyIds)
+    if (familyIdsWithExpiredLicenses.length === 0) {
+      return []
+    }
+
+    const recentlyUsedFamilyIds = await database.device.findAll({
+      where: {
+        familyId: {
+          [Sequelize.Op.in]: familyIdsWithExpiredLicenses
+        },
+        lastConnectivity: {
+          [Sequelize.Op.gt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
+        }
+      },
+      attributes: ['familyId'],
+      transaction
+    }).map((item) => item.familyId)
+
+    return difference(familyIdsWithExpiredLicenses, recentlyUsedFamilyIds)
+  })
 }

@@ -96,27 +96,31 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
         throw new BadRequest()
       }
 
-      const userEntryUnsafe = await database.user.findOne({
-        where: {
-          mail
-        },
-        attributes: ['familyId']
-      })
+      await database.transaction(async (transaction) => {
+        const userEntryUnsafe = await database.user.findOne({
+          where: {
+            mail
+          },
+          attributes: ['familyId'],
+          transaction
+        })
 
-      if (!userEntryUnsafe) {
-        throw new Conflict('no user with specified mail address')
-      }
+        if (!userEntryUnsafe) {
+          throw new Conflict('no user with specified mail address')
+        }
 
-      const userEntry = {
-        familyId: userEntryUnsafe.familyId
-      }
+        const userEntry = {
+          familyId: userEntryUnsafe.familyId
+        }
 
-      await addPurchase({
-        database,
-        familyId: userEntry.familyId,
-        type,
-        transactionId: 'manual-' + type + '-' + generatePurchaseId(),
-        websocket
+        await addPurchase({
+          database,
+          familyId: userEntry.familyId,
+          type,
+          transactionId: 'manual-' + type + '-' + generatePurchaseId(),
+          websocket,
+          transaction
+        })
       })
 
       res.json({ ok: true })

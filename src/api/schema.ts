@@ -20,13 +20,15 @@ import { optionalPasswordRegex, optionalSaltRegex } from '../util/password'
 
 export interface ClientPushChangesRequest {
   deviceAuthToken: string
-  actions: Array<{
-    encodedAction: string
-    sequenceNumber: number
-    integrity: string
-    type: 'appLogic' | 'parent' | 'child'
-    userId: string
-  }>
+  actions: Array<ClientPushChangesRequestAction>
+}
+
+export interface ClientPushChangesRequestAction {
+  encodedAction: string
+  sequenceNumber: number
+  integrity: string
+  type: 'appLogic' | 'parent' | 'child'
+  userId: string
 }
 
 export interface ClientPullChangesRequest {

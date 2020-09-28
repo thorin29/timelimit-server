@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@ import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
 import { requireMailByAuthToken } from '../authentication'
-import { notifyClientsAboutChanges } from '../websocket'
+import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUserId, parentPasswordSecondHash, database, websocket }: {
   mailAuthToken: string
@@ -30,32 +30,35 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
   parentPasswordSecondHash: string
   database: Database
   websocket: WebsocketApi
+  // no transaction here because this is directly called from an API endpoint
 }) => {
-  const deviceEntry = await database.device.findOne({
-    where: {
-      deviceAuthToken
-    }
-  })
-
-  if (!deviceEntry) {
-    throw new Unauthorized()
-  }
-
-  const familyId = deviceEntry.familyId
-
-  const mailAddress = await requireMailByAuthToken({ mailAuthToken, database })
-
-  const exisitingUser = await database.user.findOne({
-    where: {
-      mail: mailAddress
-    }
-  })
-
-  if (exisitingUser) {
-    throw new Conflict()
-  }
-
   await database.transaction(async (transaction) => {
+    const deviceEntry = await database.device.findOne({
+      where: {
+        deviceAuthToken
+      },
+      transaction
+    })
+
+    if (!deviceEntry) {
+      throw new Unauthorized()
+    }
+
+    const familyId = deviceEntry.familyId
+
+    const mailAddress = await requireMailByAuthToken({ mailAuthToken, database, transaction })
+
+    const exisitingUser = await database.user.findOne({
+      where: {
+        mail: mailAddress
+      },
+      transaction
+    })
+
+    if (exisitingUser) {
+      throw new Conflict()
+    }
+
     const parentEntry = await database.user.findOne({
       where: {
         type: 'parent',
@@ -95,13 +98,15 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
       },
       transaction
     })
-  })
 
-  await notifyClientsAboutChanges({
-    familyId,
-    sourceDeviceId: null,
-    database,
-    websocket,
-    isImportant: true
+    // notify
+    await notifyClientsAboutChangesDelayed({
+      familyId,
+      sourceDeviceId: null,
+      database,
+      websocket,
+      isImportant: true,
+      transaction
+    })
   })
 }

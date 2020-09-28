@@ -4,6 +4,39 @@ const Ajv = require('ajv')
 const ajv = new Ajv()
 
 const definitions = {
+  "ClientPushChangesRequestAction": {
+    "type": "object",
+    "properties": {
+      "encodedAction": {
+        "type": "string"
+      },
+      "sequenceNumber": {
+        "type": "number"
+      },
+      "integrity": {
+        "type": "string"
+      },
+      "type": {
+        "enum": [
+          "appLogic",
+          "child",
+          "parent"
+        ],
+        "type": "string"
+      },
+      "userId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "encodedAction",
+      "integrity",
+      "sequenceNumber",
+      "type",
+      "userId"
+    ]
+  },
   "ClientDataStatus": {
     "type": "object",
     "properties": {
@@ -2219,37 +2252,7 @@ export const isClientPushChangesRequest: (value: object) => value is ClientPushC
     "actions": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "encodedAction": {
-            "type": "string"
-          },
-          "sequenceNumber": {
-            "type": "number"
-          },
-          "integrity": {
-            "type": "string"
-          },
-          "type": {
-            "enum": [
-              "appLogic",
-              "child",
-              "parent"
-            ],
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "encodedAction",
-          "integrity",
-          "sequenceNumber",
-          "type",
-          "userId"
-        ]
+        "$ref": "#/definitions/ClientPushChangesRequestAction"
       }
     }
   },
@@ -2258,6 +2261,7 @@ export const isClientPushChangesRequest: (value: object) => value is ClientPushC
     "actions",
     "deviceAuthToken"
   ],
+  "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
 export const isClientPullChangesRequest: (value: object) => value is ClientPullChangesRequest = ajv.compile({

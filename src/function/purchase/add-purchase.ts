@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,75 +17,75 @@
 
 import { Conflict } from 'http-errors'
 import * as Sequelize from 'sequelize'
-import { Database } from '../../database'
-import { notifyClientsAboutChanges } from '../../function/websocket'
+import { Database, Transaction } from '../../database'
+import { notifyClientsAboutChangesDelayed } from '../../function/websocket'
 import { WebsocketApi } from '../../websocket'
 
 const day = 1000 * 60 * 60 * 24
 const month = day * 31
 const year = day * 366
 
-export const addPurchase = async ({ database, familyId, type, transactionId, websocket }: {
+export const addPurchase = async ({ database, familyId, type, transactionId, websocket, transaction }: {
   database: Database
   familyId: string
   type: 'month' | 'year'
   transactionId: string
   websocket: WebsocketApi
+  transaction: Transaction
 }) => {
   const service = 'googleplay'
 
-  await database.transaction(async (transaction) => {
-    const oldPurchaseEntry = await database.purchase.findOne({
-      where: {
-        service,
-        transactionId
-      },
-      transaction
-    })
-
-    if (oldPurchaseEntry) {
-      return
-    }
-
-    const familyEntry = await database.family.findOne({
-      where: {
-        familyId
-      },
-      transaction,
-      lock: Sequelize.Transaction.LOCK.UPDATE
-    })
-
-    if (!familyEntry) {
-      throw new Conflict()
-    }
-
-    const previousFullVersionEndTime = familyEntry.fullVersionUntil
-
-    const newFullVersionUntil = Math.max(parseInt(familyEntry.fullVersionUntil, 10), Date.now()) + (type === 'year' ? year : month)
-
-    familyEntry.fullVersionUntil = newFullVersionUntil.toString(10)
-    familyEntry.hasFullVersion = true
-
-    await familyEntry.save({ transaction })
-
-    await database.purchase.create({
-      familyId,
+  const oldPurchaseEntry = await database.purchase.findOne({
+    where: {
       service,
-      transactionId,
-      type,
-      loggedAt: Date.now().toString(10),
-      previousFullVersionEndTime,
-      newFullVersionEndTime: newFullVersionUntil.toString(10)
-    }, {
-      transaction
-    })
+      transactionId
+    },
+    transaction
+  })
 
-    await notifyClientsAboutChanges({
-      familyId,
-      sourceDeviceId: null,
-      database,
-      websocket,
-      isImportant: true
-    })
+  if (oldPurchaseEntry) {
+    return
+  }
+
+  const familyEntry = await database.family.findOne({
+    where: {
+      familyId
+    },
+    transaction,
+    lock: Sequelize.Transaction.LOCK.UPDATE
+  })
+
+  if (!familyEntry) {
+    throw new Conflict()
+  }
+
+  const previousFullVersionEndTime = familyEntry.fullVersionUntil
+
+  const newFullVersionUntil = Math.max(parseInt(familyEntry.fullVersionUntil, 10), Date.now()) + (type === 'year' ? year : month)
+
+  familyEntry.fullVersionUntil = newFullVersionUntil.toString(10)
+  familyEntry.hasFullVersion = true
+
+  await familyEntry.save({ transaction })
+
+  await database.purchase.create({
+    familyId,
+    service,
+    transactionId,
+    type,
+    loggedAt: Date.now().toString(10),
+    previousFullVersionEndTime,
+    newFullVersionEndTime: newFullVersionUntil.toString(10)
+  }, {
+    transaction
+  })
+
+  await notifyClientsAboutChangesDelayed({
+    familyId,
+    sourceDeviceId: null,
+    database,
+    websocket,
+    isImportant: true,
+    transaction
   })
 }

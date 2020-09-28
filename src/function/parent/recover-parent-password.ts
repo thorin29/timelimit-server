@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,34 +16,33 @@
  */
 
 import { Conflict } from 'http-errors'
-import * as Sequelize from 'sequelize'
 import { ParentPassword } from '../../api/schema'
 import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
 import { requireMailByAuthToken } from '../authentication'
-import { notifyClientsAboutChanges } from '../websocket'
+import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export const recoverParentPassword = async ({ database, websocket, password, mailAuthToken }: {
   database: Database
   websocket: WebsocketApi
   password: ParentPassword
   mailAuthToken: string
+  // no transaction here because this is directly called from an API endpoint
 }) => {
-  const mail = await requireMailByAuthToken({ mailAuthToken, database })
+  await database.transaction(async (transaction) => {
+    const mail = await requireMailByAuthToken({ mailAuthToken, database, transaction })
 
-  const { familyId } = await database.transaction(async (transaction) => {
     // update the user entry
     const userEntry = await database.user.findOne({
       where: {
         mail
       },
-      transaction,
-      lock: Sequelize.Transaction.LOCK.UPDATE
+      transaction
     })
 
     if (!userEntry) {
-      return { familyId: null }
+      throw new Conflict()
     }
 
     userEntry.passwordHash = password.hash
@@ -62,18 +61,13 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
       transaction
     })
 
-    return { familyId: userEntry.familyId }
-  })
-
-  if (familyId === null) {
-    throw new Conflict()
-  }
-
-  await notifyClientsAboutChanges({
-    database,
-    familyId,
-    websocket,
-    isImportant: true,
-    sourceDeviceId: null
+    await notifyClientsAboutChangesDelayed({
+      database,
+      familyId: userEntry.familyId,
+      websocket,
+      isImportant: true,
+      sourceDeviceId: null,
+      transaction
+    })
   })
 }

@@ -19,7 +19,7 @@ import { json } from 'body-parser'
 import { Router } from 'express'
 import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
 import { config } from '../config'
-import { Database } from '../database'
+import { Database, Transaction } from '../database'
 import { removeDevice } from '../function/device/remove-device'
 import { canRecoverPassword } from '../function/parent/can-recover-password'
 import { createAddDeviceToken } from '../function/parent/create-add-device-token'
@@ -46,7 +46,9 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       }
 
       const { mailAuthToken } = req.body
-      const { status, mail } = await getStatusByMailToken({ database, mailAuthToken })
+      const { status, mail } = await database.transaction(async (transaction) => {
+        return getStatusByMailToken({ database, mailAuthToken, transaction })
+      })
 
       res.json({
         status,
@@ -148,15 +150,17 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
     }
   })
 
-  async function assertAuthValidAndReturnDeviceEntry ({ deviceAuthToken, parentId, secondPasswordHash }: {
+  async function assertAuthValidAndReturnDeviceEntry ({ deviceAuthToken, parentId, secondPasswordHash, transaction }: {
     deviceAuthToken: string
     parentId: string
     secondPasswordHash: string
+    transaction: Transaction
   }) {
     const deviceEntry = await database.device.findOne({
       where: {
         deviceAuthToken: deviceAuthToken
-      }
+      },
+      transaction
     })
 
     if (!deviceEntry) {
@@ -173,7 +177,8 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
           familyId: deviceEntry.familyId,
           type: 'parent',
           userId: deviceEntry.currentUserId
-        }
+        },
+        transaction
       })
 
       if (!parentEntry) {
@@ -186,7 +191,8 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
           type: 'parent',
           userId: parentId,
           secondPasswordHash: secondPasswordHash
-        }
+        },
+        transaction
       })
 
       if (!parentEntry) {
@@ -203,13 +209,16 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
         throw new BadRequest()
       }
 
-      const deviceEntry = await assertAuthValidAndReturnDeviceEntry({
-        deviceAuthToken: req.body.deviceAuthToken,
-        parentId: req.body.parentId,
-        secondPasswordHash: req.body.parentPasswordSecondHash
-      })
+      const { token, deviceId } = await database.transaction(async (transaction) => {
+        const deviceEntry = await assertAuthValidAndReturnDeviceEntry({
+          deviceAuthToken: req.body.deviceAuthToken,
+          parentId: req.body.parentId,
+          secondPasswordHash: req.body.parentPasswordSecondHash,
+          transaction
+        })
 
-      const { token, deviceId } = await createAddDeviceToken({ familyId: deviceEntry.familyId, database })
+        return createAddDeviceToken({ familyId: deviceEntry.familyId, database, transaction })
+      })
 
       res.json({ token, deviceId })
     } catch (ex) {
@@ -244,17 +253,21 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
         throw new BadRequest()
       }
 
-      const deviceEntry = await assertAuthValidAndReturnDeviceEntry({
-        deviceAuthToken: req.body.deviceAuthToken,
-        parentId: req.body.parentUserId,
-        secondPasswordHash: req.body.parentPasswordSecondHash
-      })
+      await database.transaction(async (transaction) => {
+        const deviceEntry = await assertAuthValidAndReturnDeviceEntry({
+          deviceAuthToken: req.body.deviceAuthToken,
+          parentId: req.body.parentUserId,
+          secondPasswordHash: req.body.parentPasswordSecondHash,
+          transaction
+        })
 
-      await removeDevice({
-        database,
-        familyId: deviceEntry.familyId,
-        deviceId: req.body.deviceId,
-        websocket
+        await removeDevice({
+          database,
+          familyId: deviceEntry.familyId,
+          deviceId: req.body.deviceId,
+          websocket,
+          transaction
+        })
       })
 
       res.json({ ok: true })

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -46,5 +46,6 @@ export const attributes: SequelizeAttributes<ConfigAttributes> = {
 export const createConfigModel = (sequelize: Sequelize.Sequelize): ConfigModelStatic => sequelize.define('Config', attributes) as ConfigModelStatic
 
 export const configItemIds = {
-  statusMessage: 'status_message'
+  statusMessage: 'status_message',
+  selfTestData: 'self_test_data'
 }

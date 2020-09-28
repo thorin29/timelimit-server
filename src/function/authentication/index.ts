@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,26 +16,27 @@
  */
 
 import { Unauthorized } from 'http-errors'
-import { Database } from '../../database'
+import { Database, Transaction } from '../../database'
 import { generateAuthToken } from '../../util/token'
 
-export const createAuthTokenByMailAddress = async ({ mail, database }: {mail: string, database: Database}) => {
+export const createAuthTokenByMailAddress = async ({ mail, database, transaction }: { mail: string, database: Database, transaction: Transaction }) => {
   const token = generateAuthToken()
 
   await database.authtoken.create({
     token,
     mail,
     createdAt: Date.now().toString()
-  })
+  }, { transaction })
 
   return token
 }
 
-export const getMailByAuthToken = async ({ mailAuthToken, database }: {mailAuthToken: string, database: Database}) => {
+export const getMailByAuthToken = async ({ mailAuthToken, database, transaction }: { mailAuthToken: string, database: Database, transaction: Transaction }) => {
   const entry = await database.authtoken.findOne({
     where: {
       token: mailAuthToken
-    }
+    },
+    transaction
   })
 
   if (entry) {
@@ -45,8 +46,8 @@ export const getMailByAuthToken = async ({ mailAuthToken, database }: {mailAuthT
   }
 }
 
-export const requireMailByAuthToken = async ({ mailAuthToken, database }: {mailAuthToken: string, database: Database}) => {
-  const mail = await getMailByAuthToken({ mailAuthToken, database })
+export const requireMailByAuthToken = async ({ mailAuthToken, database, transaction }: { mailAuthToken: string, database: Database, transaction: Transaction }) => {
+  const mail = await getMailByAuthToken({ mailAuthToken, database, transaction })
 
   if (!mail) {
     throw new Unauthorized()

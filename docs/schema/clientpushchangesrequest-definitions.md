@@ -1,7 +1,7 @@
-# Untitled array in ClientPushChangesRequest Schema
+# Untitled undefined type in ClientPushChangesRequest Schema
 
 ```txt
-https://timelimit.io/ClientPushChangesRequest#/properties/actions
+https://timelimit.io/ClientPushChangesRequest#/definitions
 ```
 
 
@@ -11,6 +11,6 @@ https://timelimit.io/ClientPushChangesRequest#/properties/actions
 | :------------------ | ---------- | -------------- | ----------------------- | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
 | Can be instantiated | No         | Unknown status | Unknown identifiability | Forbidden         | Allowed               | none                | [ClientPushChangesRequest.schema.json\*](ClientPushChangesRequest.schema.json "open original schema") |
 
-## actions Type
+## definitions Type
 
-`object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))
+unknown

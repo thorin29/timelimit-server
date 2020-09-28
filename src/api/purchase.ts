@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -47,12 +47,15 @@ export const createPurchaseRouter = ({ database, websocket }: {
         throw new BadRequest()
       }
 
-      const familyEntry = await requireFamilyEntry({
-        database,
-        deviceAuthToken: req.body.deviceAuthToken
-      })
+      const result: boolean = await database.transaction(async (transaction) => {
+        const familyEntry = await requireFamilyEntry({
+          database,
+          deviceAuthToken: req.body.deviceAuthToken,
+          transaction
+        })
 
-      const result = canDoNextPurchase({ fullVersionUntil: parseInt(familyEntry.fullVersionUntil, 10) })
+        return canDoNextPurchase({ fullVersionUntil: parseInt(familyEntry.fullVersionUntil, 10) })
+      })
 
       res.json({
         canDoPurchase: result ? 'yes' : 'no due to old purchase',
@@ -69,56 +72,60 @@ export const createPurchaseRouter = ({ database, websocket }: {
         throw new BadRequest()
       }
 
-      const deviceEntryUnsafe = await database.device.findOne({
-        where: {
-          deviceAuthToken: req.body.deviceAuthToken
-        },
-        attributes: ['familyId']
-      })
+      await database.transaction(async (transaction) => {
+        const deviceEntryUnsafe = await database.device.findOne({
+          where: {
+            deviceAuthToken: req.body.deviceAuthToken
+          },
+          attributes: ['familyId'],
+          transaction
+        })
 
-      if (!deviceEntryUnsafe) {
-        throw new Unauthorized()
-      }
+        if (!deviceEntryUnsafe) {
+          throw new Unauthorized()
+        }
 
-      const deviceEntry = {
-        familyId: deviceEntryUnsafe.familyId
-      }
+        const deviceEntry = {
+          familyId: deviceEntryUnsafe.familyId
+        }
 
-      if (!isGooglePlayPurchaseSignatureValid({
-        receipt: req.body.receipt,
-        signature: req.body.signature
-      })) {
-        throw new Conflict()
-      }
+        if (!isGooglePlayPurchaseSignatureValid({
+          receipt: req.body.receipt,
+          signature: req.body.signature
+        })) {
+          throw new Conflict()
+        }
 
-      const receipt = JSON.parse(req.body.receipt)
+        const receipt = JSON.parse(req.body.receipt)
 
-      if (typeof receipt !== 'object') {
-        throw new Conflict()
-      }
+        if (typeof receipt !== 'object') {
+          throw new Conflict()
+        }
 
-      let type: 'month' | 'year'
+        let type: 'month' | 'year'
 
-      if (receipt.productId === 'premium_year_2018') {
-        type = 'year'
-      } else if (receipt.productId === 'premium_month_2018') {
-        type = 'month'
-      } else {
-        throw new Conflict()
-      }
+        if (receipt.productId === 'premium_year_2018') {
+          type = 'year'
+        } else if (receipt.productId === 'premium_month_2018') {
+          type = 'month'
+        } else {
+          throw new Conflict()
+        }
 
-      const orderId = receipt.orderId
+        const orderId = receipt.orderId
 
-      if (typeof orderId !== 'string') {
-        throw new Conflict()
-      }
+        if (typeof orderId !== 'string') {
+          throw new Conflict()
+        }
 
-      await addPurchase({
-        database,
-        familyId: deviceEntry.familyId,
-        type,
-        transactionId: orderId,
-        websocket
+        await addPurchase({
+          database,
+          familyId: deviceEntry.familyId,
+          type,
+          transactionId: orderId,
+          websocket,
+          transaction
+        })
       })
 
       res.json({ ok: true })

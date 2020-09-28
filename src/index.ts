@@ -19,7 +19,7 @@ import { Server } from 'http'
 import { createApi } from './api'
 import { config } from './config'
 import { VisibleConnectedDevicesManager } from './connected-devices'
-import { defaultDatabase, defaultUmzug } from './database'
+import { assertNestedTransactionsAreWorking, defaultDatabase, defaultUmzug } from './database'
 import { EventHandler } from './monitoring/eventhandler'
 import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler'
 import { createWebsocketHandler } from './websocket'
@@ -29,6 +29,8 @@ async function main () {
   await defaultUmzug.up()
   const database = defaultDatabase
   const eventHandler: EventHandler = new InMemoryEventHandler()
+
+  await assertNestedTransactionsAreWorking(database)
 
   const connectedDevicesManager = new VisibleConnectedDevicesManager({
     database

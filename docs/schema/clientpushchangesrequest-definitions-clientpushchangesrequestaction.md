@@ -1,29 +1,21 @@
-# ClientPushChangesRequest Schema
+# ClientPushChangesRequestAction Schema
 
 ```txt
-https://timelimit.io/ClientPushChangesRequest
+https://timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction
 ```
 
 
 
 
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                          |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | --------------------------------------------------------------------------------------------------- |
-| Can be instantiated | Yes        | Unknown status | No           | Forbidden         | Forbidden             | none                | [ClientPushChangesRequest.schema.json](ClientPushChangesRequest.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                            |
+| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ClientPushChangesRequest.schema.json\*](ClientPushChangesRequest.schema.json "open original schema") |
 
-## ClientPushChangesRequest Type
+## ClientPushChangesRequestAction Type
 
-`object` ([ClientPushChangesRequest](clientpushchangesrequest.md))
+`object` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))
 
-# ClientPushChangesRequest Definitions
-
-## Definitions group ClientPushChangesRequestAction
-
-Reference this group by using
-
-```json
-{"$ref":"https://timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction"}
-```
+# ClientPushChangesRequestAction Properties
 
 | Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                              |
 | :-------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -33,7 +25,7 @@ Reference this group by using
 | [type](#type)                     | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-type.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/type")                     |
 | [userId](#userId)                 | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-userid.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/userId")                 |
 
-### encodedAction
+## encodedAction
 
 
 
@@ -45,11 +37,11 @@ Reference this group by using
 -   cannot be null
 -   defined in: [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-encodedaction.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/encodedAction")
 
-#### encodedAction Type
+### encodedAction Type
 
 `string`
 
-### sequenceNumber
+## sequenceNumber
 
 
 
@@ -61,11 +53,11 @@ Reference this group by using
 -   cannot be null
 -   defined in: [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-sequencenumber.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/sequenceNumber")
 
-#### sequenceNumber Type
+### sequenceNumber Type
 
 `number`
 
-### integrity
+## integrity
 
 
 
@@ -77,11 +69,11 @@ Reference this group by using
 -   cannot be null
 -   defined in: [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-integrity.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/integrity")
 
-#### integrity Type
+### integrity Type
 
 `string`
 
-### type
+## type
 
 
 
@@ -93,11 +85,11 @@ Reference this group by using
 -   cannot be null
 -   defined in: [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-type.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/type")
 
-#### type Type
+### type Type
 
 `string`
 
-#### type Constraints
+### type Constraints
 
 **enum**: the value of this property must be equal to one of the following values:
 
@@ -107,7 +99,7 @@ Reference this group by using
 | `"child"`    |             |
 | `"parent"`   |             |
 
-### userId
+## userId
 
 
 
@@ -119,45 +111,6 @@ Reference this group by using
 -   cannot be null
 -   defined in: [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-userid.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/userId")
 
-#### userId Type
+### userId Type
 
 `string`
-
-# ClientPushChangesRequest Properties
-
-| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                          |
-| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [deviceAuthToken](#deviceAuthToken) | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/deviceAuthToken") |
-| [actions](#actions)                 | `array`  | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-properties-actions.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/actions")                 |
-
-## deviceAuthToken
-
-
-
-
-`deviceAuthToken`
-
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ClientPushChangesRequest](clientpushchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/deviceAuthToken")
-
-### deviceAuthToken Type
-
-`string`
-
-## actions
-
-
-
-
-`actions`
-
--   is required
--   Type: `object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))
--   cannot be null
--   defined in: [ClientPushChangesRequest](clientpushchangesrequest-properties-actions.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/actions")
-
-### actions Type
-
-`object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))

@@ -22,7 +22,7 @@ import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '..
 import { WebsocketApi } from '../../websocket'
 import { requireMailByAuthToken } from '../authentication'
 import { prepareDeviceEntry } from '../device/prepare-device-entry'
-import { notifyClientsAboutChanges } from '../websocket'
+import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo, deviceName, websocket }: {
   database: Database
@@ -30,10 +30,11 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
   newDeviceInfo: NewDeviceInfo
   deviceName: string
   websocket: WebsocketApi
-}) => {
-  const mail = await requireMailByAuthToken({ database, mailAuthToken })
+  // no transaction here because this is directly called from an API endpoint
+}): Promise<{ deviceId: string; deviceAuthToken: string }> => {
+  return database.transaction(async (transaction) => {
+    const mail = await requireMailByAuthToken({ database, mailAuthToken, transaction })
 
-  const { response, familyId, sourceDeviceId } = await database.transaction(async (transaction) => {
     const userEntryUnsafe = await database.user.findOne({
       where: {
         mail
@@ -73,23 +74,18 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
       transaction
     })
 
-    return {
-      response: {
-        deviceId,
-        deviceAuthToken
-      },
+    await notifyClientsAboutChangesDelayed({
+      familyId: userEntry.familyId,
+      websocket,
+      database,
+      isImportant: true,
       sourceDeviceId: deviceId,
-      familyId: userEntry.familyId
+      transaction
+    })
+
+    return {
+      deviceId,
+      deviceAuthToken
     }
   })
-
-  await notifyClientsAboutChanges({
-    familyId,
-    websocket,
-    database,
-    isImportant: true,
-    sourceDeviceId
-  })
-
-  return response
 }

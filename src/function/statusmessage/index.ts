@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,16 +33,19 @@ export const setStatusMessage = async ({ database, newStatusMessage }: {
   database: Database
   newStatusMessage: string
 }) => {
-  if (newStatusMessage === '') {
-    await database.config.destroy({
-      where: {
-        id: configItemIds.statusMessage
-      }
-    })
-  } else {
-    await database.config.upsert({
-      id: configItemIds.statusMessage,
-      value: newStatusMessage
-    })
-  }
+  await database.transaction(async (transaction) => {
+    if (newStatusMessage === '') {
+      await database.config.destroy({
+        where: {
+          id: configItemIds.statusMessage
+        },
+        transaction
+      })
+    } else {
+      await database.config.upsert({
+        id: configItemIds.statusMessage,
+        value: newStatusMessage
+      }, { transaction })
+    }
+  })
 }
