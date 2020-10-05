@@ -14,8 +14,8 @@ Use this to get the server status.
 ## Response
 
 This returns a JSON object with ``websocketClients`` (of the type number,
-the number of clients connected using the websocket) and the map ``counters``
-which maps values to numbers. You should not make any assumptions about the counter names
+the number of clients connected using the websocket) and the maps ``counters`` and ``maxValues``
+which map values to numbers. You should not make any assumptions about the key names
 and their availability.
 
 ### example response
@@ -25,13 +25,16 @@ and their availability.
   "websocketClients": 3,
   "counters": {
     "testCounter": 1
+  },
+  "maxValues": {
+    "testMax": 3
   }
 }
 ```
 
 ## POST /admin/reset-counters
 
-Use this to reset the counters included in the server status.
+Use this to reset the counters and maxValues included in the server status.
 
 Although this uses POST, it does not take any request body
 

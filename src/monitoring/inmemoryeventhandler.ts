@@ -19,6 +19,7 @@ import { EventHandler } from './eventhandler'
 
 export class InMemoryEventHandler implements EventHandler {
   private counters = new Map<string, number>()
+  private maxValues = new Map<string, number>()
 
   countEvent (name: string) {
     this.counters.set(
@@ -27,17 +28,39 @@ export class InMemoryEventHandler implements EventHandler {
     )
   }
 
-  async getCounters () {
-    const result: {[key: string]: number} = {}
+  reportMax (name: string, value: number) {
+    this.maxValues.set(
+      name,
+      Math.max((this.maxValues.get(name) || 0), value)
+    )
+  }
 
-    this.counters.forEach((value, key) => {
-      result[key] = value
+  async getValues () {
+    return {
+      counters: this.buildObject(this.counters),
+      maxValues: this.buildObject(this.maxValues)
+    }
+  }
+
+  async reset () {
+    this.counters.clear()
+    this.maxValues.clear()
+  }
+
+  private buildObject<T> (map: Map<string, T>): {[key: string]: T} {
+    const result: {[key: string]: T} = {}
+
+    const keys: Array<string> = []
+    map.forEach((_, key) => keys.push(key))
+
+    keys.sort().forEach((key) => {
+      const value = map.get(key)
+
+      if (value !== undefined) {
+        result[key] = value
+      }
     })
 
     return result
-  }
-
-  async resetCounters () {
-    this.counters.clear()
   }
 }

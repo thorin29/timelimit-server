@@ -34,9 +34,12 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
 
   router.get('/status', async (_, res, next) => {
     try {
+      const { counters, maxValues } = await eventHandler.getValues()
+
       res.json({
         websocketClients: websocket.countConnections(),
-        counters: await eventHandler.getCounters()
+        counters,
+        maxValues
       })
     } catch (ex) {
       next(ex)
@@ -45,7 +48,7 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
 
   router.post('/reset-counters', async (_, res, next) => {
     try {
-      await eventHandler.resetCounters()
+      await eventHandler.reset()
 
       res.json({ ok: true })
     } catch (ex) {

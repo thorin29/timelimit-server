@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { max } from 'lodash'
+import { AddInstalledAppsAction, AppLogicAction, UpdateAppActivitiesAction } from '../../../../action'
 import { parseAppLogicAction } from '../../../../action/serialization'
 import { ClientPushChangesRequestAction } from '../../../../api/schema'
 import { isSerializedAppLogicAction } from '../../../../api/validator'
@@ -22,6 +24,30 @@ import { EventHandler } from '../../../../monitoring/eventhandler'
 import { Cache } from '../cache'
 import { dispatchAppLogicAction as dispatchAppLogicActionInternal } from '../dispatch-app-logic-action'
 import { dispatch } from './helper'
+
+function getAppRelatedMaxValues (action: AppLogicAction): {
+  packageNameLength: number | null
+  activityNameLength: number | null
+} {
+  if (action instanceof AddInstalledAppsAction) {
+    const packageNameLength = max(action.apps.map((item) => item.packageName.length)) || null
+
+    return { packageNameLength, activityNameLength: null }
+  } else if (action instanceof UpdateAppActivitiesAction) {
+    const packageNameLength = max(action.updatedOrAdded.map((item) => item.packageName.length)) || null
+    const activityNameLength = max(action.updatedOrAdded.map((item) => item.activityName.length)) || null
+
+    return { packageNameLength, activityNameLength }
+  } else return { packageNameLength: null, activityNameLength: null }
+}
+
+function roundCounterUp (input: number, factor: number) {
+  if (input % factor === 0) {
+    return input
+  } else {
+    return input - (input % factor) + factor
+  }
+}
 
 export async function dispatchAppLogicAction ({ action, eventHandler, deviceId, cache }: {
   action: ClientPushChangesRequestAction
@@ -36,6 +62,11 @@ export async function dispatchAppLogicAction ({ action, eventHandler, deviceId, 
     validator: isSerializedAppLogicAction,
     parser: parseAppLogicAction,
     applier: async (action) => {
+      const maxValues = getAppRelatedMaxValues(action)
+
+      if (maxValues.packageNameLength) eventHandler.reportMax('packageNameLength', roundCounterUp(maxValues.packageNameLength, 10))
+      if (maxValues.activityNameLength) eventHandler.reportMax('activityNameLength', roundCounterUp(maxValues.activityNameLength, 10))
+
       await dispatchAppLogicActionInternal({ action, cache, eventHandler, deviceId })
     }
   })
