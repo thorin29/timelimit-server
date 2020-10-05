@@ -107,7 +107,9 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
         if (ex instanceof ApplyActionException) {
           eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:' + ex.staticMessage)
         } else {
-          eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:other')
+          const stack = ex instanceof Error && ex.stack ? ex.stack.substring(0, 4096) : 'no stack'
+
+          eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:other:' + stack)
         }
 
         cache.requireFullSync()
