@@ -34,6 +34,8 @@ export type AppModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AppModel;
 }
 
+export const maxPackageNameLength = 255
+
 export const attributes: SequelizeAttributes<AppAttributes> = {
   familyId: {
     ...familyIdColumn,

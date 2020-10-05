@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,14 +17,24 @@
 
 import * as Sequelize from 'sequelize'
 import { AddInstalledAppsAction } from '../../../../action'
-import { AppAttributes } from '../../../../database/app'
+import { AppAttributes, maxPackageNameLength } from '../../../../database/app'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception'
 
 export async function dispatchAddInstalledApps ({ deviceId, action, cache }: {
   deviceId: string
   action: AddInstalledAppsAction
   cache: Cache
 }) {
+  action.apps.forEach((app) => {
+    if (app.packageName.length > maxPackageNameLength) {
+      throw new ApplyActionException({
+        staticMessage: 'package name too long',
+        dynamicMessage: 'package name too long: ' + app.packageName
+      })
+    }
+  })
+
   await cache.database.app.destroy({
     where: {
       familyId: cache.familyId,

@@ -18,14 +18,31 @@
 import { chunk } from 'lodash'
 import * as Sequelize from 'sequelize'
 import { UpdateAppActivitiesAction } from '../../../../action'
-import { AppActivityAttributes } from '../../../../database/appactivity'
+import { AppActivityAttributes, maxActivityNameLength, maxPackageNameLength } from '../../../../database/appactivity'
 import { Cache } from '../cache'
+import { ApplyActionException } from '../exception'
 
 export async function dispatchUpdateAppActivities ({ deviceId, action, cache }: {
   deviceId: string
   action: UpdateAppActivitiesAction
   cache: Cache
 }) {
+  action.updatedOrAdded.forEach((app) => {
+    if (app.packageName.length > maxPackageNameLength) {
+      throw new ApplyActionException({
+        staticMessage: 'package name too long',
+        dynamicMessage: 'package name too long: ' + app.packageName
+      })
+    }
+
+    if (app.activityName.length > maxActivityNameLength) {
+      throw new ApplyActionException({
+        staticMessage: 'activity name too long',
+        dynamicMessage: 'activity name too long: ' + app.activityName
+      })
+    }
+  })
+
   if (action.updatedOrAdded.length > 0) {
     const chuncks = chunk(action.updatedOrAdded, 500)
 

@@ -32,6 +32,9 @@ export type AppActivityModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AppActivityModel;
 }
 
+export const maxPackageNameLength = 255
+export const maxActivityNameLength = 255
+
 export const attributes: SequelizeAttributes<AppActivityAttributes> = {
   familyId: {
     ...familyIdColumn,
