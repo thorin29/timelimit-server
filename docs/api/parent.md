@@ -64,6 +64,9 @@ On success: object with ``deviceAuthToken`` (string) and ``ownDeviceId`` (string
 
 ## POST /parent/can-recover-password
 
+**Depreacted:** The caller should know by itself if the mail address belongs to the user.
+``/recover-parent-password`` will report a failure if it does not.
+
 Use this to check if the parent password can be recovered. This checks that the
 mail auth token matches the mail address of the parent user.
 
