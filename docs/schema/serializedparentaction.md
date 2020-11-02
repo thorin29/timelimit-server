@@ -48,6 +48,7 @@ any of
 -   [SerializedUpdateCategoryBatteryLimitAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction.md "check type definition")
 -   [SerializedUpdateCategoryBlockAllNotificationsAction](serializedparentaction-definitions-serializedupdatecategoryblockallnotificationsaction.md "check type definition")
 -   [SerializedUpdateCategoryBlockedTimesAction](serializedparentaction-definitions-serializedupdatecategoryblockedtimesaction.md "check type definition")
+-   [SerializedUpdatCategoryDisableLimitsAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction.md "check type definition")
 -   [SerializedUpdateCategorySortingAction](serializedparentaction-definitions-serializedupdatecategorysortingaction.md "check type definition")
 -   [SerializedUpdateCategoryTemporarilyBlockedAction](serializedparentaction-definitions-serializedupdatecategorytemporarilyblockedaction.md "check type definition")
 -   [SerializedUpdateCategoryTimeWarningsAction](serializedparentaction-definitions-serializedupdatecategorytimewarningsaction.md "check type definition")
@@ -2722,6 +2723,76 @@ Reference this group by using
 #### times Type
 
 `string`
+
+## Definitions group SerializedUpdatCategoryDisableLimitsAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction"}
+```
+
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                        |
+| :------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/type")             |
+| [categoryId](#categoryId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/categoryId") |
+| [endTime](#endTime)       | `number` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-endtime.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/endTime")       |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                              | Explanation |
+| :--------------------------------- | ----------- |
+| `"UPDATE_CATEGORY_DISABLE_LIMITS"` |             |
+
+### categoryId
+
+
+
+
+`categoryId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/categoryId")
+
+#### categoryId Type
+
+`string`
+
+### endTime
+
+
+
+
+`endTime`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-endtime.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/endTime")
+
+#### endTime Type
+
+`number`
 
 ## Definitions group SerializedUpdateCategorySortingAction
 

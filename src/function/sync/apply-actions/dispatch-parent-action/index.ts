@@ -48,6 +48,7 @@ import {
   UpdateCategoryBatteryLimitAction,
   UpdateCategoryBlockAllNotificationsAction,
   UpdateCategoryBlockedTimesAction,
+  UpdateCategoryDisableLimitsAction,
   UpdateCategorySortingAction,
   UpdateCategoryTemporarilyBlockedAction,
   UpdateCategoryTimeWarningsAction,
@@ -95,6 +96,7 @@ import { dispatchSetUserTimezone } from './setusertimezone'
 import { dispatchUpdateCategoryBatteryLimit } from './updatecategorybatterylimit'
 import { dispatchUpdateCategoryBlockAllNotifications } from './updatecategoryblockallnotifications'
 import { dispatchUpdateCategoryBlockedTimes } from './updatecategoryblockedtimes'
+import { dispatchUpdateCategoryDisableLimits } from './updatecategorydisablelimits'
 import { dispatchUpdateCategorySorting } from './updatecategorysorting'
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
 import { dispatchUpdateCategoryTimeWarnings } from './updatecategorytimewarnings'
@@ -129,6 +131,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
     return dispatchUpdateCategoryTemporarilyBlocked({ action, cache, fromChildSelfLimitAddChildUserId })
   } else if (action instanceof UpdateCategoryBlockedTimesAction) {
     return dispatchUpdateCategoryBlockedTimes({ action, cache, fromChildSelfLimitAddChildUserId })
+  } else if (action instanceof UpdateCategoryDisableLimitsAction) {
+    return dispatchUpdateCategoryDisableLimits({ action, cache, fromChildSelfLimitAddChildUserId })
   }
 
   if (fromChildSelfLimitAddChildUserId !== null) {

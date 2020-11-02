@@ -50,7 +50,8 @@ export async function getCategoryBaseDatas ({
       'minBatteryCharging',
       'minBatteryMobile',
       'temporarilyBlockedEndTime',
-      'sort'
+      'sort',
+      'disableLimitsUntil'
     ],
     transaction
   })).map((item) => ({
@@ -68,7 +69,8 @@ export async function getCategoryBaseDatas ({
     minBatteryCharging: item.minBatteryCharging,
     minBatteryMobile: item.minBatteryMobile,
     temporarilyBlockedEndTime: item.temporarilyBlockedEndTime,
-    sort: item.sort
+    sort: item.sort,
+    disableLimitsUntil: item.disableLimitsUntil
   }))
 
   const networkIdsForSyncing = (await database.categoryNetworkId.findAll({
@@ -111,6 +113,7 @@ export async function getCategoryBaseDatas ({
       .map((network) => ({
         itemId: network.networkItemId,
         hashedNetworkId: network.hashedNetworkId
-      }))
+      })),
+    dlu: parseInt(item.disableLimitsUntil, 10)
   }))
 }

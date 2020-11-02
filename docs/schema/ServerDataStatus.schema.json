@@ -376,6 +376,9 @@
           "items": {
             "$ref": "#/definitions/ServerCategoryNetworkId"
           }
+        },
+        "dlu": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
@@ -384,6 +387,7 @@
         "blockedTimes",
         "categoryId",
         "childId",
+        "dlu",
         "extraTime",
         "extraTimeDay",
         "mblCharging",

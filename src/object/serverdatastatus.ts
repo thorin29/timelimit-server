@@ -113,6 +113,8 @@ export interface ServerUpdatedCategoryBaseData {
   mblMobile: number
   sort: number
   networks: Array<ServerCategoryNetworkId>
+  // disable limits until
+  dlu: number
 }
 
 export interface ServerCategoryNetworkId {

@@ -65,9 +65,14 @@ export interface CategoryAttributesVersion8 {
   extraTimeDay: number
 }
 
+export interface CategoryAttributesVersion9 {
+  disableLimitsUntil: string
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
   CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5 &
-  CategoryAttributesVersion6 & CategoryAttributesVersion7 & CategoryAttributesVersion8
+  CategoryAttributesVersion6 & CategoryAttributesVersion7 & CategoryAttributesVersion8 &
+  CategoryAttributesVersion9
 
 export type CategoryModel = Sequelize.Model & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
@@ -187,6 +192,13 @@ export const attributesVersion8: SequelizeAttributes<CategoryAttributesVersion8>
   }
 }
 
+export const attributesVersion9: SequelizeAttributes<CategoryAttributesVersion9> = {
+  disableLimitsUntil: {
+    ...timestampColumn,
+    defaultValue: 0
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -195,7 +207,8 @@ export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion5,
   ...attributesVersion6,
   ...attributesVersion7,
-  ...attributesVersion8
+  ...attributesVersion8,
+  ...attributesVersion9
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic
