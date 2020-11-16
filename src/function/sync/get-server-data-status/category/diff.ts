@@ -37,7 +37,8 @@ export async function getCategoryDataToSync ({ database, transaction, familyEntr
       'baseVersion',
       'assignedAppsVersion',
       'timeLimitRulesVersion',
-      'usedTimesVersion'
+      'usedTimesVersion',
+      'taskListVersion'
     ],
     transaction
   })).map((item) => ({
@@ -45,7 +46,8 @@ export async function getCategoryDataToSync ({ database, transaction, familyEntr
     baseVersion: item.baseVersion,
     assignedAppsVersion: item.assignedAppsVersion,
     timeLimitRulesVersion: item.timeLimitRulesVersion,
-    usedTimesVersion: item.usedTimesVersion
+    usedTimesVersion: item.usedTimesVersion,
+    taskListVersion: item.taskListVersion
   }))
 
   const serverCategoryIds = serverCategoriesVersions.map((item) => item.categoryId)
@@ -60,6 +62,7 @@ export async function getCategoryDataToSync ({ database, transaction, familyEntr
   const categoryIdsToSyncAssignedApps = [...addedCategoryIds]
   const categoryIdsToSyncRules = [...addedCategoryIds]
   const categoryIdsToSyncUsedTimes = [...addedCategoryIds]
+  const categoryIdsToSyncTasks = [...addedCategoryIds]
 
   categoryIdsOfClientAndServer.forEach((categoryId) => {
     const serverEntry = serverCategoriesVersions.find((item) => item.categoryId === categoryId)
@@ -84,6 +87,10 @@ export async function getCategoryDataToSync ({ database, transaction, familyEntr
     if (serverEntry.usedTimesVersion !== clientEntry.usedTime) {
       categoryIdsToSyncUsedTimes.push(categoryId)
     }
+
+    if (serverEntry.taskListVersion !== clientEntry.tasks) {
+      categoryIdsToSyncTasks.push(categoryId)
+    }
   })
 
   const serverCategoriesVersionsMap = new Map<string, ServerCategoryVersion>()
@@ -96,6 +103,7 @@ export async function getCategoryDataToSync ({ database, transaction, familyEntr
     categoryIdsToSyncAssignedApps,
     categoryIdsToSyncRules,
     categoryIdsToSyncUsedTimes,
+    categoryIdsToSyncTasks,
     serverCategoriesVersions: {
       list: serverCategoriesVersions,
       requireByCategoryId: (categoryId) => {
@@ -117,6 +125,7 @@ export interface GetCategoryDataToSyncResult {
   categoryIdsToSyncAssignedApps: Array<string>
   categoryIdsToSyncRules: Array<string>
   categoryIdsToSyncUsedTimes: Array<string>
+  categoryIdsToSyncTasks: Array<string>
   serverCategoriesVersions: ServerCategoryVersions
 }
 
@@ -131,4 +140,5 @@ export interface ServerCategoryVersion {
   assignedAppsVersion: string
   timeLimitRulesVersion: string
   usedTimesVersion: string
+  taskListVersion: string
 }

@@ -20,6 +20,7 @@ import { AddUsedTimeAction, SerializedAddUsedTimeAction } from '../addusedtime'
 import { AddUsedTimeActionVersion2, SerializedAddUsedTimeActionVersion2 } from '../addusedtime2'
 import { AppLogicAction } from '../basetypes'
 import { ForceSyncAction, SerializedForceSyncAction } from '../forcesync'
+import { MarkTaskPendingAction, SerializedMarkTaskPendingAction } from '../marktaskpendingaction'
 import { UnknownActionTypeException } from '../meta/exception'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
 import { SerializedSignOutAtDeviceAction, SignOutAtDeviceAction } from '../signoutatdevice'
@@ -32,6 +33,7 @@ export type SerializedAppLogicAction =
   SerializedAddUsedTimeAction |
   SerializedAddUsedTimeActionVersion2 |
   SerializedForceSyncAction |
+  SerializedMarkTaskPendingAction |
   SerializedRemoveInstalledAppsAction |
   SerializedSignOutAtDeviceAction |
   SerialiezdTriedDisablingDeviceAdminAction |
@@ -47,6 +49,8 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
     return AddInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'FORCE_SYNC') {
     return ForceSyncAction.parse(serialized)
+  } else if (serialized.type === 'MARK_TASK_PENDING') {
+    return MarkTaskPendingAction.parse(serialized)
   } else if (serialized.type === 'REMOVE_INSTALLED_APPS') {
     return RemoveInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'SIGN_OUT_AT_DEVICE') {

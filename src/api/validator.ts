@@ -84,6 +84,9 @@ const definitions = {
       },
       "usedTime": {
         "type": "string"
+      },
+      "tasks": {
+        "type": "string"
       }
     },
     "additionalProperties": false,
@@ -357,6 +360,25 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedDeleteChildTaskAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "DELETE_CHILD_TASK"
+        ]
+      },
+      "taskId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "taskId",
+      "type"
+    ]
+  },
   "SerializedDeleteTimeLimitRuleAction": {
     "type": "object",
     "properties": {
@@ -563,6 +585,33 @@ const definitions = {
     "additionalProperties": false,
     "required": [
       "parentId",
+      "type"
+    ]
+  },
+  "SerializedReviewChildTaskAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "REVIEW_CHILD_TASK"
+        ]
+      },
+      "taskId": {
+        "type": "string"
+      },
+      "ok": {
+        "type": "boolean"
+      },
+      "time": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "ok",
+      "taskId",
+      "time",
       "type"
     ]
   },
@@ -1060,6 +1109,41 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateChildTaskAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_CHILD_TASK"
+        ]
+      },
+      "isNew": {
+        "type": "boolean"
+      },
+      "taskId": {
+        "type": "string"
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "taskTitle": {
+        "type": "string"
+      },
+      "extraTimeDuration": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
+      "extraTimeDuration",
+      "isNew",
+      "taskId",
+      "taskTitle",
+      "type"
+    ]
+  },
   "SerializedUpdateDeviceNameAction": {
     "type": "object",
     "properties": {
@@ -1481,6 +1565,25 @@ const definitions = {
     },
     "additionalProperties": false,
     "required": [
+      "type"
+    ]
+  },
+  "SerializedMarkTaskPendingAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "MARK_TASK_PENDING"
+        ]
+      },
+      "taskId": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "taskId",
       "type"
     ]
   },
@@ -2178,6 +2281,57 @@ const definitions = {
       "start"
     ]
   },
+  "ServerUpdatedCategoryTasks": {
+    "type": "object",
+    "properties": {
+      "categoryId": {
+        "type": "string"
+      },
+      "version": {
+        "type": "string"
+      },
+      "tasks": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ServerUpdatedCategoryTask"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
+      "tasks",
+      "version"
+    ]
+  },
+  "ServerUpdatedCategoryTask": {
+    "type": "object",
+    "properties": {
+      "i": {
+        "type": "string"
+      },
+      "t": {
+        "type": "string"
+      },
+      "d": {
+        "type": "number"
+      },
+      "p": {
+        "type": "boolean"
+      },
+      "l": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "d",
+      "i",
+      "l",
+      "p",
+      "t"
+    ]
+  },
   "ServerUserList": {
     "type": "object",
     "properties": {
@@ -2461,6 +2615,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
       "$ref": "#/definitions/SerializedDeleteCategoryAction"
     },
     {
+      "$ref": "#/definitions/SerializedDeleteChildTaskAction"
+    },
+    {
       "$ref": "#/definitions/SerializedDeleteTimeLimitRuleAction"
     },
     {
@@ -2483,6 +2640,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedResetParentBlockedTimesAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedReviewChildTaskAction"
     },
     {
       "$ref": "#/definitions/SerializedSetCategoryExtraTimeAction"
@@ -2548,6 +2708,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
       "$ref": "#/definitions/SerializedUpdateCategoryTitleAction"
     },
     {
+      "$ref": "#/definitions/SerializedUpdateChildTaskAction"
+    },
+    {
       "$ref": "#/definitions/SerializedUpdateDeviceNameAction"
     },
     {
@@ -2588,6 +2751,9 @@ export const isSerializedAppLogicAction: (value: object) => value is SerializedA
     },
     {
       "$ref": "#/definitions/SerializedForceSyncAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedMarkTaskPendingAction"
     },
     {
       "$ref": "#/definitions/SerializedRemoveInstalledAppsAction"

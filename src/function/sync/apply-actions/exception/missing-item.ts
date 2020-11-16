@@ -42,3 +42,9 @@ export class MissingDeviceException extends MissingItemException {
     super({ staticMessage: 'referenced device which does not exist' })
   }
 }
+
+export class MissingTaskException extends MissingItemException {
+  constructor () {
+    super({ staticMessage: 'referenced task which does not exist' })
+  }
+}

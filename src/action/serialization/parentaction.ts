@@ -23,6 +23,7 @@ import { ChangeParentPasswordAction, SerializedChangeParentPasswordAction } from
 import { CreateCategoryAction, SerializedCreateCategoryAction } from '../createcategory'
 import { CreateTimeLimitRuleAction, SerializedCreateTimelimtRuleAction } from '../createtimelimitrule'
 import { DeleteCategoryAction, SerializedDeleteCategoryAction } from '../deletecategory'
+import { DeleteChildTaskAction, SerializedDeleteChildTaskAction } from '../deletechildtaskaction'
 import { DeleteTimeLimitRuleAction, SerializedDeleteTimeLimitRuleAction } from '../deletetimelimitrule'
 import { IgnoreManipulationAction, SerializedIgnoreManipulationAction } from '../ignoremanipulation'
 import { IncrementCategoryExtraTimeAction, SerializedIncrementCategoryExtraTimeAction } from '../incrementcategoryextratime'
@@ -32,6 +33,7 @@ import { RemoveUserAction, SerializedRemoveUserAction } from '../removeuser'
 import { RenameChildAction, SerializedRenameChildAction } from '../renamechild'
 import { ResetCategoryNetworkIdsAction, SerializeResetCategoryNetworkIdsAction } from '../resetcategorynetworkids'
 import { ResetParentBlockedTimesAction, SerializedResetParentBlockedTimesAction } from '../resetparentblockedtimes'
+import { ReviewChildTaskAction, SerializedReviewChildTaskAction } from '../reviewchildtaskaction'
 import { SerializedSetCategoryExtraTimeAction, SetCategoryExtraTimeAction } from '../setcategoryextratime'
 import { SerializedSetCategoryForUnassignedAppsAction, SetCategoryForUnassignedAppsAction } from '../setcategoryforunassignedapps'
 import { SerializedSetChildPasswordAction, SetChildPasswordAction } from '../setchildpassword'
@@ -53,6 +55,7 @@ import { SerializedUpdateCategorySortingAction, UpdateCategorySortingAction } fr
 import { SerializedUpdateCategoryTemporarilyBlockedAction, UpdateCategoryTemporarilyBlockedAction } from '../updatecategorytemporarilyblocked'
 import { SerializedUpdateCategoryTimeWarningsAction, UpdateCategoryTimeWarningsAction } from '../updatecategorytimewarnings'
 import { SerializedUpdateCategoryTitleAction, UpdateCategoryTitleAction } from '../updatecategorytitle'
+import { SerializedUpdateChildTaskAction, UpdateChildTaskAction } from '../updatechildtaskaction'
 import { SerializedUpdateDeviceNameAction, UpdateDeviceNameAction } from '../updatedevicename'
 import { SerializedUpdateEnableActivityLevelBlockingAction, UpdateEnableActivityLevelBlockingAction } from '../updateenableactivitylevelblocking'
 import { SerialiizedUpdateNetworkTimeVerificationAction, UpdateNetworkTimeVerificationAction } from '../updatenetworktimeverification'
@@ -70,6 +73,7 @@ export type SerializedParentAction =
   SerializedCreateCategoryAction |
   SerializedCreateTimelimtRuleAction |
   SerializedDeleteCategoryAction |
+  SerializedDeleteChildTaskAction |
   SerializedDeleteTimeLimitRuleAction |
   SerializedIgnoreManipulationAction |
   SerializedIncrementCategoryExtraTimeAction |
@@ -78,6 +82,7 @@ export type SerializedParentAction =
   SerializedRenameChildAction |
   SerializeResetCategoryNetworkIdsAction |
   SerializedResetParentBlockedTimesAction |
+  SerializedReviewChildTaskAction |
   SerializedSetCategoryForUnassignedAppsAction |
   SerializedSetChildPasswordAction |
   SerializedSetConsiderRebootManipulationAction |
@@ -99,6 +104,7 @@ export type SerializedParentAction =
   SerializedUpdateCategoryTemporarilyBlockedAction |
   SerializedUpdateCategoryTimeWarningsAction |
   SerializedUpdateCategoryTitleAction |
+  SerializedUpdateChildTaskAction |
   SerializedUpdateDeviceNameAction |
   SerializedUpdateEnableActivityLevelBlockingAction |
   SerialiizedUpdateNetworkTimeVerificationAction |
@@ -123,6 +129,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return CreateTimeLimitRuleAction.parse(action)
   } else if (action.type === 'DELETE_CATEGORY') {
     return DeleteCategoryAction.parse(action)
+  } else if (action.type === 'DELETE_CHILD_TASK') {
+    return DeleteChildTaskAction.parse(action)
   } else if (action.type === 'DELETE_TIMELIMIT_RULE') {
     return DeleteTimeLimitRuleAction.parse(action)
   } else if (action.type === 'IGNORE_MANIPULATION') {
@@ -139,6 +147,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return ResetCategoryNetworkIdsAction.parse(action)
   } else if (action.type === 'RESET_PARENT_BLOCKED_TIMES') {
     return ResetParentBlockedTimesAction.parse(action)
+  } else if (action.type === 'REVIEW_CHILD_TASK') {
+    return ReviewChildTaskAction.parse(action)
   } else if (action.type === 'SET_CATEGORY_EXTRA_TIME') {
     return SetCategoryExtraTimeAction.parse(action)
   } else if (action.type === 'SET_CATEGORY_FOR_UNASSIGNED_APPS') {
@@ -179,6 +189,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateCategoryTimeWarningsAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_TITLE') {
     return UpdateCategoryTitleAction.parse(action)
+  } else if (action.type === 'UPDATE_CHILD_TASK') {
+    return UpdateChildTaskAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_TEMPORARILY_BLOCKED') {
     return UpdateCategoryTemporarilyBlockedAction.parse(action)
   } else if (action.type === 'UPDATE_DEVICE_NAME') {

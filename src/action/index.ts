@@ -72,3 +72,7 @@ export { UpdateParentNotificationFlagsAction } from './updateparentnotificationf
 export { UpdateTimelimitRuleAction } from './updatetimelimitrule'
 export { UpdateUserFlagsAction } from './updateuserflags'
 export { UpdateUserLimitLoginCategory } from './updateuserlimitlogincategory'
+export { MarkTaskPendingAction } from './marktaskpendingaction'
+export { DeleteChildTaskAction } from './deletechildtaskaction'
+export { UpdateChildTaskAction } from './updatechildtaskaction'
+export { ReviewChildTaskAction } from './reviewchildtaskaction'

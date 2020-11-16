@@ -31,4 +31,5 @@ export interface CategoryDataStatus {
   apps: string  // assignedAppsVersion
   rules: string  // timeLimitRulesVersion
   usedTime: string  // usedTimeItemsVersion
+  tasks?: string   // taskListVersion
 }

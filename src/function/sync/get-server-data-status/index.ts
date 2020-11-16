@@ -23,7 +23,8 @@ import { ClientDataStatus } from '../../../object/clientdatastatus'
 import { ServerDataStatus } from '../../../object/serverdatastatus'
 import { getAppList } from './app-list'
 import {
-  getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync, getRules, getUsedTimes
+  getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync,
+  getRules, getTasks, getUsedTimes
 } from './category'
 import { getDeviceList } from './device-list'
 import { getFamilyEntry } from './family-entry'
@@ -36,6 +37,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
   transaction: Sequelize.Transaction
 }): Promise<ServerDataStatus> => {
   const familyEntry = await getFamilyEntry({ database, familyId, transaction })
+  const doesClientSupportTasks = clientStatus.clientLevel !== undefined && clientStatus.clientLevel >= 3
 
   let result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
@@ -89,6 +91,14 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       serverCategoriesVersions: categoryDataToSync.serverCategoriesVersions,
       categoryIdsToSyncUsedTimes: categoryDataToSync.categoryIdsToSyncUsedTimes,
       clientLevel: clientStatus.clientLevel || null
+    })
+  }
+
+  if (categoryDataToSync.categoryIdsToSyncTasks.length > 0 && doesClientSupportTasks) {
+    result.tasks = await getTasks({
+      database, transaction, familyEntry,
+      serverCategoriesVersions: categoryDataToSync.serverCategoriesVersions,
+      categoryIdsToSyncTasks: categoryDataToSync.categoryIdsToSyncTasks
     })
   }
 

@@ -76,7 +76,8 @@ export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimi
     blockAllNotifications: false,
     timeWarningFlags: 0,
     sort,
-    disableLimitsUntil: 0
+    disableLimitsUntil: 0,
+    taskListVersion: generateVersionId()
   }, { transaction: cache.transaction })
 
   // update the cache

@@ -24,6 +24,7 @@ any of
 -   [SerializedCreateCategoryAction](serializedparentaction-definitions-serializedcreatecategoryaction.md "check type definition")
 -   [SerializedCreateTimelimtRuleAction](serializedparentaction-definitions-serializedcreatetimelimtruleaction.md "check type definition")
 -   [SerializedDeleteCategoryAction](serializedparentaction-definitions-serializeddeletecategoryaction.md "check type definition")
+-   [SerializedDeleteChildTaskAction](serializedparentaction-definitions-serializeddeletechildtaskaction.md "check type definition")
 -   [SerializedDeleteTimeLimitRuleAction](serializedparentaction-definitions-serializeddeletetimelimitruleaction.md "check type definition")
 -   [SerializedIgnoreManipulationAction](serializedparentaction-definitions-serializedignoremanipulationaction.md "check type definition")
 -   [SerializedIncrementCategoryExtraTimeAction](serializedparentaction-definitions-serializedincrementcategoryextratimeaction.md "check type definition")
@@ -32,6 +33,7 @@ any of
 -   [SerializedRenameChildAction](serializedparentaction-definitions-serializedrenamechildaction.md "check type definition")
 -   [SerializeResetCategoryNetworkIdsAction](serializedparentaction-definitions-serializeresetcategorynetworkidsaction.md "check type definition")
 -   [SerializedResetParentBlockedTimesAction](serializedparentaction-definitions-serializedresetparentblockedtimesaction.md "check type definition")
+-   [SerializedReviewChildTaskAction](serializedparentaction-definitions-serializedreviewchildtaskaction.md "check type definition")
 -   [SerializedSetCategoryExtraTimeAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction.md "check type definition")
 -   [SerializedSetCategoryForUnassignedAppsAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction.md "check type definition")
 -   [SerializedSetChildPasswordAction](serializedparentaction-definitions-serializedsetchildpasswordaction.md "check type definition")
@@ -53,6 +55,7 @@ any of
 -   [SerializedUpdateCategoryTemporarilyBlockedAction](serializedparentaction-definitions-serializedupdatecategorytemporarilyblockedaction.md "check type definition")
 -   [SerializedUpdateCategoryTimeWarningsAction](serializedparentaction-definitions-serializedupdatecategorytimewarningsaction.md "check type definition")
 -   [SerializedUpdateCategoryTitleAction](serializedparentaction-definitions-serializedupdatecategorytitleaction.md "check type definition")
+-   [SerializedUpdateChildTaskAction](serializedparentaction-definitions-serializedupdatechildtaskaction.md "check type definition")
 -   [SerializedUpdateDeviceNameAction](serializedparentaction-definitions-serializedupdatedevicenameaction.md "check type definition")
 -   [SerializedUpdateEnableActivityLevelBlockingAction](serializedparentaction-definitions-serializedupdateenableactivitylevelblockingaction.md "check type definition")
 -   [SerialiizedUpdateNetworkTimeVerificationAction](serializedparentaction-definitions-serialiizedupdatenetworktimeverificationaction.md "check type definition")
@@ -891,6 +894,59 @@ Reference this group by using
 
 `string`
 
+## Definitions group SerializedDeleteChildTaskAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction"}
+```
+
+| Property          | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                          |
+| :---------------- | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/type")     |
+| [taskId](#taskId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/taskId") |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                 | Explanation |
+| :-------------------- | ----------- |
+| `"DELETE_CHILD_TASK"` |             |
+
+### taskId
+
+
+
+
+`taskId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/taskId")
+
+#### taskId Type
+
+`string`
+
 ## Definitions group SerializedDeleteTimeLimitRuleAction
 
 Reference this group by using
@@ -1569,6 +1625,93 @@ Reference this group by using
 #### parentId Type
 
 `string`
+
+## Definitions group SerializedReviewChildTaskAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction"}
+```
+
+| Property          | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                                          |
+| :---------------- | --------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)     | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/type")     |
+| [taskId](#taskId) | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/taskId") |
+| [ok](#ok)         | `boolean` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-ok.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/ok")         |
+| [time](#time)     | `number`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-time.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/time")     |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                 | Explanation |
+| :-------------------- | ----------- |
+| `"REVIEW_CHILD_TASK"` |             |
+
+### taskId
+
+
+
+
+`taskId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/taskId")
+
+#### taskId Type
+
+`string`
+
+### ok
+
+
+
+
+`ok`
+
+-   is required
+-   Type: `boolean`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-ok.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/ok")
+
+#### ok Type
+
+`boolean`
+
+### time
+
+
+
+
+`time`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-time.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/time")
+
+#### time Type
+
+`number`
 
 ## Definitions group SerializedSetCategoryExtraTimeAction
 
@@ -3090,6 +3233,127 @@ Reference this group by using
 #### newTitle Type
 
 `string`
+
+## Definitions group SerializedUpdateChildTaskAction
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction"}
+```
+
+| Property                                | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                                                                |
+| :-------------------------------------- | --------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)                           | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/type")                           |
+| [isNew](#isNew)                         | `boolean` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-isnew.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/isNew")                         |
+| [taskId](#taskId)                       | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/taskId")                       |
+| [categoryId](#categoryId)               | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/categoryId")               |
+| [taskTitle](#taskTitle)                 | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-tasktitle.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/taskTitle")                 |
+| [extraTimeDuration](#extraTimeDuration) | `number`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-extratimeduration.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/extraTimeDuration") |
+
+### type
+
+
+
+
+`type`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/type")
+
+#### type Type
+
+`string`
+
+#### type Constraints
+
+**enum**: the value of this property must be equal to one of the following values:
+
+| Value                 | Explanation |
+| :-------------------- | ----------- |
+| `"UPDATE_CHILD_TASK"` |             |
+
+### isNew
+
+
+
+
+`isNew`
+
+-   is required
+-   Type: `boolean`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-isnew.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/isNew")
+
+#### isNew Type
+
+`boolean`
+
+### taskId
+
+
+
+
+`taskId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/taskId")
+
+#### taskId Type
+
+`string`
+
+### categoryId
+
+
+
+
+`categoryId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/categoryId")
+
+#### categoryId Type
+
+`string`
+
+### taskTitle
+
+
+
+
+`taskTitle`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-tasktitle.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/taskTitle")
+
+#### taskTitle Type
+
+`string`
+
+### extraTimeDuration
+
+
+
+
+`extraTimeDuration`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatechildtaskaction-properties-extratimeduration.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateChildTaskAction/properties/extraTimeDuration")
+
+#### extraTimeDuration Type
+
+`number`
 
 ## Definitions group SerializedUpdateDeviceNameAction
 

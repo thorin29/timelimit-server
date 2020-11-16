@@ -1838,6 +1838,164 @@ Reference this group by using
 
 `number`
 
+## Definitions group ServerUpdatedCategoryTasks
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks"}
+```
+
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                      |
+| :------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [categoryId](#categoryId) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-categoryid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/categoryId") |
+| [version](#version)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-version.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/version")       |
+| [tasks](#tasks)           | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-tasks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/tasks")           |
+
+### categoryId
+
+
+
+
+`categoryId`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-categoryid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/categoryId")
+
+#### categoryId Type
+
+`string`
+
+### version
+
+
+
+
+`version`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-version.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/version")
+
+#### version Type
+
+`string`
+
+### tasks
+
+
+
+
+`tasks`
+
+-   is required
+-   Type: `object[]` ([ServerUpdatedCategoryTask](serverdatastatus-definitions-serverupdatedcategorytask.md))
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-tasks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/tasks")
+
+#### tasks Type
+
+`object[]` ([ServerUpdatedCategoryTask](serverdatastatus-definitions-serverupdatedcategorytask.md))
+
+## Definitions group ServerUpdatedCategoryTask
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask"}
+```
+
+| Property | Type      | Required | Nullable       | Defined by                                                                                                                                                                                  |
+| :------- | --------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [i](#i)  | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-i.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/i") |
+| [t](#t)  | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-t.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/t") |
+| [d](#d)  | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-d.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/d") |
+| [p](#p)  | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-p.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/p") |
+| [l](#l)  | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-l.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/l") |
+
+### i
+
+
+
+
+`i`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-i.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/i")
+
+#### i Type
+
+`string`
+
+### t
+
+
+
+
+`t`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-t.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/t")
+
+#### t Type
+
+`string`
+
+### d
+
+
+
+
+`d`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-d.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/d")
+
+#### d Type
+
+`number`
+
+### p
+
+
+
+
+`p`
+
+-   is required
+-   Type: `boolean`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-p.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/p")
+
+#### p Type
+
+`boolean`
+
+### l
+
+
+
+
+`l`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytask-properties-l.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTask/properties/l")
+
+#### l Type
+
+`number`
+
 ## Definitions group ServerUserList
 
 Reference this group by using
@@ -2169,6 +2327,7 @@ Reference this group by using
 | [categoryApp](#categoryApp)   | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-categoryapp.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/categoryApp")   |
 | [usedTimes](#usedTimes)       | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-usedtimes.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/usedTimes")       |
 | [rules](#rules)               | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-rules.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/rules")               |
+| [tasks](#tasks)               | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-tasks.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/tasks")               |
 | [users](#users)               | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/users")     |
 | [fullVersion](#fullVersion)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-fullversion.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/fullVersion")   |
 | [message](#message)           | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-message.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/message")           |
@@ -2284,6 +2443,22 @@ Reference this group by using
 ### rules Type
 
 `object[]` ([ServerUpdatedTimeLimitRules](serverdatastatus-definitions-serverupdatedtimelimitrules.md))
+
+## tasks
+
+
+
+
+`tasks`
+
+-   is optional
+-   Type: `object[]` ([ServerUpdatedCategoryTasks](serverdatastatus-definitions-serverupdatedcategorytasks.md))
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-properties-tasks.md "https&#x3A;//timelimit.io/ServerDataStatus#/properties/tasks")
+
+### tasks Type
+
+`object[]` ([ServerUpdatedCategoryTasks](serverdatastatus-definitions-serverupdatedcategorytasks.md))
 
 ## users
 

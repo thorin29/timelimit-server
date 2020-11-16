@@ -13,6 +13,9 @@
       "$ref": "#/definitions/SerializedForceSyncAction"
     },
     {
+      "$ref": "#/definitions/SerializedMarkTaskPendingAction"
+    },
+    {
       "$ref": "#/definitions/SerializedRemoveInstalledAppsAction"
     },
     {
@@ -242,6 +245,26 @@
         "type"
       ],
       "title": "SerializedForceSyncAction"
+    },
+    "SerializedMarkTaskPendingAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "MARK_TASK_PENDING"
+          ]
+        },
+        "taskId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "taskId",
+        "type"
+      ],
+      "title": "SerializedMarkTaskPendingAction"
     },
     "SerializedRemoveInstalledAppsAction": {
       "type": "object",

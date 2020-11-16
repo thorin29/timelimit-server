@@ -18,5 +18,6 @@
 export { getCategoryDataToSync } from './diff'
 export { getCategoryBaseDatas } from './base-data'
 export { getRules } from './rules'
+export { getTasks } from './tasks'
 export { getUsedTimes } from './used-times'
 export { getCategoryAssignedApps } from './assigned-apps'

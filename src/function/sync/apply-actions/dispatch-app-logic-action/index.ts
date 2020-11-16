@@ -21,6 +21,7 @@ import {
   AddUsedTimeActionVersion2,
   AppLogicAction,
   ForceSyncAction,
+  MarkTaskPendingAction,
   RemoveInstalledAppsAction,
   SignOutAtDeviceAction,
   TriedDisablingDeviceAdminAction,
@@ -34,6 +35,7 @@ import { dispatchAddInstalledApps } from './addinstalledapps'
 import { dispatchAddUsedTime } from './addusedtime'
 import { dispatchAddUsedTimeVersion2 } from './addusedtime2'
 import { dispatchForceSyncAction } from './forcesync'
+import { dispatchMarkTaskPendingAction } from './marktaskpendingaction'
 import { dispatchRemoveInstalledApps } from './removeinstalledapps'
 import { dispatchSignOutAtDevice } from './signoutatdevice'
 import { dispatchTriedDisablingDeviceAdmin } from './trieddisablingdeviceadmin'
@@ -54,6 +56,8 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHan
     await dispatchAddUsedTimeVersion2({ deviceId, action, cache, eventHandler })
   } else if (action instanceof ForceSyncAction) {
     await dispatchForceSyncAction({ deviceId, action, cache })
+  } else if (action instanceof MarkTaskPendingAction) {
+    await dispatchMarkTaskPendingAction({ deviceId, action, cache })
   } else if (action instanceof RemoveInstalledAppsAction) {
     await dispatchRemoveInstalledApps({ deviceId, action, cache })
   } else if (action instanceof SignOutAtDeviceAction) {

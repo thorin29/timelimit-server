@@ -25,6 +25,7 @@ import { AuthTokenModelStatic, createAuthtokenModel } from './authtoken'
 import { CategoryModelStatic, createCategoryModel } from './category'
 import { CategoryAppModelStatic, createCategoryAppModel } from './categoryapp'
 import { CategoryNetworkIdModelStatic, createCategoryNetworkIdModel } from './categorynetworkid'
+import { ChildTaskModelStatic, createChildTaskModel } from './childtask'
 import { configItemIds, ConfigModelStatic, createConfigModel } from './config'
 import { createDeviceModel, DeviceModelStatic } from './device'
 import { createFamilyModel, FamilyModelStatic } from './family'
@@ -48,6 +49,7 @@ export interface Database {
   category: CategoryModelStatic
   categoryApp: CategoryAppModelStatic
   categoryNetworkId: CategoryNetworkIdModelStatic
+  childTask: ChildTaskModelStatic
   config: ConfigModelStatic
   device: DeviceModelStatic
   family: FamilyModelStatic
@@ -70,6 +72,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   appActivity: createAppActivityModel(sequelize),
   category: createCategoryModel(sequelize),
   categoryApp: createCategoryAppModel(sequelize),
+  childTask: createChildTaskModel(sequelize),
   categoryNetworkId: createCategoryNetworkIdModel(sequelize),
   config: createConfigModel(sequelize),
   device: createDeviceModel(sequelize),

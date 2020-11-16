@@ -29,6 +29,7 @@ export interface ServerDataStatus {
   categoryApp?: Array<ServerUpdatedCategoryAssignedApps>  // newCategoryAssignedApps
   usedTimes?: Array<ServerUpdatedCategoryUsedTimes>  // newCategoryUsedTimes
   rules?: Array<ServerUpdatedTimeLimitRules> // newOrUpdatedTimeLimitRules
+  tasks?: Array<ServerUpdatedCategoryTasks> // newOrUpdatedTasks
   users?: ServerUserList  // newUserList
   fullVersion: number     // fullVersionUntil
   message?: string
@@ -186,6 +187,20 @@ export interface ServerTimeLimitRule {
   end: number         // endMinuteOfDay
   session: number     // maximum session duration
   pause: number       // session pause duration
+}
+
+export interface ServerUpdatedCategoryTasks {
+  categoryId: string
+  version: string
+  tasks: Array<ServerUpdatedCategoryTask>
+}
+
+export interface ServerUpdatedCategoryTask {
+  i: string // taskId
+  t: string // taskTitle
+  d: number // extraTimeDuration
+  p: boolean  // pendingRequest
+  l: number   // lastGrantTimestamp
 }
 
 export interface ServerInstalledAppsData {

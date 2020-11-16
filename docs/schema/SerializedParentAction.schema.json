@@ -22,6 +22,9 @@
       "$ref": "#/definitions/SerializedDeleteCategoryAction"
     },
     {
+      "$ref": "#/definitions/SerializedDeleteChildTaskAction"
+    },
+    {
       "$ref": "#/definitions/SerializedDeleteTimeLimitRuleAction"
     },
     {
@@ -44,6 +47,9 @@
     },
     {
       "$ref": "#/definitions/SerializedResetParentBlockedTimesAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedReviewChildTaskAction"
     },
     {
       "$ref": "#/definitions/SerializedSetCategoryExtraTimeAction"
@@ -107,6 +113,9 @@
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategoryTitleAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateChildTaskAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateDeviceNameAction"
@@ -394,6 +403,26 @@
       ],
       "title": "SerializedDeleteCategoryAction"
     },
+    "SerializedDeleteChildTaskAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "DELETE_CHILD_TASK"
+          ]
+        },
+        "taskId": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "taskId",
+        "type"
+      ],
+      "title": "SerializedDeleteChildTaskAction"
+    },
     "SerializedDeleteTimeLimitRuleAction": {
       "type": "object",
       "properties": {
@@ -610,6 +639,34 @@
         "type"
       ],
       "title": "SerializedResetParentBlockedTimesAction"
+    },
+    "SerializedReviewChildTaskAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "REVIEW_CHILD_TASK"
+          ]
+        },
+        "taskId": {
+          "type": "string"
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "time": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ok",
+        "taskId",
+        "time",
+        "type"
+      ],
+      "title": "SerializedReviewChildTaskAction"
     },
     "SerializedSetCategoryExtraTimeAction": {
       "type": "object",
@@ -1125,6 +1182,42 @@
         "type"
       ],
       "title": "SerializedUpdateCategoryTitleAction"
+    },
+    "SerializedUpdateChildTaskAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "UPDATE_CHILD_TASK"
+          ]
+        },
+        "isNew": {
+          "type": "boolean"
+        },
+        "taskId": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "taskTitle": {
+          "type": "string"
+        },
+        "extraTimeDuration": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryId",
+        "extraTimeDuration",
+        "isNew",
+        "taskId",
+        "taskTitle",
+        "type"
+      ],
+      "title": "SerializedUpdateChildTaskAction"
     },
     "SerializedUpdateDeviceNameAction": {
       "type": "object",

@@ -62,6 +62,9 @@
         },
         "usedTime": {
           "type": "string"
+        },
+        "tasks": {
+          "type": "string"
         }
       },
       "additionalProperties": false,

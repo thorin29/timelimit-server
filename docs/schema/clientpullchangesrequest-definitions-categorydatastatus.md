@@ -23,6 +23,7 @@ https://timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus
 | [apps](#apps)         | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-apps.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/apps")         |
 | [rules](#rules)       | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-rules.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/rules")       |
 | [usedTime](#usedTime) | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-usedtime.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/usedTime") |
+| [tasks](#tasks)       | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-tasks.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/tasks")       |
 
 ## base
 
@@ -85,5 +86,21 @@ https://timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus
 -   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-usedtime.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/usedTime")
 
 ### usedTime Type
+
+`string`
+
+## tasks
+
+
+
+
+`tasks`
+
+-   is optional
+-   Type: `string`
+-   cannot be null
+-   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-tasks.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/tasks")
+
+### tasks Type
 
 `string`

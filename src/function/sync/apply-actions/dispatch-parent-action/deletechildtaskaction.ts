@@ -1,0 +1,48 @@
+/*
+ * server component for the TimeLimit App
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { DeleteChildTaskAction } from '../../../../action'
+import { Cache } from '../cache'
+import { MissingTaskException } from '../exception/missing-item'
+
+export async function dispatchDeleteChildTaskAction ({ action, cache }: {
+  action: DeleteChildTaskAction
+  cache: Cache
+}) {
+  const taskInfoUnsafe = await cache.database.childTask.findOne({
+    where: {
+      familyId: cache.familyId,
+      taskId: action.taskId
+    },
+    transaction: cache.transaction,
+    attributes: ['categoryId']
+  })
+
+  if (taskInfoUnsafe === null) throw new MissingTaskException()
+
+  const taskInfo = { categoryId: taskInfoUnsafe.categoryId }
+
+  await cache.database.childTask.destroy({
+    where: {
+      familyId: cache.familyId,
+      taskId: action.taskId
+    },
+    transaction: cache.transaction
+  })
+
+  cache.categoriesWithModifiedTasks.add(taskInfo.categoryId)
+}

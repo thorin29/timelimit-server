@@ -37,6 +37,7 @@ export class Cache {
   categoriesWithModifiedBaseData = new Set<string>()
   categoriesWithModifiedTimeLimitRules = new Set<string>()
   categoriesWithModifiedUsedTimes = new Set<string>()
+  categoriesWithModifiedTasks = new Set<string>()
 
   devicesWithModifiedInstalledApps = new Set<string>()
   devicesWithModifiedShowDeviceConnected = new Map<string, boolean>()
@@ -201,6 +202,22 @@ export class Cache {
           familyId,
           categoryId: {
             [Sequelize.Op.in]: setToList(this.categoriesWithModifiedUsedTimes)
+          }
+        },
+        transaction
+      })
+
+      this.categoriesWithModifiedUsedTimes.clear()
+    }
+
+    if (this.categoriesWithModifiedTasks.size > 0) {
+      await database.category.update({
+        taskListVersion: generateVersionId()
+      }, {
+        where: {
+          familyId,
+          categoryId: {
+            [Sequelize.Op.in]: setToList(this.categoriesWithModifiedTasks)
           }
         },
         transaction

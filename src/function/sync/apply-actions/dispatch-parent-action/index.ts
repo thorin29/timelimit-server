@@ -23,6 +23,7 @@ import {
   CreateCategoryAction,
   CreateTimeLimitRuleAction,
   DeleteCategoryAction,
+  DeleteChildTaskAction,
   DeleteTimeLimitRuleAction,
   IgnoreManipulationAction,
   IncrementCategoryExtraTimeAction,
@@ -32,6 +33,7 @@ import {
   RenameChildAction,
   ResetCategoryNetworkIdsAction,
   ResetParentBlockedTimesAction,
+  ReviewChildTaskAction,
   SetCategoryExtraTimeAction,
   SetCategoryForUnassignedAppsAction,
   SetChildPasswordAction,
@@ -53,6 +55,7 @@ import {
   UpdateCategoryTemporarilyBlockedAction,
   UpdateCategoryTimeWarningsAction,
   UpdateCategoryTitleAction,
+  UpdateChildTaskAction,
   UpdateDeviceNameAction,
   UpdateEnableActivityLevelBlockingAction,
   UpdateNetworkTimeVerificationAction,
@@ -72,6 +75,7 @@ import { dispatchChangeParentPassword } from './changeparentpassword'
 import { dispatchCreateCategory } from './createcategory'
 import { dispatchCreateTimeLimitRule } from './createtimelimitrule'
 import { dispatchDeleteCategory } from './deletecategory'
+import { dispatchDeleteChildTaskAction } from './deletechildtaskaction'
 import { dispatchDeleteTimeLimitRule } from './deletetimelimitrule'
 import { dispatchIgnoreManipulation } from './ignoremanipulation'
 import { dispatchIncrementCategoryExtraTime } from './incrementcategoryextratime'
@@ -80,6 +84,7 @@ import { dispatchRemoveUser } from './removeuser'
 import { dispatchRenameChild } from './renamechild'
 import { dispatchResetCategoryNetworkIds } from './resetcategorynetworkids'
 import { dispatchResetParentBlockedTimes } from './resetparentblockedtimes'
+import { dispatchReviewChildTaskAction } from './reviewchildtaskaction'
 import { dispatchSetCategoryExtraTime } from './setcategoryextratime'
 import { dispatchSetCategoryForUnassignedApps } from './setcategoryforunassignedapps'
 import { dispatchSetChildPassword } from './setchildpassword'
@@ -101,6 +106,7 @@ import { dispatchUpdateCategorySorting } from './updatecategorysorting'
 import { dispatchUpdateCategoryTemporarilyBlocked } from './updatecategorytemporarilyblocked'
 import { dispatchUpdateCategoryTimeWarnings } from './updatecategorytimewarnings'
 import { dispatchUpdateCategoryTitle } from './updatecategorytitle'
+import { dispatchUpdateChildTaskAction } from './updatechildtaskaction'
 import { dispatchUpdateDeviceName } from './updatedevicename'
 import { dispatchUpdateEnableActivityLevelBlocking } from './updateenableactivitylevelblocking'
 import { dispatchUpdateNetworkTimeVerification } from './updatenetworktimeverification'
@@ -210,6 +216,12 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       return dispatchUpdateUserFlagsAction({ action, cache })
     } else if (action instanceof UpdateUserLimitLoginCategory) {
       return dispatchUpdateUserLimitLoginCategoryAction({ action, cache, parentUserId })
+    } else if (action instanceof DeleteChildTaskAction) {
+      await dispatchDeleteChildTaskAction({ action, cache })
+    } else if (action instanceof ReviewChildTaskAction) {
+      await dispatchReviewChildTaskAction({ action, cache })
+    } else if (action instanceof UpdateChildTaskAction) {
+      await dispatchUpdateChildTaskAction({ action, cache })
     } else {
       throw new ActionObjectTypeNotHandledException()
     }
