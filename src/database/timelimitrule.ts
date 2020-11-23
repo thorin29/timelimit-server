@@ -37,7 +37,12 @@ interface TimelimitRuleAttributesVersion2 {
   sessionPauseMilliseconds: number
 }
 
-type TimelimitRuleAttributes = TimelimitRuleAttributesVersion1 & TimelimitRuleAttributesVersion2
+interface TimelimitRuleAttributesVersion3 {
+  perDay: number
+}
+
+type TimelimitRuleAttributes = TimelimitRuleAttributesVersion1 &
+  TimelimitRuleAttributesVersion2 & TimelimitRuleAttributesVersion3
 
 export type TimelimitRuleModel = Sequelize.Model & TimelimitRuleAttributes
 export type TimelimitRuleModelStatic = typeof Sequelize.Model & {
@@ -120,9 +125,22 @@ export const attributesVersion2: SequelizeAttributes<TimelimitRuleAttributesVers
   }
 }
 
+export const attributesVersion3: SequelizeAttributes<TimelimitRuleAttributesVersion3> = {
+  perDay: {
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 0,
+      max: 1
+    },
+    allowNull: false,
+    defaultValue: 0
+  }
+}
+
 export const attributes: SequelizeAttributes<TimelimitRuleAttributes> = {
   ...attributesVersion1,
-  ...attributesVersion2
+  ...attributesVersion2,
+  ...attributesVersion3
 }
 
 export const createTimelimitRuleModel = (sequelize: Sequelize.Sequelize): TimelimitRuleModelStatic => sequelize.define('TimelimitRule', attributes) as TimelimitRuleModelStatic

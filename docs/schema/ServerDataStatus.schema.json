@@ -595,6 +595,9 @@
         },
         "pause": {
           "type": "number"
+        },
+        "perDay": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -605,6 +608,7 @@
         "id",
         "maxTime",
         "pause",
+        "perDay",
         "session",
         "start"
       ],

@@ -1709,6 +1709,7 @@ Reference this group by using
 | [end](#end)             | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")             |
 | [session](#session)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")     |
 | [pause](#pause)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")         |
+| [perDay](#perDay)       | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-perday.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/perDay")       |
 
 ### id
 
@@ -1837,6 +1838,22 @@ Reference this group by using
 #### pause Type
 
 `number`
+
+### perDay
+
+
+
+
+`perDay`
+
+-   is required
+-   Type: `boolean`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-perday.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/perDay")
+
+#### perDay Type
+
+`boolean`
 
 ## Definitions group ServerUpdatedCategoryTasks
 

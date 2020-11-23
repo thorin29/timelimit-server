@@ -54,7 +54,8 @@ export async function dispatchCreateTimeLimitRule ({ action, cache, fromChildSel
     startMinuteOfDay: action.rule.start,
     endMinuteOfDay: action.rule.end,
     sessionDurationMilliseconds: action.rule.sessionDurationMilliseconds,
-    sessionPauseMilliseconds: action.rule.sessionPauseMilliseconds
+    sessionPauseMilliseconds: action.rule.sessionPauseMilliseconds,
+    perDay: action.rule.perDay ? 1 : 0
   }, { transaction: cache.transaction })
 
   cache.categoriesWithModifiedTimeLimitRules.add(action.rule.categoryId)

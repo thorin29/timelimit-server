@@ -28,10 +28,12 @@ export class TimelimitRule {
   readonly end: number
   readonly sessionDurationMilliseconds: number
   readonly sessionPauseMilliseconds: number
+  readonly perDay: boolean
 
   constructor ({
     ruleId, categoryId, maxTimeInMillis, dayMask, applyToExtraTimeUsage,
-    start, end, sessionDurationMilliseconds, sessionPauseMilliseconds
+    start, end, sessionDurationMilliseconds, sessionPauseMilliseconds,
+    perDay
   }: {
     ruleId: string
     categoryId: string
@@ -42,6 +44,7 @@ export class TimelimitRule {
     end: number
     sessionDurationMilliseconds: number
     sessionPauseMilliseconds: number
+    perDay: boolean
   }) {
     this.ruleId = ruleId
     this.categoryId = categoryId
@@ -52,6 +55,7 @@ export class TimelimitRule {
     this.end = end
     this.sessionDurationMilliseconds = sessionDurationMilliseconds
     this.sessionPauseMilliseconds = sessionPauseMilliseconds
+    this.perDay = perDay
 
     assertIdWithinFamily(ruleId)
     assertIdWithinFamily(categoryId)
@@ -98,7 +102,7 @@ export class TimelimitRule {
     dur: this.sessionDurationMilliseconds
   })
 
-  static parse = ({ ruleId, categoryId, time, days, extraTime, start, end, dur, pause }: SerializedTimeLimitRule) => (
+  static parse = ({ ruleId, categoryId, time, days, extraTime, start, end, dur, pause, perDay }: SerializedTimeLimitRule) => (
     new TimelimitRule({
       ruleId,
       categoryId,
@@ -108,7 +112,8 @@ export class TimelimitRule {
       start: start ?? MinuteOfDay.MIN,
       end: end ?? MinuteOfDay.MAX,
       sessionDurationMilliseconds: dur ?? 0,
-      sessionPauseMilliseconds: pause ?? 0
+      sessionPauseMilliseconds: pause ?? 0,
+      perDay: perDay ?? false
     })
   )
 }
@@ -123,6 +128,7 @@ export interface SerializedTimeLimitRule {
   end?: number
   dur?: number
   pause?: number
+  perDay?: boolean
 }
 
 export class ParseTimeLimitRuleException extends Error {}

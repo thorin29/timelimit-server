@@ -371,6 +371,9 @@
         },
         "pause": {
           "type": "number"
+        },
+        "perDay": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -1380,6 +1383,9 @@
         },
         "pause": {
           "type": "number"
+        },
+        "perDay": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,

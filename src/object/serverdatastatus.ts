@@ -187,6 +187,7 @@ export interface ServerTimeLimitRule {
   end: number         // endMinuteOfDay
   session: number     // maximum session duration
   pause: number       // session pause duration
+  perDay: boolean
 }
 
 export interface ServerUpdatedCategoryTasks {

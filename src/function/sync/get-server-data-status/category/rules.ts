@@ -44,7 +44,8 @@ export async function getRules ({ database, transaction, categoryIdsToSyncRules,
       'startMinuteOfDay',
       'endMinuteOfDay',
       'sessionDurationMilliseconds',
-      'sessionPauseMilliseconds'
+      'sessionPauseMilliseconds',
+      'perDay'
     ],
     transaction
   })).map((item) => ({
@@ -56,7 +57,8 @@ export async function getRules ({ database, transaction, categoryIdsToSyncRules,
     startMinuteOfDay: item.startMinuteOfDay,
     endMinuteOfDay: item.endMinuteOfDay,
     sessionDurationMilliseconds: item.sessionDurationMilliseconds,
-    sessionPauseMilliseconds: item.sessionPauseMilliseconds
+    sessionPauseMilliseconds: item.sessionPauseMilliseconds,
+    perDay: item.perDay
   }))
 
   const getCategoryRulesVersion = (categoryId: string) => (
@@ -73,7 +75,8 @@ export async function getRules ({ database, transaction, categoryIdsToSyncRules,
       start: item.startMinuteOfDay,
       end: item.endMinuteOfDay,
       session: item.sessionDurationMilliseconds,
-      pause: item.sessionPauseMilliseconds
+      pause: item.sessionPauseMilliseconds,
+      perDay: item.perDay !== 0 ? true : false
     })),
     version: getCategoryRulesVersion(categoryId)
   }))

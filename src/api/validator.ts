@@ -330,6 +330,9 @@ const definitions = {
       },
       "pause": {
         "type": "number"
+      },
+      "perDay": {
+        "type": "boolean"
       }
     },
     "additionalProperties": false,
@@ -1300,6 +1303,9 @@ const definitions = {
       },
       "pause": {
         "type": "number"
+      },
+      "perDay": {
+        "type": "boolean"
       }
     },
     "additionalProperties": false,
@@ -2267,6 +2273,9 @@ const definitions = {
       },
       "pause": {
         "type": "number"
+      },
+      "perDay": {
+        "type": "boolean"
       }
     },
     "additionalProperties": false,
@@ -2277,6 +2286,7 @@ const definitions = {
       "id",
       "maxTime",
       "pause",
+      "perDay",
       "session",
       "start"
     ]

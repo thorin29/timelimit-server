@@ -42,6 +42,7 @@ export async function dispatchUpdateTimelimitRule ({ action, cache }: {
   ruleEntry.endMinuteOfDay = action.end
   ruleEntry.sessionDurationMilliseconds = action.sessionDurationMilliseconds
   ruleEntry.sessionPauseMilliseconds = action.sessionPauseMilliseconds
+  ruleEntry.perDay = action.perDay ? 1 : 0
 
   await ruleEntry.save({ transaction: cache.transaction })
 

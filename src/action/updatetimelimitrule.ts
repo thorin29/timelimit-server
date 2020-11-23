@@ -31,10 +31,12 @@ export class UpdateTimelimitRuleAction extends ParentAction {
   readonly end: number
   readonly sessionDurationMilliseconds: number
   readonly sessionPauseMilliseconds: number
+  readonly perDay: boolean
 
   constructor ({
     ruleId, maximumTimeInMillis, dayMask, applyToExtraTimeUsage,
-    start, end, sessionDurationMilliseconds, sessionPauseMilliseconds
+    start, end, sessionDurationMilliseconds, sessionPauseMilliseconds,
+    perDay
   }: {
     ruleId: string
     maximumTimeInMillis: number
@@ -44,6 +46,7 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     end: number
     sessionDurationMilliseconds: number
     sessionPauseMilliseconds: number
+    perDay: boolean
   }) {
     super()
 
@@ -55,6 +58,7 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     this.end = end
     this.sessionDurationMilliseconds = sessionDurationMilliseconds
     this.sessionPauseMilliseconds = sessionPauseMilliseconds
+    this.perDay = perDay
 
     assertIdWithinFamily({ actionType, field: 'ruleId', value: ruleId })
 
@@ -90,7 +94,7 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     }
   }
 
-  static parse = ({ ruleId, time, days, extraTime, start, end, dur, pause }: SerializedUpdateTimelimitRuleAction) => (
+  static parse = ({ ruleId, time, days, extraTime, start, end, dur, pause, perDay }: SerializedUpdateTimelimitRuleAction) => (
     new UpdateTimelimitRuleAction({
       ruleId,
       maximumTimeInMillis: time,
@@ -99,7 +103,8 @@ export class UpdateTimelimitRuleAction extends ParentAction {
       start: start ?? MinuteOfDay.MIN,
       end: end ?? MinuteOfDay.MAX,
       sessionDurationMilliseconds: dur ?? 0,
-      sessionPauseMilliseconds: pause ?? 0
+      sessionPauseMilliseconds: pause ?? 0,
+      perDay: perDay ?? false
     })
   )
 }
@@ -114,4 +119,5 @@ export interface SerializedUpdateTimelimitRuleAction {
   end?: number
   dur?: number
   pause?: number
+  perDay?: boolean
 }
