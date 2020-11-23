@@ -19,11 +19,16 @@ import { ReviewChildTaskAction } from '../../../../action'
 import { Cache } from '../cache'
 import { IllegalStateException } from '../exception/illegal-state'
 import { MissingTaskException } from '../exception/missing-item'
+import { PremiumVersionMissingException } from '../exception/premium'
 
 export async function dispatchReviewChildTaskAction ({ action, cache }: {
   action: ReviewChildTaskAction
   cache: Cache
 }) {
+  if (action.ok && cache.hasFullVersion === false) {
+    throw new PremiumVersionMissingException()
+  }
+
   const taskInfo = await cache.database.childTask.findOne({
     where: {
       familyId: cache.familyId,
