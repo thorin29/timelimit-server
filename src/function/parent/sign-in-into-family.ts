@@ -61,7 +61,8 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
       userId: userEntry.userId,
       deviceName,
       deviceAuthToken,
-      newDeviceInfo
+      newDeviceInfo,
+      isUserKeptSignedIn: true
     }), { transaction })
 
     // notify about changes

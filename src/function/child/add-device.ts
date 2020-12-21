@@ -52,7 +52,8 @@ export const addChildDevice = async ({ database, websocket, request }: {
       deviceAuthToken,
       deviceName: request.deviceName,
       newDeviceInfo: request.childDevice,
-      userId: ''
+      userId: '',
+      isUserKeptSignedIn: false
     }), { transaction })
 
     await database.family.update({

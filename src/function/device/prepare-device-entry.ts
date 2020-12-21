@@ -19,13 +19,14 @@ import { NewDeviceInfo } from '../../api/schema'
 import { DeviceAttributes } from '../../database/device'
 import { generateVersionId } from '../../util/token'
 
-export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId, deviceName, newDeviceInfo }: {
+export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId, deviceName, newDeviceInfo, isUserKeptSignedIn }: {
   familyId: string
   userId: string
   deviceAuthToken: string
   deviceId: string
   deviceName: string
   newDeviceInfo: NewDeviceInfo
+  isUserKeptSignedIn: boolean
 }): DeviceAttributes => ({
   familyId,
   deviceId,
@@ -52,7 +53,7 @@ export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId
   lastConnectivity: '0',
   notSeenForLongTime: false,
   didDeviceReportUninstall: false,
-  isUserKeptSignedIn: false,
+  isUserKeptSignedIn,
   showDeviceConnected: false,
   defaultUserId: '',
   defaultUserTimeout: 0,

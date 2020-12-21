@@ -94,7 +94,8 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       deviceName,
       newDeviceInfo: firstParentDevice,
       userId,
-      deviceAuthToken
+      deviceAuthToken,
+      isUserKeptSignedIn: true
     }), { transaction })
 
     return {
