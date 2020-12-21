@@ -52,6 +52,7 @@ export interface UserAttributesVersion4 {
 }
 
 export interface UserAttributesVersion5 {
+  // currently unused
   blockedTimes: string
 }
 

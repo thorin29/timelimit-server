@@ -42,7 +42,6 @@ export async function getUserList ({ database, transaction, familyEntry }: {
       'categoryForNotAssignedApps',
       'relaxPrimaryDeviceRule',
       'mailNotificationFlags',
-      'blockedTimes',
       'flags'
     ],
     transaction
@@ -59,7 +58,6 @@ export async function getUserList ({ database, transaction, familyEntry }: {
     categoryForNotAssignedApps: item.categoryForNotAssignedApps,
     relaxPrimaryDeviceRule: item.relaxPrimaryDeviceRule,
     mailNotificationFlags: item.mailNotificationFlags,
-    blockedTimes: item.blockedTimes,
     flags: item.flags
   }))
 
@@ -102,7 +100,7 @@ export async function getUserList ({ database, transaction, familyEntry }: {
       categoryForNotAssignedApps: item.categoryForNotAssignedApps,
       relaxPrimaryDevice: item.relaxPrimaryDeviceRule,
       mailNotificationFlags: item.mailNotificationFlags,
-      blockedTimes: item.blockedTimes,
+      blockedTimes: '',
       flags: parseInt(item.flags, 10),
       llc: getLimitLoginCategory(item.userId)
     }))

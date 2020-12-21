@@ -46,9 +46,6 @@
       "$ref": "#/definitions/SerializeResetCategoryNetworkIdsAction"
     },
     {
-      "$ref": "#/definitions/SerializedResetParentBlockedTimesAction"
-    },
-    {
       "$ref": "#/definitions/SerializedReviewChildTaskAction"
     },
     {
@@ -125,9 +122,6 @@
     },
     {
       "$ref": "#/definitions/SerialiizedUpdateNetworkTimeVerificationAction"
-    },
-    {
-      "$ref": "#/definitions/SerializedUpdateParentBlockedTimesAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateParentNotificationFlagsAction"
@@ -622,26 +616,6 @@
         "type"
       ],
       "title": "SerializeResetCategoryNetworkIdsAction"
-    },
-    "SerializedResetParentBlockedTimesAction": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "RESET_PARENT_BLOCKED_TIMES"
-          ]
-        },
-        "parentId": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "parentId",
-        "type"
-      ],
-      "title": "SerializedResetParentBlockedTimesAction"
     },
     "SerializedReviewChildTaskAction": {
       "type": "object",
@@ -1298,30 +1272,6 @@
         "type"
       ],
       "title": "SerialiizedUpdateNetworkTimeVerificationAction"
-    },
-    "SerializedUpdateParentBlockedTimesAction": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "UPDATE_PARENT_BLOCKED_TIMES"
-          ]
-        },
-        "parentId": {
-          "type": "string"
-        },
-        "times": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "parentId",
-        "times",
-        "type"
-      ],
-      "title": "SerializedUpdateParentBlockedTimesAction"
     },
     "SerializedUpdateParentNotificationFlagsAction": {
       "type": "object",

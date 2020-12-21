@@ -32,7 +32,6 @@ import {
   RemoveUserAction,
   RenameChildAction,
   ResetCategoryNetworkIdsAction,
-  ResetParentBlockedTimesAction,
   ReviewChildTaskAction,
   SetCategoryExtraTimeAction,
   SetCategoryForUnassignedAppsAction,
@@ -59,7 +58,6 @@ import {
   UpdateDeviceNameAction,
   UpdateEnableActivityLevelBlockingAction,
   UpdateNetworkTimeVerificationAction,
-  UpdateParentBlockedTimesAction,
   UpdateParentNotificationFlagsAction,
   UpdateTimelimitRuleAction,
   UpdateUserFlagsAction,
@@ -83,7 +81,6 @@ import { dispatchRemoveCategoryApps } from './removecategoryapps'
 import { dispatchRemoveUser } from './removeuser'
 import { dispatchRenameChild } from './renamechild'
 import { dispatchResetCategoryNetworkIds } from './resetcategorynetworkids'
-import { dispatchResetParentBlockedTimes } from './resetparentblockedtimes'
 import { dispatchReviewChildTaskAction } from './reviewchildtaskaction'
 import { dispatchSetCategoryExtraTime } from './setcategoryextratime'
 import { dispatchSetCategoryForUnassignedApps } from './setcategoryforunassignedapps'
@@ -110,7 +107,6 @@ import { dispatchUpdateChildTaskAction } from './updatechildtaskaction'
 import { dispatchUpdateDeviceName } from './updatedevicename'
 import { dispatchUpdateEnableActivityLevelBlocking } from './updateenableactivitylevelblocking'
 import { dispatchUpdateNetworkTimeVerification } from './updatenetworktimeverification'
-import { dispatchUpdateParentBlockedTimes } from './updateparentblockedtimes'
 import { dispatchUpdateParentNotificationFlags } from './updateparentnotificationflags'
 import { dispatchUpdateTimelimitRule } from './updatetimelimitrule'
 import { dispatchUpdateUserFlagsAction } from './updateuserflags'
@@ -208,10 +204,6 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       return dispatchIgnoreManipulation({ action, cache })
     } else if (action instanceof UpdateCategoryTimeWarningsAction) {
       return dispatchUpdateCategoryTimeWarnings({ action, cache })
-    } else if (action instanceof ResetParentBlockedTimesAction) {
-      return dispatchResetParentBlockedTimes({ action, cache })
-    } else if (action instanceof UpdateParentBlockedTimesAction) {
-      return dispatchUpdateParentBlockedTimes({ action, cache, parentUserId })
     } else if (action instanceof UpdateUserFlagsAction) {
       return dispatchUpdateUserFlagsAction({ action, cache })
     } else if (action instanceof UpdateUserLimitLoginCategory) {

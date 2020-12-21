@@ -572,25 +572,6 @@ const definitions = {
       "type"
     ]
   },
-  "SerializedResetParentBlockedTimesAction": {
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "RESET_PARENT_BLOCKED_TIMES"
-        ]
-      },
-      "parentId": {
-        "type": "string"
-      }
-    },
-    "additionalProperties": false,
-    "required": [
-      "parentId",
-      "type"
-    ]
-  },
   "SerializedReviewChildTaskAction": {
     "type": "object",
     "properties": {
@@ -1218,29 +1199,6 @@ const definitions = {
     "required": [
       "deviceId",
       "mode",
-      "type"
-    ]
-  },
-  "SerializedUpdateParentBlockedTimesAction": {
-    "type": "object",
-    "properties": {
-      "type": {
-        "type": "string",
-        "enum": [
-          "UPDATE_PARENT_BLOCKED_TIMES"
-        ]
-      },
-      "parentId": {
-        "type": "string"
-      },
-      "times": {
-        "type": "string"
-      }
-    },
-    "additionalProperties": false,
-    "required": [
-      "parentId",
-      "times",
       "type"
     ]
   },
@@ -2649,9 +2607,6 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
       "$ref": "#/definitions/SerializeResetCategoryNetworkIdsAction"
     },
     {
-      "$ref": "#/definitions/SerializedResetParentBlockedTimesAction"
-    },
-    {
       "$ref": "#/definitions/SerializedReviewChildTaskAction"
     },
     {
@@ -2728,9 +2683,6 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerialiizedUpdateNetworkTimeVerificationAction"
-    },
-    {
-      "$ref": "#/definitions/SerializedUpdateParentBlockedTimesAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateParentNotificationFlagsAction"

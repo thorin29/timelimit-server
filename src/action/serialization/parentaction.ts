@@ -32,7 +32,6 @@ import { RemoveCategoryAppsAction, SerializedRemoveCategoryAppsAction } from '..
 import { RemoveUserAction, SerializedRemoveUserAction } from '../removeuser'
 import { RenameChildAction, SerializedRenameChildAction } from '../renamechild'
 import { ResetCategoryNetworkIdsAction, SerializeResetCategoryNetworkIdsAction } from '../resetcategorynetworkids'
-import { ResetParentBlockedTimesAction, SerializedResetParentBlockedTimesAction } from '../resetparentblockedtimes'
 import { ReviewChildTaskAction, SerializedReviewChildTaskAction } from '../reviewchildtaskaction'
 import { SerializedSetCategoryExtraTimeAction, SetCategoryExtraTimeAction } from '../setcategoryextratime'
 import { SerializedSetCategoryForUnassignedAppsAction, SetCategoryForUnassignedAppsAction } from '../setcategoryforunassignedapps'
@@ -59,7 +58,6 @@ import { SerializedUpdateChildTaskAction, UpdateChildTaskAction } from '../updat
 import { SerializedUpdateDeviceNameAction, UpdateDeviceNameAction } from '../updatedevicename'
 import { SerializedUpdateEnableActivityLevelBlockingAction, UpdateEnableActivityLevelBlockingAction } from '../updateenableactivitylevelblocking'
 import { SerialiizedUpdateNetworkTimeVerificationAction, UpdateNetworkTimeVerificationAction } from '../updatenetworktimeverification'
-import { SerializedUpdateParentBlockedTimesAction, UpdateParentBlockedTimesAction } from '../updateparentblockedtimes'
 import { SerializedUpdateParentNotificationFlagsAction, UpdateParentNotificationFlagsAction } from '../updateparentnotificationflags'
 import { SerializedUpdateTimelimitRuleAction, UpdateTimelimitRuleAction } from '../updatetimelimitrule'
 import { SerializedUpdateUserFlagsAction, UpdateUserFlagsAction } from '../updateuserflags'
@@ -81,7 +79,6 @@ export type SerializedParentAction =
   SerializedRemoveUserAction |
   SerializedRenameChildAction |
   SerializeResetCategoryNetworkIdsAction |
-  SerializedResetParentBlockedTimesAction |
   SerializedReviewChildTaskAction |
   SerializedSetCategoryForUnassignedAppsAction |
   SerializedSetChildPasswordAction |
@@ -108,7 +105,6 @@ export type SerializedParentAction =
   SerializedUpdateDeviceNameAction |
   SerializedUpdateEnableActivityLevelBlockingAction |
   SerialiizedUpdateNetworkTimeVerificationAction |
-  SerializedUpdateParentBlockedTimesAction |
   SerializedUpdateParentNotificationFlagsAction |
   SerializedUpdateTimelimitRuleAction |
   SerializedUpdateUserFlagsAction |
@@ -145,8 +141,6 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return RenameChildAction.parse(action)
   } else if (action.type === 'RESET_CATEGORY_NETWORK_IDS') {
     return ResetCategoryNetworkIdsAction.parse(action)
-  } else if (action.type === 'RESET_PARENT_BLOCKED_TIMES') {
-    return ResetParentBlockedTimesAction.parse(action)
   } else if (action.type === 'REVIEW_CHILD_TASK') {
     return ReviewChildTaskAction.parse(action)
   } else if (action.type === 'SET_CATEGORY_EXTRA_TIME') {
@@ -199,8 +193,6 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateEnableActivityLevelBlockingAction.parse(action)
   } else if (action.type === 'UPDATE_NETWORK_TIME_VERIFICATION') {
     return UpdateNetworkTimeVerificationAction.parse(action)
-  } else if (action.type === 'UPDATE_PARENT_BLOCKED_TIMES') {
-    return UpdateParentBlockedTimesAction.parse(action)
   } else if (action.type === 'UPDATE_PARENT_NOTIFICATION_FLAGS') {
     return UpdateParentNotificationFlagsAction.parse(action)
   } else if (action.type === 'UPDATE_TIMELIMIT_RULE') {
