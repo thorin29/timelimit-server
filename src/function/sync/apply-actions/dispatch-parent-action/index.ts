@@ -61,7 +61,8 @@ import {
   UpdateParentNotificationFlagsAction,
   UpdateTimelimitRuleAction,
   UpdateUserFlagsAction,
-  UpdateUserLimitLoginCategory
+  UpdateUserLimitLoginCategory,
+  UpdateUserLimitLoginPreBlockDuration
 } from '../../../../action'
 import { Cache } from '../cache'
 import { ActionObjectTypeNotHandledException } from '../exception/illegal-state'
@@ -111,6 +112,7 @@ import { dispatchUpdateParentNotificationFlags } from './updateparentnotificatio
 import { dispatchUpdateTimelimitRule } from './updatetimelimitrule'
 import { dispatchUpdateUserFlagsAction } from './updateuserflags'
 import { dispatchUpdateUserLimitLoginCategoryAction } from './updateuserlimitlogincategory'
+import { dispatchUpdateUserLimitPreBlockDuration } from './updateuserlimitloginpreblockduration'
 
 export const dispatchParentAction = async ({ action, cache, parentUserId, sourceDeviceId, fromChildSelfLimitAddChildUserId }: {
   action: ParentAction
@@ -214,6 +216,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       await dispatchReviewChildTaskAction({ action, cache })
     } else if (action instanceof UpdateChildTaskAction) {
       await dispatchUpdateChildTaskAction({ action, cache })
+    } else if (action instanceof UpdateUserLimitLoginPreBlockDuration) {
+      await dispatchUpdateUserLimitPreBlockDuration({ action, cache, parentUserId })
     } else {
       throw new ActionObjectTypeNotHandledException()
     }

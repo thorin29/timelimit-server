@@ -1324,6 +1324,29 @@ const definitions = {
       "userId"
     ]
   },
+  "SerializedUpdateUserLimitLoginPreBlockDuration": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_USER_LIMIT_LOGIN_PRE_BLOCK_DURATION"
+        ]
+      },
+      "userId": {
+        "type": "string"
+      },
+      "preBlockDuration": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "preBlockDuration",
+      "type",
+      "userId"
+    ]
+  },
   "SerializedAddInstalledAppsAction": {
     "type": "object",
     "properties": {
@@ -2370,6 +2393,9 @@ const definitions = {
       },
       "llc": {
         "type": "string"
+      },
+      "pbd": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2695,6 +2721,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedUpdateUserLimitLoginCategory"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateUserLimitLoginPreBlockDuration"
     }
   ],
   "definitions": definitions,

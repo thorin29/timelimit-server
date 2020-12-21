@@ -61,6 +61,7 @@ export interface ServerUserEntry {
   blockedTimes: string
   flags: number
   llc?: string  // limit login category
+  pbd?: number  // pre block duration, default is zero
 }
 
 export interface ServerDeviceData {

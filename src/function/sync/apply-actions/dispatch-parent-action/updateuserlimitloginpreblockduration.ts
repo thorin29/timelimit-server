@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { UpdateUserLimitLoginCategory } from '../../../../action'
+import { UpdateUserLimitLoginPreBlockDuration } from '../../../../action'
 import { Cache } from '../cache'
 import { ApplyActionException } from '../exception/index'
-import { MissingCategoryException, MissingUserException } from '../exception/missing-item'
+import { MissingItemException, MissingUserException } from '../exception/missing-item'
 
-export async function dispatchUpdateUserLimitLoginCategoryAction ({ action, cache, parentUserId }: {
-  action: UpdateUserLimitLoginCategory
+export async function dispatchUpdateUserLimitPreBlockDuration ({ action, cache, parentUserId }: {
+  action: UpdateUserLimitLoginPreBlockDuration
   cache: Cache
   parentUserId: string
 }) {
@@ -38,42 +38,35 @@ export async function dispatchUpdateUserLimitLoginCategoryAction ({ action, cach
     throw new MissingUserException()
   }
 
-  if (action.categoryId !== undefined && parentUserId !== action.userId) {
+  if (action.preBlockDuration !== 0 && parentUserId !== action.userId) {
     throw new ApplyActionException({
-      staticMessage: 'only the parent user itself can add a limit login category'
+      staticMessage: 'only the parent user itself can add a limit login pre block duration'
     })
   }
 
-  await cache.database.userLimitLoginCategory.destroy({
+  const preBlockItem = await cache.database.userLimitLoginCategory.findOne({
+    transaction: cache.transaction,
     where: {
       familyId: cache.familyId,
       userId: action.userId
-    },
-    transaction: cache.transaction
+    }
   })
 
-  if (action.categoryId !== undefined) {
-    const categoryEntry = await cache.database.category.findOne({
-      where: {
-        familyId: cache.familyId,
-        categoryId: action.categoryId
-      },
-      transaction: cache.transaction
-    })
-
-    if (!categoryEntry) {
-      throw new MissingCategoryException()
-    }
-
-    await cache.database.userLimitLoginCategory.create({
-      familyId: cache.familyId,
-      userId: action.userId,
-      categoryId: action.categoryId,
-      preBlockDuration: 0
-    }, {
-      transaction: cache.transaction
+  if (preBlockItem === null) {
+    throw new MissingItemException({
+      staticMessage: 'you can not set a pre block duration if there is no pre block item'
     })
   }
+
+  await cache.database.userLimitLoginCategory.update({
+    preBlockDuration: action.preBlockDuration
+  }, {
+    transaction: cache.transaction,
+    where: {
+      familyId: cache.familyId,
+      userId: action.userId
+    }
+  })
 
   cache.invalidiateUserList = true
 }

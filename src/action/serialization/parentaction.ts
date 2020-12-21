@@ -62,6 +62,7 @@ import { SerializedUpdateParentNotificationFlagsAction, UpdateParentNotification
 import { SerializedUpdateTimelimitRuleAction, UpdateTimelimitRuleAction } from '../updatetimelimitrule'
 import { SerializedUpdateUserFlagsAction, UpdateUserFlagsAction } from '../updateuserflags'
 import { SerializedUpdateUserLimitLoginCategory, UpdateUserLimitLoginCategory } from '../updateuserlimitlogincategory'
+import { SerializedUpdateUserLimitLoginPreBlockDuration, UpdateUserLimitLoginPreBlockDuration } from '../updateuserlimitloginpreblockduration'
 
 export type SerializedParentAction =
   SerializedAddCategoryAppsAction |
@@ -108,7 +109,8 @@ export type SerializedParentAction =
   SerializedUpdateParentNotificationFlagsAction |
   SerializedUpdateTimelimitRuleAction |
   SerializedUpdateUserFlagsAction |
-  SerializedUpdateUserLimitLoginCategory
+  SerializedUpdateUserLimitLoginCategory |
+  SerializedUpdateUserLimitLoginPreBlockDuration
 
 export const parseParentAction = (action: SerializedParentAction): ParentAction => {
   if (action.type === 'ADD_CATEGORY_APPS') {
@@ -201,6 +203,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateUserFlagsAction.parse(action)
   } else if (action.type === 'UPDATE_USER_LIMIT_LOGIN_CATEGORY') {
     return UpdateUserLimitLoginCategory.parse(action)
+  } else if (action.type === 'UPDATE_USER_LIMIT_LOGIN_PRE_BLOCK_DURATION') {
+    return UpdateUserLimitLoginPreBlockDuration.parse(action)
   } else {
     throw new UnknownActionTypeException({ group: 'parent' })
   }

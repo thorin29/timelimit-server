@@ -738,6 +738,9 @@
         },
         "llc": {
           "type": "string"
+        },
+        "pbd": {
+          "type": "number"
         }
       },
       "additionalProperties": false,

@@ -67,19 +67,21 @@ export async function getUserList ({ database, transaction, familyEntry }: {
     },
     attributes: [
       'userId',
-      'categoryId'
+      'categoryId',
+      'preBlockDuration'
     ],
     transaction
   })).map((item) => ({
     userId: item.userId,
-    categoryId: item.categoryId
+    categoryId: item.categoryId,
+    preBlockDuration: item.preBlockDuration
   }))
 
   const getLimitLoginCategory = (userId: string) => {
     const item = limitLoginCategories.find((item) => item.userId === userId)
 
     if (item) {
-      return item.categoryId
+      return item
     } else {
       return undefined
     }
@@ -87,22 +89,27 @@ export async function getUserList ({ database, transaction, familyEntry }: {
 
   return {
     version: familyEntry.userListVersion,
-    data: users.map((item) => ({
-      id: item.userId,
-      name: item.name,
-      password: item.passwordHash,
-      secondPasswordSalt: item.secondPasswordSalt,
-      type: item.type,
-      timeZone: item.timeZone,
-      disableLimitsUntil: parseInt(item.disableTimelimitsUntil, 10),
-      mail: item.mail,
-      currentDevice: item.currentDevice,
-      categoryForNotAssignedApps: item.categoryForNotAssignedApps,
-      relaxPrimaryDevice: item.relaxPrimaryDeviceRule,
-      mailNotificationFlags: item.mailNotificationFlags,
-      blockedTimes: '',
-      flags: parseInt(item.flags, 10),
-      llc: getLimitLoginCategory(item.userId)
-    }))
+    data: users.map((item) => {
+      const limitLoginCategory = getLimitLoginCategory(item.userId)
+
+      return {
+        id: item.userId,
+        name: item.name,
+        password: item.passwordHash,
+        secondPasswordSalt: item.secondPasswordSalt,
+        type: item.type,
+        timeZone: item.timeZone,
+        disableLimitsUntil: parseInt(item.disableTimelimitsUntil, 10),
+        mail: item.mail,
+        currentDevice: item.currentDevice,
+        categoryForNotAssignedApps: item.categoryForNotAssignedApps,
+        relaxPrimaryDevice: item.relaxPrimaryDeviceRule,
+        mailNotificationFlags: item.mailNotificationFlags,
+        blockedTimes: '',
+        flags: parseInt(item.flags, 10),
+        llc: limitLoginCategory?.categoryId,
+        pbd: limitLoginCategory?.preBlockDuration
+      }
+    })
   }
 }

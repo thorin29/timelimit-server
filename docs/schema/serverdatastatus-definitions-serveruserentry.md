@@ -34,6 +34,7 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 | [blockedTimes](#blockedTimes)                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")                             |
 | [flags](#flags)                                           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")                                           |
 | [llc](#llc)                                               | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")                                               |
+| [pbd](#pbd)                                               | `number`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")                                               |
 
 ## id
 
@@ -283,3 +284,19 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 ### llc Type
 
 `string`
+
+## pbd
+
+
+
+
+`pbd`
+
+-   is optional
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")
+
+### pbd Type
+
+`number`
