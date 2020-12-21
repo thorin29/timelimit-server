@@ -22,6 +22,13 @@ import { optionalPasswordRegex, optionalSaltRegex } from '../util/password'
 import { booleanColumn, createEnumColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
+export const maxMailNotificationFlags = 1 | 2
+
+export const mailNotificationFlags = {
+  warnings: 1,
+  tasks: 2
+}
+
 export interface UserAttributesVersion1 {
   familyId: string
   userId: string
@@ -129,7 +136,7 @@ export const attributesVersion4: SequelizeAttributes<UserAttributesVersion4> = {
     defaultValue: 0,
     validate: {
       min: 0,
-      max: 1
+      max: maxMailNotificationFlags
     }
   }
 }

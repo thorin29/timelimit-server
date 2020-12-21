@@ -16,6 +16,7 @@
  */
 
 import { Database, Transaction, warpPromiseReturner } from '../../database'
+import { mailNotificationFlags } from '../../database/user'
 import { sendUninstallWarningMail } from '../../util/mail'
 import { canSendWarningMail } from '../../util/ratelimit-warningmail'
 
@@ -35,7 +36,7 @@ export const sendUninstallWarnings = async ({ database, familyId, deviceName, tr
 
   const targetMailAddresses = parentEntries
     .filter((item) => item.mail !== '')
-    .filter((item) => (item.mailNotificationFlags & 1) === 1)
+    .filter((item) => (item.mailNotificationFlags & mailNotificationFlags.warnings) === mailNotificationFlags.warnings)
     .map((item) => item.mail)
 
   transaction.afterCommit(warpPromiseReturner(async () => {

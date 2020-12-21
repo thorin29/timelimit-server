@@ -18,6 +18,7 @@
 import { Conflict } from 'http-errors'
 import { NewDeviceInfo, ParentPassword } from '../../api/schema'
 import { Database } from '../../database'
+import { maxMailNotificationFlags } from '../../database/user'
 import {
   generateAuthToken, generateFamilyId, generateIdWithinFamily, generateVersionId
 } from '../../util/token'
@@ -82,7 +83,7 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       currentDevice: '',
       categoryForNotAssignedApps: '',
       relaxPrimaryDeviceRule: false,
-      mailNotificationFlags: 1,  // enable warning notifications
+      mailNotificationFlags: maxMailNotificationFlags,
       blockedTimes: '',
       flags: '0'
     }, { transaction })

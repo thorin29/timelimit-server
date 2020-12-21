@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { maxMailNotificationFlags } from '../database/user'
 import { ParentAction } from './basetypes'
 import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
 
@@ -36,7 +37,7 @@ export class UpdateParentNotificationFlagsAction extends ParentAction {
 
     assertSafeInteger({ actionType, field: 'flags', value: flags })
 
-    if (flags < 0 || flags > 1) {
+    if (flags < 0 || flags > maxMailNotificationFlags) {
       throwOutOfRange({ actionType, field: 'flags', value: flags })
     }
 

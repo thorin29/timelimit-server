@@ -16,8 +16,9 @@
  */
 
 import { MarkTaskPendingAction } from '../../../../action'
+import { sendTaskDoneMails } from '../../../warningmail/taskdone'
 import { Cache } from '../cache'
-import { IllegalStateException, SourceDeviceNotFoundException } from '../exception/illegal-state'
+import { IllegalStateException, SourceDeviceNotFoundException, SourceUserNotFoundException } from '../exception/illegal-state'
 import { MissingTaskException } from '../exception/missing-item'
 
 export async function dispatchMarkTaskPendingAction ({ action, cache, deviceId }: {
@@ -31,14 +32,15 @@ export async function dispatchMarkTaskPendingAction ({ action, cache, deviceId }
       taskId: action.taskId
     },
     transaction: cache.transaction,
-    attributes: ['categoryId', 'pendingRequest']
+    attributes: ['categoryId', 'pendingRequest', 'taskTitle']
   })
 
   if (taskInfoUnsafe === null) throw new MissingTaskException()
 
   const taskInfo = {
     categoryId: taskInfoUnsafe.categoryId,
-    pendingRequest: taskInfoUnsafe.pendingRequest
+    pendingRequest: taskInfoUnsafe.pendingRequest,
+    taskTitle: taskInfoUnsafe.taskTitle
   }
 
   if (taskInfo.pendingRequest !== 0) return // review already requested
@@ -75,6 +77,19 @@ export async function dispatchMarkTaskPendingAction ({ action, cache, deviceId }
     throw new IllegalStateException({ staticMessage: 'Can not mark task pending for other user than the current user' })
   }
 
+  const childInfoUnsafe = await cache.database.user.findOne({
+    where: {
+      familyId: cache.familyId,
+      userId: categoryInfo.childId
+    },
+    attributes: ['name'],
+    transaction: cache.transaction
+  })
+
+  if (childInfoUnsafe === null) throw new SourceUserNotFoundException()
+
+  const childInfo = { name: childInfoUnsafe.name }
+
   await cache.database.childTask.update({ pendingRequest: true }, {
     where: {
       familyId: cache.familyId,
@@ -84,4 +99,12 @@ export async function dispatchMarkTaskPendingAction ({ action, cache, deviceId }
   })
 
   cache.categoriesWithModifiedTasks.add(taskInfo.categoryId)
+
+  await sendTaskDoneMails({
+    database: cache.database,
+    transaction: cache.transaction,
+    familyId: cache.familyId,
+    childName: childInfo.name,
+    taskTitle: taskInfo.taskTitle
+  })
 }

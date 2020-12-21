@@ -17,13 +17,14 @@
 
 import { Database, Transaction, warpPromiseReturner } from '../../database'
 import { mailNotificationFlags } from '../../database/user'
-import { sendManipulationWarningMail } from '../../util/mail'
-import { canSendWarningMail } from '../../util/ratelimit-warningmail'
+import { sendTaskDoneMail } from '../../util/mail'
+import { canSendTaskDoneMail } from '../../util/ratelimit-taskdonemail'
 
-export const sendManipulationWarnings = async ({ database, familyId, deviceName, transaction }: {
+export const sendTaskDoneMails = async ({ database, familyId, childName, taskTitle, transaction }: {
   database: Database
   familyId: string
-  deviceName: string
+  childName: string
+  taskTitle: string
   transaction: Transaction
 }) => {
   const parentEntries = await database.user.findAll({
@@ -36,14 +37,14 @@ export const sendManipulationWarnings = async ({ database, familyId, deviceName,
 
   const targetMailAddresses = parentEntries
     .filter((item) => item.mail !== '')
-    .filter((item) => (item.mailNotificationFlags & mailNotificationFlags.warnings) === mailNotificationFlags.warnings)
+    .filter((item) => (item.mailNotificationFlags & mailNotificationFlags.tasks) === mailNotificationFlags.tasks)
     .map((item) => item.mail)
 
   transaction.afterCommit(warpPromiseReturner(async () => {
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
-        if (await canSendWarningMail(receiver)) {
-          await sendManipulationWarningMail({ receiver, deviceName })
+        if (await canSendTaskDoneMail(receiver)) {
+          await sendTaskDoneMail({ receiver, child: childName, task: taskTitle })
         }
       })
     )

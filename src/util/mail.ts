@@ -86,6 +86,20 @@ export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
   })
 }
 
+export const sendTaskDoneMail = async ({ receiver, child, task }: {
+  receiver: string
+  child: string
+  task: string
+}) => {
+  await email.send({
+    template: join(__dirname, '../../other/mail/taskdone'),
+    message: {
+      to: receiver
+    },
+    locals: { child, task, mailimprint }
+  })
+}
+
 export function isMailServerBlacklisted (mail: string): boolean {
   const parts = mail.split('@')
   const domain = parts[parts.length - 1]
