@@ -70,7 +70,7 @@ export interface UserAttributesVersion6 {
 export type UserAttributes = UserAttributesVersion1 & UserAttributesVersion2 &
   UserAttributesVersion3 & UserAttributesVersion4 & UserAttributesVersion5 & UserAttributesVersion6
 
-export type UserModel = Sequelize.Model & UserAttributes
+export type UserModel = Sequelize.Model<UserAttributes> & UserAttributes
 export type UserModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): UserModel;
 }

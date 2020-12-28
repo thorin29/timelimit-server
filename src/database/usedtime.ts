@@ -40,7 +40,7 @@ export interface UsedTimeAttributesVersion3 {
 export type UsedTimeAttributes = UsedTimeAttributesVersion1 &
   UsedTimeAttributesVersion2 & UsedTimeAttributesVersion3
 
-export type UsedTimeModel = Sequelize.Model & UsedTimeAttributes
+export type UsedTimeModel = Sequelize.Model<UsedTimeAttributes> & UsedTimeAttributes
 export type UsedTimeModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): UsedTimeModel;
 }

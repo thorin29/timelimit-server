@@ -86,8 +86,8 @@ Reference this group by using
 | Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                             |
 | :------------------------ | -------- | -------- | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [hash](#hash)             | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword-properties-hash.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/ParentPassword/properties/hash")             |
-| [secondHash](#secondHash) | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/ParentPassword/properties/secondHash") |
-| [secondSalt](#secondSalt) | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/ParentPassword/properties/secondSalt") |
+| [secondHash](#secondhash) | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/ParentPassword/properties/secondHash") |
+| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/ParentPassword/properties/secondSalt") |
 
 ### hash
 
@@ -145,9 +145,9 @@ Reference this group by using
 {"$ref":"https://timelimit.io/SerializedChildAction#/definitions/SerializedChildSignInAction"}
 ```
 
-| Property      | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                           |
-| :------------ | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type) | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-serializedchildsigninaction-properties-type.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/SerializedChildSignInAction/properties/type") |
+| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                           |
+| :-------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type-1) | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-serializedchildsigninaction-properties-type.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/SerializedChildSignInAction/properties/type") |
 
 ### type
 

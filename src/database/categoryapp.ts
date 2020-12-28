@@ -25,7 +25,7 @@ export interface CategoryAppAttributes {
   packageName: string
 }
 
-export type CategoryAppModel = Sequelize.Model & CategoryAppAttributes
+export type CategoryAppModel = Sequelize.Model<CategoryAppAttributes> & CategoryAppAttributes
 export type CategoryAppModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): CategoryAppModel;
 }

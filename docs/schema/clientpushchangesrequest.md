@@ -15,6 +15,45 @@ https://timelimit.io/ClientPushChangesRequest
 
 `object` ([ClientPushChangesRequest](clientpushchangesrequest.md))
 
+# ClientPushChangesRequest Properties
+
+| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                          |
+| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [deviceAuthToken](#deviceauthtoken) | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/deviceAuthToken") |
+| [actions](#actions)                 | `array`  | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-properties-actions.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/actions")                 |
+
+## deviceAuthToken
+
+
+
+
+`deviceAuthToken`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ClientPushChangesRequest](clientpushchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/deviceAuthToken")
+
+### deviceAuthToken Type
+
+`string`
+
+## actions
+
+
+
+
+`actions`
+
+-   is required
+-   Type: `object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))
+-   cannot be null
+-   defined in: [ClientPushChangesRequest](clientpushchangesrequest-properties-actions.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/actions")
+
+### actions Type
+
+`object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))
+
 # ClientPushChangesRequest Definitions
 
 ## Definitions group ClientPushChangesRequestAction
@@ -27,11 +66,11 @@ Reference this group by using
 
 | Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                              |
 | :-------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [encodedAction](#encodedAction)   | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-encodedaction.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/encodedAction")   |
-| [sequenceNumber](#sequenceNumber) | `number` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-sequencenumber.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/sequenceNumber") |
+| [encodedAction](#encodedaction)   | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-encodedaction.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/encodedAction")   |
+| [sequenceNumber](#sequencenumber) | `number` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-sequencenumber.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/sequenceNumber") |
 | [integrity](#integrity)           | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-integrity.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/integrity")           |
 | [type](#type)                     | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-type.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/type")                     |
-| [userId](#userId)                 | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-userid.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/userId")                 |
+| [userId](#userid)                 | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-definitions-clientpushchangesrequestaction-properties-userid.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/definitions/ClientPushChangesRequestAction/properties/userId")                 |
 
 ### encodedAction
 
@@ -122,42 +161,3 @@ Reference this group by using
 #### userId Type
 
 `string`
-
-# ClientPushChangesRequest Properties
-
-| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                          |
-| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [deviceAuthToken](#deviceAuthToken) | `string` | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/deviceAuthToken") |
-| [actions](#actions)                 | `array`  | Required | cannot be null | [ClientPushChangesRequest](clientpushchangesrequest-properties-actions.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/actions")                 |
-
-## deviceAuthToken
-
-
-
-
-`deviceAuthToken`
-
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ClientPushChangesRequest](clientpushchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/deviceAuthToken")
-
-### deviceAuthToken Type
-
-`string`
-
-## actions
-
-
-
-
-`actions`
-
--   is required
--   Type: `object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))
--   cannot be null
--   defined in: [ClientPushChangesRequest](clientpushchangesrequest-properties-actions.md "https&#x3A;//timelimit.io/ClientPushChangesRequest#/properties/actions")
-
-### actions Type
-
-`object[]` ([ClientPushChangesRequestAction](clientpushchangesrequest-definitions-clientpushchangesrequestaction.md))

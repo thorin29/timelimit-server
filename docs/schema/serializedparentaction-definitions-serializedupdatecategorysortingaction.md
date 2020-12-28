@@ -20,7 +20,7 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 | Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                |
 | :-------------------------- | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type)               | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/type")               |
-| [categoryIds](#categoryIds) | `array`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-categoryids.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/categoryIds") |
+| [categoryIds](#categoryids) | `array`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-categoryids.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/categoryIds") |
 
 ## type
 

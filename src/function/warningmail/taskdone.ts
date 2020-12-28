@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database, Transaction, warpPromiseReturner } from '../../database'
+import { Database, Transaction } from '../../database'
 import { mailNotificationFlags } from '../../database/user'
 import { sendTaskDoneMail } from '../../util/mail'
 import { canSendTaskDoneMail } from '../../util/ratelimit-taskdonemail'
@@ -40,7 +40,7 @@ export const sendTaskDoneMails = async ({ database, familyId, childName, taskTit
     .filter((item) => (item.mailNotificationFlags & mailNotificationFlags.tasks) === mailNotificationFlags.tasks)
     .map((item) => item.mail)
 
-  transaction.afterCommit(warpPromiseReturner(async () => {
+  transaction.afterCommit(async () => {
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
         if (await canSendTaskDoneMail(receiver)) {
@@ -48,5 +48,5 @@ export const sendTaskDoneMails = async ({ database, familyId, childName, taskTit
         }
       })
     )
-  }))
+  })
 }

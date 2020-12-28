@@ -15,13 +15,11 @@ https://timelimit.io/RequestWithAuthToken
 
 `object` ([RequestWithAuthToken](requestwithauthtoken.md))
 
-# RequestWithAuthToken Definitions
-
 # RequestWithAuthToken Properties
 
 | Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                              |
 | :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [deviceAuthToken](#deviceAuthToken) | `string` | Required | cannot be null | [RequestWithAuthToken](requestwithauthtoken-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/RequestWithAuthToken#/properties/deviceAuthToken") |
+| [deviceAuthToken](#deviceauthtoken) | `string` | Required | cannot be null | [RequestWithAuthToken](requestwithauthtoken-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/RequestWithAuthToken#/properties/deviceAuthToken") |
 
 ## deviceAuthToken
 
@@ -38,3 +36,5 @@ https://timelimit.io/RequestWithAuthToken
 ### deviceAuthToken Type
 
 `string`
+
+# RequestWithAuthToken Definitions

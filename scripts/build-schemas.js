@@ -61,7 +61,7 @@ const settings = {
 
 const compilerOptions = {
   strictNullChecks: true,
-  lib: ['es2015']
+  lib: ['es2015', 'dom']
 }
 
 // optionally pass a base path
@@ -95,7 +95,7 @@ allTypes.forEach((type) => {
 
 output += '// tslint:disable \n'
 output += 'import { ' + types.join(', ') + ' } from \'./schema\'\n'
-output += 'const Ajv = require(\'ajv\')\n'
+output += 'import Ajv from \'ajv\'\n'
 output += 'const ajv = new Ajv()\n'
 output += '\n'
 output += 'const definitions = ' + JSON.stringify(definitions, null, 2) + '\n\n'

@@ -90,7 +90,7 @@ export async function dispatchMarkTaskPendingAction ({ action, cache, deviceId }
 
   const childInfo = { name: childInfoUnsafe.name }
 
-  await cache.database.childTask.update({ pendingRequest: true }, {
+  await cache.database.childTask.update({ pendingRequest: 1 }, {
     where: {
       familyId: cache.familyId,
       taskId: action.taskId

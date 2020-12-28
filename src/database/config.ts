@@ -23,7 +23,7 @@ export interface ConfigAttributes {
   value: string | null
 }
 
-export type ConfigModel = Sequelize.Model & ConfigAttributes
+export type ConfigModel = Sequelize.Model<ConfigAttributes> & ConfigAttributes
 export type ConfigModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): ConfigModel;
 }

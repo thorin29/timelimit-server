@@ -50,21 +50,21 @@ export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLim
     }
   }
 
-  const categoriesOfSameChild = await cache.database.category.findAll({
+  const categoriesOfSameChild = (await cache.database.category.findAll({
     where: {
       familyId: cache.familyId,
       childId
     },
     attributes: ['categoryId', 'parentCategoryId'],
     transaction: cache.transaction
-  }).map((item) => ({
+  })).map((item) => ({
     categoryId: item.categoryId,
     parentCategoryId: item.parentCategoryId
   }))
 
   const userCategoryIds = categoriesOfSameChild.map((item) => item.categoryId)
 
-  const oldCategories = await cache.database.categoryApp.findAll({
+  const oldCategories = (await cache.database.categoryApp.findAll({
     attributes: [ 'categoryId' ],
     group: [ 'categoryId' ],
     where: {
@@ -77,7 +77,7 @@ export async function dispatchAddCategoryApps ({ action, cache, fromChildSelfLim
       }
     },
     transaction: cache.transaction
-  }).map((item) => item.categoryId)
+  })).map((item) => item.categoryId)
 
   if (fromChildSelfLimitAddChildUserId !== null) {
     try {

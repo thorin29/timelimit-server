@@ -20,8 +20,8 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPassw
 | Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                |
 | :------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [hash](#hash)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-hash.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/hash")             |
-| [secondHash](#secondHash) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondHash") |
-| [secondSalt](#secondSalt) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondSalt") |
+| [secondHash](#secondhash) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondHash") |
+| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondSalt") |
 
 ## hash
 

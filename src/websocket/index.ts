@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import * as io from 'socket.io'
 import { ConnectedDevicesManager, VisibleConnectedDevicesManager } from '../connected-devices'
 import { Database } from '../database'
@@ -37,7 +37,7 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   const eventTriggerImportantSyncForAll = 'triggerimportantsyncforall'
 
   let socketCounter = 0
-  const server = io()
+  const server = new io()
 
   server.on('connection', (socket) => {
     socketCounter++

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,7 +27,7 @@ export interface MailLoginTokenAttributes {
   remainingAttempts: number
 }
 
-export type MailLoginTokenModel = Sequelize.Model & MailLoginTokenAttributes
+export type MailLoginTokenModel = Sequelize.Model<MailLoginTokenAttributes> & MailLoginTokenAttributes
 export type MailLoginTokenModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): MailLoginTokenModel;
 }

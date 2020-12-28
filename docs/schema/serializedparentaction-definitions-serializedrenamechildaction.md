@@ -20,8 +20,8 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAc
 | Property            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                    |
 | :------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type)       | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedrenamechildaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction/properties/type")       |
-| [childId](#childId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedrenamechildaction-properties-childid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction/properties/childId") |
-| [newName](#newName) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedrenamechildaction-properties-newname.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction/properties/newName") |
+| [childId](#childid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedrenamechildaction-properties-childid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction/properties/childId") |
+| [newName](#newname) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedrenamechildaction-properties-newname.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction/properties/newName") |
 
 ## type
 

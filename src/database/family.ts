@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,7 +29,7 @@ export interface FamilyAttributes {
   hasFullVersion: boolean
 }
 
-export type FamilyModel = Sequelize.Model & FamilyAttributes
+export type FamilyModel = Sequelize.Model<FamilyAttributes> & FamilyAttributes
 export type FamilyModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): FamilyModel;
 }

@@ -15,8 +15,6 @@ https://timelimit.io/SendMailLoginCodeRequest
 
 `object` ([SendMailLoginCodeRequest](sendmaillogincoderequest.md))
 
-# SendMailLoginCodeRequest Definitions
-
 # SendMailLoginCodeRequest Properties
 
 | Property          | Type     | Required | Nullable       | Defined by                                                                                                                                        |
@@ -55,3 +53,5 @@ https://timelimit.io/SendMailLoginCodeRequest
 ### locale Type
 
 `string`
+
+# SendMailLoginCodeRequest Definitions

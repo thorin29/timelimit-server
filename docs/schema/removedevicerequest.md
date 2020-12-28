@@ -15,16 +15,14 @@ https://timelimit.io/RemoveDeviceRequest
 
 `object` ([RemoveDeviceRequest](removedevicerequest.md))
 
-# RemoveDeviceRequest Definitions
-
 # RemoveDeviceRequest Properties
 
 | Property                                              | Type     | Required | Nullable       | Defined by                                                                                                                                                             |
 | :---------------------------------------------------- | -------- | -------- | -------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [deviceAuthToken](#deviceAuthToken)                   | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/deviceAuthToken")                   |
-| [parentUserId](#parentUserId)                         | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-parentuserid.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/parentUserId")                         |
-| [parentPasswordSecondHash](#parentPasswordSecondHash) | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-parentpasswordsecondhash.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/parentPasswordSecondHash") |
-| [deviceId](#deviceId)                                 | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-deviceid.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/deviceId")                                 |
+| [deviceAuthToken](#deviceauthtoken)                   | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/deviceAuthToken")                   |
+| [parentUserId](#parentuserid)                         | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-parentuserid.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/parentUserId")                         |
+| [parentPasswordSecondHash](#parentpasswordsecondhash) | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-parentpasswordsecondhash.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/parentPasswordSecondHash") |
+| [deviceId](#deviceid)                                 | `string` | Required | cannot be null | [RemoveDeviceRequest](removedevicerequest-properties-deviceid.md "https&#x3A;//timelimit.io/RemoveDeviceRequest#/properties/deviceId")                                 |
 
 ## deviceAuthToken
 
@@ -89,3 +87,5 @@ https://timelimit.io/RemoveDeviceRequest
 ### deviceId Type
 
 `string`
+
+# RemoveDeviceRequest Definitions

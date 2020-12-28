@@ -1,6 +1,6 @@
 // tslint:disable 
 import { ClientPushChangesRequest, ClientPullChangesRequest, MailAuthTokenRequestBody, CreateFamilyByMailTokenRequest, SignIntoFamilyRequest, RecoverParentPasswordRequest, CanRecoverPasswordRequest, RegisterChildDeviceRequest, SerializedParentAction, SerializedAppLogicAction, SerializedChildAction, CreateRegisterDeviceTokenRequest, CanDoPurchaseRequest, FinishPurchaseByGooglePlayRequest, LinkParentMailAddressRequest, UpdatePrimaryDeviceRequest, RemoveDeviceRequest, RequestWithAuthToken, SendMailLoginCodeRequest, SignInByMailCodeRequest } from './schema'
-const Ajv = require('ajv')
+import Ajv from 'ajv'
 const ajv = new Ajv()
 
 const definitions = {

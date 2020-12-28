@@ -15,14 +15,12 @@ https://timelimit.io/CanRecoverPasswordRequest
 
 `object` ([CanRecoverPasswordRequest](canrecoverpasswordrequest.md))
 
-# CanRecoverPasswordRequest Definitions
-
 # CanRecoverPasswordRequest Properties
 
 | Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                         |
 | :------------------------------ | -------- | -------- | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [mailAuthToken](#mailAuthToken) | `string` | Required | cannot be null | [CanRecoverPasswordRequest](canrecoverpasswordrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/CanRecoverPasswordRequest#/properties/mailAuthToken") |
-| [parentUserId](#parentUserId)   | `string` | Required | cannot be null | [CanRecoverPasswordRequest](canrecoverpasswordrequest-properties-parentuserid.md "https&#x3A;//timelimit.io/CanRecoverPasswordRequest#/properties/parentUserId")   |
+| [mailAuthToken](#mailauthtoken) | `string` | Required | cannot be null | [CanRecoverPasswordRequest](canrecoverpasswordrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/CanRecoverPasswordRequest#/properties/mailAuthToken") |
+| [parentUserId](#parentuserid)   | `string` | Required | cannot be null | [CanRecoverPasswordRequest](canrecoverpasswordrequest-properties-parentuserid.md "https&#x3A;//timelimit.io/CanRecoverPasswordRequest#/properties/parentUserId")   |
 
 ## mailAuthToken
 
@@ -55,3 +53,5 @@ https://timelimit.io/CanRecoverPasswordRequest
 ### parentUserId Type
 
 `string`
+
+# CanRecoverPasswordRequest Definitions

@@ -36,7 +36,7 @@ interface SessionDurationAttributesVersion1 {
 
 export type SessionDurationAttributes = SessionDurationAttributesVersion1
 
-export type SessionDurationModel = Sequelize.Model & SessionDurationAttributes
+export type SessionDurationModel = Sequelize.Model<SessionDurationAttributes> & SessionDurationAttributes
 export type SessionDurationModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): SessionDurationModel;
 }

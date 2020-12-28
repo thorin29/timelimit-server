@@ -27,7 +27,7 @@ export interface AppActivityAttributes {
   title: string
 }
 
-export type AppActivityModel = Sequelize.Model & AppActivityAttributes
+export type AppActivityModel = Sequelize.Model<AppActivityAttributes> & AppActivityAttributes
 export type AppActivityModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AppActivityModel;
 }

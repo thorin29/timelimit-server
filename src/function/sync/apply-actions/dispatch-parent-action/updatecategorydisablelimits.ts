@@ -60,7 +60,7 @@ export async function dispatchUpdateCategoryDisableLimits ({ action, cache, from
   }
 
   const [affectedRows] = await cache.database.category.update({
-    disableLimitsUntil: action.endTime
+    disableLimitsUntil: action.endTime.toString(10)
   }, {
     where: {
       familyId: cache.familyId,

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database, Transaction, warpPromiseReturner } from '../../database'
+import { Database, Transaction } from '../../database'
 import { mailNotificationFlags } from '../../database/user'
 import { sendUninstallWarningMail } from '../../util/mail'
 import { canSendWarningMail } from '../../util/ratelimit-warningmail'
@@ -39,7 +39,7 @@ export const sendUninstallWarnings = async ({ database, familyId, deviceName, tr
     .filter((item) => (item.mailNotificationFlags & mailNotificationFlags.warnings) === mailNotificationFlags.warnings)
     .map((item) => item.mail)
 
-  transaction.afterCommit(warpPromiseReturner(async () => {
+  transaction.afterCommit(async () => {
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
         if (await canSendWarningMail(receiver)) {
@@ -47,5 +47,5 @@ export const sendUninstallWarnings = async ({ database, familyId, deviceName, tr
         }
       })
     )
-  }))
+  })
 }

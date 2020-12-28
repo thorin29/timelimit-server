@@ -64,48 +64,52 @@ export async function getAppList ({ database, transaction, familyEntry, appsStat
 
   if (idsOfDevicesWhereInstalledAppsMustBeSynced.length > 0) {
     const [appsToSync, activitiesToSync] = await Promise.all([
-      database.app.findAll({
-        where: {
-          familyId: familyEntry.familyId,
-          deviceId: {
-            [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
-          }
-        },
-        attributes: [
-          'deviceId',
-          'packageName',
-          'title',
-          'isLaunchable',
-          'recommendation'
-        ],
-        transaction
-      }).map((item) => ({
-        deviceId: item.deviceId,
-        packageName: item.packageName,
-        title: item.title,
-        isLaunchable: item.isLaunchable,
-        recommendation: item.recommendation
-      })),
-      database.appActivity.findAll({
-        where: {
-          familyId: familyEntry.familyId,
-          deviceId: {
-            [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
-          }
-        },
-        attributes: [
-          'deviceId',
-          'packageName',
-          'title',
-          'activityName'
-        ],
-        transaction
-      }).map((item) => ({
-        deviceId: item.deviceId,
-        packageName: item.packageName,
-        activityName: item.activityName,
-        title: item.title
-      }))
+      (async () => {
+        return (await database.app.findAll({
+          where: {
+            familyId: familyEntry.familyId,
+            deviceId: {
+              [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
+            }
+          },
+          attributes: [
+            'deviceId',
+            'packageName',
+            'title',
+            'isLaunchable',
+            'recommendation'
+          ],
+          transaction
+        })).map((item) => ({
+          deviceId: item.deviceId,
+          packageName: item.packageName,
+          title: item.title,
+          isLaunchable: item.isLaunchable,
+          recommendation: item.recommendation
+        }))
+      })(),
+      (async () => {
+        return (await database.appActivity.findAll({
+          where: {
+            familyId: familyEntry.familyId,
+            deviceId: {
+              [Sequelize.Op.in]: idsOfDevicesWhereInstalledAppsMustBeSynced
+            }
+          },
+          attributes: [
+            'deviceId',
+            'packageName',
+            'title',
+            'activityName'
+          ],
+          transaction
+        })).map((item) => ({
+          deviceId: item.deviceId,
+          packageName: item.packageName,
+          activityName: item.activityName,
+          title: item.title
+        }))
+      })()
     ])
 
     return idsOfDevicesWhereInstalledAppsMustBeSynced.map((deviceId): ServerInstalledAppsData => ({

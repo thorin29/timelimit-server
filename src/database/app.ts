@@ -29,7 +29,7 @@ export interface AppAttributes {
   recommendation: AppRecommendation
 }
 
-export type AppModel = Sequelize.Model & AppAttributes
+export type AppModel = Sequelize.Model<AppAttributes> & AppAttributes
 export type AppModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AppModel;
 }

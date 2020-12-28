@@ -29,7 +29,7 @@ export interface PurchaseAttributes {
   newFullVersionEndTime: string
 }
 
-export type PurchaseModel = Sequelize.Model & PurchaseAttributes
+export type PurchaseModel = Sequelize.Model<PurchaseAttributes> & PurchaseAttributes
 export type PurchaseModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): PurchaseModel;
 }

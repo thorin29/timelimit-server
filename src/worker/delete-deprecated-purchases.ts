@@ -44,7 +44,7 @@ async function deleteDeprecatedPurchases ({ database, websocket }: {
   websocket: WebsocketApi
 }) {
   await database.transaction(async (transaction) => {
-    const affectedFamilyIds = await database.family.findAll({
+    const affectedFamilyIds = (await database.family.findAll({
       where: {
         hasFullVersion: true,
         fullVersionUntil: {
@@ -55,14 +55,16 @@ async function deleteDeprecatedPurchases ({ database, websocket }: {
       transaction,
       lock: Sequelize.Transaction.LOCK.UPDATE,
       limit: 100
-    }).map((item) => item.familyId)
+    })).map((item) => item.familyId)
 
     await database.family.update({
       hasFullVersion: false
     }, {
       where: {
-        familyid: {
-          [Sequelize.Op.in]: affectedFamilyIds
+        familyId: {
+          [Sequelize.Op.in]: {
+            affectedFamilyIds
+          }
         }
       },
       transaction

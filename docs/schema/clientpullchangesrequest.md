@@ -15,6 +15,45 @@ https://timelimit.io/ClientPullChangesRequest
 
 `object` ([ClientPullChangesRequest](clientpullchangesrequest.md))
 
+# ClientPullChangesRequest Properties
+
+| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                          |
+| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [deviceAuthToken](#deviceauthtoken) | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/deviceAuthToken") |
+| [status](#status)                   | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/status")        |
+
+## deviceAuthToken
+
+
+
+
+`deviceAuthToken`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [ClientPullChangesRequest](clientpullchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/deviceAuthToken")
+
+### deviceAuthToken Type
+
+`string`
+
+## status
+
+
+
+
+`status`
+
+-   is required
+-   Type: `object` ([ClientDataStatus](clientpullchangesrequest-definitions-clientdatastatus.md))
+-   cannot be null
+-   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/status")
+
+### status Type
+
+`object` ([ClientDataStatus](clientpullchangesrequest-definitions-clientdatastatus.md))
+
 # ClientPullChangesRequest Definitions
 
 ## Definitions group ClientDataStatus
@@ -31,7 +70,7 @@ Reference this group by using
 | [apps](#apps)               | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps")               |
 | [categories](#categories)   | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories")   |
 | [users](#users)             | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-users.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/users")             |
-| [clientLevel](#clientLevel) | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel") |
+| [clientLevel](#clientlevel) | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel") |
 
 ### devices
 
@@ -124,9 +163,9 @@ Reference this group by using
 | Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                          |
 | :-------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [base](#base)         | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-base.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/base")         |
-| [apps](#apps)         | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-apps.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/apps")         |
+| [apps](#apps-1)       | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-apps.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/apps")         |
 | [rules](#rules)       | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-rules.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/rules")       |
-| [usedTime](#usedTime) | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-usedtime.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/usedTime") |
+| [usedTime](#usedtime) | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-usedtime.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/usedTime") |
 | [tasks](#tasks)       | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-tasks.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/tasks")       |
 
 ### base
@@ -208,42 +247,3 @@ Reference this group by using
 #### tasks Type
 
 `string`
-
-# ClientPullChangesRequest Properties
-
-| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                          |
-| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [deviceAuthToken](#deviceAuthToken) | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/deviceAuthToken") |
-| [status](#status)                   | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/status")        |
-
-## deviceAuthToken
-
-
-
-
-`deviceAuthToken`
-
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ClientPullChangesRequest](clientpullchangesrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/deviceAuthToken")
-
-### deviceAuthToken Type
-
-`string`
-
-## status
-
-
-
-
-`status`
-
--   is required
--   Type: `object` ([ClientDataStatus](clientpullchangesrequest-definitions-clientdatastatus.md))
--   cannot be null
--   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus.md "https&#x3A;//timelimit.io/ClientPullChangesRequest#/properties/status")
-
-### status Type
-
-`object` ([ClientDataStatus](clientpullchangesrequest-definitions-clientdatastatus.md))

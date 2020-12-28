@@ -41,7 +41,7 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
 
       deviceEntry.didDeviceReportUninstall = true
       deviceEntry.deviceAuthToken = generateAuthToken() // invalidiate the token
-      deviceEntry.save({ transaction })
+      await deviceEntry.save({ transaction })
 
       // invalidiate device list
       await database.family.update({

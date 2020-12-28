@@ -44,7 +44,7 @@ interface TimelimitRuleAttributesVersion3 {
 type TimelimitRuleAttributes = TimelimitRuleAttributesVersion1 &
   TimelimitRuleAttributesVersion2 & TimelimitRuleAttributesVersion3
 
-export type TimelimitRuleModel = Sequelize.Model & TimelimitRuleAttributes
+export type TimelimitRuleModel = Sequelize.Model<TimelimitRuleAttributes> & TimelimitRuleAttributes
 export type TimelimitRuleModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): TimelimitRuleModel;
 }

@@ -20,7 +20,7 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTa
 | Property          | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                          |
 | :---------------- | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/type")     |
-| [taskId](#taskId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/taskId") |
+| [taskId](#taskid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-taskid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/taskId") |
 
 ## type
 

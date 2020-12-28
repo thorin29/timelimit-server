@@ -35,7 +35,7 @@ export async function deleteOldFamilies (database: Database) {
 
 export async function findOldFamilyIds (database: Database) {
   return database.transaction(async (transaction) => {
-    const familyIdsWithExpiredLicenses = await database.family.findAll({
+    const familyIdsWithExpiredLicenses = (await database.family.findAll({
       where: {
         fullVersionUntil: {
           [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
@@ -43,13 +43,13 @@ export async function findOldFamilyIds (database: Database) {
       },
       attributes: ['familyId'],
       transaction
-    }).map((item) => item.familyId)
+    })).map((item) => item.familyId)
 
     if (familyIdsWithExpiredLicenses.length === 0) {
       return []
     }
 
-    const recentlyUsedFamilyIds = await database.device.findAll({
+    const recentlyUsedFamilyIds = (await database.device.findAll({
       where: {
         familyId: {
           [Sequelize.Op.in]: familyIdsWithExpiredLicenses
@@ -60,7 +60,7 @@ export async function findOldFamilyIds (database: Database) {
       },
       attributes: ['familyId'],
       transaction
-    }).map((item) => item.familyId)
+    })).map((item) => item.familyId)
 
     return difference(familyIdsWithExpiredLicenses, recentlyUsedFamilyIds)
   })

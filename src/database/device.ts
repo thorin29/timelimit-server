@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2020 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -107,7 +107,7 @@ export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersio
   DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
   DeviceAttributesVersion9 & DeviceAttributesVersion10 & DeviceAttributesVersion11
 
-export type DeviceModel = Sequelize.Model & DeviceAttributes
+export type DeviceModel = Sequelize.Model<DeviceAttributes> & DeviceAttributes
 export type DeviceModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): DeviceModel;
 }

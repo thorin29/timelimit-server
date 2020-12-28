@@ -15,13 +15,11 @@ https://timelimit.io/MailAuthTokenRequestBody
 
 `object` ([MailAuthTokenRequestBody](mailauthtokenrequestbody.md))
 
-# MailAuthTokenRequestBody Definitions
-
 # MailAuthTokenRequestBody Properties
 
 | Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                      |
 | :------------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [mailAuthToken](#mailAuthToken) | `string` | Required | cannot be null | [MailAuthTokenRequestBody](mailauthtokenrequestbody-properties-mailauthtoken.md "https&#x3A;//timelimit.io/MailAuthTokenRequestBody#/properties/mailAuthToken") |
+| [mailAuthToken](#mailauthtoken) | `string` | Required | cannot be null | [MailAuthTokenRequestBody](mailauthtokenrequestbody-properties-mailauthtoken.md "https&#x3A;//timelimit.io/MailAuthTokenRequestBody#/properties/mailAuthToken") |
 
 ## mailAuthToken
 
@@ -38,3 +36,5 @@ https://timelimit.io/MailAuthTokenRequestBody
 ### mailAuthToken Type
 
 `string`
+
+# MailAuthTokenRequestBody Definitions

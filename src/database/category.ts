@@ -54,7 +54,7 @@ export interface CategoryAttributesVersion5 {
 }
 
 export interface CategoryAttributesVersion6 {
-  temporarilyBlockedEndTime: number
+  temporarilyBlockedEndTime: string
 }
 
 export interface CategoryAttributesVersion7 {
@@ -78,7 +78,7 @@ export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributes
   CategoryAttributesVersion6 & CategoryAttributesVersion7 & CategoryAttributesVersion8 &
   CategoryAttributesVersion9 & CategoryAttributesVersion10
 
-export type CategoryModel = Sequelize.Model & CategoryAttributes
+export type CategoryModel = Sequelize.Model<CategoryAttributes> & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): CategoryModel;
 }

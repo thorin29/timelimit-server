@@ -15,15 +15,13 @@ https://timelimit.io/CreateRegisterDeviceTokenRequest
 
 `object` ([CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest.md))
 
-# CreateRegisterDeviceTokenRequest Definitions
-
 # CreateRegisterDeviceTokenRequest Properties
 
 | Property                                              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                    |
 | :---------------------------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [deviceAuthToken](#deviceAuthToken)                   | `string` | Required | cannot be null | [CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/CreateRegisterDeviceTokenRequest#/properties/deviceAuthToken")                   |
-| [parentId](#parentId)                                 | `string` | Required | cannot be null | [CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest-properties-parentid.md "https&#x3A;//timelimit.io/CreateRegisterDeviceTokenRequest#/properties/parentId")                                 |
-| [parentPasswordSecondHash](#parentPasswordSecondHash) | `string` | Required | cannot be null | [CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest-properties-parentpasswordsecondhash.md "https&#x3A;//timelimit.io/CreateRegisterDeviceTokenRequest#/properties/parentPasswordSecondHash") |
+| [deviceAuthToken](#deviceauthtoken)                   | `string` | Required | cannot be null | [CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/CreateRegisterDeviceTokenRequest#/properties/deviceAuthToken")                   |
+| [parentId](#parentid)                                 | `string` | Required | cannot be null | [CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest-properties-parentid.md "https&#x3A;//timelimit.io/CreateRegisterDeviceTokenRequest#/properties/parentId")                                 |
+| [parentPasswordSecondHash](#parentpasswordsecondhash) | `string` | Required | cannot be null | [CreateRegisterDeviceTokenRequest](createregisterdevicetokenrequest-properties-parentpasswordsecondhash.md "https&#x3A;//timelimit.io/CreateRegisterDeviceTokenRequest#/properties/parentPasswordSecondHash") |
 
 ## deviceAuthToken
 
@@ -72,3 +70,5 @@ https://timelimit.io/CreateRegisterDeviceTokenRequest
 ### parentPasswordSecondHash Type
 
 `string`
+
+# CreateRegisterDeviceTokenRequest Definitions

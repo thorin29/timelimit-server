@@ -15,43 +15,13 @@ https://timelimit.io/SignIntoFamilyRequest
 
 `object` ([SignIntoFamilyRequest](signintofamilyrequest.md))
 
-# SignIntoFamilyRequest Definitions
-
-## Definitions group NewDeviceInfo
-
-Reference this group by using
-
-```json
-{"$ref":"https://timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo"}
-```
-
-| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                 |
-| :-------------- | -------- | -------- | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [model](#model) | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo-properties-model.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo/properties/model") |
-
-### model
-
-
-
-
-`model`
-
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo-properties-model.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo/properties/model")
-
-#### model Type
-
-`string`
-
 # SignIntoFamilyRequest Properties
 
 | Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                             |
 | :------------------------------ | -------- | -------- | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [mailAuthToken](#mailAuthToken) | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/mailAuthToken") |
-| [parentDevice](#parentDevice)   | `object` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/parentDevice") |
-| [deviceName](#deviceName)       | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-devicename.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/deviceName")       |
+| [mailAuthToken](#mailauthtoken) | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/mailAuthToken") |
+| [parentDevice](#parentdevice)   | `object` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/parentDevice") |
+| [deviceName](#devicename)       | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-devicename.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/deviceName")       |
 
 ## mailAuthToken
 
@@ -98,5 +68,35 @@ Reference this group by using
 -   defined in: [SignIntoFamilyRequest](signintofamilyrequest-properties-devicename.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/properties/deviceName")
 
 ### deviceName Type
+
+`string`
+
+# SignIntoFamilyRequest Definitions
+
+## Definitions group NewDeviceInfo
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo"}
+```
+
+| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                 |
+| :-------------- | -------- | -------- | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [model](#model) | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo-properties-model.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo/properties/model") |
+
+### model
+
+
+
+
+`model`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo-properties-model.md "https&#x3A;//timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo/properties/model")
+
+#### model Type
 
 `string`

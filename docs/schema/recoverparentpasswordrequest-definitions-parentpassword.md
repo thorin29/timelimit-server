@@ -20,8 +20,8 @@ https://timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword
 | Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                  |
 | :------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [hash](#hash)             | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-hash.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/hash")             |
-| [secondHash](#secondHash) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondHash") |
-| [secondSalt](#secondSalt) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondSalt") |
+| [secondHash](#secondhash) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondHash") |
+| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondSalt") |
 
 ## hash
 

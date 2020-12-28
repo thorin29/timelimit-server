@@ -25,7 +25,7 @@ export interface AuthTokenAttributes {
   createdAt: string
 }
 
-export type AuthTokenModel = Sequelize.Model & AuthTokenAttributes
+export type AuthTokenModel = Sequelize.Model<AuthTokenAttributes> & AuthTokenAttributes
 export type AuthTokenModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AuthTokenModel;
 }

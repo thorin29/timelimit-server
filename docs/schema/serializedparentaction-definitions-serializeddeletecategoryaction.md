@@ -20,7 +20,7 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteCategor
 | Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                |
 | :------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletecategoryaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteCategoryAction/properties/type")             |
-| [categoryId](#categoryId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletecategoryaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteCategoryAction/properties/categoryId") |
+| [categoryId](#categoryid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializeddeletecategoryaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedDeleteCategoryAction/properties/categoryId") |
 
 ## type
 

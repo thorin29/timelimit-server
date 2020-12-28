@@ -15,14 +15,12 @@ https://timelimit.io/CanDoPurchaseRequest
 
 `object` ([CanDoPurchaseRequest](candopurchaserequest.md))
 
-# CanDoPurchaseRequest Definitions
-
 # CanDoPurchaseRequest Properties
 
 | Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                              |
 | :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [type](#type)                       | `string` | Required | cannot be null | [CanDoPurchaseRequest](candopurchaserequest-properties-type.md "https&#x3A;//timelimit.io/CanDoPurchaseRequest#/properties/type")                       |
-| [deviceAuthToken](#deviceAuthToken) | `string` | Required | cannot be null | [CanDoPurchaseRequest](candopurchaserequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/CanDoPurchaseRequest#/properties/deviceAuthToken") |
+| [deviceAuthToken](#deviceauthtoken) | `string` | Required | cannot be null | [CanDoPurchaseRequest](candopurchaserequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/CanDoPurchaseRequest#/properties/deviceAuthToken") |
 
 ## type
 
@@ -64,3 +62,5 @@ https://timelimit.io/CanDoPurchaseRequest
 ### deviceAuthToken Type
 
 `string`
+
+# CanDoPurchaseRequest Definitions

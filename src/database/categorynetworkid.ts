@@ -26,7 +26,7 @@ export interface CategoryNetworkIdAttributes {
   hashedNetworkId: string
 }
 
-export type CategoryNetworkIdModel = Sequelize.Model & CategoryNetworkIdAttributes
+export type CategoryNetworkIdModel = Sequelize.Model<CategoryNetworkIdAttributes> & CategoryNetworkIdAttributes
 export type CategoryNetworkIdModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): CategoryNetworkIdModel;
 }

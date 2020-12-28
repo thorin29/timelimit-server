@@ -33,7 +33,7 @@ export interface ChildTaskAttributes {
 export const maxExtraTime = 1000 * 60 * 60 * 24
 export const maxTitleLength = 50
 
-export type ChildTaskModel = Sequelize.Model & ChildTaskAttributes
+export type ChildTaskModel = Sequelize.Model<ChildTaskAttributes> & ChildTaskAttributes
 export type ChildTaskModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): ChildTaskModel;
 }

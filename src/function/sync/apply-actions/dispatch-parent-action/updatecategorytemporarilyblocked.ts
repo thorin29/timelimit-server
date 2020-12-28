@@ -48,7 +48,7 @@ export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache,
   const categoryEntry = {
     childId: categoryEntryUnsafe.childId,
     temporarilyBlocked: categoryEntryUnsafe.temporarilyBlocked,
-    temporarilyBlockedEndTime: categoryEntryUnsafe.temporarilyBlockedEndTime
+    temporarilyBlockedEndTime: parseInt(categoryEntryUnsafe.temporarilyBlockedEndTime, 10)
   }
 
   if (fromChildSelfLimitAddChildUserId !== null) {
@@ -69,7 +69,7 @@ export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache,
 
   const [affectedRows] = await cache.database.category.update({
     temporarilyBlocked: action.blocked,
-    temporarilyBlockedEndTime: action.blocked ? (action.endTime ?? 0) : 0
+    temporarilyBlockedEndTime: action.blocked ? (action.endTime ?? 0).toString(10) : '0'
   }, {
     where: {
       familyId: cache.familyId,

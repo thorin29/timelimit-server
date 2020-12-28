@@ -20,8 +20,8 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUser
 | Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                          |
 | :-------------------- | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type)         | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetdeviceuseraction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUserAction/properties/type")         |
-| [deviceId](#deviceId) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetdeviceuseraction-properties-deviceid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUserAction/properties/deviceId") |
-| [userId](#userId)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetdeviceuseraction-properties-userid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUserAction/properties/userId")     |
+| [deviceId](#deviceid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetdeviceuseraction-properties-deviceid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUserAction/properties/deviceId") |
+| [userId](#userid)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetdeviceuseraction-properties-userid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetDeviceUserAction/properties/userId")     |
 
 ## type
 

@@ -106,7 +106,7 @@ export async function getCategoryBaseDatas ({
     timeWarnings: item.timeWarningFlags,
     mblMobile: item.minBatteryMobile,
     mblCharging: item.minBatteryCharging,
-    tempBlockTime: item.temporarilyBlockedEndTime,
+    tempBlockTime: parseInt(item.temporarilyBlockedEndTime, 10),
     sort: item.sort,
     networks: networkIdsForSyncing
       .filter((network) => network.categoryId === item.categoryId)

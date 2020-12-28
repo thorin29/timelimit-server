@@ -195,7 +195,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
           startMinuteOfDay: limit.start,
           endMinuteOfDay: limit.end,
           // end of primary key
-          lastUsage: action.trustedTimestamp,
+          lastUsage: action.trustedTimestamp.toString(10),
           lastSessionDuration: item.timeToAdd,
           roundedLastUpdate: roundedTimestampForSessionDuration
         }, { transaction: cache.transaction })

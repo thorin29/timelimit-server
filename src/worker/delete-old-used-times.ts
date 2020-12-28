@@ -45,7 +45,7 @@ async function deleteOldUsedTimes ({ database }: {
 
   await database.transaction(async (transaction) => {
     // get matching categories
-    const categoriesToCleanUpOne = await database.usedTime.findAll({
+    const categoriesToCleanUpOne = (await database.usedTime.findAll({
       transaction,
       where: {
         lastUpdate: {
@@ -58,12 +58,12 @@ async function deleteOldUsedTimes ({ database }: {
       ],
       limit: 1000,
       order: [['lastUpdate', 'ASC']]
-    }).map((item) => ({
+    })).map((item) => ({
       familyId: item.familyId,
       categoryId: item.categoryId
     }))
 
-    const categoriesToCleanUpTwo = await database.sessionDuration.findAll({
+    const categoriesToCleanUpTwo = (await database.sessionDuration.findAll({
       transaction,
       where: {
         roundedLastUpdate: {
@@ -76,7 +76,7 @@ async function deleteOldUsedTimes ({ database }: {
       ],
       limit: 1000,
       order: [['roundedLastUpdate', 'ASC']]
-    }).map((item) => ({
+    })).map((item) => ({
       familyId: item.familyId,
       categoryId: item.categoryId
     }))

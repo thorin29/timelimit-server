@@ -110,7 +110,7 @@ export async function deleteFamilies ({ database, familiyIds }: {
     })
 
     // device
-    const oldDeviceAuthTokens = await database.device.findAll({
+    const oldDeviceAuthTokens = (await database.device.findAll({
       where: {
         familyId: {
           [Sequelize.Op.in]: familiyIds
@@ -118,7 +118,7 @@ export async function deleteFamilies ({ database, familiyIds }: {
       },
       attributes: ['deviceAuthToken'],
       transaction
-    }).map((item) => item.deviceAuthToken)
+    })).map((item) => item.deviceAuthToken)
 
     await database.device.destroy({
       where: {
@@ -131,14 +131,14 @@ export async function deleteFamilies ({ database, familiyIds }: {
 
     // olddevice
     if (oldDeviceAuthTokens.length > 0) {
-      const knownOldDeviceAuthTokens = await database.oldDevice.findAll({
+      const knownOldDeviceAuthTokens = (await database.oldDevice.findAll({
         where: {
           deviceAuthToken: {
             [Sequelize.Op.in]: oldDeviceAuthTokens
           }
         },
         transaction
-      }).map((item) => item.deviceAuthToken)
+      })).map((item) => item.deviceAuthToken)
 
       const oldDeviceAuthTokensToAdd = difference(oldDeviceAuthTokens, knownOldDeviceAuthTokens)
 

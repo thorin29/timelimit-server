@@ -15,14 +15,12 @@ https://timelimit.io/SignInByMailCodeRequest
 
 `object` ([SignInByMailCodeRequest](signinbymailcoderequest.md))
 
-# SignInByMailCodeRequest Definitions
-
 # SignInByMailCodeRequest Properties
 
 | Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                     |
 | :-------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [mailLoginToken](#mailLoginToken) | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken") |
-| [receivedCode](#receivedCode)     | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")     |
+| [mailLoginToken](#maillogintoken) | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken") |
+| [receivedCode](#receivedcode)     | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")     |
 
 ## mailLoginToken
 
@@ -55,3 +53,5 @@ https://timelimit.io/SignInByMailCodeRequest
 ### receivedCode Type
 
 `string`
+
+# SignInByMailCodeRequest Definitions

@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Promise as BluePromise } from 'bluebird'
 import * as Sequelize from 'sequelize'
 import { generateIdWithinFamily } from '../util/token'
 import { AddDeviceTokenModelStatic, createAddDeviceTokenModel } from './adddevicetoken'
@@ -106,9 +105,6 @@ class NestedTransactionTestException extends Error {}
 class TestRollbackException extends NestedTransactionTestException {}
 class NestedTransactionsNotWorkingException extends NestedTransactionTestException { constructor () { super('NestedTransactionsNotWorkingException') } }
 class IllegalStateException extends NestedTransactionTestException {}
-
-export const wrapPromise = <T>(promise: Promise<T>) => BluePromise.resolve(promise)
-export const warpPromiseReturner = <T>(fun: () => Promise<T>) => () => wrapPromise(fun())
 
 export async function assertNestedTransactionsAreWorking (database: Database) {
   const testValue = generateIdWithinFamily()

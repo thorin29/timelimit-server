@@ -26,7 +26,7 @@ export interface AddDeviceTokenAttributes {
   createdAt: string
 }
 
-export type AddDeviceTokenModel = Sequelize.Model & AddDeviceTokenAttributes
+export type AddDeviceTokenModel = Sequelize.Model<AddDeviceTokenAttributes> & AddDeviceTokenAttributes
 export type AddDeviceTokenModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AddDeviceTokenModel;
 }

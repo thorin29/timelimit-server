@@ -65,7 +65,7 @@ export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimi
     title: action.title,
     blockedMinutesInWeek: '',
     temporarilyBlocked: false,
-    temporarilyBlockedEndTime: 0,
+    temporarilyBlockedEndTime: '0',
     extraTimeInMillis: 0,
     extraTimeDay: -1,
     timeLimitRulesVersion: generateVersionId(),
@@ -76,8 +76,10 @@ export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimi
     blockAllNotifications: false,
     timeWarningFlags: 0,
     sort,
-    disableLimitsUntil: 0,
-    taskListVersion: generateVersionId()
+    disableLimitsUntil: '0',
+    taskListVersion: generateVersionId(),
+    minBatteryCharging: 0,
+    minBatteryMobile: 0
   }, { transaction: cache.transaction })
 
   // update the cache

@@ -15,13 +15,11 @@ https://timelimit.io/FinishPurchaseByGooglePlayRequest
 
 `object` ([FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest.md))
 
-# FinishPurchaseByGooglePlayRequest Definitions
-
 # FinishPurchaseByGooglePlayRequest Properties
 
 | Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                     |
 | :---------------------------------- | -------- | -------- | -------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [deviceAuthToken](#deviceAuthToken) | `string` | Required | cannot be null | [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/deviceAuthToken") |
+| [deviceAuthToken](#deviceauthtoken) | `string` | Required | cannot be null | [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-deviceauthtoken.md "https&#x3A;//timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/deviceAuthToken") |
 | [receipt](#receipt)                 | `string` | Required | cannot be null | [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-receipt.md "https&#x3A;//timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/receipt")                 |
 | [signature](#signature)             | `string` | Required | cannot be null | [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-signature.md "https&#x3A;//timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/signature")             |
 
@@ -72,3 +70,5 @@ https://timelimit.io/FinishPurchaseByGooglePlayRequest
 ### signature Type
 
 `string`
+
+# FinishPurchaseByGooglePlayRequest Definitions

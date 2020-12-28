@@ -15,15 +15,13 @@ https://timelimit.io/UpdatePrimaryDeviceRequest
 
 `object` ([UpdatePrimaryDeviceRequest](updateprimarydevicerequest.md))
 
-# UpdatePrimaryDeviceRequest Definitions
-
 # UpdatePrimaryDeviceRequest Properties
 
 | Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                            |
 | :------------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [action](#action)               | `string` | Required | cannot be null | [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-action.md "https&#x3A;//timelimit.io/UpdatePrimaryDeviceRequest#/properties/action")               |
-| [currentUserId](#currentUserId) | `string` | Required | cannot be null | [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-currentuserid.md "https&#x3A;//timelimit.io/UpdatePrimaryDeviceRequest#/properties/currentUserId") |
-| [authToken](#authToken)         | `string` | Required | cannot be null | [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-authtoken.md "https&#x3A;//timelimit.io/UpdatePrimaryDeviceRequest#/properties/authToken")         |
+| [currentUserId](#currentuserid) | `string` | Required | cannot be null | [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-currentuserid.md "https&#x3A;//timelimit.io/UpdatePrimaryDeviceRequest#/properties/currentUserId") |
+| [authToken](#authtoken)         | `string` | Required | cannot be null | [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-authtoken.md "https&#x3A;//timelimit.io/UpdatePrimaryDeviceRequest#/properties/authToken")         |
 
 ## action
 
@@ -81,3 +79,5 @@ https://timelimit.io/UpdatePrimaryDeviceRequest
 ### authToken Type
 
 `string`
+
+# UpdatePrimaryDeviceRequest Definitions

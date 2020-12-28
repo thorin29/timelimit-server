@@ -15,6 +15,45 @@ https://timelimit.io/RecoverParentPasswordRequest
 
 `object` ([RecoverParentPasswordRequest](recoverparentpasswordrequest.md))
 
+# RecoverParentPasswordRequest Properties
+
+| Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                                  |
+| :------------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [mailAuthToken](#mailauthtoken) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/mailAuthToken") |
+| [password](#password)           | `object` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/password")    |
+
+## mailAuthToken
+
+
+
+
+`mailAuthToken`
+
+-   is required
+-   Type: `string`
+-   cannot be null
+-   defined in: [RecoverParentPasswordRequest](recoverparentpasswordrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/mailAuthToken")
+
+### mailAuthToken Type
+
+`string`
+
+## password
+
+
+
+
+`password`
+
+-   is required
+-   Type: `object` ([ParentPassword](recoverparentpasswordrequest-definitions-parentpassword.md))
+-   cannot be null
+-   defined in: [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/password")
+
+### password Type
+
+`object` ([ParentPassword](recoverparentpasswordrequest-definitions-parentpassword.md))
+
 # RecoverParentPasswordRequest Definitions
 
 ## Definitions group ParentPassword
@@ -28,8 +67,8 @@ Reference this group by using
 | Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                  |
 | :------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [hash](#hash)             | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-hash.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/hash")             |
-| [secondHash](#secondHash) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondHash") |
-| [secondSalt](#secondSalt) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondSalt") |
+| [secondHash](#secondhash) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondhash.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondHash") |
+| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword-properties-secondsalt.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword/properties/secondSalt") |
 
 ### hash
 
@@ -78,42 +117,3 @@ Reference this group by using
 #### secondSalt Type
 
 `string`
-
-# RecoverParentPasswordRequest Properties
-
-| Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                                  |
-| :------------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [mailAuthToken](#mailAuthToken) | `string` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/mailAuthToken") |
-| [password](#password)           | `object` | Required | cannot be null | [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/password")    |
-
-## mailAuthToken
-
-
-
-
-`mailAuthToken`
-
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [RecoverParentPasswordRequest](recoverparentpasswordrequest-properties-mailauthtoken.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/mailAuthToken")
-
-### mailAuthToken Type
-
-`string`
-
-## password
-
-
-
-
-`password`
-
--   is required
--   Type: `object` ([ParentPassword](recoverparentpasswordrequest-definitions-parentpassword.md))
--   cannot be null
--   defined in: [RecoverParentPasswordRequest](recoverparentpasswordrequest-definitions-parentpassword.md "https&#x3A;//timelimit.io/RecoverParentPasswordRequest#/properties/password")
-
-### password Type
-
-`object` ([ParentPassword](recoverparentpasswordrequest-definitions-parentpassword.md))

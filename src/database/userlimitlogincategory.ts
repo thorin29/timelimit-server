@@ -33,7 +33,7 @@ export interface UserLimitLoginCategoryAttributesVersion2 {
 
 export type UserLimitLoginCategoryAttributes = UserLimitLoginCategoryAttributesVersion1 & UserLimitLoginCategoryAttributesVersion2
 
-export type UserLimitLoginCategoryModel = Sequelize.Model & UserLimitLoginCategoryAttributes
+export type UserLimitLoginCategoryModel = Sequelize.Model<UserLimitLoginCategoryAttributes> & UserLimitLoginCategoryAttributes
 export type UserLimitLoginCategoryModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): UserLimitLoginCategoryModel;
 }
