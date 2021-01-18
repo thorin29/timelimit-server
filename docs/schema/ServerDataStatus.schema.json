@@ -385,6 +385,9 @@
         },
         "dlu": {
           "type": "number"
+        },
+        "flags": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
@@ -396,6 +399,7 @@
         "dlu",
         "extraTime",
         "extraTimeDay",
+        "flags",
         "mblCharging",
         "mblMobile",
         "networks",

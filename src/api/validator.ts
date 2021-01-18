@@ -995,6 +995,33 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateCategoryFlagsAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_CATEGORY_FLAGS"
+        ]
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "modified": {
+        "type": "number"
+      },
+      "values": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "categoryId",
+      "modified",
+      "type",
+      "values"
+    ]
+  },
   "SerializedUpdateCategorySortingAction": {
     "type": "object",
     "properties": {
@@ -2051,6 +2078,9 @@ const definitions = {
       },
       "dlu": {
         "type": "number"
+      },
+      "flags": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2062,6 +2092,7 @@ const definitions = {
       "dlu",
       "extraTime",
       "extraTimeDay",
+      "flags",
       "mblCharging",
       "mblMobile",
       "networks",
@@ -2685,6 +2716,9 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
     },
     {
       "$ref": "#/definitions/SerializedUpdatCategoryDisableLimitsAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUpdateCategoryFlagsAction"
     },
     {
       "$ref": "#/definitions/SerializedUpdateCategorySortingAction"

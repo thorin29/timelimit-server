@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -50,6 +50,7 @@ import { SerializedUpdateCategoryBatteryLimitAction, UpdateCategoryBatteryLimitA
 import { SerializedUpdateCategoryBlockAllNotificationsAction, UpdateCategoryBlockAllNotificationsAction } from '../updatecategoryblockallnotifications'
 import { SerializedUpdateCategoryBlockedTimesAction, UpdateCategoryBlockedTimesAction } from '../updatecategoryblockedtimes'
 import { SerializedUpdatCategoryDisableLimitsAction, UpdateCategoryDisableLimitsAction } from '../updatecategorydisablelimits'
+import { SerializedUpdateCategoryFlagsAction, UpdateCategoryFlagsAction } from '../updatecategoryflags'
 import { SerializedUpdateCategorySortingAction, UpdateCategorySortingAction } from '../updatecategorysorting'
 import { SerializedUpdateCategoryTemporarilyBlockedAction, UpdateCategoryTemporarilyBlockedAction } from '../updatecategorytemporarilyblocked'
 import { SerializedUpdateCategoryTimeWarningsAction, UpdateCategoryTimeWarningsAction } from '../updatecategorytimewarnings'
@@ -98,6 +99,7 @@ export type SerializedParentAction =
   SerializedUpdateCategoryBlockAllNotificationsAction |
   SerializedUpdateCategoryBlockedTimesAction |
   SerializedUpdatCategoryDisableLimitsAction |
+  SerializedUpdateCategoryFlagsAction |
   SerializedUpdateCategorySortingAction |
   SerializedUpdateCategoryTemporarilyBlockedAction |
   SerializedUpdateCategoryTimeWarningsAction |
@@ -179,6 +181,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return UpdateCategoryBlockedTimesAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_DISABLE_LIMITS') {
     return UpdateCategoryDisableLimitsAction.parse(action)
+  } else if (action.type === 'UPDATE_CATEGORY_FLAGS') {
+    return UpdateCategoryFlagsAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_SORTING') {
     return UpdateCategorySortingAction.parse(action)
   } else if (action.type === 'UPDATE_CATEGORY_TIME_WARNINGS') {

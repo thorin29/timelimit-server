@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,6 +21,12 @@ import { booleanColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optio
 import { SequelizeAttributes } from './types'
 
 export const allowedTimeWarningFlags = 1 | 2 | 4 | 8 | 16
+
+export const categoryFlags = {
+  hasBlockedNetworkList: 1
+}
+
+export const maxCategoryFlags = categoryFlags.hasBlockedNetworkList
 
 export interface CategoryAttributesVersion1 {
   familyId: string
@@ -73,10 +79,14 @@ export interface CategoryAttributesVersion10 {
   taskListVersion: string
 }
 
+export interface CategoryAttributesVersion11 {
+  flags: string
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
   CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5 &
   CategoryAttributesVersion6 & CategoryAttributesVersion7 & CategoryAttributesVersion8 &
-  CategoryAttributesVersion9 & CategoryAttributesVersion10
+  CategoryAttributesVersion9 & CategoryAttributesVersion10 & CategoryAttributesVersion11
 
 export type CategoryModel = Sequelize.Model<CategoryAttributes> & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
@@ -210,6 +220,18 @@ export const attributesVersion10: SequelizeAttributes<CategoryAttributesVersion1
   }
 }
 
+export const attributesVersion11: SequelizeAttributes<CategoryAttributesVersion11> = {
+  flags: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: maxCategoryFlags
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -220,7 +242,8 @@ export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion7,
   ...attributesVersion8,
   ...attributesVersion9,
-  ...attributesVersion10
+  ...attributesVersion10,
+  ...attributesVersion11
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic

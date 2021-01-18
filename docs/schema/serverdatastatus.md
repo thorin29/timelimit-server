@@ -1168,6 +1168,7 @@ Reference this group by using
 | [sort](#sort)                                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-sort.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/sort")                                   |
 | [networks](#networks)                           | `array`   | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-networks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/networks")                           |
 | [dlu](#dlu)                                     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-dlu.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/dlu")                                     |
+| [flags](#flags)                                 | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/flags")                                 |
 
 ### categoryId
 
@@ -1438,6 +1439,22 @@ Reference this group by using
 -   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-dlu.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/dlu")
 
 #### dlu Type
+
+`number`
+
+### flags
+
+
+
+
+`flags`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/flags")
+
+#### flags Type
 
 `number`
 
@@ -2273,7 +2290,7 @@ Reference this group by using
 | [relaxPrimaryDevice](#relaxprimarydevice)                 | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-relaxprimarydevice.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/relaxPrimaryDevice")                 |
 | [mailNotificationFlags](#mailnotificationflags)           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mailnotificationflags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mailNotificationFlags")           |
 | [blockedTimes](#blockedtimes-1)                           | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")                             |
-| [flags](#flags)                                           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")                                           |
+| [flags](#flags-1)                                         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")                                           |
 | [llc](#llc)                                               | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")                                               |
 | [pbd](#pbd)                                               | `number`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")                                               |
 

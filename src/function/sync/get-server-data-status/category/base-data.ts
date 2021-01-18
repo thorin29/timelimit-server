@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -51,7 +51,8 @@ export async function getCategoryBaseDatas ({
       'minBatteryMobile',
       'temporarilyBlockedEndTime',
       'sort',
-      'disableLimitsUntil'
+      'disableLimitsUntil',
+      'flags'
     ],
     transaction
   })).map((item) => ({
@@ -70,7 +71,8 @@ export async function getCategoryBaseDatas ({
     minBatteryMobile: item.minBatteryMobile,
     temporarilyBlockedEndTime: item.temporarilyBlockedEndTime,
     sort: item.sort,
-    disableLimitsUntil: item.disableLimitsUntil
+    disableLimitsUntil: item.disableLimitsUntil,
+    flags: item.flags
   }))
 
   const networkIdsForSyncing = (await database.categoryNetworkId.findAll({
@@ -114,6 +116,7 @@ export async function getCategoryBaseDatas ({
         itemId: network.networkItemId,
         hashedNetworkId: network.hashedNetworkId
       })),
-    dlu: parseInt(item.disableLimitsUntil, 10)
+    dlu: parseInt(item.disableLimitsUntil, 10),
+    flags: parseInt(item.flags, 10)
   }))
 }

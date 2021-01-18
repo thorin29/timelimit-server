@@ -36,6 +36,7 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData
 | [sort](#sort)                                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-sort.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/sort")                                   |
 | [networks](#networks)                           | `array`   | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-networks.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/networks")                           |
 | [dlu](#dlu)                                     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-dlu.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/dlu")                                     |
+| [flags](#flags)                                 | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/flags")                                 |
 
 ## categoryId
 
@@ -306,5 +307,21 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData
 -   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-dlu.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/dlu")
 
 ### dlu Type
+
+`number`
+
+## flags
+
+
+
+
+`flags`
+
+-   is required
+-   Type: `number`
+-   cannot be null
+-   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/flags")
+
+### flags Type
 
 `number`

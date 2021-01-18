@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -58,6 +58,7 @@ export { UpdateCategoryBatteryLimitAction } from './updatecategorybatterylimit'
 export { UpdateCategoryBlockAllNotificationsAction } from './updatecategoryblockallnotifications'
 export { UpdateCategoryBlockedTimesAction } from './updatecategoryblockedtimes'
 export { UpdateCategoryDisableLimitsAction } from './updatecategorydisablelimits'
+export { UpdateCategoryFlagsAction } from './updatecategoryflags'
 export { UpdateCategorySortingAction } from './updatecategorysorting'
 export { UpdateCategoryTemporarilyBlockedAction } from './updatecategorytemporarilyblocked'
 export { UpdateCategoryTimeWarningsAction } from './updatecategorytimewarnings'
