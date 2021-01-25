@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -58,12 +58,24 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
       ...usedTimeAttributesVersion3
     }, { transaction })
 
-    await sequelize.query(`
-      INSERT INTO UsedTimes (familyId, categoryId, dayOfEpoch, usedTime, lastUpdate, startMinuteOfDay, endMinuteOfDay)
-        SELECT familyId, categoryId, dayOfEpoch, usedTime, lastUpdate,
-        ${MinuteOfDay.MIN} AS startMinuteOfDay, ${MinuteOfDay.MAX} AS endMinuteOfDay
-        FROM UsedTimesOld
-    `, { transaction })
+    const dialect = sequelize.getDialect()
+    const isMysql = dialect === 'mysql' || dialect === 'mariadb'
+
+    if (isMysql) {
+      await sequelize.query(`
+        INSERT INTO UsedTimes (familyId, categoryId, dayOfEpoch, usedTime, lastUpdate, startMinuteOfDay, endMinuteOfDay)
+          SELECT familyId, categoryId, dayOfEpoch, usedTime, lastUpdate,
+          ${MinuteOfDay.MIN} AS startMinuteOfDay, ${MinuteOfDay.MAX} AS endMinuteOfDay
+          FROM UsedTimesOld
+      `, { transaction })
+    } else {
+      await sequelize.query(`
+        INSERT INTO "UsedTimes" ("familyId", "categoryId", "dayOfEpoch", "usedTime", "lastUpdate", "startMinuteOfDay", "endMinuteOfDay")
+          SELECT "familyId", "categoryId", "dayOfEpoch", "usedTime", "lastUpdate",
+          ${MinuteOfDay.MIN} AS "startMinuteOfDay", ${MinuteOfDay.MAX} AS "endMinuteOfDay"
+          FROM "UsedTimesOld"
+      `, { transaction })
+    }
 
     await queryInterface.dropTable('UsedTimesOld', { transaction })
   })

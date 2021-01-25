@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,14 +21,28 @@ export async function up (_: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
     type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
-    await sequelize.query(
-      'CREATE TABLE `CategoryNetworkIds` ' +
-      '(`familyId` VARCHAR(10) NOT NULL, `categoryId` VARCHAR(6) NOT NULL,' +
-      '`networkItemId` VARCHAR(6) NOT NULL, `hashedNetworkId` VARCHAR(8) NOT NULL,' +
-      'PRIMARY KEY(`familyId`, `categoryId`, `networkItemId`), FOREIGN KEY(`familyId`, `categoryId`)' +
-      'REFERENCES `Categories`(`familyId`, `categoryId`) ON UPDATE CASCADE ON DELETE CASCADE )',
-      { transaction }
-    )
+    const dialect = sequelize.getDialect()
+    const isMysql = dialect === 'mysql' || dialect === 'mariadb'
+
+    if (isMysql) {
+      await sequelize.query(
+        'CREATE TABLE `CategoryNetworkIds` ' +
+        '(`familyId` VARCHAR(10) NOT NULL, `categoryId` VARCHAR(6) NOT NULL,' +
+        '`networkItemId` VARCHAR(6) NOT NULL, `hashedNetworkId` VARCHAR(8) NOT NULL,' +
+        'PRIMARY KEY(`familyId`, `categoryId`, `networkItemId`), FOREIGN KEY(`familyId`, `categoryId`)' +
+        'REFERENCES `Categories`(`familyId`, `categoryId`) ON UPDATE CASCADE ON DELETE CASCADE )',
+        { transaction }
+      )
+    } else {
+      await sequelize.query(
+        'CREATE TABLE "CategoryNetworkIds" ' +
+        '("familyId" VARCHAR(10) NOT NULL, "categoryId" VARCHAR(6) NOT NULL,' +
+        '"networkItemId" VARCHAR(6) NOT NULL, "hashedNetworkId" VARCHAR(8) NOT NULL,' +
+        'PRIMARY KEY("familyId", "categoryId", "networkItemId"), FOREIGN KEY("familyId", "categoryId")' +
+        'REFERENCES "Categories"("familyId", "categoryId") ON UPDATE CASCADE ON DELETE CASCADE )',
+        { transaction }
+      )
+    }
   })
 }
 

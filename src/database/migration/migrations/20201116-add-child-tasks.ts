@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,18 +22,36 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
   await sequelize.transaction({
     type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
-    await sequelize.query(
-      'CREATE TABLE `ChildTasks` (' +
-      '`familyId` VARCHAR(10) NOT NULL, `taskId` VARCHAR(6) NOT NULL,' +
-      '`categoryId` VARCHAR(6) NOT NULL, `taskTitle` VARCHAR(50) NOT NULL,' +
-      '`extraTimeDuration` INTEGER NOT NULL, `pendingRequest` INTEGER NOT NULL,' +
-      '`lastGrantTimestamp` LONG NOT NULL,' +
-      'PRIMARY KEY(`familyId`, `taskId`),' +
-      'FOREIGN KEY(`familyId`, `categoryId`) REFERENCES `Categories`(`familyId`, `categoryId`) ' +
-      'ON UPDATE CASCADE ON DELETE CASCADE' +
-      ')',
-      { transaction }
-    )
+    const dialect = sequelize.getDialect()
+    const isMysql = dialect === 'mysql' || dialect === 'mariadb'
+
+    if (isMysql) {
+      await sequelize.query(
+        'CREATE TABLE `ChildTasks` (' +
+        '`familyId` VARCHAR(10) NOT NULL, `taskId` VARCHAR(6) NOT NULL,' +
+        '`categoryId` VARCHAR(6) NOT NULL, `taskTitle` VARCHAR(50) NOT NULL,' +
+        '`extraTimeDuration` INTEGER NOT NULL, `pendingRequest` INTEGER NOT NULL,' +
+        '`lastGrantTimestamp` LONG NOT NULL,' +
+        'PRIMARY KEY(`familyId`, `taskId`),' +
+        'FOREIGN KEY(`familyId`, `categoryId`) REFERENCES `Categories`(`familyId`, `categoryId`) ' +
+        'ON UPDATE CASCADE ON DELETE CASCADE' +
+        ')',
+        { transaction }
+      )
+    } else {
+      await sequelize.query(
+        'CREATE TABLE "ChildTasks" (' +
+        '"familyId" VARCHAR(10) NOT NULL, "taskId" VARCHAR(6) NOT NULL,' +
+        '"categoryId" VARCHAR(6) NOT NULL, "taskTitle" VARCHAR(50) NOT NULL,' +
+        '"extraTimeDuration" INTEGER NOT NULL, "pendingRequest" INTEGER NOT NULL,' +
+        '"lastGrantTimestamp" BIGINT NOT NULL,' +
+        'PRIMARY KEY("familyId", "taskId"),' +
+        'FOREIGN KEY("familyId", "categoryId") REFERENCES "Categories"("familyId", "categoryId") ' +
+        'ON UPDATE CASCADE ON DELETE CASCADE' +
+        ')',
+        { transaction }
+      )
+    }
 
     await queryInterface.addColumn('Categories', 'taskListVersion', {
       ...categoryAttributes.taskListVersion

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,22 @@ export async function up (queryInterface: QueryInterface, sequelize: Sequelize) 
     await queryInterface.renameTable('Purchases', 'PurchasesOld', { transaction })
     await queryInterface.createTable('Purchases', purchaseAttributes, { transaction })
 
-    await sequelize.query(`
-      INSERT INTO Purchases (familyId, service, transactionId, type, loggedAt, previousFullVersionEndTime, newFullVersionEndTime)
-        SELECT familyId, service, transactionId, type, 0 AS loggedAt, 0 AS previousFullVersionEndTime, loggedAt AS newFullVersionEndTime
-        FROM PurchasesOld
-    `, { transaction })
+    const dialect = sequelize.getDialect()
+    const isMysql = dialect === 'mysql' || dialect === 'mariadb'
+
+    if (isMysql) {
+      await sequelize.query(`
+        INSERT INTO Purchases (familyId, service, transactionId, type, loggedAt, previousFullVersionEndTime, newFullVersionEndTime)
+          SELECT familyId, service, transactionId, type, 0 AS loggedAt, 0 AS previousFullVersionEndTime, loggedAt AS newFullVersionEndTime
+          FROM PurchasesOld
+      `, { transaction })
+    } else {
+      await sequelize.query(`
+        INSERT INTO "Purchases" ("familyId", service, "transactionId", type, "loggedAt", "previousFullVersionEndTime", "newFullVersionEndTime")
+          SELECT "familyId", service, "transactionId", type, 0 AS "loggedAt", 0 AS "previousFullVersionEndTime", "loggedAt" AS "newFullVersionEndTime"
+          FROM "PurchasesOld"
+      `, { transaction })
+    }
 
     await queryInterface.dropTable('PurchasesOld', { transaction })
   })
