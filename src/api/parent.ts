@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,6 @@ import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
 import { config } from '../config'
 import { Database, Transaction } from '../database'
 import { removeDevice } from '../function/device/remove-device'
-import { canRecoverPassword } from '../function/parent/can-recover-password'
 import { createAddDeviceToken } from '../function/parent/create-add-device-token'
 import { createFamily } from '../function/parent/create-family'
 import { getStatusByMailToken } from '../function/parent/get-status-by-mail-address'
@@ -30,7 +29,7 @@ import { recoverParentPassword } from '../function/parent/recover-parent-passwor
 import { signInIntoFamily } from '../function/parent/sign-in-into-family'
 import { WebsocketApi } from '../websocket'
 import {
-  isCanRecoverPasswordRequest, isCreateFamilyByMailTokenRequest,
+  isCreateFamilyByMailTokenRequest,
   isCreateRegisterDeviceTokenRequest, isLinkParentMailAddressRequest,
   isMailAuthTokenRequestBody, isRecoverParentPasswordRequest,
   isRemoveDeviceRequest, isSignIntoFamilyRequest
@@ -108,24 +107,6 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
         deviceAuthToken: result.deviceAuthToken,
         ownDeviceId: result.deviceId
       })
-    } catch (ex) {
-      next(ex)
-    }
-  })
-
-  router.post('/can-recover-password', json(), async (req, res, next) => {
-    try {
-      if (!isCanRecoverPasswordRequest(req.body)) {
-        throw new BadRequest()
-      }
-
-      const canRecover = await canRecoverPassword({
-        database,
-        parentUserId: req.body.parentUserId,
-        mailAuthToken: req.body.mailAuthToken
-      })
-
-      res.json({ canRecover })
     } catch (ex) {
       next(ex)
     }

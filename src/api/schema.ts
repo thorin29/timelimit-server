@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -80,11 +80,6 @@ export interface SignIntoFamilyRequest {
 export interface RecoverParentPasswordRequest {
   mailAuthToken: string
   password: ParentPassword
-}
-
-export interface CanRecoverPasswordRequest {
-  mailAuthToken: string
-  parentUserId: string
 }
 
 export interface RegisterChildDeviceRequest {
