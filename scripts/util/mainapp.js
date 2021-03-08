@@ -16,12 +16,15 @@
  */
 
 const { spawn } = require('child_process')
+const { resolve } = require('path')
 
 function startMainApp(env) {
+  const initPath = resolve(__dirname, '../../build/index.js')
+
   return new Promise((resolve, reject) => {
-    const task = spawn('npm', ['start'], {
+    const task = spawn('node', [initPath], {
       stdio: ['inherit', 'pipe', 'inherit'],
-      env: { ...process.env, PORT: 0 /* random port */, ...env }
+      env: { ...process.env, PORT: 0 /* random port */ }
     })
 
     task.on('exit', () => reject(new Error('task terminated too early')))

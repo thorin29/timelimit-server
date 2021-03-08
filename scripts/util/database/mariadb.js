@@ -64,7 +64,11 @@ async function startMariadb() {
   }
 
   return {
-    shutdown: () => task.kill('SIGINT'),
+    shutdown: () => {
+      spawnAsync('mysql', ['-S', socketPath, '-u', 'root', '-e', 'SHUTDOWN;'], { stdio: 'inherit' }).catch((ex) => {
+        console.warn(ex)
+      })
+    },
     socketPath,
     dataDir,
     database,

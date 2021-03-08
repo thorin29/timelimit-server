@@ -52,5 +52,4 @@ async function main() {
 
 main().catch((ex) => {
   console.warn(ex)
-  process.exit(1)
 })
