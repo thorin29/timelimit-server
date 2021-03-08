@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Sequelize from 'sequelize'
 import { AddUsedTimeAction } from '../../../../action'
 import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
+import { IllegalStateException } from '../exception/illegal-state'
 import { MissingCategoryException } from '../exception/missing-item'
 
 export const getRoundedTimestamp = () => {
@@ -65,17 +65,10 @@ export async function dispatchAddUsedTime ({ action, cache }: {
     currentExtraTime: number
   }) => {
     if (action.timeToAdd !== 0) {
-      const maxOperator = cache.database.dialect === 'sqlite' ? 'MAX' : 'GREATEST'
-      const minOperator = cache.database.dialect === 'sqlite' ? 'MIN' : 'LEAST'
-
-      // try to update first
-      const [updatedRows] = await cache.database.usedTime.update({
-        usedTime: Sequelize.literal(`${maxOperator}(0, ${minOperator}(usedTime + ${action.timeToAdd}, ${dayLengthInMs}))`) as any,
-        lastUpdate: roundedTimestamp
-      }, {
+      const oldItem = await cache.database.usedTime.findOne({
         where: {
           familyId: cache.familyId,
-          categoryId: categoryId,
+          categoryId: action.categoryId,
           dayOfEpoch: action.dayOfEpoch,
           startMinuteOfDay: MinuteOfDay.MIN,
           endMinuteOfDay: MinuteOfDay.MAX
@@ -83,13 +76,38 @@ export async function dispatchAddUsedTime ({ action, cache }: {
         transaction: cache.transaction
       })
 
-      // otherwise create
-      if (updatedRows === 0) {
+      if (oldItem) {
+        const oldUsedTime = oldItem.usedTime
+        const newUsedTime = Math.max(0, Math.min(oldUsedTime + action.timeToAdd, dayLengthInMs))
+
+        const oldLastUpdate = parseInt(oldItem.lastUpdate, 10)
+        const newLastUpdate = parseInt(roundedTimestamp, 10)
+
+        if (oldUsedTime !== newUsedTime || oldLastUpdate !== newLastUpdate) {
+          const [updatedRows] = await cache.database.usedTime.update({
+            usedTime: newUsedTime,
+            lastUpdate: newLastUpdate.toString(10)
+          }, {
+            where: {
+              familyId: cache.familyId,
+              categoryId: action.categoryId,
+              dayOfEpoch: action.dayOfEpoch,
+              startMinuteOfDay: MinuteOfDay.MIN,
+              endMinuteOfDay: MinuteOfDay.MAX
+            },
+            transaction: cache.transaction
+          })
+
+          if (updatedRows === 0) {
+            throw new IllegalStateException({ staticMessage: 'could not update fetched row' })
+          }
+        }
+      } else {
         await cache.database.usedTime.create({
           familyId: cache.familyId,
-          categoryId: categoryId,
+          categoryId: action.categoryId,
           dayOfEpoch: action.dayOfEpoch,
-          usedTime: Math.min(action.timeToAdd, dayLengthInMs),
+          usedTime: Math.max(0, Math.min(action.timeToAdd, dayLengthInMs)),
           lastUpdate: roundedTimestamp,
           startMinuteOfDay: MinuteOfDay.MIN,
           endMinuteOfDay: MinuteOfDay.MAX

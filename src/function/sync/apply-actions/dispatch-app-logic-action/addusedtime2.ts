@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,12 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Sequelize from 'sequelize'
 import { AddUsedTimeActionVersion2 } from '../../../../action'
 import { EventHandler } from '../../../../monitoring/eventhandler'
 import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
-import { SourceDeviceNotFoundException } from '../exception/illegal-state'
+import { IllegalStateException, SourceDeviceNotFoundException } from '../exception/illegal-state'
 import { getRoundedTimestamp as getRoundedTimestampForUsedTime } from './addusedtime'
 
 export const getRoundedTimestampForSessionDuration = () => {
@@ -92,14 +91,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
       const lengthInMinutes = (end - start) + 1
       const lengthInMs = lengthInMinutes * 1000 * 60
 
-      const maxOperator = cache.database.dialect === 'sqlite' ? 'MAX' : 'GREATEST'
-      const minOperator = cache.database.dialect === 'sqlite' ? 'MIN' : 'LEAST'
-
-      // try to update first
-      const [updatedRows] = await cache.database.usedTime.update({
-        usedTime: Sequelize.literal(`${maxOperator}(0, ${minOperator}(usedTime + ${item.timeToAdd}, ${lengthInMs}))`) as any,
-        lastUpdate: roundedTimestampForUsedTime
-      }, {
+      const oldItem = await cache.database.usedTime.findOne({
         where: {
           familyId: cache.familyId,
           categoryId: item.categoryId,
@@ -110,13 +102,38 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
         transaction: cache.transaction
       })
 
-      // otherwise create
-      if (updatedRows === 0) {
+      if (oldItem) {
+        const oldUsedTime = oldItem.usedTime
+        const newUsedTime = Math.max(0, Math.min(oldUsedTime + item.timeToAdd, lengthInMs))
+
+        const oldLastUpdate = parseInt(oldItem.lastUpdate, 10)
+        const newLastUpdate = parseInt(roundedTimestampForUsedTime, 10)
+
+        if (oldUsedTime !== newUsedTime || oldLastUpdate !== newLastUpdate) {
+          const [updatedRows] = await cache.database.usedTime.update({
+            usedTime: newUsedTime,
+            lastUpdate: newLastUpdate.toString(10)
+          }, {
+            where: {
+              familyId: cache.familyId,
+              categoryId: item.categoryId,
+              dayOfEpoch: action.dayOfEpoch,
+              startMinuteOfDay: start,
+              endMinuteOfDay: end
+            },
+            transaction: cache.transaction
+          })
+
+          if (updatedRows === 0) {
+            throw new IllegalStateException({ staticMessage: 'could not update fetched row' })
+          }
+        }
+      } else {
         await cache.database.usedTime.create({
           familyId: cache.familyId,
           categoryId: item.categoryId,
           dayOfEpoch: action.dayOfEpoch,
-          usedTime: Math.min(item.timeToAdd, lengthInMs),
+          usedTime: Math.max(0, Math.min(item.timeToAdd, lengthInMs)),
           lastUpdate: roundedTimestampForUsedTime,
           startMinuteOfDay: start,
           endMinuteOfDay: end
