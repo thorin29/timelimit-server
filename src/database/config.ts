@@ -47,5 +47,6 @@ export const createConfigModel = (sequelize: Sequelize.Sequelize): ConfigModelSt
 
 export const configItemIds = {
   statusMessage: 'status_message',
-  selfTestData: 'self_test_data'
+  selfTestData: 'self_test_data',
+  secondSelfTestData: 'self_test_data_two'
 }

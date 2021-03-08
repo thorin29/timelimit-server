@@ -18,7 +18,7 @@
 import { BadRequest } from 'http-errors'
 import { ClientPushChangesRequest } from '../../../api/schema'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
-import { Database } from '../../../database'
+import { Database, shouldRetryWithException } from '../../../database'
 import { EventHandler } from '../../../monitoring/eventhandler'
 import { WebsocketApi } from '../../../websocket'
 import { notifyClientsAboutChangesDelayed } from '../../websocket'
@@ -104,7 +104,11 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
           }
         })
       } catch (ex) {
-        if (ex instanceof ApplyActionException) {
+        if (shouldRetryWithException(ex)) {
+          eventHandler.countEvent('applyActionsFromDevice got exception which should cause retry')
+
+          throw ex
+        } else if (ex instanceof ApplyActionException) {
           eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:' + ex.staticMessage)
         } else {
           const stack = ex instanceof Error && ex.stack ? ex.stack.substring(0, 4096) : 'no stack'

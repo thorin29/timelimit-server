@@ -24,7 +24,7 @@ function startMainApp(env) {
   return new Promise((resolve, reject) => {
     const task = spawn('node', [initPath], {
       stdio: ['inherit', 'pipe', 'inherit'],
-      env: { ...process.env, PORT: 0 /* random port */ }
+      env: { ...process.env, PORT: 0 /* random port */, ...env }
     })
 
     task.on('exit', () => reject(new Error('task terminated too early')))

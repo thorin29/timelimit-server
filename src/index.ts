@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@ import { Server } from 'http'
 import { createApi } from './api'
 import { config } from './config'
 import { VisibleConnectedDevicesManager } from './connected-devices'
-import { assertNestedTransactionsAreWorking, defaultDatabase, defaultUmzug } from './database'
+import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreWorking, defaultDatabase, defaultUmzug } from './database'
 import { EventHandler } from './monitoring/eventhandler'
 import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler'
 import { createWebsocketHandler } from './websocket'
@@ -31,6 +31,7 @@ async function main () {
   const eventHandler: EventHandler = new InMemoryEventHandler()
 
   await assertNestedTransactionsAreWorking(database)
+  await assertSerializeableTransactionsAreWorking(database)
 
   const connectedDevicesManager = new VisibleConnectedDevicesManager({
     database
