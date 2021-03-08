@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +16,6 @@
  */
 
 import { Conflict, InternalServerError, Unauthorized } from 'http-errors'
-import * as Sequelize from 'sequelize'
 import { config } from '../../config'
 import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
@@ -60,7 +59,6 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
         userId: deviceEntry.currentUserId
       },
       transaction,
-      lock: Sequelize.Transaction.LOCK.UPDATE,
       attributes: ['currentDevice']
     })
 

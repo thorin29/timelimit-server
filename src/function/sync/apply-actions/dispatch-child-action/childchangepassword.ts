@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Sequelize from 'sequelize'
 import { ChildChangePasswordAction } from '../../../../action'
 import { Cache } from '../cache'
 import { SourceUserNotFoundException } from '../exception/illegal-state'
@@ -31,8 +30,7 @@ export const dispatchChildChangePassword = async ({ action, childUserId, cache }
       userId: childUserId,
       type: 'child'
     },
-    transaction: cache.transaction,
-    lock: Sequelize.Transaction.LOCK.UPDATE
+    transaction: cache.transaction
   })
 
   if (!childEntry) {

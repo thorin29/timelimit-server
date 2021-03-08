@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +16,6 @@
  */
 
 import { Conflict, Unauthorized } from 'http-errors'
-import * as Sequelize from 'sequelize'
 import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
@@ -65,8 +64,7 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
         familyId,
         userId: parentUserId
       },
-      transaction,
-      lock: Sequelize.Transaction.LOCK.UPDATE
+      transaction
     })
 
     if (!parentEntry) {
