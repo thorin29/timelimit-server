@@ -21,14 +21,12 @@ import { Database } from '../main'
 
 export class SerializationFeatureCheckException extends Error {}
 
-export function shouldRetryWithException(database: Database, e: any): boolean {
+export function shouldRetryWithException (database: Database, e: any): boolean {
   if (e instanceof Sequelize.TimeoutError) return true
 
   if (!(e instanceof Sequelize.DatabaseError)) return false
 
   const parent = e.parent
-
-  if (typeof parent !== 'object') return false
 
   if (database.dialect === 'sqlite') {
     if (parent.message.startsWith('SQLITE_BUSY:')) return true
@@ -48,7 +46,7 @@ export function shouldRetryWithException(database: Database, e: any): boolean {
   return false
 }
 
-export async function assertSerializeableTransactionsAreWorking(database: Database) {
+export async function assertSerializeableTransactionsAreWorking (database: Database) {
   // clean up just for the case
   await database.config.destroy({
     where: {
@@ -83,7 +81,7 @@ export async function assertSerializeableTransactionsAreWorking(database: Databa
           })(),
           (async () => {
             await database.config.update({ value: 'd' }, { where: { id: configItemIds.secondSelfTestData }, transaction: transactionTwo })
-          })(),
+          })()
         ])
       })
     })

@@ -104,7 +104,7 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
           }
         })
       } catch (ex) {
-        if (shouldRetryWithException(ex)) {
+        if (shouldRetryWithException(ex, database)) {
           eventHandler.countEvent('applyActionsFromDevice got exception which should cause retry')
 
           throw ex
