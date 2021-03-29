@@ -62,7 +62,7 @@
     "pg-hstore": "^2.3.3",
     "rate-limiter-flexible": "^2.1.15",
     "sequelize": "^6.3.5",
-    "socket.io": "^2.4.1",
+    "socket.io": "^4.0.1",
     "tokgen": "^1.0.0",
     "umzug": "^2.3.0"
   },

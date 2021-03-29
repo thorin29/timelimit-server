@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +16,7 @@
  */
 
 import { EventEmitter } from 'events'
-import * as io from 'socket.io'
+import { Server } from 'socket.io'
 import { ConnectedDevicesManager, VisibleConnectedDevicesManager } from '../connected-devices'
 import { Database } from '../database'
 import { deviceByAuthTokenRoom } from './rooms'
@@ -25,7 +25,7 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   connectedDevicesManager: VisibleConnectedDevicesManager
   database: Database
 }): {
-  websocketServer: io.Server
+  websocketServer: Server
   websocketApi: WebsocketApi
 } => {
   const events = new EventEmitter()
@@ -37,14 +37,16 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   const eventTriggerImportantSyncForAll = 'triggerimportantsyncforall'
 
   let socketCounter = 0
-  const server = new io()
+  const server = new Server({
+    allowEIO3: true
+  })
 
   server.on('connection', (socket) => {
     socketCounter++
     socket.on('disconnect', () => socketCounter--)
 
     socket.on('devicelogin', (deviceAuthToken: any, ack: any) => {
-      socket.leaveAll()
+      socket.rooms.forEach((room) => socket.leave(room))
 
       if (typeof deviceAuthToken !== 'string') {
         return
