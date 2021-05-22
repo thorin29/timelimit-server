@@ -26,7 +26,7 @@ services:
       PORT: 8080
       MAIL_SENDER: me@my.timelimit.server
       MAIL_TRANSPORT: '{"host": "localhost", "port": 25}'
-      ALWAYS_PRO: yes
+      ALWAYS_PRO: 'yes'
       # put additional config variables here
     ports:
      - "8080:8080"
@@ -72,7 +72,7 @@ services:
       PORT: 8080
       MAIL_SENDER: me@my.timelimit.server
       MAIL_TRANSPORT: '{"host": "localhost", "port": 25}'
-      ALWAYS_PRO: yes
+      ALWAYS_PRO: 'yes'
       # put additional config variables here
     restart: always
     # you can enable logging during testing by commenting this out,
