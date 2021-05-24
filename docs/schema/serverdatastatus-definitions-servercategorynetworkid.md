@@ -6,10 +6,9 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json\*](ServerDataStatus.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json*](ServerDataStatus.schema.json "open original schema") |
 
 ## ServerCategoryNetworkId Type
 
@@ -17,22 +16,24 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId
 
 # ServerCategoryNetworkId Properties
 
-| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                          |
-| :---------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [itemId](#itemid)                   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-itemid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/itemId")                   |
-| [hashedNetworkId](#hashednetworkid) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-hashednetworkid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/hashedNetworkId") |
+| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                     |
+| :---------------------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [itemId](#itemid)                   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-itemid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/itemId")                   |
+| [hashedNetworkId](#hashednetworkid) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-hashednetworkid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/hashedNetworkId") |
 
 ## itemId
 
 
 
-
 `itemId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-itemid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/itemId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-itemid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/itemId")
 
 ### itemId Type
 
@@ -42,13 +43,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId
 
 
 
-
 `hashedNetworkId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-hashednetworkid.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/hashedNetworkId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servercategorynetworkid-properties-hashednetworkid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCategoryNetworkId/properties/hashedNetworkId")
 
 ### hashedNetworkId Type
 

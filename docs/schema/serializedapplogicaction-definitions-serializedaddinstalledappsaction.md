@@ -6,10 +6,9 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalle
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedAppLogicAction.schema.json\*](SerializedAppLogicAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :--------------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedAppLogicAction.schema.json*](SerializedAppLogicAction.schema.json "open original schema") |
 
 ## SerializedAddInstalledAppsAction Type
 
@@ -17,22 +16,24 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalle
 
 # SerializedAddInstalledAppsAction Properties
 
-| Property      | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                              |
-| :------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type) | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/type") |
-| [apps](#apps) | `array`  | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps") |
+| Property      | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                         |
+| :------------ | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type) | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/type") |
+| [apps](#apps) | `array`  | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps") |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/type")
 
 ### type Type
 
@@ -43,20 +44,22 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalle
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                  | Explanation |
-| :--------------------- | ----------- |
+| :--------------------- | :---------- |
 | `"ADD_INSTALLED_APPS"` |             |
 
 ## apps
 
 
 
-
 `apps`
 
--   is required
--   Type: `object[]` ([SerializedInstalledApp](serializedapplogicaction-definitions-serializedinstalledapp.md))
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps")
+*   is required
+
+*   Type: `object[]` ([SerializedInstalledApp](serializedapplogicaction-definitions-serializedinstalledapp.md))
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps")
 
 ### apps Type
 

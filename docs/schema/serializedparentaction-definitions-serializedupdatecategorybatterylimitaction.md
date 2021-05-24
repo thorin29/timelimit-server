@@ -6,10 +6,9 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                        |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json\*](SerializedParentAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                       |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json*](SerializedParentAction.schema.json "open original schema") |
 
 ## SerializedUpdateCategoryBatteryLimitAction Type
 
@@ -17,24 +16,26 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 
 # SerializedUpdateCategoryBatteryLimitAction Properties
 
-| Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                          |
-| :-------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [type](#type)               | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/type")               |
-| [categoryId](#categoryid)   | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/categoryId")   |
-| [chargeLimit](#chargelimit) | `number` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-chargelimit.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/chargeLimit") |
-| [mobileLimit](#mobilelimit) | `number` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-mobilelimit.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/mobileLimit") |
+| Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                     |
+| :-------------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)               | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/type")               |
+| [categoryId](#categoryid)   | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/categoryId")   |
+| [chargeLimit](#chargelimit) | `number` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-chargelimit.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/chargeLimit") |
+| [mobileLimit](#mobilelimit) | `number` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-mobilelimit.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/mobileLimit") |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/type")
 
 ### type Type
 
@@ -45,20 +46,22 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                             | Explanation |
-| :-------------------------------- | ----------- |
+| :-------------------------------- | :---------- |
 | `"UPDATE_CATEGORY_BATTERY_LIMIT"` |             |
 
 ## categoryId
 
 
 
-
 `categoryId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/categoryId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/categoryId")
 
 ### categoryId Type
 
@@ -68,13 +71,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 
 
 
-
 `chargeLimit`
 
--   is optional
--   Type: `number`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-chargelimit.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/chargeLimit")
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-chargelimit.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/chargeLimit")
 
 ### chargeLimit Type
 
@@ -84,13 +89,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 
 
 
-
 `mobileLimit`
 
--   is optional
--   Type: `number`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-mobilelimit.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/mobileLimit")
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorybatterylimitaction-properties-mobilelimit.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategoryBatteryLimitAction/properties/mobileLimit")
 
 ### mobileLimit Type
 

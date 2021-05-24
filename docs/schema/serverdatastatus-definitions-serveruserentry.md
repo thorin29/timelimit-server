@@ -6,10 +6,9 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json\*](ServerDataStatus.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json*](ServerDataStatus.schema.json "open original schema") |
 
 ## ServerUserEntry Type
 
@@ -17,36 +16,38 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 # ServerUserEntry Properties
 
-| Property                                                  | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                                |
-| :-------------------------------------------------------- | --------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [id](#id)                                                 | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-id.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/id")                                                 |
-| [name](#name)                                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-name.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/name")                                             |
-| [password](#password)                                     | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-password.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/password")                                     |
-| [secondPasswordSalt](#secondpasswordsalt)                 | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-secondpasswordsalt.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/secondPasswordSalt")                 |
-| [type](#type)                                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-type.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/type")                                             |
-| [timeZone](#timezone)                                     | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-timezone.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/timeZone")                                     |
-| [disableLimitsUntil](#disablelimitsuntil)                 | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-disablelimitsuntil.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/disableLimitsUntil")                 |
-| [mail](#mail)                                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mail.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mail")                                             |
-| [currentDevice](#currentdevice)                           | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-currentdevice.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/currentDevice")                           |
-| [categoryForNotAssignedApps](#categoryfornotassignedapps) | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-categoryfornotassignedapps.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/categoryForNotAssignedApps") |
-| [relaxPrimaryDevice](#relaxprimarydevice)                 | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-relaxprimarydevice.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/relaxPrimaryDevice")                 |
-| [mailNotificationFlags](#mailnotificationflags)           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mailnotificationflags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mailNotificationFlags")           |
-| [blockedTimes](#blockedtimes)                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")                             |
-| [flags](#flags)                                           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")                                           |
-| [llc](#llc)                                               | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")                                               |
-| [pbd](#pbd)                                               | `number`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")                                               |
+| Property                                                  | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                           |
+| :-------------------------------------------------------- | :-------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [id](#id)                                                 | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-id.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/id")                                                 |
+| [name](#name)                                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-name.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/name")                                             |
+| [password](#password)                                     | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-password.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/password")                                     |
+| [secondPasswordSalt](#secondpasswordsalt)                 | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-secondpasswordsalt.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/secondPasswordSalt")                 |
+| [type](#type)                                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-type.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/type")                                             |
+| [timeZone](#timezone)                                     | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-timezone.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/timeZone")                                     |
+| [disableLimitsUntil](#disablelimitsuntil)                 | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-disablelimitsuntil.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/disableLimitsUntil")                 |
+| [mail](#mail)                                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mail.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mail")                                             |
+| [currentDevice](#currentdevice)                           | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-currentdevice.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/currentDevice")                           |
+| [categoryForNotAssignedApps](#categoryfornotassignedapps) | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-categoryfornotassignedapps.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/categoryForNotAssignedApps") |
+| [relaxPrimaryDevice](#relaxprimarydevice)                 | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-relaxprimarydevice.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/relaxPrimaryDevice")                 |
+| [mailNotificationFlags](#mailnotificationflags)           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mailnotificationflags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mailNotificationFlags")           |
+| [blockedTimes](#blockedtimes)                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")                             |
+| [flags](#flags)                                           | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")                                           |
+| [llc](#llc)                                               | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")                                               |
+| [pbd](#pbd)                                               | `number`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")                                               |
 
 ## id
 
 
 
-
 `id`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-id.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/id")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-id.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/id")
 
 ### id Type
 
@@ -56,13 +57,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `name`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-name.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/name")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-name.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/name")
 
 ### name Type
 
@@ -72,13 +75,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `password`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-password.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/password")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-password.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/password")
 
 ### password Type
 
@@ -88,13 +93,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `secondPasswordSalt`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-secondpasswordsalt.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/secondPasswordSalt")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-secondpasswordsalt.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/secondPasswordSalt")
 
 ### secondPasswordSalt Type
 
@@ -104,13 +111,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-type.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-type.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/type")
 
 ### type Type
 
@@ -121,7 +130,7 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value      | Explanation |
-| :--------- | ----------- |
+| :--------- | :---------- |
 | `"child"`  |             |
 | `"parent"` |             |
 
@@ -129,13 +138,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `timeZone`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-timezone.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/timeZone")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-timezone.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/timeZone")
 
 ### timeZone Type
 
@@ -145,13 +156,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `disableLimitsUntil`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-disablelimitsuntil.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/disableLimitsUntil")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-disablelimitsuntil.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/disableLimitsUntil")
 
 ### disableLimitsUntil Type
 
@@ -161,13 +174,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `mail`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mail.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mail")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mail.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mail")
 
 ### mail Type
 
@@ -177,13 +192,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `currentDevice`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-currentdevice.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/currentDevice")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-currentdevice.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/currentDevice")
 
 ### currentDevice Type
 
@@ -193,13 +210,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `categoryForNotAssignedApps`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-categoryfornotassignedapps.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/categoryForNotAssignedApps")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-categoryfornotassignedapps.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/categoryForNotAssignedApps")
 
 ### categoryForNotAssignedApps Type
 
@@ -209,13 +228,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `relaxPrimaryDevice`
 
--   is required
--   Type: `boolean`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-relaxprimarydevice.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/relaxPrimaryDevice")
+*   is required
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-relaxprimarydevice.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/relaxPrimaryDevice")
 
 ### relaxPrimaryDevice Type
 
@@ -225,13 +246,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `mailNotificationFlags`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mailnotificationflags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mailNotificationFlags")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-mailnotificationflags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/mailNotificationFlags")
 
 ### mailNotificationFlags Type
 
@@ -241,13 +264,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `blockedTimes`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-blockedtimes.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/blockedTimes")
 
 ### blockedTimes Type
 
@@ -257,13 +282,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `flags`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-flags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/flags")
 
 ### flags Type
 
@@ -273,13 +300,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `llc`
 
--   is optional
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-llc.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/llc")
 
 ### llc Type
 
@@ -289,13 +318,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry
 
 
 
-
 `pbd`
 
--   is optional
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serveruserentry-properties-pbd.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserEntry/properties/pbd")
 
 ### pbd Type
 

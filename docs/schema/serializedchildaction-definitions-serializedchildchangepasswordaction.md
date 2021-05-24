@@ -6,10 +6,9 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                      |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedChildAction.schema.json\*](SerializedChildAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                     |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :--------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedChildAction.schema.json*](SerializedChildAction.schema.json "open original schema") |
 
 ## SerializedChildChangePasswordAction Type
 
@@ -17,22 +16,24 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 
 # SerializedChildChangePasswordAction Properties
 
-| Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                           |
-| :-------------------- | -------- | -------- | -------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type)         | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type") |
-| [password](#password) | `object` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")                                  |
+| Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                      |
+| :-------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [type](#type)         | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type") |
+| [password](#password) | `object` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")                                  |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type")
 
 ### type Type
 
@@ -43,20 +44,22 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                     | Explanation |
-| :------------------------ | ----------- |
+| :------------------------ | :---------- |
 | `"CHILD_CHANGE_PASSWORD"` |             |
 
 ## password
 
 
 
-
 `password`
 
--   is required
--   Type: `object` ([ParentPassword](serializedchildaction-definitions-parentpassword.md))
--   cannot be null
--   defined in: [SerializedChildAction](serializedchildaction-definitions-parentpassword.md "https&#x3A;//timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")
+*   is required
+
+*   Type: `object` ([ParentPassword](serializedchildaction-definitions-parentpassword.md))
+
+*   cannot be null
+
+*   defined in: [SerializedChildAction](serializedchildaction-definitions-parentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")
 
 ### password Type
 

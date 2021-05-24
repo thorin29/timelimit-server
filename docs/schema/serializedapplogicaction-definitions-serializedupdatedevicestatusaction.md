@@ -6,10 +6,9 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedAppLogicAction.schema.json\*](SerializedAppLogicAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :--------------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedAppLogicAction.schema.json*](SerializedAppLogicAction.schema.json "open original schema") |
 
 ## SerializedUpdateDeviceStatusAction Type
 
@@ -17,29 +16,31 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 # SerializedUpdateDeviceStatusAction Properties
 
-| Property                                                    | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                                                                                                |
-| :---------------------------------------------------------- | --------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type)                                               | `string`  | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/type")                                               |
-| [protectionLevel](#protectionlevel)                         | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-protectionlevel.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/protectionLevel")                         |
-| [usageStats](#usagestats)                                   | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-usagestats.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/usageStats")                                   |
-| [notificationAccess](#notificationaccess)                   | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-notificationaccess.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/notificationAccess")                   |
-| [overlayPermission](#overlaypermission)                     | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-overlaypermission.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/overlayPermission")                     |
-| [accessibilityServiceEnabled](#accessibilityserviceenabled) | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-accessibilityserviceenabled.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/accessibilityServiceEnabled") |
-| [appVersion](#appversion)                                   | `number`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-appversion.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/appVersion")                                   |
-| [didReboot](#didreboot)                                     | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")                                     |
-| [isQOrLaterNow](#isqorlaternow)                             | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")                             |
+| Property                                                    | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                                                                                           |
+| :---------------------------------------------------------- | :-------- | :------- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)                                               | `string`  | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/type")                                               |
+| [protectionLevel](#protectionlevel)                         | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-protectionlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/protectionLevel")                         |
+| [usageStats](#usagestats)                                   | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-usagestats.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/usageStats")                                   |
+| [notificationAccess](#notificationaccess)                   | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-notificationaccess.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/notificationAccess")                   |
+| [overlayPermission](#overlaypermission)                     | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-overlaypermission.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/overlayPermission")                     |
+| [accessibilityServiceEnabled](#accessibilityserviceenabled) | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-accessibilityserviceenabled.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/accessibilityServiceEnabled") |
+| [appVersion](#appversion)                                   | `number`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-appversion.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/appVersion")                                   |
+| [didReboot](#didreboot)                                     | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")                                     |
+| [isQOrLaterNow](#isqorlaternow)                             | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")                             |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-type.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/type")
 
 ### type Type
 
@@ -50,20 +51,22 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                    | Explanation |
-| :----------------------- | ----------- |
+| :----------------------- | :---------- |
 | `"UPDATE_DEVICE_STATUS"` |             |
 
 ## protectionLevel
 
 
 
-
 `protectionLevel`
 
--   is optional
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-protectionlevel.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/protectionLevel")
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-protectionlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/protectionLevel")
 
 ### protectionLevel Type
 
@@ -74,7 +77,7 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                     | Explanation |
-| :------------------------ | ----------- |
+| :------------------------ | :---------- |
 | `"device owner"`          |             |
 | `"none"`                  |             |
 | `"password device admin"` |             |
@@ -84,13 +87,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `usageStats`
 
--   is optional
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-usagestats.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/usageStats")
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-usagestats.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/usageStats")
 
 ### usageStats Type
 
@@ -101,7 +106,7 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value            | Explanation |
-| :--------------- | ----------- |
+| :--------------- | :---------- |
 | `"granted"`      |             |
 | `"not granted"`  |             |
 | `"not required"` |             |
@@ -110,13 +115,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `notificationAccess`
 
--   is optional
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-notificationaccess.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/notificationAccess")
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-notificationaccess.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/notificationAccess")
 
 ### notificationAccess Type
 
@@ -127,7 +134,7 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value             | Explanation |
-| :---------------- | ----------- |
+| :---------------- | :---------- |
 | `"granted"`       |             |
 | `"not granted"`   |             |
 | `"not supported"` |             |
@@ -136,13 +143,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `overlayPermission`
 
--   is optional
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-overlaypermission.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/overlayPermission")
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-overlaypermission.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/overlayPermission")
 
 ### overlayPermission Type
 
@@ -153,7 +162,7 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value            | Explanation |
-| :--------------- | ----------- |
+| :--------------- | :---------- |
 | `"granted"`      |             |
 | `"not granted"`  |             |
 | `"not required"` |             |
@@ -162,13 +171,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `accessibilityServiceEnabled`
 
--   is optional
--   Type: `boolean`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-accessibilityserviceenabled.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/accessibilityServiceEnabled")
+*   is optional
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-accessibilityserviceenabled.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/accessibilityServiceEnabled")
 
 ### accessibilityServiceEnabled Type
 
@@ -178,13 +189,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `appVersion`
 
--   is optional
--   Type: `number`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-appversion.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/appVersion")
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-appversion.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/appVersion")
 
 ### appVersion Type
 
@@ -194,13 +207,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `didReboot`
 
--   is optional
--   Type: `boolean`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")
+*   is optional
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")
 
 ### didReboot Type
 
@@ -210,13 +225,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDevic
 
 
 
-
 `isQOrLaterNow`
 
--   is optional
--   Type: `boolean`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")
+*   is optional
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")
 
 ### isQOrLaterNow Type
 

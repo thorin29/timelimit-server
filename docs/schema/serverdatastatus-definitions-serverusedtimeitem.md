@@ -6,10 +6,9 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json\*](ServerDataStatus.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json*](ServerDataStatus.schema.json "open original schema") |
 
 ## ServerUsedTimeItem Type
 
@@ -17,24 +16,26 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem
 
 # ServerUsedTimeItem Properties
 
-| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                            |
-| :-------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [day](#day)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-day.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/day")     |
-| [time](#time)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time")   |
-| [start](#start) | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/start") |
-| [end](#end)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/end")     |
+| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                       |
+| :-------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [day](#day)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-day.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/day")     |
+| [time](#time)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time")   |
+| [start](#start) | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-start.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/start") |
+| [end](#end)     | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-end.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/end")     |
 
 ## day
 
 
 
-
 `day`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-day.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/day")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-day.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/day")
 
 ### day Type
 
@@ -44,13 +45,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem
 
 
 
-
 `time`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-time.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/time")
 
 ### time Type
 
@@ -60,13 +63,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem
 
 
 
-
 `start`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/start")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-start.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/start")
 
 ### start Type
 
@@ -76,13 +81,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem
 
 
 
-
 `end`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/end")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverusedtimeitem-properties-end.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUsedTimeItem/properties/end")
 
 ### end Type
 

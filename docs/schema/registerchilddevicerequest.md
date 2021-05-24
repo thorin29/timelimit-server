@@ -6,9 +6,8 @@ https://timelimit.io/RegisterChildDeviceRequest
 
 
 
-
 | Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                              |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------------- |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :------------------------------------------------------------------------------------------------------ |
 | Can be instantiated | Yes        | Unknown status | No           | Forbidden         | Forbidden             | none                | [RegisterChildDeviceRequest.schema.json](RegisterChildDeviceRequest.schema.json "open original schema") |
 
 ## RegisterChildDeviceRequest Type
@@ -17,23 +16,25 @@ https://timelimit.io/RegisterChildDeviceRequest
 
 # RegisterChildDeviceRequest Properties
 
-| Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                            |
-| :------------------------------ | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [registerToken](#registertoken) | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-registertoken.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/properties/registerToken") |
-| [childDevice](#childdevice)     | `object` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/properties/childDevice")  |
-| [deviceName](#devicename)       | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-devicename.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/properties/deviceName")       |
+| Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                       |
+| :------------------------------ | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [registerToken](#registertoken) | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-registertoken.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/registerToken") |
+| [childDevice](#childdevice)     | `object` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/childDevice")  |
+| [deviceName](#devicename)       | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-devicename.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/deviceName")       |
 
 ## registerToken
 
 
 
-
 `registerToken`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-properties-registertoken.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/properties/registerToken")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-properties-registertoken.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/registerToken")
 
 ### registerToken Type
 
@@ -43,13 +44,15 @@ https://timelimit.io/RegisterChildDeviceRequest
 
 
 
-
 `childDevice`
 
--   is required
--   Type: `object` ([NewDeviceInfo](registerchilddevicerequest-definitions-newdeviceinfo.md))
--   cannot be null
--   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/properties/childDevice")
+*   is required
+
+*   Type: `object` ([NewDeviceInfo](registerchilddevicerequest-definitions-newdeviceinfo.md))
+
+*   cannot be null
+
+*   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/childDevice")
 
 ### childDevice Type
 
@@ -59,13 +62,15 @@ https://timelimit.io/RegisterChildDeviceRequest
 
 
 
-
 `deviceName`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-properties-devicename.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/properties/deviceName")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-properties-devicename.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/deviceName")
 
 ### deviceName Type
 
@@ -81,21 +86,23 @@ Reference this group by using
 {"$ref":"https://timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo"}
 ```
 
-| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                |
-| :-------------- | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [model](#model) | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo-properties-model.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo/properties/model") |
+| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                           |
+| :-------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [model](#model) | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo-properties-model.md "https://timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo/properties/model") |
 
 ### model
 
 
 
-
 `model`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo-properties-model.md "https&#x3A;//timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo/properties/model")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo-properties-model.md "https://timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo/properties/model")
 
 #### model Type
 

@@ -6,10 +6,9 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategory
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                        |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json\*](SerializedParentAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                       |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json*](SerializedParentAction.schema.json "open original schema") |
 
 ## SerializedUpdatCategoryDisableLimitsAction Type
 
@@ -17,23 +16,25 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategory
 
 # SerializedUpdatCategoryDisableLimitsAction Properties
 
-| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                        |
-| :------------------------ | -------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/type")             |
-| [categoryId](#categoryid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/categoryId") |
-| [endTime](#endtime)       | `number` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-endtime.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/endTime")       |
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                   |
+| :------------------------ | :------- | :------- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/type")             |
+| [categoryId](#categoryid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/categoryId") |
+| [endTime](#endtime)       | `number` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-endtime.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/endTime")       |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/type")
 
 ### type Type
 
@@ -44,20 +45,22 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategory
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                              | Explanation |
-| :--------------------------------- | ----------- |
+| :--------------------------------- | :---------- |
 | `"UPDATE_CATEGORY_DISABLE_LIMITS"` |             |
 
 ## categoryId
 
 
 
-
 `categoryId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/categoryId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/categoryId")
 
 ### categoryId Type
 
@@ -67,13 +70,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategory
 
 
 
-
 `endTime`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-endtime.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/endTime")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatcategorydisablelimitsaction-properties-endtime.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdatCategoryDisableLimitsAction/properties/endTime")
 
 ### endTime Type
 

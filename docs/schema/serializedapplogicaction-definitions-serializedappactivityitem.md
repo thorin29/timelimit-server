@@ -6,10 +6,9 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivity
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedAppLogicAction.schema.json\*](SerializedAppLogicAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :--------------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedAppLogicAction.schema.json*](SerializedAppLogicAction.schema.json "open original schema") |
 
 ## SerializedAppActivityItem Type
 
@@ -17,23 +16,25 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivity
 
 # SerializedAppActivityItem Properties
 
-| Property | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                          |
-| :------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [p](#p)  | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-p.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/p") |
-| [c](#c)  | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-c.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/c") |
-| [t](#t)  | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-t.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/t") |
+| Property | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                     |
+| :------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [p](#p)  | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-p.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/p") |
+| [c](#c)  | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-c.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/c") |
+| [t](#t)  | `string` | Required | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-t.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/t") |
 
 ## p
 
 
 
-
 `p`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-p.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/p")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-p.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/p")
 
 ### p Type
 
@@ -43,13 +44,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivity
 
 
 
-
 `c`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-c.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/c")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-c.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/c")
 
 ### c Type
 
@@ -59,13 +62,15 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivity
 
 
 
-
 `t`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-t.md "https&#x3A;//timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/t")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-t.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/t")
 
 ### t Type
 

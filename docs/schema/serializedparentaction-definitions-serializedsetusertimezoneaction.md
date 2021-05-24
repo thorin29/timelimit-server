@@ -6,10 +6,9 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezo
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                        |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json\*](SerializedParentAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                       |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json*](SerializedParentAction.schema.json "open original schema") |
 
 ## SerializedSetUserTimezoneAction Type
 
@@ -17,23 +16,25 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezo
 
 # SerializedSetUserTimezoneAction Properties
 
-| Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                              |
-| :-------------------- | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type)         | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/type")         |
-| [userId](#userid)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-userid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/userId")     |
-| [timezone](#timezone) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-timezone.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/timezone") |
+| Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                         |
+| :-------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)         | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/type")         |
+| [userId](#userid)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-userid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/userId")     |
+| [timezone](#timezone) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-timezone.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/timezone") |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/type")
 
 ### type Type
 
@@ -44,20 +45,22 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezo
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                 | Explanation |
-| :-------------------- | ----------- |
+| :-------------------- | :---------- |
 | `"SET_USER_TIMEZONE"` |             |
 
 ## userId
 
 
 
-
 `userId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-userid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/userId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-userid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/userId")
 
 ### userId Type
 
@@ -67,13 +70,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezo
 
 
 
-
 `timezone`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-timezone.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/timezone")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetusertimezoneaction-properties-timezone.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetUserTimezoneAction/properties/timezone")
 
 ### timezone Type
 

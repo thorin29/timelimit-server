@@ -6,10 +6,9 @@ https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json\*](ServerDataStatus.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json*](ServerDataStatus.schema.json "open original schema") |
 
 ## SerializedAppActivityItem Type
 
@@ -17,23 +16,25 @@ https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem
 
 # SerializedAppActivityItem Properties
 
-| Property | Type     | Required | Nullable       | Defined by                                                                                                                                                                                  |
-| :------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [p](#p)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-p.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/p") |
-| [c](#c)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-c.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/c") |
-| [t](#t)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-t.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/t") |
+| Property | Type     | Required | Nullable       | Defined by                                                                                                                                                                             |
+| :------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [p](#p)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-p.md "https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/p") |
+| [c](#c)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-c.md "https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/c") |
+| [t](#t)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-t.md "https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/t") |
 
 ## p
 
 
 
-
 `p`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-p.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/p")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-p.md "https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/p")
 
 ### p Type
 
@@ -43,13 +44,15 @@ https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem
 
 
 
-
 `c`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-c.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/c")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-c.md "https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/c")
 
 ### c Type
 
@@ -59,13 +62,15 @@ https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem
 
 
 
-
 `t`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-t.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/t")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serializedappactivityitem-properties-t.md "https://timelimit.io/ServerDataStatus#/definitions/SerializedAppActivityItem/properties/t")
 
 ### t Type
 

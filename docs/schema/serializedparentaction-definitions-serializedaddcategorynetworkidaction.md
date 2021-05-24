@@ -6,10 +6,9 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNe
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                        |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json\*](SerializedParentAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                       |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SerializedParentAction.schema.json*](SerializedParentAction.schema.json "open original schema") |
 
 ## SerializedAddCategoryNetworkIdAction Type
 
@@ -17,24 +16,26 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNe
 
 # SerializedAddCategoryNetworkIdAction Properties
 
-| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                      |
-| :---------------------------------- | -------- | -------- | -------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [type](#type)                       | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/type")                       |
-| [categoryId](#categoryid)           | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/categoryId")           |
-| [itemId](#itemid)                   | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-itemid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/itemId")                   |
-| [hashedNetworkId](#hashednetworkid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-hashednetworkid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/hashedNetworkId") |
+| Property                            | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                                 |
+| :---------------------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [type](#type)                       | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/type")                       |
+| [categoryId](#categoryid)           | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/categoryId")           |
+| [itemId](#itemid)                   | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-itemid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/itemId")                   |
+| [hashedNetworkId](#hashednetworkid) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-hashednetworkid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/hashedNetworkId") |
 
 ## type
 
 
 
-
 `type`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-type.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/type")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/type")
 
 ### type Type
 
@@ -45,20 +46,22 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNe
 **enum**: the value of this property must be equal to one of the following values:
 
 | Value                       | Explanation |
-| :-------------------------- | ----------- |
+| :-------------------------- | :---------- |
 | `"ADD_CATEGORY_NETWORK_ID"` |             |
 
 ## categoryId
 
 
 
-
 `categoryId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-categoryid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/categoryId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/categoryId")
 
 ### categoryId Type
 
@@ -68,13 +71,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNe
 
 
 
-
 `itemId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-itemid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/itemId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-itemid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/itemId")
 
 ### itemId Type
 
@@ -84,13 +89,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNe
 
 
 
-
 `hashedNetworkId`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-hashednetworkid.md "https&#x3A;//timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/hashedNetworkId")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategorynetworkidaction-properties-hashednetworkid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryNetworkIdAction/properties/hashedNetworkId")
 
 ### hashedNetworkId Type
 

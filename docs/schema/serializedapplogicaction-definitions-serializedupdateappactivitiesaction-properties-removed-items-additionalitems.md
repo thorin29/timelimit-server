@@ -6,10 +6,9 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppAc
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable            | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                            |
-| :------------------ | ---------- | -------------- | ----------------------- | :---------------- | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | Unknown identifiability | Forbidden         | Allowed               | none                | [SerializedAppLogicAction.schema.json\*](SerializedAppLogicAction.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable            | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                           |
+| :------------------ | :--------- | :------------- | :---------------------- | :---------------- | :-------------------- | :------------------ | :--------------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | Unknown identifiability | Forbidden         | Allowed               | none                | [SerializedAppLogicAction.schema.json*](SerializedAppLogicAction.schema.json "open original schema") |
 
 ## additionalItems Type
 
@@ -17,5 +16,6 @@ merged type ([Details](serializedapplogicaction-definitions-serializedupdateappa
 
 any of
 
--   [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-additionalitems-anyof-0.md "check type definition")
--   [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-additionalitems-anyof-1.md "check type definition")
+*   [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-additionalitems-anyof-0.md "check type definition")
+
+*   [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-additionalitems-anyof-1.md "check type definition")

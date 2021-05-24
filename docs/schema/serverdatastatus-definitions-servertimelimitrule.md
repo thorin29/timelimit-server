@@ -6,10 +6,9 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                            |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json\*](ServerDataStatus.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                           |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :----------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [ServerDataStatus.schema.json*](ServerDataStatus.schema.json "open original schema") |
 
 ## ServerTimeLimitRule Type
 
@@ -17,29 +16,31 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 # ServerTimeLimitRule Properties
 
-| Property                | Type      | Required | Nullable       | Defined by                                                                                                                                                                                      |
-| :---------------------- | --------- | -------- | -------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [id](#id)               | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-id.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/id")               |
-| [extraTime](#extratime) | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-extratime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/extraTime") |
-| [dayMask](#daymask)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-daymask.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/dayMask")     |
-| [maxTime](#maxtime)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-maxtime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/maxTime")     |
-| [start](#start)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/start")         |
-| [end](#end)             | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")             |
-| [session](#session)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")     |
-| [pause](#pause)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")         |
-| [perDay](#perday)       | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-perday.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/perDay")       |
+| Property                | Type      | Required | Nullable       | Defined by                                                                                                                                                                                 |
+| :---------------------- | :-------- | :------- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [id](#id)               | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-id.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/id")               |
+| [extraTime](#extratime) | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-extratime.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/extraTime") |
+| [dayMask](#daymask)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-daymask.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/dayMask")     |
+| [maxTime](#maxtime)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-maxtime.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/maxTime")     |
+| [start](#start)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-start.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/start")         |
+| [end](#end)             | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")             |
+| [session](#session)     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")     |
+| [pause](#pause)         | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")         |
+| [perDay](#perday)       | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-perday.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/perDay")       |
 
 ## id
 
 
 
-
 `id`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-id.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/id")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-id.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/id")
 
 ### id Type
 
@@ -49,13 +50,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `extraTime`
 
--   is required
--   Type: `boolean`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-extratime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/extraTime")
+*   is required
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-extratime.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/extraTime")
 
 ### extraTime Type
 
@@ -65,13 +68,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `dayMask`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-daymask.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/dayMask")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-daymask.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/dayMask")
 
 ### dayMask Type
 
@@ -81,13 +86,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `maxTime`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-maxtime.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/maxTime")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-maxtime.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/maxTime")
 
 ### maxTime Type
 
@@ -97,13 +104,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `start`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-start.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/start")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-start.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/start")
 
 ### start Type
 
@@ -113,13 +122,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `end`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-end.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/end")
 
 ### end Type
 
@@ -129,13 +140,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `session`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-session.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/session")
 
 ### session Type
 
@@ -145,13 +158,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `pause`
 
--   is required
--   Type: `number`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-pause.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/pause")
 
 ### pause Type
 
@@ -161,13 +176,15 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule
 
 
 
-
 `perDay`
 
--   is required
--   Type: `boolean`
--   cannot be null
--   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-perday.md "https&#x3A;//timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/perDay")
+*   is required
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servertimelimitrule-properties-perday.md "https://timelimit.io/ServerDataStatus#/definitions/ServerTimeLimitRule/properties/perDay")
 
 ### perDay Type
 

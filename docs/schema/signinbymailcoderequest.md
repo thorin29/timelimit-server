@@ -6,9 +6,8 @@ https://timelimit.io/SignInByMailCodeRequest
 
 
 
-
 | Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                        |
-| :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | ------------------------------------------------------------------------------------------------- |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :------------------------------------------------------------------------------------------------ |
 | Can be instantiated | Yes        | Unknown status | No           | Forbidden         | Forbidden             | none                | [SignInByMailCodeRequest.schema.json](SignInByMailCodeRequest.schema.json "open original schema") |
 
 ## SignInByMailCodeRequest Type
@@ -17,22 +16,24 @@ https://timelimit.io/SignInByMailCodeRequest
 
 # SignInByMailCodeRequest Properties
 
-| Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                     |
-| :-------------------------------- | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [mailLoginToken](#maillogintoken) | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken") |
-| [receivedCode](#receivedcode)     | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")     |
+| Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                |
+| :-------------------------------- | :------- | :------- | :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [mailLoginToken](#maillogintoken) | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https://timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken") |
+| [receivedCode](#receivedcode)     | `string` | Required | cannot be null | [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https://timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")     |
 
 ## mailLoginToken
 
 
 
-
 `mailLoginToken`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https://timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken")
 
 ### mailLoginToken Type
 
@@ -42,13 +43,15 @@ https://timelimit.io/SignInByMailCodeRequest
 
 
 
-
 `receivedCode`
 
--   is required
--   Type: `string`
--   cannot be null
--   defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https&#x3A;//timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https://timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")
 
 ### receivedCode Type
 
