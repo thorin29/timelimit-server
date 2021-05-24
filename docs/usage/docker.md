@@ -5,7 +5,7 @@ You can run the timelimit server with docker. Here are two example configuration
 ## Important
 
 The ``image: 'timelimit-server:latest'`` will not work out of the box.
-You have to build this image yourself (using ``sudo docker build -t timelimit-server .``
+You have to build this image yourself (using ``sudo docker build -t timelimit-server --no-cache --pull .``
 within the root directory of this git repository) or you can replace it by
 ``image: docker.timelimit.io/timelimit-server`` which will use prebuilt docker
 images.
