@@ -1,0 +1,10 @@
+# ignore sensitive files and folders
+.git
+.cache
+
+.gitignore
+.dockerignore
+
+*.env
+Dockerfile
+docker-compose.*

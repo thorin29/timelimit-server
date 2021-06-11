@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  api:
+    build: .
+    container_name: timelimit
+#    image: 'timelimit-server:latest'
+    env_file:
+      - timelimit.env
+    networks:
+      - traefik-net
+      - backend
+#    environment:
+#      NODE_ENV: production
+#      DATABASE_URL: mariadb://timelimit:timelimitpassword@database:3306/timelimit
+#      PORT: 8080
+#      MAIL_SENDER: me@my.timelimit.server
+ #     MAIL_TRANSPORT: '{"host": "localhost", "port": 25}'
+ #     ALWAYS_PRO: 'yes'
+      # put additional config variables here
+#    ports:
+#     - "8080:8080"
+    restart: always
+    # you can enable logging during testing by commenting this out,
+    # but logging is not needed when everything works
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.timelimit.rule=Host(`timelimit.domain.td`)"
+      - "traefik.http.routers.timelimit.tls.domains[0].main=timelimit.domain.td"
+      - "traefik.http.routers.timelimit.tls.certresolver=myresolver"
+      - "traefik.http.routers.timelimit.tls=true"
+      - "traefik.http.services.timelimit.loadbalancer.server.port=8080"
+
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 1024M
+
+networks:
+  traefik-net:
+    external:
+      name: traefik
+  backend:
+    external:
+      name: database-backend
+
