@@ -4,22 +4,17 @@ You can run the timelimit server with docker. Here are two example configuration
 
 ## Important
 
-The ``image: 'timelimit-server:latest'`` will not work out of the box.
-You have to build this image yourself (using ``sudo docker build -t timelimit-server --no-cache --pull .``
-within the root directory of this git repository) or you can replace it by
-``image: docker.timelimit.io/timelimit-server`` which will use prebuilt docker
-images.
-
-In case of self building the image, don't forget to run ``docker-compose up`` again
-to make docker use the new image.
+Watch out to actually rebuild the images and restart the containers after updates (for example using ``docker-compose up --build``).
 
 ## example docker-compose.yml with included database
 
 ```
+# change the passwords and use https://docs.docker.com/compose/environment-variables/
+# to keep sensitives value in a .env file while using ${VAR_NAME} here instead
 version: '3'
 services:
   api:
-    image: 'timelimit-server:latest'
+    build: /path/to/the/timelimit/source/code
     environment:
       NODE_ENV: production
       DATABASE_URL: mariadb://timelimit:timelimitpassword@database:3306/timelimit
@@ -62,10 +57,12 @@ before it starts working.
 ## example docker-compose.yml with external databases
 
 ```
-version: '2'
+# change the passwords and use https://docs.docker.com/compose/environment-variables/
+# to keep sensitives value in a .env file while using ${VAR_NAME} here instead
+version: '3'
 services:
   api:
-    image: 'timelimit-server:latest'
+    build: /path/to/the/timelimit/source/code
     environment:
       NODE_ENV: production
       DATABASE_URL: postgres://user:pass@example.com:5432/dbname
@@ -87,4 +84,5 @@ services:
     #  - "9000:8080"
     # in case the database runs outside of docker and you don't want to use the host network mode, see
     # https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248
+    # or don't use docker ...
 ```
