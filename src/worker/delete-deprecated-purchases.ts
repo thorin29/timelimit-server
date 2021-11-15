@@ -25,7 +25,11 @@ export function initDeleteDeprecatedPurchasesWorker ({ database, websocket }: {
   websocket: WebsocketApi
 }) {
   function doWorkSafe () {
-    deleteDeprecatedPurchases({ database, websocket }).catch((ex) => {
+    console.log('deleting deprecated purchases now')
+
+    deleteDeprecatedPurchases({ database, websocket }).then(() => {
+      console.log('finished deleting deprecated purchases')
+    }).catch((ex) => {
       console.warn('error deleting deprecated purchases', ex)
     })
   }
