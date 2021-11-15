@@ -65,9 +65,7 @@ async function deleteDeprecatedPurchases ({ database, websocket }: {
     }, {
       where: {
         familyId: {
-          [Sequelize.Op.in]: {
-            affectedFamilyIds
-          }
+          [Sequelize.Op.in]: affectedFamilyIds
         }
       },
       transaction
