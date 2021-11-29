@@ -1498,16 +1498,7 @@ const definitions = {
                   }
                 ],
                 "minItems": 2,
-                "additionalItems": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "number"
-                    }
-                  ]
-                }
+                "maxItems": 2
               }
             },
             "sdl": {
@@ -1529,22 +1520,7 @@ const definitions = {
                   }
                 ],
                 "minItems": 4,
-                "additionalItems": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "number"
-                    }
-                  ]
-                }
+                "maxItems": 4
               }
             }
           },
@@ -1675,16 +1651,7 @@ const definitions = {
             }
           ],
           "minItems": 2,
-          "additionalItems": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          }
+          "maxItems": 2
         }
       },
       "updatedOrAdded": {
