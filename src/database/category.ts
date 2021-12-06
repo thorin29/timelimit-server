@@ -83,10 +83,15 @@ export interface CategoryAttributesVersion11 {
   flags: string
 }
 
+export interface CategoryAttributesVersion12 {
+  blockNotificationDelay: string
+}
+
 export type CategoryAttributes = CategoryAttributesVersion1 & CategoryAttributesVersion2 &
   CategoryAttributesVersion3 & CategoryAttributesVersion4 & CategoryAttributesVersion5 &
   CategoryAttributesVersion6 & CategoryAttributesVersion7 & CategoryAttributesVersion8 &
-  CategoryAttributesVersion9 & CategoryAttributesVersion10 & CategoryAttributesVersion11
+  CategoryAttributesVersion9 & CategoryAttributesVersion10 & CategoryAttributesVersion11 &
+  CategoryAttributesVersion12
 
 export type CategoryModel = Sequelize.Model<CategoryAttributes> & CategoryAttributes
 export type CategoryModelStatic = typeof Sequelize.Model & {
@@ -232,6 +237,17 @@ export const attributesVersion11: SequelizeAttributes<CategoryAttributesVersion1
   }
 }
 
+export const attributesVersion12: SequelizeAttributes<CategoryAttributesVersion12> = {
+  blockNotificationDelay: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -243,7 +259,8 @@ export const attributes: SequelizeAttributes<CategoryAttributes> = {
   ...attributesVersion8,
   ...attributesVersion9,
   ...attributesVersion10,
-  ...attributesVersion11
+  ...attributesVersion11,
+  ...attributesVersion12
 }
 
 export const createCategoryModel = (sequelize: Sequelize.Sequelize): CategoryModelStatic => sequelize.define('Category', attributes) as CategoryModelStatic

@@ -940,6 +940,9 @@ const definitions = {
       },
       "blocked": {
         "type": "boolean"
+      },
+      "blockDelay": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2048,11 +2051,15 @@ const definitions = {
       },
       "flags": {
         "type": "number"
+      },
+      "blockNotificationDelay": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
     "required": [
       "blockAllNotifications",
+      "blockNotificationDelay",
       "blockedTimes",
       "categoryId",
       "childId",

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,25 +16,43 @@
  */
 
 import { ParentAction } from './basetypes'
-import { assertIdWithinFamily } from './meta/util'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
 
 const actionType = 'UpdateCategoryBlockAllNotificationsAction'
 
 export class UpdateCategoryBlockAllNotificationsAction extends ParentAction {
   readonly categoryId: string
   readonly blocked: boolean
+  readonly blockDelay: number | undefined
 
-  constructor ({ categoryId, blocked }: {categoryId: string, blocked: boolean}) {
+  constructor ({ categoryId, blocked, blockDelay }: {
+    categoryId: string
+    blocked: boolean
+    blockDelay: number | undefined
+  }) {
     super()
 
     assertIdWithinFamily({ actionType, field: 'categoryId', value: categoryId })
 
+    if (blockDelay !== undefined) {
+      assertSafeInteger({ actionType, field: 'blockDelay', value: blockDelay })
+
+      if (blockDelay < 0) {
+        throwOutOfRange({ actionType, field: 'blockDelay', value: blockDelay })
+      }
+    }
+
     this.categoryId = categoryId
     this.blocked = blocked
+    this.blockDelay = blockDelay
   }
 
-  static parse = ({ categoryId, blocked }: SerializedUpdateCategoryBlockAllNotificationsAction) => (
-    new UpdateCategoryBlockAllNotificationsAction({ categoryId, blocked })
+  static parse = ({ categoryId, blocked, blockDelay }: SerializedUpdateCategoryBlockAllNotificationsAction) => (
+    new UpdateCategoryBlockAllNotificationsAction({
+      categoryId,
+      blocked,
+      blockDelay: blockDelay
+    })
   )
 }
 
@@ -42,4 +60,5 @@ export interface SerializedUpdateCategoryBlockAllNotificationsAction {
   type: 'UPDATE_CATEGORY_BLOCK_ALL_NOTIFICATIONS'
   categoryId: string
   blocked: boolean
+  blockDelay: number | undefined
 }

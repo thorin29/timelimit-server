@@ -52,7 +52,8 @@ export async function getCategoryBaseDatas ({
       'temporarilyBlockedEndTime',
       'sort',
       'disableLimitsUntil',
-      'flags'
+      'flags',
+      'blockNotificationDelay'
     ],
     transaction
   })).map((item) => ({
@@ -72,7 +73,8 @@ export async function getCategoryBaseDatas ({
     temporarilyBlockedEndTime: item.temporarilyBlockedEndTime,
     sort: item.sort,
     disableLimitsUntil: item.disableLimitsUntil,
-    flags: item.flags
+    flags: item.flags,
+    blockNotificationDelay: item.blockNotificationDelay
   }))
 
   const networkIdsForSyncing = (await database.categoryNetworkId.findAll({
@@ -117,6 +119,7 @@ export async function getCategoryBaseDatas ({
         hashedNetworkId: network.hashedNetworkId
       })),
     dlu: parseInt(item.disableLimitsUntil, 10),
-    flags: parseInt(item.flags, 10)
+    flags: parseInt(item.flags, 10),
+    blockNotificationDelay: parseInt(item.blockNotificationDelay, 10)
   }))
 }

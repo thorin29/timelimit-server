@@ -118,6 +118,7 @@ export interface ServerUpdatedCategoryBaseData {
   // disable limits until
   dlu: number
   flags: number
+  blockNotificationDelay: number
 }
 
 export interface ServerCategoryNetworkId {
