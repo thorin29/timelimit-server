@@ -199,7 +199,9 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
         oldItem.roundedLastUpdate = roundedTimestampForSessionDuration
 
         if (hasTrustedTimestamp) {
-          oldItem.lastUsage = action.trustedTimestamp.toString(10)
+          if (parseInt(oldItem.lastUsage, 10) < action.trustedTimestamp) {
+            oldItem.lastUsage = action.trustedTimestamp.toString(10)
+          }
         }
 
         await oldItem.save({ transaction: cache.transaction })
