@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,7 +33,7 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ deviceId: string; deviceAuthToken: string }> => {
   return database.transaction(async (transaction) => {
-    const mail = await requireMailByAuthToken({ database, mailAuthToken, transaction })
+    const mail = await requireMailByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
 
     const userEntryUnsafe = await database.user.findOne({
       where: {

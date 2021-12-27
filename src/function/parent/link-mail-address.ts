@@ -45,7 +45,7 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
 
     const familyId = deviceEntry.familyId
 
-    const mailAddress = await requireMailByAuthToken({ mailAuthToken, database, transaction })
+    const mailAddress = await requireMailByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
 
     const exisitingUser = await database.user.findOne({
       where: {

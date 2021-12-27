@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -31,7 +31,7 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
   // no transaction here because this is directly called from an API endpoint
 }) => {
   await database.transaction(async (transaction) => {
-    const mail = await requireMailByAuthToken({ mailAuthToken, database, transaction })
+    const mail = await requireMailByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
 
     // update the user entry
     const userEntry = await database.user.findOne({
