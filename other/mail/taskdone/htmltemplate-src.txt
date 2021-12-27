@@ -9,7 +9,7 @@
       <mj-column>
         <mj-text>
           <p>
-            <%= child %> hat angegeben, dass die Aufgabe <%= task %> erledigt wurde.
+            <b><%= child %></b> hat angegeben, dass die Aufgabe <b><%= task %></b> erledigt wurde.
             Die angeblich erledigten Aufgaben werden auf der Startseite der TimeLimit-App
             angezeigt. Dort kann die Erledigung bestätigt werden.
           </p>
@@ -18,7 +18,7 @@
             möglicherweise nicht bei jeder Aufgabenerledigung eine derartige E-Mail.
           </p>
           <p>
-            <%= child %> reported that <%= task %> was finished.
+            <b><%= child %></b> reported that <b><%= task %></b> was finished.
             You can see the tasks which are marked as finished at the overview screen
             of the TimeLimit application. You can confirm the task completion there.
           </p>

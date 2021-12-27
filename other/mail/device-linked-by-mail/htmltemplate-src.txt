@@ -8,7 +8,7 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          <p><%= preText %> <%= deviceName %> <%= postText %></p>
+          <p><%= preText %> <b><%= deviceName %></b> <%= postText %></p>
           <p><%= securityText %></p>
         </mj-text>
       </mj-column>

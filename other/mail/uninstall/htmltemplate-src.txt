@@ -9,7 +9,7 @@
       <mj-column>
         <mj-text>
           <p>
-            TimeLimit wurde vom Gerät <%= deviceName %> entfernt. Ein Zurücksetzen der
+            TimeLimit wurde vom Gerät <b><%= deviceName %></b> entfernt. Ein Zurücksetzen der
             App, wonach diese immer noch "da", aber nicht eingerichtet ist, zählt auch als Entfernen.
             In jedem Fall wurde diese Aktion durch den Benutzer des Gerätes durchgeführt -
             in der Voreinstellung kann TimeLimit jederzeit, auch durch das Kind, entfernt werden.
@@ -18,7 +18,7 @@
           </p>
 
           <p>
-            TimeLimit was removed from <%= deviceName %>. A reset of the App, after which it is
+            TimeLimit was removed from <b><%= deviceName %></b>. A reset of the App, after which it is
             still "there", but not set up, is considered a removal, too. In any case, this was
             done by the user of the device. Remember that by default, it is always possible
             to remove TimeLimit, for parents and children. For technical reasons, not every

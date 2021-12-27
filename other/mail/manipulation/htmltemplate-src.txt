@@ -9,7 +9,7 @@
       <mj-column>
         <mj-text>
           <p>
-            Die TimeLimit-Installation von dem Gerät <%= deviceName %> hat eine Manipulation gemeldet.
+            Die TimeLimit-Installation von dem Gerät <b><%= deviceName %></b> hat eine Manipulation gemeldet.
             Sie können die Details dazu in der TimeLimit-App einsehen.
             <br />
             Solange Sie nicht die Warnung in TimeLimit bestätigen (ignorieren und/ oder beheben)
@@ -17,7 +17,7 @@
           </p>
 
           <p>
-            TimeLimit at <%= deviceName %> reported a manipulation.
+            TimeLimit at <b><%= deviceName %></b> reported a manipulation.
             You can see the details in the TimeLimit App.
             <br />
             You will not get any further warnings for this device
