@@ -27,7 +27,7 @@
           </p>
           <p>
             You got this message because the password reset feature was used for your account.
-            If you have got any questions, then you can reply to this messagge.
+            If you have got any questions, then you can reply to this message.
           </p>
           <p>
             &copy; <%= mailimprint %>
