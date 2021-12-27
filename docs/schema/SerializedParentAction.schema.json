@@ -1006,6 +1006,9 @@
         },
         "blocked": {
           "type": "boolean"
+        },
+        "blockDelay": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
