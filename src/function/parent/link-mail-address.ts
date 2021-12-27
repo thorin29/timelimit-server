@@ -19,7 +19,7 @@ import { Conflict, Unauthorized } from 'http-errors'
 import { Database } from '../../database'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
-import { requireMailByAuthToken } from '../authentication'
+import { requireMailAndLocaleByAuthToken } from '../authentication'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUserId, parentPasswordSecondHash, database, websocket }: {
@@ -45,11 +45,11 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
 
     const familyId = deviceEntry.familyId
 
-    const mailAddress = await requireMailByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
+    const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
 
     const exisitingUser = await database.user.findOne({
       where: {
-        mail: mailAddress
+        mail: mailInfo.mail
       },
       transaction
     })
@@ -83,7 +83,7 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
       throw new Conflict()
     }
 
-    parentEntry.mail = mailAddress
+    parentEntry.mail = mailInfo.mail
 
     await parentEntry.save({ transaction })
 

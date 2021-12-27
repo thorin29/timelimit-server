@@ -22,7 +22,7 @@ import { maxMailNotificationFlags } from '../../database/user'
 import {
   generateAuthToken, generateFamilyId, generateIdWithinFamily, generateVersionId
 } from '../../util/token'
-import { requireMailByAuthToken } from '../authentication'
+import { requireMailAndLocaleByAuthToken } from '../authentication'
 import { prepareDeviceEntry } from '../device/prepare-device-entry'
 
 export const createFamily = async ({ database, mailAuthToken, firstParentDevice, password, timeZone, parentName, deviceName }: {
@@ -37,12 +37,12 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
 }) => {
   return database.transaction(async (transaction) => {
     const now = Date.now().toString(10)
-    const mail = await requireMailByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
+    const mailInfo = await requireMailAndLocaleByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
 
     // ensure that no family was created for this mail yet
     const exisitngUserEntry = await database.user.findOne({
       where: {
-        mail
+        mail: mailInfo.mail
       },
       transaction
     })
@@ -77,7 +77,7 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       secondPasswordHash: password.secondHash,
       secondPasswordSalt: password.secondSalt,
       type: 'parent',
-      mail,
+      mail: mailInfo.mail,
       timeZone,
       disableTimelimitsUntil: '0',
       currentDevice: '',

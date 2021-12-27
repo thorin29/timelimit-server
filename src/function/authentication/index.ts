@@ -36,7 +36,7 @@ export const createAuthTokenByMailAddress = async ({
   return token
 }
 
-export const getMailByAuthToken = async ({
+export const getMailAndLocaleByAuthToken = async ({
   mailAuthToken, database, transaction, invalidate
 }: {
   mailAuthToken: string, database: Database, transaction: Transaction, invalidate: boolean
@@ -62,22 +62,25 @@ export const getMailByAuthToken = async ({
       }
     }
 
-    return entry.mail
+    return {
+      mail: entry.mail,
+      locale: entry.locale
+    }
   } else {
     return null
   }
 }
 
-export const requireMailByAuthToken = async ({
+export const requireMailAndLocaleByAuthToken = async ({
   mailAuthToken, database, transaction, invalidate
 }: {
   mailAuthToken: string, database: Database, transaction: Transaction, invalidate: boolean
 }) => {
-  const mail = await getMailByAuthToken({ mailAuthToken, database, transaction, invalidate })
+  const result = await getMailAndLocaleByAuthToken({ mailAuthToken, database, transaction, invalidate })
 
-  if (!mail) {
+  if (!result) {
     throw new Unauthorized()
   }
 
-  return mail
+  return result
 }

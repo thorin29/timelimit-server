@@ -17,7 +17,7 @@
 
 import { Database, Transaction } from '../../database'
 import { StaticMessageException } from '../../exception'
-import { requireMailByAuthToken } from '../authentication'
+import { requireMailAndLocaleByAuthToken } from '../authentication'
 
 const getStatusByMailAddress = async ({
   mail, database, transaction
@@ -43,7 +43,9 @@ const getStatusByMailAddress = async ({
 export const getStatusByMailToken = async ({
   mailAuthToken, database, transaction
 }: { mailAuthToken: string, database: Database, transaction: Transaction }) => {
-  const mail = await requireMailByAuthToken({ mailAuthToken, database, transaction, invalidate: false })
+  const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, database, transaction, invalidate: false })
+  const mail = mailInfo.mail
+
   const status = await getStatusByMailAddress({ mail, database, transaction })
 
   return { mail, status }

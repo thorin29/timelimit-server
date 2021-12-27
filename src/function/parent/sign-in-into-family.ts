@@ -18,9 +18,10 @@
 import { Conflict } from 'http-errors'
 import { NewDeviceInfo } from '../../api/schema'
 import { Database } from '../../database'
+import { sendDeviceLinkedMail } from '../../util/mail'
 import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
-import { requireMailByAuthToken } from '../authentication'
+import { requireMailAndLocaleByAuthToken } from '../authentication'
 import { prepareDeviceEntry } from '../device/prepare-device-entry'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 
@@ -33,11 +34,11 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ deviceId: string; deviceAuthToken: string }> => {
   return database.transaction(async (transaction) => {
-    const mail = await requireMailByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
+    const mailInfo = await requireMailAndLocaleByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
 
     const userEntryUnsafe = await database.user.findOne({
       where: {
-        mail
+        mail: mailInfo.mail
       },
       attributes: ['familyId', 'userId'],
       transaction
@@ -82,6 +83,14 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
       isImportant: true,
       sourceDeviceId: deviceId,
       transaction
+    })
+
+    transaction.afterCommit(async () => {
+      await sendDeviceLinkedMail({
+        receiver: mailInfo.mail,
+        locale: mailInfo.locale,
+        deviceName
+      })
     })
 
     return {

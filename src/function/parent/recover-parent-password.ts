@@ -18,9 +18,10 @@
 import { Conflict } from 'http-errors'
 import { ParentPassword } from '../../api/schema'
 import { Database } from '../../database'
+import { sendPasswordRecoveryUsedMail } from '../../util/mail'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
-import { requireMailByAuthToken } from '../authentication'
+import { requireMailAndLocaleByAuthToken } from '../authentication'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 
 export const recoverParentPassword = async ({ database, websocket, password, mailAuthToken }: {
@@ -31,12 +32,12 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
   // no transaction here because this is directly called from an API endpoint
 }) => {
   await database.transaction(async (transaction) => {
-    const mail = await requireMailByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
+    const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
 
     // update the user entry
     const userEntry = await database.user.findOne({
       where: {
-        mail
+        mail: mailInfo.mail
       },
       transaction
     })
@@ -68,6 +69,13 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
       isImportant: true,
       sourceDeviceId: null,
       transaction
+    })
+
+    transaction.afterCommit(async () => {
+      await sendPasswordRecoveryUsedMail({
+        receiver: mailInfo.mail,
+        locale: mailInfo.locale
+      })
     })
   })
 }

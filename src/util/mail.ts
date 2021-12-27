@@ -108,6 +108,55 @@ export const sendTaskDoneMail = async ({ receiver, child, task }: {
   })
 }
 
+export const sendDeviceLinkedMail = async ({ receiver, deviceName, locale }: {
+  receiver: string
+  deviceName: string
+  locale: string
+}) => {
+  await email.send({
+    template: join(__dirname, '../../other/mail/device-linked-by-mail'),
+    message: {
+      to: receiver
+    },
+    locals: {
+      subject: locale === 'de' ? 'Gerät hinzugefügt' : 'Device added',
+      preText: locale === 'de' ? 'Soeben wurde das Gerät' : 'The device',
+      deviceName,
+      postText: locale === 'de' ? 'über Ihre E-Mail-Adresse hinzugefügt.' : 'was added using your mail address.',
+      securityText: getMailSecurityText(locale),
+      mailimprint
+    }
+  })
+}
+
+export const sendPasswordRecoveryUsedMail = async ({ receiver, locale }: {
+  receiver: string
+  locale: string
+}) => {
+  await email.send({
+    template: join(__dirname, '../../other/mail/password-recovery-used'),
+    message: {
+      to: receiver
+    },
+    locals: {
+      subject: locale === 'de' ? 'Passwort-Vergessen-Funktion verwendet' : 'Password reset',
+      text: locale === 'de' ?
+        'Soeben wurde Ihr TimeLimit-Passwort mit der Passwort-Vergessen-Funktion geändert.' :
+        'Your password was changed using the password reset feature.',
+      securityText: getMailSecurityText(locale),
+      mailimprint
+    }
+  })
+}
+
+function getMailSecurityText (locale: string) {
+  if (locale === 'de') {
+    return 'Achten Sie darauf, dass Ihr Kind/Ihre Kinder keinen Zugang zu der E-Mail-Adresse hat/haben, die Sie bei TimeLimit angegeben haben.'
+  } else {
+    return 'Make sure that your child/children can not access the mail addresss that you use for TimeLimit.'
+  }
+}
+
 export function isMailServerBlacklisted (mail: string): boolean {
   const parts = mail.split('@')
   const domain = parts[parts.length - 1]
