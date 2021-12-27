@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,6 +33,7 @@ export interface ServerDataStatus {
   users?: ServerUserList  // newUserList
   fullVersion: number     // fullVersionUntil
   message?: string
+  apiLevel: number
 }
 
 export interface ServerDeviceList {

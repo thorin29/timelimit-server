@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -43,7 +43,8 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
     fullVersion: config.alwaysPro ? 1 : (
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),
-    message: await getStatusMessage({ database, transaction }) || undefined
+    message: await getStatusMessage({ database, transaction }) || undefined,
+    apiLevel: 1
   }
 
   if (familyEntry.deviceListVersion !== clientStatus.devices) {
