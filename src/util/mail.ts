@@ -33,7 +33,8 @@ const email = new Email({
     options: {
       extension: 'ejs'
     }
-  }
+  },
+  juice: false
 })
 
 export const sendAuthenticationMail = async ({
