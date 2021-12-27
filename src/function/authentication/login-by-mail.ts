@@ -132,6 +132,17 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
       }
     }
 
+    const counter = await database.mailLoginToken.destroy({
+      where: {
+        mailLoginToken
+      },
+      transaction
+    })
+
+    if (counter !== 1) {
+      throw new Gone()
+    }
+
     const mailAuthToken = await createAuthTokenByMailAddress({ mail: entry.mail, database, transaction })
 
     return { mailAuthToken }
