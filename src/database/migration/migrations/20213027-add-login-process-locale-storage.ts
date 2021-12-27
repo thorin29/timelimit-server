@@ -16,13 +16,24 @@
  */
 
 import { QueryInterface, Sequelize, Transaction } from 'sequelize'
-import { attributesVersion1 as mailLoginTokenAttributes } from '../../maillogintoken'
+import { attributesVersion2 as authTokenAttributes } from '../../authtoken'
+import { attributesVersion2 as mailLoginTokenAttributes } from '../../maillogintoken'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({
     type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
-    await queryInterface.createTable('MailLoginTokens', mailLoginTokenAttributes, { transaction })
+    await queryInterface.addColumn('AuthTokens', 'locale', {
+      ...authTokenAttributes.locale
+    }, {
+      transaction
+    })
+
+    await queryInterface.addColumn('MailLoginTokens', 'locale', {
+      ...mailLoginTokenAttributes.locale
+    }, {
+      transaction
+    })
   })
 }
 
@@ -30,6 +41,7 @@ export async function down (queryInterface: QueryInterface, sequelize: Sequelize
   await sequelize.transaction({
     type: Transaction.TYPES.EXCLUSIVE
   }, async (transaction) => {
-    await queryInterface.dropTable('MailLoginTokens', { transaction })
+    await queryInterface.removeColumn('AuthTokens', 'locale', { transaction })
+    await queryInterface.removeColumn('MailLoginTokens', 'locale', { transaction })
   })
 }

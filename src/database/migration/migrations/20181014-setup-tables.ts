@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,7 @@
 import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 import { attributes as addDeviceTokenAttributes } from '../../adddevicetoken'
 import { attributes as appAttributes } from '../../app'
-import { attributes as authTokenAttributes } from '../../authtoken'
+import { attributesVersion1 as authTokenAttributes } from '../../authtoken'
 import { attributesVersion1 as categoryAttributes } from '../../category'
 import { attributes as categoryAppAttributes } from '../../categoryapp'
 import { attributesVersion1 as deviceAttributes } from '../../device'

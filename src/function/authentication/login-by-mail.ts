@@ -91,7 +91,8 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
       receivedCode: code,
       mail,
       createdAt: Date.now().toString(10),
-      remainingAttempts: 3
+      remainingAttempts: 3,
+      locale
     }, { transaction })
   })
 
@@ -143,7 +144,12 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
       throw new Gone()
     }
 
-    const mailAuthToken = await createAuthTokenByMailAddress({ mail: entry.mail, database, transaction })
+    const mailAuthToken = await createAuthTokenByMailAddress({
+      mail: entry.mail,
+      locale: entry.locale,
+      database,
+      transaction
+    })
 
     return { mailAuthToken }
   })

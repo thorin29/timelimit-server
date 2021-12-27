@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,18 +19,24 @@ import * as Sequelize from 'sequelize'
 import { authTokenColumn, timestampColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
-export interface AuthTokenAttributes {
+export interface AuthTokenAttributesVersion1 {
   token: string
   mail: string
   createdAt: string
 }
+
+export interface AuthTokenAttributesVersion2 {
+  locale: string
+}
+
+export type AuthTokenAttributes = AuthTokenAttributesVersion1 & AuthTokenAttributesVersion2
 
 export type AuthTokenModel = Sequelize.Model<AuthTokenAttributes> & AuthTokenAttributes
 export type AuthTokenModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): AuthTokenModel;
 }
 
-export const attributes: SequelizeAttributes<AuthTokenAttributes> = {
+export const attributesVersion1: SequelizeAttributes<AuthTokenAttributesVersion1> = {
   token: {
     ...authTokenColumn,
     primaryKey: true
@@ -43,6 +49,19 @@ export const attributes: SequelizeAttributes<AuthTokenAttributes> = {
     }
   },
   createdAt: { ...timestampColumn }
+}
+
+export const attributesVersion2: SequelizeAttributes<AuthTokenAttributesVersion2> = {
+  locale: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'en'
+  }
+}
+
+export const attributes: SequelizeAttributes<AuthTokenAttributes> = {
+  ...attributesVersion1,
+  ...attributesVersion2
 }
 
 export const createAuthtokenModel = (sequelize: Sequelize.Sequelize): AuthTokenModelStatic => sequelize.define('AuthToken', attributes) as AuthTokenModelStatic

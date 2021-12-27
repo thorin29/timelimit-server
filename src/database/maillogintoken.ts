@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@ import * as Sequelize from 'sequelize'
 import { authTokenColumn, timestampColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
-export interface MailLoginTokenAttributes {
+export interface MailLoginTokenAttributesVersion1 {
   mailLoginToken: string
   receivedCode: string
   mail: string
@@ -27,12 +27,18 @@ export interface MailLoginTokenAttributes {
   remainingAttempts: number
 }
 
+export interface MailLoginTokenAttributesVersion2 {
+  locale: string
+}
+
+export type MailLoginTokenAttributes = MailLoginTokenAttributesVersion1 & MailLoginTokenAttributesVersion2
+
 export type MailLoginTokenModel = Sequelize.Model<MailLoginTokenAttributes> & MailLoginTokenAttributes
 export type MailLoginTokenModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): MailLoginTokenModel;
 }
 
-export const attributes: SequelizeAttributes<MailLoginTokenAttributes> = {
+export const attributesVersion1: SequelizeAttributes<MailLoginTokenAttributesVersion1> = {
   mailLoginToken: {
     ...authTokenColumn,
     primaryKey: true
@@ -59,6 +65,19 @@ export const attributes: SequelizeAttributes<MailLoginTokenAttributes> = {
       min: 0
     }
   }
+}
+
+export const attributesVersion2: SequelizeAttributes<MailLoginTokenAttributesVersion2> = {
+  locale: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'en'
+  }
+}
+
+export const attributes: SequelizeAttributes<MailLoginTokenAttributes> = {
+  ...attributesVersion1,
+  ...attributesVersion2
 }
 
 export const createMailLoginTokenModel = (sequelize: Sequelize.Sequelize): MailLoginTokenModelStatic => sequelize.define('MailLoginToken', attributes) as MailLoginTokenModelStatic

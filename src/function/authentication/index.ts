@@ -19,13 +19,18 @@ import { Unauthorized } from 'http-errors'
 import { Database, Transaction } from '../../database'
 import { generateAuthToken } from '../../util/token'
 
-export const createAuthTokenByMailAddress = async ({ mail, database, transaction }: { mail: string, database: Database, transaction: Transaction }) => {
+export const createAuthTokenByMailAddress = async ({
+  mail, database, transaction, locale
+}: {
+  mail: string, database: Database, transaction: Transaction, locale: string
+}) => {
   const token = generateAuthToken()
 
   await database.authtoken.create({
     token,
     mail,
-    createdAt: Date.now().toString()
+    createdAt: Date.now().toString(),
+    locale
   }, { transaction })
 
   return token
