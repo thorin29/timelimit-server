@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -36,7 +36,11 @@ const email = new Email({
   }
 })
 
-export const sendAuthenticationMail = async ({ receiver, code, locale }: {receiver: string, code: string, locale: string}) => {
+export const sendAuthenticationMail = async ({
+  receiver, code, locale, deviceName
+}: {
+  receiver: string, code: string, locale: string, deviceName: string | null
+}) => {
   await email.send({
     template: join(__dirname, '../../other/mail/login'),
     message: {
@@ -47,7 +51,10 @@ export const sendAuthenticationMail = async ({ receiver, code, locale }: {receiv
       introtext: locale === 'de' ? 'Geben Sie zum Authentifizieren folgenden Code in TimeLimit ein' : 'To authenticate, enter the following code in TimeLimit',
       code,
       outrotext: locale === 'de' ? 'Geben Sie diesen Code nicht an Dritte weiter.' : 'Do not share this code with third parties.',
-      mailimprint
+      mailimprint,
+      deviceName,
+      deviceNameIntro: locale === 'de' ? 'Die Anmeldung wurde am Gerät' : 'The login was attempted at the device',
+      deviceNameOutro: locale === 'de' ? 'versucht.' : '.'
     }
   })
 }

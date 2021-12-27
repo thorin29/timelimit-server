@@ -24,7 +24,8 @@ see [this JSON schema](../schema/sendmaillogincoderequest.md)
 ```
 {
   "mail": "test@timelimit.io",
-  "locale": "de"
+  "locale": "de",
+  "deviceAuthToken": "1234abcde"
 }
 ```
 
@@ -33,6 +34,8 @@ see [this JSON schema](../schema/sendmaillogincoderequest.md)
 If the request body is malformed or the mail address is invalid: HTTP status code 400 Bad Request
 
 If the rate limit was exceeded: HTTP status code 429 Too Many Requests
+
+If a deviceAuthToken was sent which is invalid: HTTP status code 401 Unauthorized
 
 If a whitelist was configured and the mail address is not within it: ``{"mailAddressNotWhitelisted": true}``
 

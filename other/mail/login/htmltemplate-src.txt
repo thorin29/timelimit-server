@@ -13,6 +13,9 @@
           </p>
           <p><b><%= code %></b></p>
           <p><%= outrotext %></p>
+          <% if (deviceName !== null) { -%>
+            <p><%= deviceNameIntro %> <b><%= deviceName %></b> <%= deviceNameOutro %></p>
+          <% } -%>
         </mj-text>
       </mj-column>
     </mj-section>

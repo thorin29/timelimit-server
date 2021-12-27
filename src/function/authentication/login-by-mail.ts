@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2021 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Forbidden, Gone, TooManyRequests } from 'http-errors'
+import { Forbidden, Gone, TooManyRequests, Unauthorized } from 'http-errors'
 import { Database } from '../../database'
 import { sendAuthenticationMail } from '../../util/mail'
 import { areWordSequencesEqual, randomWords } from '../../util/random-words'
@@ -23,12 +23,52 @@ import { checkMailSendLimit } from '../../util/ratelimit-authmail'
 import { generateAuthToken } from '../../util/token'
 import { createAuthTokenByMailAddress } from './index'
 
-export const sendLoginCode = async ({ mail, locale, database }: {
+export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }: {
   mail: string
+  deviceAuthToken?: string
   locale: string
   database: Database
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ mailLoginToken: string }> => {
+  let deviceName = null
+
+  if (deviceAuthToken !== undefined) {
+    const info = await database.transaction(async (transaction) => {
+      const deviceEntryUnsafe = await database.device.findOne({
+        where: { deviceAuthToken },
+        attributes: ['familyId', 'name'],
+        transaction
+      })
+
+      if (!deviceEntryUnsafe) {
+        throw new Unauthorized()
+      }
+
+      const deviceEntry = {
+        familyId: deviceEntryUnsafe.familyId,
+        name: deviceEntryUnsafe.name
+      }
+
+      const userEntryCounter = await database.user.count({
+        where: {
+          familyId: deviceEntry.familyId,
+          mail
+        },
+        transaction
+      })
+
+      if (userEntryCounter === 1) {
+        return { deviceName: deviceEntry.name }
+      } else {
+        // do not show the device name if it is from another family
+        // otherwise third parties could chose a part of the content of the mail
+        return { deviceName: null }
+      }
+    })
+
+    deviceName = info.deviceName
+  }
+
   try {
     await checkMailSendLimit(mail)
   } catch (ex) {
@@ -41,7 +81,8 @@ export const sendLoginCode = async ({ mail, locale, database }: {
   await sendAuthenticationMail({
     receiver: mail,
     code,
-    locale
+    locale,
+    deviceName
   })
 
   await database.transaction(async (transaction) => {

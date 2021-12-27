@@ -132,6 +132,7 @@ export interface RequestWithAuthToken {
 export interface SendMailLoginCodeRequest {
   mail: string
   locale: string
+  deviceAuthToken?: string
 }
 
 export interface SignInByMailCodeRequest {

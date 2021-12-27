@@ -6,6 +6,9 @@
     },
     "locale": {
       "type": "string"
+    },
+    "deviceAuthToken": {
+      "type": "string"
     }
   },
   "additionalProperties": false,

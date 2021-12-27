@@ -2966,6 +2966,9 @@ export const isSendMailLoginCodeRequest: (value: object) => value is SendMailLog
     },
     "locale": {
       "type": "string"
+    },
+    "deviceAuthToken": {
+      "type": "string"
     }
   },
   "additionalProperties": false,
