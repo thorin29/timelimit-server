@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -60,10 +60,13 @@ export async function dispatchReviewChildTaskAction ({ action, cache }: {
       extraTimeDay: categoryInfoUnsafe.extraTimeDay
     }
 
-    if (categoryInfo.extraTimeDay !== 0 && categoryInfo.extraTimeInMillis > 0) {
-      // if the current time is daily, then extend the daily time only
+    const resetDayBoundExtraTime = categoryInfo.extraTimeDay !== -1 &&
+      action.day !== undefined && categoryInfo.extraTimeDay !== action.day
+
+    if (resetDayBoundExtraTime) {
       await cache.database.category.update({
-        extraTimeInMillis: categoryInfo.extraTimeInMillis + taskInfo.extraTimeDuration
+        extraTimeInMillis: taskInfo.extraTimeDuration,
+        extraTimeDay: -1
       }, {
         where: {
           familyId: cache.familyId,
@@ -73,8 +76,7 @@ export async function dispatchReviewChildTaskAction ({ action, cache }: {
       })
     } else {
       await cache.database.category.update({
-        extraTimeInMillis: categoryInfo.extraTimeInMillis + taskInfo.extraTimeDuration,
-        extraTimeDay: -1
+        extraTimeInMillis: categoryInfo.extraTimeInMillis + taskInfo.extraTimeDuration
       }, {
         where: {
           familyId: cache.familyId,

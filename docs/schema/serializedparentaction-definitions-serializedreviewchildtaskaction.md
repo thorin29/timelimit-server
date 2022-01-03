@@ -22,6 +22,7 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTa
 | [taskId](#taskid) | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-taskid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/taskId") |
 | [ok](#ok)         | `boolean` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-ok.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/ok")         |
 | [time](#time)     | `number`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-time.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/time")     |
+| [day](#day)       | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-day.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/day")       |
 
 ## type
 
@@ -100,5 +101,23 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTa
 *   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-time.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/time")
 
 ### time Type
+
+`number`
+
+## day
+
+
+
+`day`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-day.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/day")
+
+### day Type
 
 `number`

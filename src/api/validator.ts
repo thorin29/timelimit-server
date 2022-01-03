@@ -589,6 +589,9 @@ const definitions = {
       },
       "time": {
         "type": "number"
+      },
+      "day": {
+        "type": "number"
       }
     },
     "additionalProperties": false,

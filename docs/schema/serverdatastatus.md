@@ -29,6 +29,7 @@ https://timelimit.io/ServerDataStatus
 | [users](#users)               | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist.md "https://timelimit.io/ServerDataStatus#/properties/users")     |
 | [fullVersion](#fullversion)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-fullversion.md "https://timelimit.io/ServerDataStatus#/properties/fullVersion")   |
 | [message](#message)           | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-message.md "https://timelimit.io/ServerDataStatus#/properties/message")           |
+| [apiLevel](#apilevel)         | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-apilevel.md "https://timelimit.io/ServerDataStatus#/properties/apiLevel")         |
 
 ## devices
 
@@ -227,6 +228,24 @@ https://timelimit.io/ServerDataStatus
 ### message Type
 
 `string`
+
+## apiLevel
+
+
+
+`apiLevel`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-properties-apilevel.md "https://timelimit.io/ServerDataStatus#/properties/apiLevel")
+
+### apiLevel Type
+
+`number`
 
 # ServerDataStatus Definitions
 

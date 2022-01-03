@@ -1791,6 +1791,7 @@ Reference this group by using
 | [taskId](#taskid-1) | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-taskid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/taskId") |
 | [ok](#ok)           | `boolean` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-ok.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/ok")         |
 | [time](#time-1)     | `number`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-time.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/time")     |
+| [day](#day-1)       | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-day.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/day")       |
 
 ### type
 
@@ -1872,6 +1873,24 @@ Reference this group by using
 
 `number`
 
+### day
+
+
+
+`day`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreviewchildtaskaction-properties-day.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction/properties/day")
+
+#### day Type
+
+`number`
+
 ## Definitions group SerializedSetCategoryExtraTimeAction
 
 Reference this group by using
@@ -1885,7 +1904,7 @@ Reference this group by using
 | [type](#type-16)              | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryExtraTimeAction/properties/type")                 |
 | [categoryId](#categoryid-8)   | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryExtraTimeAction/properties/categoryId")     |
 | [newExtraTime](#newextratime) | `number` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction-properties-newextratime.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryExtraTimeAction/properties/newExtraTime") |
-| [day](#day-1)                 | `number` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction-properties-day.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryExtraTimeAction/properties/day")                   |
+| [day](#day-2)                 | `number` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryextratimeaction-properties-day.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryExtraTimeAction/properties/day")                   |
 
 ### type
 

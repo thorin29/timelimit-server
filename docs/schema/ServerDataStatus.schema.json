@@ -54,10 +54,14 @@
     },
     "message": {
       "type": "string"
+    },
+    "apiLevel": {
+      "type": "number"
     }
   },
   "additionalProperties": false,
   "required": [
+    "apiLevel",
     "fullVersion"
   ],
   "definitions": {
