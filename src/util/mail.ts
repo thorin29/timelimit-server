@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,39 +15,84 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { compile } from 'ejs'
 import { parseOneAddress } from 'email-addresses'
-import * as Email from 'email-templates'
-import { join } from 'path'
+import { readFileSync } from 'fs'
+import { createTransport } from 'nodemailer'
+import { resolve } from 'path'
 import { config } from '../config'
 import { IllegalStateException } from '../exception'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
 const mailServerBlacklist = (process.env.MAIL_SERVER_BLACKLIST || '').split(',').filter((item) => !!item)
 
-const email = new Email({
-  message: {
-    from: process.env.MAIL_SENDER || ''
-  },
-  transport: JSON.parse(process.env.MAIL_TRANSPORT || 'null') || undefined,
-  views: {
-    options: {
-      extension: 'ejs'
+const mailSender = process.env.MAIL_SENDER || ''
+const mailTransportConfig = JSON.parse(process.env.MAIL_TRANSPORT || 'null') || undefined
+const isDevMode = process.env.NODE_ENV === 'development'
+
+const mailTransport = isDevMode || mailTransportConfig !== undefined ?
+  createTransport(isDevMode ? {
+    jsonTransport: true
+  } : mailTransportConfig) :
+  null
+
+function createMailTemplateSender (templateName: string) {
+  const compileTemplate = (filename: string) => compile(
+    readFileSync(resolve(__dirname, '../../other/mail', templateName, filename)).toString('utf8')
+  )
+
+  const subjectTemplate = compileTemplate('subject.ejs')
+  const textTemplate = compileTemplate('text.ejs')
+  const htmlTemplate = compileTemplate('html.ejs')
+
+  const sendMail = async ({ receiver, params }: {
+    receiver: string
+    params: object
+  }) => {
+    if (!mailTransport) {
+      throw new Error('can not send mails without mail config and without NODE_ENV=development')
     }
-  },
-  juice: false
-})
+
+    const subject = subjectTemplate(params).replace(/\n/g, ' ')
+    const text = textTemplate(params)
+    const html = htmlTemplate(params)
+
+    await new Promise<void>((resolve, reject) => {
+      mailTransport.sendMail({
+        from: mailSender,
+        to: receiver,
+        subject,
+        text,
+        html
+      }, (err, info) => {
+        if (err) {
+          reject(err)
+        } else {
+          if (isDevMode) {
+            const data = (info as any).message
+
+            console.log(JSON.stringify(JSON.parse(data), null, 2))
+          }
+
+          resolve()
+        }
+      })
+    })
+  }
+
+  return { sendMail }
+}
+
+const loginMailSender = createMailTemplateSender('login')
 
 export const sendAuthenticationMail = async ({
   receiver, code, locale, deviceName
 }: {
   receiver: string, code: string, locale: string, deviceName: string | null
 }) => {
-  await email.send({
-    template: join(__dirname, '../../other/mail/login'),
-    message: {
-      to: receiver
-    },
-    locals: {
+  await loginMailSender.sendMail({
+    receiver,
+    params: {
       subject: locale === 'de' ? 'Anmeldung bei TimeLimit' : 'Sign in at TimeLimit',
       introtext: locale === 'de' ? 'Geben Sie zum Authentifizieren folgenden Code in TimeLimit ein' : 'To authenticate, enter the following code in TimeLimit',
       code,
@@ -60,16 +105,15 @@ export const sendAuthenticationMail = async ({
   })
 }
 
+const manipulationMailSender = createMailTemplateSender('manipulation')
+
 export const sendManipulationWarningMail = async ({ receiver, deviceName }: {
   receiver: string
   deviceName: string
 }) => {
-  await email.send({
-    template: join(__dirname, '../../other/mail/manipulation'),
-    message: {
-      to: receiver
-    },
-    locals: {
+  await manipulationMailSender.sendMail({
+    receiver,
+    params: {
       subject: 'TimeLimit@' + deviceName + ' - Manipulation',
       deviceName,
       mailimprint
@@ -77,16 +121,15 @@ export const sendManipulationWarningMail = async ({ receiver, deviceName }: {
   })
 }
 
+const uninstallMailSender = createMailTemplateSender('uninstall')
+
 export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
   receiver: string
   deviceName: string
 }) => {
-  await email.send({
-    template: join(__dirname, '../../other/mail/uninstall'),
-    message: {
-      to: receiver
-    },
-    locals: {
+  await uninstallMailSender.sendMail({
+    receiver,
+    params: {
       subject: 'TimeLimit removed from ' + deviceName,
       deviceName,
       mailimprint
@@ -94,31 +137,29 @@ export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
   })
 }
 
+const taskDoneSender = createMailTemplateSender('taskdone')
+
 export const sendTaskDoneMail = async ({ receiver, child, task }: {
   receiver: string
   child: string
   task: string
 }) => {
-  await email.send({
-    template: join(__dirname, '../../other/mail/taskdone'),
-    message: {
-      to: receiver
-    },
-    locals: { child, task, mailimprint }
+  await taskDoneSender.sendMail({
+    receiver,
+    params: { child, task, mailimprint }
   })
 }
+
+const deviceLinkedSender = createMailTemplateSender('device-linked-by-mail')
 
 export const sendDeviceLinkedMail = async ({ receiver, deviceName, locale }: {
   receiver: string
   deviceName: string
   locale: string
 }) => {
-  await email.send({
-    template: join(__dirname, '../../other/mail/device-linked-by-mail'),
-    message: {
-      to: receiver
-    },
-    locals: {
+  await deviceLinkedSender.sendMail({
+    receiver,
+    params: {
       subject: locale === 'de' ? 'Gerät hinzugefügt' : 'Device added',
       preText: locale === 'de' ? 'Soeben wurde das Gerät' : 'The device',
       deviceName,
@@ -129,16 +170,15 @@ export const sendDeviceLinkedMail = async ({ receiver, deviceName, locale }: {
   })
 }
 
+const passwordRecoveryUsedMailSender = createMailTemplateSender('password-recovery-used')
+
 export const sendPasswordRecoveryUsedMail = async ({ receiver, locale }: {
   receiver: string
   locale: string
 }) => {
-  await email.send({
-    template: join(__dirname, '../../other/mail/password-recovery-used'),
-    message: {
-      to: receiver
-    },
-    locals: {
+  await passwordRecoveryUsedMailSender.sendMail({
+    receiver,
+    params: {
       subject: locale === 'de' ? 'Passwort-Vergessen-Funktion verwendet' : 'Password reset',
       text: locale === 'de' ?
         'Soeben wurde Ihr TimeLimit-Passwort mit der Passwort-Vergessen-Funktion geändert.' :

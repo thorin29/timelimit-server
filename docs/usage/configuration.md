@@ -13,7 +13,7 @@
   - default value: 8080
 - NODE_ENV
   - should be set to ``production`` in production
-  - when using ``development``, then mails are not sent; instead they are written to a html file which is opened
+  - when using ``development``, then mails are not sent; instead they are print to the console
 - GOOGLE_PLAY_PUBLIC_KEY
   - key for validating purchases
   - purchases using google play don't work without it/ when it is not set
