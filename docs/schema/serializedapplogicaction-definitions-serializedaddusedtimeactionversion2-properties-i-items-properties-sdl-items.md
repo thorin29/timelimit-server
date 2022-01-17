@@ -22,8 +22,8 @@ an array where each item follows the corresponding schema in the following list:
 
 4.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-items-3.md "check type definition")
 
-5.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-additionalitems.md "check type definition")
-
 ## items Constraints
+
+**maximum number of items**: the maximum number of items for this array is: `4`
 
 **minimum number of items**: the minimum number of items for this array is: `4`

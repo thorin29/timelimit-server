@@ -18,8 +18,8 @@ an array where each item follows the corresponding schema in the following list:
 
 2.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-items-1.md "check type definition")
 
-3.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-additionalitems.md "check type definition")
-
 ## items Constraints
+
+**maximum number of items**: the maximum number of items for this array is: `2`
 
 **minimum number of items**: the minimum number of items for this array is: `2`

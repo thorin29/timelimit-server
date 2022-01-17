@@ -694,8 +694,6 @@ Reference this group by using
 
     2.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-1.md "check type definition")
 
-    3.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-additionalitems.md "check type definition")
-
 *   cannot be null
 
 *   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed")
@@ -707,8 +705,6 @@ an array where each item follows the corresponding schema in the following list:
 1.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-0.md "check type definition")
 
 2.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-1.md "check type definition")
-
-3.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-additionalitems.md "check type definition")
 
 ### updatedOrAdded
 

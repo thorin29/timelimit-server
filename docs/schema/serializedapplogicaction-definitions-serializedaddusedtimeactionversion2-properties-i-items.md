@@ -92,8 +92,6 @@ https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTime
 
     2.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-items-1.md "check type definition")
 
-    3.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-additionalitems.md "check type definition")
-
 *   cannot be null
 
 *   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i/items/properties/as")
@@ -105,8 +103,6 @@ an array where each item follows the corresponding schema in the following list:
 1.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-items-0.md "check type definition")
 
 2.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-items-1.md "check type definition")
-
-3.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-as-items-additionalitems.md "check type definition")
 
 ## sdl
 
@@ -126,8 +122,6 @@ an array where each item follows the corresponding schema in the following list:
 
     4.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-items-3.md "check type definition")
 
-    5.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-additionalitems.md "check type definition")
-
 *   cannot be null
 
 *   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i/items/properties/sdl")
@@ -143,5 +137,3 @@ an array where each item follows the corresponding schema in the following list:
 3.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-items-2.md "check type definition")
 
 4.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-items-3.md "check type definition")
-
-5.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-additionalitems.md "check type definition")

@@ -21,5 +21,3 @@ an array where each item follows the corresponding schema in the following list:
 3.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-items-2.md "check type definition")
 
 4.  [Untitled number in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-items-3.md "check type definition")
-
-5.  and all following items must follow the schema: [Untitled undefined type in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items-properties-sdl-items-additionalitems.md "check type definition")
