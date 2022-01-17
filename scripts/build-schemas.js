@@ -115,7 +115,7 @@ types.forEach((type) => {
   const functionBody = 'ajv.compile(' + schemaString + ')'
   const functionName = 'is' + type.substr(0, 1).toUpperCase() + type.substr(1)
 
-  output += 'export const ' + functionName + ': (value: object) => value is ' + type + ' = ' + functionBody + '\n'
+  output += 'export const ' + functionName + ': (value: unknown) => value is ' + type + ' = ' + functionBody + '\n'
 })
 
 allTypes.forEach((type) => {

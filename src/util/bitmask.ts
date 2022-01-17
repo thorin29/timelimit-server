@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -56,7 +56,7 @@ export const validateBitmask = (bitmask: string, maxLength: number) => {
 export const validateAndParseBitmask = (bitmask: string, maxLength: number) => {
   validateBitmask(bitmask, maxLength)
 
-  const result = range(0, maxLength).map((_) => false)
+  const result = range(0, maxLength).map(() => false)
 
   const splitpoints = split(bitmask, ',').map((item) => parseInt(item, 10))
 

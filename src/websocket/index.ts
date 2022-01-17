@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -45,7 +45,7 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
     socketCounter++
     socket.on('disconnect', () => socketCounter--)
 
-    socket.on('devicelogin', (deviceAuthToken: any, ack: any) => {
+    socket.on('devicelogin', (deviceAuthToken: unknown, ack: unknown) => {
       socket.rooms.forEach((room) => socket.leave(room))
 
       if (typeof deviceAuthToken !== 'string') {
@@ -95,7 +95,7 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
             shutdown()
           })
         }
-      })().catch((ex) => { /* ignore */ })
+      })().catch(() => { /* ignore */ })
 
       if (typeof ack === 'function') {
         ack()

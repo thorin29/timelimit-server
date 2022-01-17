@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@ const randomWord = () => wordlist[Math.floor(Math.random() * (wordlist.length - 
 
 export const randomWords = (numberOfWords: number) => (
   range(numberOfWords)
-    .map((item) => randomWord())
+    .map(() => randomWord())
     .join(' ')
 )
 

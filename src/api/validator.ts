@@ -2426,7 +2426,7 @@ const definitions = {
   }
 }
 
-export const isClientPushChangesRequest: (value: object) => value is ClientPushChangesRequest = ajv.compile({
+export const isClientPushChangesRequest: (value: unknown) => value is ClientPushChangesRequest = ajv.compile({
   "type": "object",
   "properties": {
     "deviceAuthToken": {
@@ -2447,7 +2447,7 @@ export const isClientPushChangesRequest: (value: object) => value is ClientPushC
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isClientPullChangesRequest: (value: object) => value is ClientPullChangesRequest = ajv.compile({
+export const isClientPullChangesRequest: (value: unknown) => value is ClientPullChangesRequest = ajv.compile({
   "type": "object",
   "properties": {
     "deviceAuthToken": {
@@ -2465,7 +2465,7 @@ export const isClientPullChangesRequest: (value: object) => value is ClientPullC
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isMailAuthTokenRequestBody: (value: object) => value is MailAuthTokenRequestBody = ajv.compile({
+export const isMailAuthTokenRequestBody: (value: unknown) => value is MailAuthTokenRequestBody = ajv.compile({
   "type": "object",
   "properties": {
     "mailAuthToken": {
@@ -2479,7 +2479,7 @@ export const isMailAuthTokenRequestBody: (value: object) => value is MailAuthTok
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isCreateFamilyByMailTokenRequest: (value: object) => value is CreateFamilyByMailTokenRequest = ajv.compile({
+export const isCreateFamilyByMailTokenRequest: (value: unknown) => value is CreateFamilyByMailTokenRequest = ajv.compile({
   "type": "object",
   "properties": {
     "mailAuthToken": {
@@ -2513,7 +2513,7 @@ export const isCreateFamilyByMailTokenRequest: (value: object) => value is Creat
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isSignIntoFamilyRequest: (value: object) => value is SignIntoFamilyRequest = ajv.compile({
+export const isSignIntoFamilyRequest: (value: unknown) => value is SignIntoFamilyRequest = ajv.compile({
   "type": "object",
   "properties": {
     "mailAuthToken": {
@@ -2535,7 +2535,7 @@ export const isSignIntoFamilyRequest: (value: object) => value is SignIntoFamily
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isRecoverParentPasswordRequest: (value: object) => value is RecoverParentPasswordRequest = ajv.compile({
+export const isRecoverParentPasswordRequest: (value: unknown) => value is RecoverParentPasswordRequest = ajv.compile({
   "type": "object",
   "properties": {
     "mailAuthToken": {
@@ -2553,7 +2553,7 @@ export const isRecoverParentPasswordRequest: (value: object) => value is Recover
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isRegisterChildDeviceRequest: (value: object) => value is RegisterChildDeviceRequest = ajv.compile({
+export const isRegisterChildDeviceRequest: (value: unknown) => value is RegisterChildDeviceRequest = ajv.compile({
   "type": "object",
   "properties": {
     "registerToken": {
@@ -2575,7 +2575,7 @@ export const isRegisterChildDeviceRequest: (value: object) => value is RegisterC
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isSerializedParentAction: (value: object) => value is SerializedParentAction = ajv.compile({
+export const isSerializedParentAction: (value: unknown) => value is SerializedParentAction = ajv.compile({
   "anyOf": [
     {
       "$ref": "#/definitions/SerializedAddCategoryAppsAction"
@@ -2722,7 +2722,7 @@ export const isSerializedParentAction: (value: object) => value is SerializedPar
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isSerializedAppLogicAction: (value: object) => value is SerializedAppLogicAction = ajv.compile({
+export const isSerializedAppLogicAction: (value: unknown) => value is SerializedAppLogicAction = ajv.compile({
   "anyOf": [
     {
       "$ref": "#/definitions/SerializedAddInstalledAppsAction"
@@ -2758,7 +2758,7 @@ export const isSerializedAppLogicAction: (value: object) => value is SerializedA
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isSerializedChildAction: (value: object) => value is SerializedChildAction = ajv.compile({
+export const isSerializedChildAction: (value: unknown) => value is SerializedChildAction = ajv.compile({
   "anyOf": [
     {
       "$ref": "#/definitions/SerializedChildChangePasswordAction"
@@ -2770,7 +2770,7 @@ export const isSerializedChildAction: (value: object) => value is SerializedChil
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isCreateRegisterDeviceTokenRequest: (value: object) => value is CreateRegisterDeviceTokenRequest = ajv.compile({
+export const isCreateRegisterDeviceTokenRequest: (value: unknown) => value is CreateRegisterDeviceTokenRequest = ajv.compile({
   "type": "object",
   "properties": {
     "deviceAuthToken": {
@@ -2792,7 +2792,7 @@ export const isCreateRegisterDeviceTokenRequest: (value: object) => value is Cre
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isCanDoPurchaseRequest: (value: object) => value is CanDoPurchaseRequest = ajv.compile({
+export const isCanDoPurchaseRequest: (value: unknown) => value is CanDoPurchaseRequest = ajv.compile({
   "type": "object",
   "properties": {
     "type": {
@@ -2814,7 +2814,7 @@ export const isCanDoPurchaseRequest: (value: object) => value is CanDoPurchaseRe
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isFinishPurchaseByGooglePlayRequest: (value: object) => value is FinishPurchaseByGooglePlayRequest = ajv.compile({
+export const isFinishPurchaseByGooglePlayRequest: (value: unknown) => value is FinishPurchaseByGooglePlayRequest = ajv.compile({
   "type": "object",
   "properties": {
     "deviceAuthToken": {
@@ -2836,7 +2836,7 @@ export const isFinishPurchaseByGooglePlayRequest: (value: object) => value is Fi
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isLinkParentMailAddressRequest: (value: object) => value is LinkParentMailAddressRequest = ajv.compile({
+export const isLinkParentMailAddressRequest: (value: unknown) => value is LinkParentMailAddressRequest = ajv.compile({
   "type": "object",
   "properties": {
     "mailAuthToken": {
@@ -2862,7 +2862,7 @@ export const isLinkParentMailAddressRequest: (value: object) => value is LinkPar
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isUpdatePrimaryDeviceRequest: (value: object) => value is UpdatePrimaryDeviceRequest = ajv.compile({
+export const isUpdatePrimaryDeviceRequest: (value: unknown) => value is UpdatePrimaryDeviceRequest = ajv.compile({
   "type": "object",
   "properties": {
     "action": {
@@ -2888,7 +2888,7 @@ export const isUpdatePrimaryDeviceRequest: (value: object) => value is UpdatePri
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isRemoveDeviceRequest: (value: object) => value is RemoveDeviceRequest = ajv.compile({
+export const isRemoveDeviceRequest: (value: unknown) => value is RemoveDeviceRequest = ajv.compile({
   "type": "object",
   "properties": {
     "deviceAuthToken": {
@@ -2914,7 +2914,7 @@ export const isRemoveDeviceRequest: (value: object) => value is RemoveDeviceRequ
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isRequestWithAuthToken: (value: object) => value is RequestWithAuthToken = ajv.compile({
+export const isRequestWithAuthToken: (value: unknown) => value is RequestWithAuthToken = ajv.compile({
   "type": "object",
   "properties": {
     "deviceAuthToken": {
@@ -2928,7 +2928,7 @@ export const isRequestWithAuthToken: (value: object) => value is RequestWithAuth
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isSendMailLoginCodeRequest: (value: object) => value is SendMailLoginCodeRequest = ajv.compile({
+export const isSendMailLoginCodeRequest: (value: unknown) => value is SendMailLoginCodeRequest = ajv.compile({
   "type": "object",
   "properties": {
     "mail": {
@@ -2949,7 +2949,7 @@ export const isSendMailLoginCodeRequest: (value: object) => value is SendMailLog
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"
 })
-export const isSignInByMailCodeRequest: (value: object) => value is SignInByMailCodeRequest = ajv.compile({
+export const isSignInByMailCodeRequest: (value: unknown) => value is SignInByMailCodeRequest = ajv.compile({
   "type": "object",
   "properties": {
     "mailLoginToken": {

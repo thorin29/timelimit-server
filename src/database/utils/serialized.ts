@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@ import { Database } from '../main'
 
 export class SerializationFeatureCheckException extends Error {}
 
-export function shouldRetryWithException (database: Database, e: any): boolean {
+export function shouldRetryWithException (database: Database, e: unknown): boolean {
   if (e instanceof Sequelize.TimeoutError) return true
 
   if (!(e instanceof Sequelize.DatabaseError)) return false
@@ -32,10 +32,13 @@ export function shouldRetryWithException (database: Database, e: any): boolean {
     if (parent.message.startsWith('SQLITE_BUSY:')) return true
   } else if (database.dialect === 'postgres') {
     // 40001 = serialization_failure
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((parent as any).code === '40001') return true
     // 40P01 = deadlock detected
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((parent as any).code === '40P01') return true
   } else if (database.dialect === 'mariadb') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const errno = (parent as any).errno
 
     // ER_LOCK_DEADLOCK

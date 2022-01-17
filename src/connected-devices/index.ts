@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -79,12 +79,12 @@ export class VisibleConnectedDevicesManager {
   }): {
     shutdown: () => void
   } => {
-    let observesDevices = new Set<string>()
-    let devicesWithSharingEnabled = new Set<string>()
-    let connectedDevices = new Set<string>()
-    let sentConnectedDevices = new Set<string>()
+    const observesDevices = new Set<string>()
+    const devicesWithSharingEnabled = new Set<string>()
+    const connectedDevices = new Set<string>()
+    const sentConnectedDevices = new Set<string>()
     let hasShutDown = false
-    let shutdownHooks: Array<() => void> = []
+    const shutdownHooks: Array<() => void> = []
 
     const shutdown = () => {
       hasShutDown = true
@@ -97,7 +97,7 @@ export class VisibleConnectedDevicesManager {
         return
       }
 
-      let result: Array<string> = []
+      const result: Array<string> = []
 
       sentConnectedDevices.forEach((deviceId) => result.push(deviceId))
 
@@ -191,7 +191,7 @@ export class VisibleConnectedDevicesManager {
       devices.forEach(({ deviceId, showDeviceConnected }) => {
         addDevice({ deviceId, showDeviceConnected })
       })
-    })().catch((ex) => { /* ignore */ })
+    })().catch(() => { /* ignore */ })
 
     {
       // add all new devices + apply changes of sharing

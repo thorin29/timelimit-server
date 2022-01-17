@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -86,7 +86,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   transaction: <T> (autoCallback: (transaction: Transaction) => Promise<T>, options?: { transaction: Transaction }) => (sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE,
     transaction: options?.transaction
-  }, autoCallback) as any) as Promise<T>,
+  }, autoCallback)) as Promise<T>,
   dialect: sequelize.getDialect()
 })
 

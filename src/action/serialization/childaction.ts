@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@ export const parseChildAction = (serialized: SerializedChildAction) => {
   if (serialized.type === 'CHILD_CHANGE_PASSWORD') {
     return ChildChangePasswordAction.parse(serialized)
   } else if (serialized.type === 'CHILD_SIGN_IN') {
-    return ChildSignInAction.parse(serialized)
+    return ChildSignInAction.instance
   } else {
     throw new UnknownActionTypeException({ group: 'child' })
   }

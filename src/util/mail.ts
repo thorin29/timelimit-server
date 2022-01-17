@@ -69,6 +69,7 @@ function createMailTemplateSender (templateName: string) {
           reject(err)
         } else {
           if (isDevMode) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const data = (info as any).message
 
             console.log(JSON.stringify(JSON.parse(data), null, 2))
@@ -238,6 +239,7 @@ export function sanitizeMailAddress (input: string): string | null {
     return null
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const address = (parsed as any).address
 
   if (typeof address !== 'string') {

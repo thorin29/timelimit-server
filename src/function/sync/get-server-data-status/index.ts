@@ -39,7 +39,7 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
   const familyEntry = await getFamilyEntry({ database, familyId, transaction })
   const doesClientSupportTasks = clientStatus.clientLevel !== undefined && clientStatus.clientLevel >= 3
 
-  let result: ServerDataStatus = {
+  const result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),

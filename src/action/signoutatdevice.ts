@@ -23,8 +23,6 @@ export class SignOutAtDeviceAction extends AppLogicAction {
   private constructor () {
     super()
   }
-
-  static parse = (_: SerializedSignOutAtDeviceAction) => SignOutAtDeviceAction.instance
 }
 
 export interface SerializedSignOutAtDeviceAction {

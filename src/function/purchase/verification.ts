@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 const IABVerifier: new (publicKey: string) => {
   verifyReceipt: (data: string, signature: string) => boolean
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require('iab_verifier')
 
 export const googlePlayPublicKey = process.env.GOOGLE_PLAY_PUBLIC_KEY || ''

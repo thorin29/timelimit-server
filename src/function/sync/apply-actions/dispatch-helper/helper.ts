@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@ import { parseEncodedAction } from '../parse-encoded-action'
 export async function dispatch<T1 extends { type: string }, T2> ({ type, action, validator, parser, applier, eventHandler }: {
   type: 'app logic' | 'parent' | 'child'
   action: ClientPushChangesRequestAction
-  validator: (input: any) => input is T1
+  validator: (input: unknown) => input is T1
   parser: (input: T1) => T2
   applier: (input: T2) => Promise<void>
   eventHandler: EventHandler

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -48,13 +48,13 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
   } else if (serialized.type === 'ADD_INSTALLED_APPS') {
     return AddInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'FORCE_SYNC') {
-    return ForceSyncAction.parse(serialized)
+    return ForceSyncAction.instance
   } else if (serialized.type === 'MARK_TASK_PENDING') {
     return MarkTaskPendingAction.parse(serialized)
   } else if (serialized.type === 'REMOVE_INSTALLED_APPS') {
     return RemoveInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'SIGN_OUT_AT_DEVICE') {
-    return SignOutAtDeviceAction.parse(serialized)
+    return SignOutAtDeviceAction.instance
   } else if (serialized.type === 'TRIED_DISABLING_DEVICE_ADMIN') {
     return new TriedDisablingDeviceAdminAction()
   } else if (serialized.type === 'UPDATE_APP_ACTIVITIES') {
