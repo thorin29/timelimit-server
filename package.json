@@ -64,11 +64,11 @@
     "rate-limiter-flexible": "^2.1.15",
     "sequelize": "^6.11.0",
     "socket.io": "^4.0.1",
-    "sqlite3": "^4.0.6",
+    "sqlite3": "^4.0.0",
     "tokgen": "^1.0.0",
     "umzug": "^2.3.0"
   },
   "optionalDependencies": {
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.0"
   }
 }
