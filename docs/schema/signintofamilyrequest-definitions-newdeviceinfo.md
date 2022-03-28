@@ -6,9 +6,9 @@ https://timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo
 
 
 
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                     |
-| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :--------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SignIntoFamilyRequest.schema.json*](SignIntoFamilyRequest.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                      |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :---------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [SignIntoFamilyRequest.schema.json\*](SignIntoFamilyRequest.schema.json "open original schema") |
 
 ## NewDeviceInfo Type
 

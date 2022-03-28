@@ -6,9 +6,9 @@ https://timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo
 
 
 
-| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                               |
-| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :------------------------------------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [RegisterChildDeviceRequest.schema.json*](RegisterChildDeviceRequest.schema.json "open original schema") |
+| Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                                                |
+| :------------------ | :--------- | :------------- | :----------- | :---------------- | :-------------------- | :------------------ | :-------------------------------------------------------------------------------------------------------- |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [RegisterChildDeviceRequest.schema.json\*](RegisterChildDeviceRequest.schema.json "open original schema") |
 
 ## NewDeviceInfo Type
 
