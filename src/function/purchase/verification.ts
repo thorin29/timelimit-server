@@ -15,21 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const IABVerifier: new (publicKey: string) => {
-  verifyReceipt: (data: string, signature: string) => boolean
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-} = require('iab_verifier')
+import { IABVerifier } from './iab_verifierr'
 
 export const googlePlayPublicKey = process.env.GOOGLE_PLAY_PUBLIC_KEY || ''
 
-const verifier = new IABVerifier(googlePlayPublicKey)
+const verifier = googlePlayPublicKey !== '' ? new IABVerifier(googlePlayPublicKey) : null
 
-export const areGooglePlayPaymentsPossible = !!googlePlayPublicKey
+export const areGooglePlayPaymentsPossible = !!verifier
 export const isGooglePlayPurchaseSignatureValid = ({ receipt, signature }: {
   receipt: string
   signature: string
 }) => {
-  if (googlePlayPublicKey) {
+  if (verifier) {
     return verifier.verifyReceipt(receipt, signature)
   } else {
     return false
