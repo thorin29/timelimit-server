@@ -1296,6 +1296,7 @@ Reference this group by using
 | [dlu](#dlu)                                       | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-dlu.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/dlu")                                       |
 | [flags](#flags)                                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-flags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/flags")                                   |
 | [blockNotificationDelay](#blocknotificationdelay) | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-blocknotificationdelay.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/blockNotificationDelay") |
+| [atw](#atw)                                       | `array`   | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-atw.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/atw")                                       |
 
 ### categoryId
 
@@ -1638,6 +1639,24 @@ Reference this group by using
 #### blockNotificationDelay Type
 
 `number`
+
+### atw
+
+
+
+`atw`
+
+*   is required
+
+*   Type: `number[]`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-atw.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/atw")
+
+#### atw Type
+
+`number[]`
 
 ## Definitions group ServerCategoryNetworkId
 

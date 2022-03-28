@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -96,6 +96,23 @@ export async function getCategoryBaseDatas ({
     hashedNetworkId: item.hashedNetworkId
   }))
 
+  const additionalTimeWarningsForSyncing = (await database.categoryTimeWarning.findAll({
+    where: {
+      familyId: familyEntry.familyId,
+      categoryId: {
+        [Sequelize.Op.in]: categoryIdsToSyncBaseData
+      }
+    },
+    attributes: [
+      'categoryId',
+      'minutes'
+    ],
+    transaction
+  })).map((item) => ({
+    categoryId: item.categoryId,
+    minutes: item.minutes
+  }))
+
   return dataForSyncing.map((item): ServerUpdatedCategoryBaseData => ({
     categoryId: item.categoryId,
     childId: item.childId,
@@ -120,6 +137,9 @@ export async function getCategoryBaseDatas ({
       })),
     dlu: parseInt(item.disableLimitsUntil, 10),
     flags: parseInt(item.flags, 10),
-    blockNotificationDelay: parseInt(item.blockNotificationDelay, 10)
+    blockNotificationDelay: parseInt(item.blockNotificationDelay, 10),
+    atw: additionalTimeWarningsForSyncing
+      .filter((timeWarning) => timeWarning.categoryId === item.categoryId)
+      .map((timeWarning) => timeWarning.minutes)
   }))
 }

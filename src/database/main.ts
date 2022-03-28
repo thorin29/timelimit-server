@@ -23,6 +23,7 @@ import { AuthTokenModelStatic, createAuthtokenModel } from './authtoken'
 import { CategoryModelStatic, createCategoryModel } from './category'
 import { CategoryAppModelStatic, createCategoryAppModel } from './categoryapp'
 import { CategoryNetworkIdModelStatic, createCategoryNetworkIdModel } from './categorynetworkid'
+import { CategoryTimeWarningModelStatic, createCategoryTimeWarningModel } from './categorytimewarning'
 import { ChildTaskModelStatic, createChildTaskModel } from './childtask'
 import { ConfigModelStatic, createConfigModel } from './config'
 import { createDeviceModel, DeviceModelStatic } from './device'
@@ -47,6 +48,7 @@ export interface Database {
   category: CategoryModelStatic
   categoryApp: CategoryAppModelStatic
   categoryNetworkId: CategoryNetworkIdModelStatic
+  categoryTimeWarning: CategoryTimeWarningModelStatic
   childTask: ChildTaskModelStatic
   config: ConfigModelStatic
   device: DeviceModelStatic
@@ -72,6 +74,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   categoryApp: createCategoryAppModel(sequelize),
   childTask: createChildTaskModel(sequelize),
   categoryNetworkId: createCategoryNetworkIdModel(sequelize),
+  categoryTimeWarning: createCategoryTimeWarningModel(sequelize),
   config: createConfigModel(sequelize),
   device: createDeviceModel(sequelize),
   family: createFamilyModel(sequelize),

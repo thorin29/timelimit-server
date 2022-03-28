@@ -37,6 +37,7 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData
 | [dlu](#dlu)                                       | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-dlu.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/dlu")                                       |
 | [flags](#flags)                                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-flags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/flags")                                   |
 | [blockNotificationDelay](#blocknotificationdelay) | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-blocknotificationdelay.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/blockNotificationDelay") |
+| [atw](#atw)                                       | `array`   | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-atw.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/atw")                                       |
 
 ## categoryId
 
@@ -379,3 +380,21 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData
 ### blockNotificationDelay Type
 
 `number`
+
+## atw
+
+
+
+`atw`
+
+*   is required
+
+*   Type: `number[]`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-atw.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/atw")
+
+### atw Type
+
+`number[]`

@@ -395,10 +395,17 @@
         },
         "blockNotificationDelay": {
           "type": "number"
+        },
+        "atw": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
         }
       },
       "additionalProperties": false,
       "required": [
+        "atw",
         "blockAllNotifications",
         "blockNotificationDelay",
         "blockedTimes",

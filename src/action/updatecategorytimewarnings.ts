@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,6 +16,7 @@
  */
 
 import { allowedTimeWarningFlags } from '../database/category'
+import { categoryTimeWarningConstants } from '../database/categorytimewarning'
 import { ParentAction } from './basetypes'
 import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
 
@@ -25,11 +26,13 @@ export class UpdateCategoryTimeWarningsAction extends ParentAction {
   readonly categoryId: string
   readonly enable: boolean
   readonly flags: number
+  readonly minutes?: number
 
-  constructor ({ categoryId, enable, flags }: {
+  constructor ({ categoryId, enable, flags, minutes }: {
     categoryId: string
     enable: boolean
-    flags: number
+    flags: number,
+    minutes?: number
   }) {
     super()
 
@@ -40,13 +43,25 @@ export class UpdateCategoryTimeWarningsAction extends ParentAction {
       throwOutOfRange({ actionType, field: 'flags', value: flags })
     }
 
+    if (minutes !== undefined) {
+      assertSafeInteger({ actionType, field: 'minutes', value: minutes })
+
+      if (
+        minutes < categoryTimeWarningConstants.minMinutes ||
+        minutes > categoryTimeWarningConstants.maxMinutes
+      ) {
+        throwOutOfRange({ actionType, field: 'minutes', value: minutes })
+      }
+    }
+
     this.categoryId = categoryId
     this.enable = enable
     this.flags = flags
+    this.minutes = minutes
   }
 
-  static parse = ({ categoryId, enable, flags }: SerializedUpdateCategoryTimeWarningsAction) => (
-    new UpdateCategoryTimeWarningsAction({ categoryId, enable, flags })
+  static parse = ({ categoryId, enable, flags, minutes }: SerializedUpdateCategoryTimeWarningsAction) => (
+    new UpdateCategoryTimeWarningsAction({ categoryId, enable, flags, minutes })
   )
 }
 
@@ -55,4 +70,5 @@ export interface SerializedUpdateCategoryTimeWarningsAction {
   categoryId: string
   enable: boolean
   flags: number
+  minutes?: number
 }

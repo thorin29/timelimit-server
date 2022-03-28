@@ -120,6 +120,8 @@ export interface ServerUpdatedCategoryBaseData {
   dlu: number
   flags: number
   blockNotificationDelay: number
+  // atw = additionalTimeWarnings
+  atw: Array<number>
 }
 
 export interface ServerCategoryNetworkId {

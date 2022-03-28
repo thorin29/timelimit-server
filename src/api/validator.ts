@@ -1093,6 +1093,9 @@ const definitions = {
       },
       "flags": {
         "type": "number"
+      },
+      "minutes": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2057,10 +2060,17 @@ const definitions = {
       },
       "blockNotificationDelay": {
         "type": "number"
+      },
+      "atw": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
       }
     },
     "additionalProperties": false,
     "required": [
+      "atw",
       "blockAllNotifications",
       "blockNotificationDelay",
       "blockedTimes",

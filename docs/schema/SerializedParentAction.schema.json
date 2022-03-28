@@ -1165,6 +1165,9 @@
         },
         "flags": {
           "type": "number"
+        },
+        "minutes": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
