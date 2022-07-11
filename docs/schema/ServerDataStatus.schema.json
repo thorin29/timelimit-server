@@ -182,6 +182,9 @@
         },
         "qOrLater": {
           "type": "boolean"
+        },
+        "mFlags": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
@@ -206,6 +209,7 @@
         "hadManipulation",
         "hadManipulationFlags",
         "isUserKeptSignedIn",
+        "mFlags",
         "model",
         "name",
         "networkTime",

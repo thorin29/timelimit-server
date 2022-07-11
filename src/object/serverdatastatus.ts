@@ -96,6 +96,7 @@ export interface ServerDeviceData {
   wasAsEnabled: boolean
   activityLevelBlocking: boolean
   qOrLater: boolean
+  mFlags: number  // manipulation flags
 }
 
 export interface ServerUpdatedCategoryBaseData {

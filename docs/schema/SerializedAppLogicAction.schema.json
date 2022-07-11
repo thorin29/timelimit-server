@@ -411,6 +411,9 @@
         },
         "isQOrLaterNow": {
           "type": "boolean"
+        },
+        "addedManipulationFlags": {
+          "type": "number"
         }
       },
       "additionalProperties": false,

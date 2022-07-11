@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,6 +30,11 @@ export const DeviceHadManipulationFlags = {
   OverlayPermission: 16,
   AccessibiityService: 32,
   ALL: 1 | 2 | 4 | 8 | 16 | 32
+}
+
+export const DeviceManipulationFlags = {
+  USED_FGS_KILLER: 1,
+  ALL: 1
 }
 
 export interface DeviceAttributesVersion1 {
@@ -102,10 +107,15 @@ export interface DeviceAttributesVersion11 {
   hadManipulationFlags: number
 }
 
+export interface DeviceAttributesVersion12 {
+  manipulationFlags: number
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
   DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
-  DeviceAttributesVersion9 & DeviceAttributesVersion10 & DeviceAttributesVersion11
+  DeviceAttributesVersion9 & DeviceAttributesVersion10 & DeviceAttributesVersion11 &
+  DeviceAttributesVersion12
 
 export type DeviceModel = Sequelize.Model<DeviceAttributes> & DeviceAttributes
 export type DeviceModelStatic = typeof Sequelize.Model & {
@@ -259,6 +269,18 @@ export const attributesVersion11: SequelizeAttributes<DeviceAttributesVersion11>
   }
 }
 
+export const attributesVersion12: SequelizeAttributes<DeviceAttributesVersion12> = {
+  manipulationFlags: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      min: 0,
+      max: DeviceManipulationFlags.ALL
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -270,7 +292,8 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion8,
   ...attributesVersion9,
   ...attributesVersion10,
-  ...attributesVersion11
+  ...attributesVersion11,
+  ...attributesVersion12
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => sequelize.define('Device', attributes) as DeviceModelStatic
@@ -291,7 +314,8 @@ export const hasDeviceManipulation = (device: DeviceAttributes) => {
     manipulationOfOverlayPermission ||
     manipulationOfAsPermission
 
-  const hasAnyManipulation = hasActiveManipulationWarning || device.hadManipulation
+  const hasAnyManipulation = hasActiveManipulationWarning || device.hadManipulation ||
+    device.manipulationFlags !== 0
 
   return hasAnyManipulation
 }

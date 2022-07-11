@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -63,5 +63,6 @@ export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId
   asEnabled: false,
   wasAsEnabled: false,
   activityLevelBlocking: false,
-  isQorLater: false
+  isQorLater: false,
+  manipulationFlags: 0
 })

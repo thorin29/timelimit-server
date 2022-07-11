@@ -30,6 +30,7 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipul
 | [overlay](#overlay)                                       | `boolean` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedignoremanipulationaction-properties-overlay.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction/properties/overlay")                                       |
 | [accessibilityService](#accessibilityservice)             | `boolean` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedignoremanipulationaction-properties-accessibilityservice.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction/properties/accessibilityService")             |
 | [ignoreHadManipulationFlags](#ignorehadmanipulationflags) | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedignoremanipulationaction-properties-ignorehadmanipulationflags.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction/properties/ignoreHadManipulationFlags") |
+| [ignoreManipulationFlags](#ignoremanipulationflags)       | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedignoremanipulationaction-properties-ignoremanipulationflags.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction/properties/ignoreManipulationFlags")       |
 
 ## type
 
@@ -252,5 +253,23 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipul
 *   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedignoremanipulationaction-properties-ignorehadmanipulationflags.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction/properties/ignoreHadManipulationFlags")
 
 ### ignoreHadManipulationFlags Type
+
+`number`
+
+## ignoreManipulationFlags
+
+
+
+`ignoreManipulationFlags`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedignoremanipulationaction-properties-ignoremanipulationflags.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedIgnoreManipulationAction/properties/ignoreManipulationFlags")
+
+### ignoreManipulationFlags Type
 
 `number`

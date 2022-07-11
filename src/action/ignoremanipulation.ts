@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,11 +33,13 @@ export class IgnoreManipulationAction extends ParentAction {
   readonly ignoreDidReboot: boolean
   readonly ignoreHadManipulation: boolean
   readonly ignoreHadManipulationFlags: number
+  readonly ignoreManipulationFlags: number
 
   constructor ({
     deviceId, ignoreDeviceAdminManipulation, ignoreDeviceAdminManipulationAttempt,
     ignoreAppDowngrade, ignoreNotificationAccessManipulation, ignoreUsageStatsAccessManipulation,
-    ignoreOverlayPermissionManipulation, ignoreAccessibilityServiceManipulation, ignoreDidReboot, ignoreHadManipulation, ignoreHadManipulationFlags
+    ignoreOverlayPermissionManipulation, ignoreAccessibilityServiceManipulation, ignoreDidReboot,
+    ignoreHadManipulation, ignoreHadManipulationFlags, ignoreManipulationFlags
   }: {
     deviceId: string
     ignoreDeviceAdminManipulation: boolean
@@ -50,6 +52,7 @@ export class IgnoreManipulationAction extends ParentAction {
     ignoreDidReboot: boolean
     ignoreHadManipulation: boolean
     ignoreHadManipulationFlags: number
+    ignoreManipulationFlags: number
   }) {
     super()
 
@@ -63,6 +66,8 @@ export class IgnoreManipulationAction extends ParentAction {
       throwOutOfRange({ actionType, field: 'ignoreHadManipulationFlags', value: ignoreHadManipulationFlags })
     }
 
+    assertSafeInteger({ actionType, field: 'ignoreManipulationFlags', value: ignoreManipulationFlags })
+
     this.deviceId = deviceId
     this.ignoreDeviceAdminManipulation = ignoreDeviceAdminManipulation
     this.ignoreDeviceAdminManipulationAttempt = ignoreDeviceAdminManipulationAttempt
@@ -74,9 +79,14 @@ export class IgnoreManipulationAction extends ParentAction {
     this.ignoreDidReboot = ignoreDidReboot
     this.ignoreHadManipulation = ignoreHadManipulation
     this.ignoreHadManipulationFlags = ignoreHadManipulationFlags
+    this.ignoreManipulationFlags = ignoreManipulationFlags
   }
 
-  static parse = ({ deviceId, admin, adminA, downgrade, notification, usageStats, overlay, accessibilityService, reboot, hadManipulation, ignoreHadManipulationFlags }: SerializedIgnoreManipulationAction) => (
+  static parse = ({
+    deviceId, admin, adminA, downgrade, notification, usageStats, overlay,
+    accessibilityService, reboot, hadManipulation, ignoreHadManipulationFlags,
+    ignoreManipulationFlags
+  }: SerializedIgnoreManipulationAction) => (
     new IgnoreManipulationAction({
       deviceId,
       ignoreDeviceAdminManipulation: admin,
@@ -88,7 +98,8 @@ export class IgnoreManipulationAction extends ParentAction {
       ignoreAccessibilityServiceManipulation: !!accessibilityService,
       ignoreDidReboot: !!reboot,
       ignoreHadManipulation: hadManipulation,
-      ignoreHadManipulationFlags: ignoreHadManipulationFlags || 0
+      ignoreHadManipulationFlags: ignoreHadManipulationFlags || 0,
+      ignoreManipulationFlags: ignoreManipulationFlags || 0
     })
   )
 }
@@ -107,4 +118,5 @@ export interface SerializedIgnoreManipulationAction {
   overlay?: boolean
   accessibilityService?: boolean
   ignoreHadManipulationFlags?: number
+  ignoreManipulationFlags?: number
 }

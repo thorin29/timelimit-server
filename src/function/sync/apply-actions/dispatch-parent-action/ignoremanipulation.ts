@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -79,6 +79,10 @@ export async function dispatchIgnoreManipulation ({ action, cache }: {
     if (newFlags === 0) {
       deviceEntry.hadManipulation = false
     }
+  }
+
+  if (action.ignoreManipulationFlags !== 0) {
+    deviceEntry.manipulationFlags = deviceEntry.manipulationFlags & (~action.ignoreManipulationFlags)
   }
 
   await deviceEntry.save({ transaction: cache.transaction })

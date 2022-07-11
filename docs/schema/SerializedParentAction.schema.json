@@ -487,6 +487,9 @@
         },
         "ignoreHadManipulationFlags": {
           "type": "number"
+        },
+        "ignoreManipulationFlags": {
+          "type": "number"
         }
       },
       "additionalProperties": false,

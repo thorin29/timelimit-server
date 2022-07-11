@@ -48,6 +48,7 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData
 | [wasAsEnabled](#wasasenabled)                   | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-wasasenabled.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/wasAsEnabled")                   |
 | [activityLevelBlocking](#activitylevelblocking) | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-activitylevelblocking.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/activityLevelBlocking") |
 | [qOrLater](#qorlater)                           | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-qorlater.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/qOrLater")                           |
+| [mFlags](#mflags)                               | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-mflags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/mFlags")                               |
 
 ## deviceId
 
@@ -680,3 +681,21 @@ https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData
 ### qOrLater Type
 
 `boolean`
+
+## mFlags
+
+
+
+`mFlags`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-mflags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/mFlags")
+
+### mFlags Type
+
+`number`

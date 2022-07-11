@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,7 +16,7 @@
  */
 
 import { UpdateDeviceStatusAction } from '../../../../action'
-import { DeviceHadManipulationFlags, hasDeviceManipulation } from '../../../../database/device'
+import { DeviceHadManipulationFlags, DeviceManipulationFlags, hasDeviceManipulation } from '../../../../database/device'
 import { newPermissionStatusValues } from '../../../../model/newpermissionstatus'
 import { protetionLevels } from '../../../../model/protectionlevel'
 import { runtimePermissionStatusValues } from '../../../../model/runtimepermissionstatus'
@@ -152,6 +152,14 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged) {
       deviceEntry.isQorLater = true
+    }
+  }
+
+  {
+    const effectiveManipulationFlags = action.addedManipulationFlags & DeviceManipulationFlags.ALL
+
+    if (effectiveManipulationFlags !== 0) {
+      deviceEntry.manipulationFlags = deviceEntry.manipulationFlags | effectiveManipulationFlags
     }
   }
 

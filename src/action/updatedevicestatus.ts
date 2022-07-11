@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -32,6 +32,7 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
   readonly newAppVersion?: number
   readonly didReboot: boolean
   readonly isQOrLaterNow: boolean
+  readonly addedManipulationFlags: number
 
   constructor ({
     newProtetionLevel,
@@ -41,7 +42,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     newAccessibilityServiceEnabled,
     newAppVersion,
     didReboot,
-    isQOrLaterNow
+    isQOrLaterNow,
+    addedManipulationFlags
   }: {
     newProtetionLevel?: ProtectionLevel
     newUsageStatsPermissionStatus?: RuntimePermissionStatus
@@ -51,6 +53,7 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     newAppVersion?: number
     didReboot: boolean
     isQOrLaterNow: boolean
+    addedManipulationFlags: number
   }) {
     super()
 
@@ -62,6 +65,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
       }
     }
 
+    assertSafeInteger({ actionType, field: 'addedManipulationFlags', value: addedManipulationFlags })
+
     this.newProtetionLevel = newProtetionLevel
     this.newUsageStatsPermissionStatus = newUsageStatsPermissionStatus
     this.newNotificationAccessPermission = newNotificationAccessPermission
@@ -70,9 +75,20 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     this.newAppVersion = newAppVersion
     this.didReboot = didReboot
     this.isQOrLaterNow = isQOrLaterNow
+    this.addedManipulationFlags = addedManipulationFlags
   }
 
-  static parse = ({ protectionLevel, usageStats, notificationAccess, overlayPermission, accessibilityServiceEnabled, appVersion, didReboot, isQOrLaterNow }: SerializedUpdateDeviceStatusAction) => (
+  static parse = ({
+    protectionLevel,
+    usageStats,
+    notificationAccess,
+    overlayPermission,
+    accessibilityServiceEnabled,
+    appVersion,
+    didReboot,
+    isQOrLaterNow,
+    addedManipulationFlags
+  }: SerializedUpdateDeviceStatusAction) => (
     new UpdateDeviceStatusAction({
       newProtetionLevel: protectionLevel,
       newUsageStatsPermissionStatus: usageStats,
@@ -81,7 +97,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
       newAccessibilityServiceEnabled: accessibilityServiceEnabled,
       newAppVersion: appVersion,
       didReboot: !!didReboot,
-      isQOrLaterNow: !!isQOrLaterNow
+      isQOrLaterNow: !!isQOrLaterNow,
+      addedManipulationFlags: addedManipulationFlags || 0
     })
   )
 }
@@ -96,4 +113,5 @@ export interface SerializedUpdateDeviceStatusAction {
   appVersion?: number
   didReboot?: boolean
   isQOrLaterNow?: boolean
+  addedManipulationFlags?: number
 }

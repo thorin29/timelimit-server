@@ -442,6 +442,9 @@ const definitions = {
       },
       "ignoreHadManipulationFlags": {
         "type": "number"
+      },
+      "ignoreManipulationFlags": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1750,6 +1753,9 @@ const definitions = {
       },
       "isQOrLaterNow": {
         "type": "boolean"
+      },
+      "addedManipulationFlags": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1907,6 +1913,9 @@ const definitions = {
       },
       "qOrLater": {
         "type": "boolean"
+      },
+      "mFlags": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1931,6 +1940,7 @@ const definitions = {
       "hadManipulation",
       "hadManipulationFlags",
       "isUserKeptSignedIn",
+      "mFlags",
       "model",
       "name",
       "networkTime",
