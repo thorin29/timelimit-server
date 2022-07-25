@@ -18,7 +18,7 @@
 import { ReplyToKeyRequestAction } from '../../../../action'
 import { Cache } from '../cache'
 import { EventHandler } from '../../../../monitoring/eventhandler'
-import { SourceDeviceNotFoundException } from '../exception/illegal-state'
+import { IllegalStateException } from '../exception/illegal-state'
 
 export async function dispatchReplyToKeyRequestAction ({ deviceId, action, cache, eventHandler }: {
   deviceId: string
@@ -65,14 +65,16 @@ export async function dispatchReplyToKeyRequestAction ({ deviceId, action, cache
   const deviceEntryUnsafe = await cache.database.device.findOne({
     where: {
       familyId: cache.familyId,
-      deviceId
+      deviceId: request.senderDeviceId
     },
     transaction: cache.transaction,
     attributes: ['nextKeyReplySequenceNumber']
   })
 
   if (!deviceEntryUnsafe) {
-    throw new SourceDeviceNotFoundException()
+    throw new IllegalStateException({
+      staticMessage: 'target device entry not found'
+    })
   }
 
   const deviceEntry = {
@@ -84,7 +86,7 @@ export async function dispatchReplyToKeyRequestAction ({ deviceId, action, cache
   }, {
     where: {
       familyId: cache.familyId,
-      deviceId
+      deviceId: request.senderDeviceId
     },
     transaction: cache.transaction
   })
