@@ -67,13 +67,16 @@ Reference this group by using
 {"$ref":"https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus"}
 ```
 
-| Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                       |
-| :-------------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [devices](#devices)         | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devices.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devices")         |
-| [apps](#apps)               | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps")               |
-| [categories](#categories)   | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories")   |
-| [users](#users)             | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-users.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/users")             |
-| [clientLevel](#clientlevel) | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel") |
+| Property                        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                           |
+| :------------------------------ | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [devices](#devices)             | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devices.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devices")             |
+| [apps](#apps)                   | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps")                   |
+| [categories](#categories)       | `object` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories")       |
+| [users](#users)                 | `string` | Required | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-users.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/users")                 |
+| [clientLevel](#clientlevel)     | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel")     |
+| [devicesDetail](#devicesdetail) | `object` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devicesdetail.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devicesDetail") |
+| [kri](#kri)                     | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kri.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kri")                     |
+| [kr](#kr)                       | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kr.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kr")                       |
 
 ### devices
 
@@ -162,6 +165,60 @@ Reference this group by using
 *   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-clientlevel.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/clientLevel")
 
 #### clientLevel Type
+
+`number`
+
+### devicesDetail
+
+
+
+`devicesDetail`
+
+*   is optional
+
+*   Type: `object` ([Details](clientpullchangesrequest-definitions-clientdatastatus-properties-devicesdetail.md))
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devicesdetail.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devicesDetail")
+
+#### devicesDetail Type
+
+`object` ([Details](clientpullchangesrequest-definitions-clientdatastatus-properties-devicesdetail.md))
+
+### kri
+
+
+
+`kri`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kri.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kri")
+
+#### kri Type
+
+`number`
+
+### kr
+
+
+
+`kr`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kr.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kr")
+
+#### kr Type
 
 `number`
 
@@ -268,5 +325,54 @@ Reference this group by using
 *   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-categorydatastatus-properties-tasks.md "https://timelimit.io/ClientPullChangesRequest#/definitions/CategoryDataStatus/properties/tasks")
 
 #### tasks Type
+
+`string`
+
+## Definitions group DeviceDataStatus
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ClientPullChangesRequest#/definitions/DeviceDataStatus"}
+```
+
+| Property        | Type     | Required | Nullable       | Defined by                                                                                                                                                                                           |
+| :-------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [appsB](#appsb) | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-devicedatastatus-properties-appsb.md "https://timelimit.io/ClientPullChangesRequest#/definitions/DeviceDataStatus/properties/appsB") |
+| [appsD](#appsd) | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-devicedatastatus-properties-appsd.md "https://timelimit.io/ClientPullChangesRequest#/definitions/DeviceDataStatus/properties/appsD") |
+
+### appsB
+
+
+
+`appsB`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-devicedatastatus-properties-appsb.md "https://timelimit.io/ClientPullChangesRequest#/definitions/DeviceDataStatus/properties/appsB")
+
+#### appsB Type
+
+`string`
+
+### appsD
+
+
+
+`appsD`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-devicedatastatus-properties-appsd.md "https://timelimit.io/ClientPullChangesRequest#/definitions/DeviceDataStatus/properties/appsD")
+
+#### appsD Type
 
 `string`

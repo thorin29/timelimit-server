@@ -65,7 +65,8 @@ export async function getDeviceList ({ database, transaction, familyEntry }: {
       wasAsEnabled: item.wasAsEnabled,
       activityLevelBlocking: item.activityLevelBlocking,
       qOrLater: item.isQorLater,
-      mFlags: item.manipulationFlags
+      mFlags: item.manipulationFlags,
+      pk: item.publicKey ? item.publicKey.toString('base64') : undefined
     }))
   }
 }

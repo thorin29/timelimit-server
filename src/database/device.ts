@@ -111,11 +111,19 @@ export interface DeviceAttributesVersion12 {
   manipulationFlags: number
 }
 
+export interface DeviceAttributesVersion13 {
+  publicKey: Buffer | null
+}
+
+export interface DeviceAttributesVersion14 {
+  nextKeyReplySequenceNumber: string
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
   DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
   DeviceAttributesVersion9 & DeviceAttributesVersion10 & DeviceAttributesVersion11 &
-  DeviceAttributesVersion12
+  DeviceAttributesVersion12 & DeviceAttributesVersion13 & DeviceAttributesVersion14
 
 export type DeviceModel = Sequelize.Model<DeviceAttributes> & DeviceAttributes
 export type DeviceModelStatic = typeof Sequelize.Model & {
@@ -281,6 +289,22 @@ export const attributesVersion12: SequelizeAttributes<DeviceAttributesVersion12>
   }
 }
 
+export const attributesVersion13: SequelizeAttributes<DeviceAttributesVersion13> = {
+  publicKey: {
+    type: Sequelize.BLOB,
+    allowNull: true,
+    defaultValue: null
+  }
+}
+
+export const attributesVersion14: SequelizeAttributes<DeviceAttributesVersion14> = {
+  nextKeyReplySequenceNumber: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    defaultValue: 1
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -293,7 +317,9 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion9,
   ...attributesVersion10,
   ...attributesVersion11,
-  ...attributesVersion12
+  ...attributesVersion12,
+  ...attributesVersion13,
+  ...attributesVersion14
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => sequelize.define('Device', attributes) as DeviceModelStatic

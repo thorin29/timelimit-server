@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -65,7 +65,8 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       deviceListVersion: generateVersionId(),
       // 14 days demo version
       fullVersionUntil: (Date.now() + 1000 * 60 * 60 * 24 * 14).toString(10),
-      hasFullVersion: true
+      hasFullVersion: true,
+      nextServerKeyRequestSeq: '1'
     }, { transaction })
 
     // create parent user

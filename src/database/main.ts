@@ -27,7 +27,10 @@ import { CategoryTimeWarningModelStatic, createCategoryTimeWarningModel } from '
 import { ChildTaskModelStatic, createChildTaskModel } from './childtask'
 import { ConfigModelStatic, createConfigModel } from './config'
 import { createDeviceModel, DeviceModelStatic } from './device'
+import { createEncryptedAppListModel, EncryptedAppListModelStatic } from './encryptedapplist'
 import { createFamilyModel, FamilyModelStatic } from './family'
+import { createKeyRequestModel, KeyRequestModelStatic } from './keyrequest'
+import { createKeyResponseModel, KeyResponseModelStatic } from './keyresponse'
 import { createMailLoginTokenModel, MailLoginTokenModelStatic } from './maillogintoken'
 import { createUmzug } from './migration/umzug'
 import { createOldDeviceModel, OldDeviceModelStatic } from './olddevice'
@@ -52,7 +55,10 @@ export interface Database {
   childTask: ChildTaskModelStatic
   config: ConfigModelStatic
   device: DeviceModelStatic
+  encryptedAppList: EncryptedAppListModelStatic
   family: FamilyModelStatic
+  keyRequest: KeyRequestModelStatic
+  keyResponse: KeyResponseModelStatic
   mailLoginToken: MailLoginTokenModelStatic
   oldDevice: OldDeviceModelStatic
   purchase: PurchaseModelStatic
@@ -77,7 +83,10 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   categoryTimeWarning: createCategoryTimeWarningModel(sequelize),
   config: createConfigModel(sequelize),
   device: createDeviceModel(sequelize),
+  encryptedAppList: createEncryptedAppListModel(sequelize),
   family: createFamilyModel(sequelize),
+  keyRequest: createKeyRequestModel(sequelize),
+  keyResponse: createKeyResponseModel(sequelize),
   mailLoginToken: createMailLoginTokenModel(sequelize),
   oldDevice: createOldDeviceModel(sequelize),
   purchase: createPurchaseModel(sequelize),

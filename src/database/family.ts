@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@ import * as Sequelize from 'sequelize'
 import { booleanColumn, familyIdColumn, optionalLabelColumn, timestampColumn, versionColumn } from './columns'
 import { SequelizeAttributes } from './types'
 
-export interface FamilyAttributes {
+export interface FamilyAttributesVersion1 {
   familyId: string
   name: string
   createdAt: string
@@ -29,12 +29,18 @@ export interface FamilyAttributes {
   hasFullVersion: boolean
 }
 
+export interface FamilyAttributesVersion2 {
+  nextServerKeyRequestSeq: string
+}
+
+export type FamilyAttributes = FamilyAttributesVersion1 & FamilyAttributesVersion2
+
 export type FamilyModel = Sequelize.Model<FamilyAttributes> & FamilyAttributes
 export type FamilyModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): FamilyModel;
 }
 
-export const attributes: SequelizeAttributes<FamilyAttributes> = {
+export const attributesVersion1: SequelizeAttributes<FamilyAttributesVersion1> = {
   familyId: {
     ...familyIdColumn,
     primaryKey: true
@@ -45,6 +51,22 @@ export const attributes: SequelizeAttributes<FamilyAttributes> = {
   deviceListVersion: { ...versionColumn },
   fullVersionUntil: { ...timestampColumn },
   hasFullVersion: { ...booleanColumn }
+}
+
+export const attributesVersion2: SequelizeAttributes<FamilyAttributesVersion2> = {
+  nextServerKeyRequestSeq: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    defaultValue: 1,
+    validate: {
+      min: 1
+    }
+  }
+}
+
+export const attributes: SequelizeAttributes<FamilyAttributes> = {
+  ...attributesVersion1,
+  ...attributesVersion2
 }
 
 export const createFamilyModel = (sequelize: Sequelize.Sequelize): FamilyModelStatic => sequelize.define('Family', attributes) as FamilyModelStatic

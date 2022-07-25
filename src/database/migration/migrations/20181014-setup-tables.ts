@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@ import { attributesVersion1 as authTokenAttributes } from '../../authtoken'
 import { attributesVersion1 as categoryAttributes } from '../../category'
 import { attributes as categoryAppAttributes } from '../../categoryapp'
 import { attributesVersion1 as deviceAttributes } from '../../device'
-import { attributes as familyAttributes } from '../../family'
+import { attributesVersion1 as familyAttributes } from '../../family'
 import { attributes as purchaseAttributes } from '../../purchase'
 import { attributesVersion1 as timelimitruleAttributes } from '../../timelimitrule'
 import { attributesVersion1 as usedTimeAttribute } from '../../usedtime'

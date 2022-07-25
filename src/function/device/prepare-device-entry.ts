@@ -64,5 +64,7 @@ export const prepareDeviceEntry = ({ familyId, userId, deviceAuthToken, deviceId
   wasAsEnabled: false,
   activityLevelBlocking: false,
   isQorLater: false,
-  manipulationFlags: 0
+  manipulationFlags: 0,
+  publicKey: null,
+  nextKeyReplySequenceNumber: '1'
 })

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,14 @@ export interface ClientDataStatus {
   categories: ClientDataStatusCategories
   users: string // userListVersion
   clientLevel?: number
+  devicesDetail?: ClientDataStatusDevicesExtended
+  kri?: number  // last key request index
+  kr?: number   // last key response index
 }
 
 export type ClientDataStatusApps = {[key: string]: string} // installedAppsVersionsByDeviceId
 export type ClientDataStatusCategories = {[key: string]: CategoryDataStatus}
+export type ClientDataStatusDevicesExtended = {[key: string]: DeviceDataStatus}
 
 export interface CategoryDataStatus {
   base: string  // baseVersion
@@ -32,4 +36,9 @@ export interface CategoryDataStatus {
   rules: string  // timeLimitRulesVersion
   usedTime: string  // usedTimeItemsVersion
   tasks?: string   // taskListVersion
+}
+
+export interface DeviceDataStatus {
+  appsB?: string   // encrypted app list base version
+  appsD?: string   // encrypted app list diff version
 }

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -90,7 +90,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
           where: {
             deviceAuthToken: body.deviceAuthToken
           },
-          attributes: ['familyId', 'lastConnectivity'],
+          attributes: ['familyId', 'deviceId', 'lastConnectivity'],
           transaction
         })
 
@@ -98,7 +98,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
           throw new Unauthorized()
         }
 
-        const { familyId, lastConnectivity } = deviceEntryUnsafe
+        const { familyId, deviceId, lastConnectivity } = deviceEntryUnsafe
         const now = getRoundedTimestampForLastConnectivity()
 
         if (parseInt(lastConnectivity, 10) !== now) {
@@ -115,6 +115,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
         return generateServerDataStatus({
           database,
           familyId,
+          deviceId,
           clientStatus: body.status,
           transaction
         })

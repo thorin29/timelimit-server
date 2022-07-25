@@ -19,6 +19,7 @@ https://timelimit.io/ServerDataStatus
 | Property                      | Type     | Required | Nullable       | Defined by                                                                                                                       |
 | :---------------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------- |
 | [devices](#devices)           | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicelist.md "https://timelimit.io/ServerDataStatus#/properties/devices") |
+| [devices2](#devices2)         | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-devices2.md "https://timelimit.io/ServerDataStatus#/properties/devices2")         |
 | [apps](#apps)                 | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-apps.md "https://timelimit.io/ServerDataStatus#/properties/apps")                 |
 | [rmCategories](#rmcategories) | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-rmcategories.md "https://timelimit.io/ServerDataStatus#/properties/rmCategories") |
 | [categoryBase](#categorybase) | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-categorybase.md "https://timelimit.io/ServerDataStatus#/properties/categoryBase") |
@@ -27,6 +28,8 @@ https://timelimit.io/ServerDataStatus
 | [rules](#rules)               | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-rules.md "https://timelimit.io/ServerDataStatus#/properties/rules")               |
 | [tasks](#tasks)               | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-tasks.md "https://timelimit.io/ServerDataStatus#/properties/tasks")               |
 | [users](#users)               | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist.md "https://timelimit.io/ServerDataStatus#/properties/users")     |
+| [krq](#krq)                   | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-krq.md "https://timelimit.io/ServerDataStatus#/properties/krq")                   |
+| [kr](#kr)                     | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-kr.md "https://timelimit.io/ServerDataStatus#/properties/kr")                     |
 | [fullVersion](#fullversion)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-fullversion.md "https://timelimit.io/ServerDataStatus#/properties/fullVersion")   |
 | [message](#message)           | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-message.md "https://timelimit.io/ServerDataStatus#/properties/message")           |
 | [apiLevel](#apilevel)         | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-apilevel.md "https://timelimit.io/ServerDataStatus#/properties/apiLevel")         |
@@ -48,6 +51,24 @@ https://timelimit.io/ServerDataStatus
 ### devices Type
 
 `object` ([ServerDeviceList](serverdatastatus-definitions-serverdevicelist.md))
+
+## devices2
+
+
+
+`devices2`
+
+*   is optional
+
+*   Type: `object[]` ([ServerExtendedDeviceData](serverdatastatus-definitions-serverextendeddevicedata.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-properties-devices2.md "https://timelimit.io/ServerDataStatus#/properties/devices2")
+
+### devices2 Type
+
+`object[]` ([ServerExtendedDeviceData](serverdatastatus-definitions-serverextendeddevicedata.md))
 
 ## apps
 
@@ -192,6 +213,42 @@ https://timelimit.io/ServerDataStatus
 ### users Type
 
 `object` ([ServerUserList](serverdatastatus-definitions-serveruserlist.md))
+
+## krq
+
+
+
+`krq`
+
+*   is optional
+
+*   Type: `object[]` ([ServerKeyRequest](serverdatastatus-definitions-serverkeyrequest.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-properties-krq.md "https://timelimit.io/ServerDataStatus#/properties/krq")
+
+### krq Type
+
+`object[]` ([ServerKeyRequest](serverdatastatus-definitions-serverkeyrequest.md))
+
+## kr
+
+
+
+`kr`
+
+*   is optional
+
+*   Type: `object[]` ([ServerKeyResponse](serverdatastatus-definitions-serverkeyresponse.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-properties-kr.md "https://timelimit.io/ServerDataStatus#/properties/kr")
+
+### kr Type
+
+`object[]` ([ServerKeyResponse](serverdatastatus-definitions-serverkeyresponse.md))
 
 ## fullVersion
 
@@ -339,6 +396,7 @@ Reference this group by using
 | [activityLevelBlocking](#activitylevelblocking) | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-activitylevelblocking.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/activityLevelBlocking") |
 | [qOrLater](#qorlater)                           | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-qorlater.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/qOrLater")                           |
 | [mFlags](#mflags)                               | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-mflags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/mFlags")                               |
+| [pk](#pk)                                       | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-pk.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pk")                                       |
 
 ### deviceId
 
@@ -990,6 +1048,24 @@ Reference this group by using
 
 `number`
 
+### pk
+
+
+
+`pk`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-pk.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pk")
+
+#### pk Type
+
+`string`
+
 ## Definitions group ProtectionLevel
 
 Reference this group by using
@@ -1023,6 +1099,123 @@ Reference this group by using
 | Property | Type | Required | Nullable | Defined by |
 | :------- | :--- | :------- | :------- | :--------- |
 
+## Definitions group ServerExtendedDeviceData
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData"}
+```
+
+| Property                | Type     | Required | Nullable       | Defined by                                                                                                                                                                                         |
+| :---------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [deviceId](#deviceid-1) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverextendeddevicedata-properties-deviceid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData/properties/deviceId") |
+| [appsBase](#appsbase)   | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer.md "https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData/properties/appsBase")                         |
+| [appsDiff](#appsdiff)   | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer.md "https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData/properties/appsDiff")                         |
+
+### deviceId
+
+
+
+`deviceId`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverextendeddevicedata-properties-deviceid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData/properties/deviceId")
+
+#### deviceId Type
+
+`string`
+
+### appsBase
+
+
+
+`appsBase`
+
+*   is optional
+
+*   Type: `object` ([ServerCryptContainer](serverdatastatus-definitions-servercryptcontainer.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer.md "https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData/properties/appsBase")
+
+#### appsBase Type
+
+`object` ([ServerCryptContainer](serverdatastatus-definitions-servercryptcontainer.md))
+
+### appsDiff
+
+
+
+`appsDiff`
+
+*   is optional
+
+*   Type: `object` ([ServerCryptContainer](serverdatastatus-definitions-servercryptcontainer.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer.md "https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData/properties/appsDiff")
+
+#### appsDiff Type
+
+`object` ([ServerCryptContainer](serverdatastatus-definitions-servercryptcontainer.md))
+
+## Definitions group ServerCryptContainer
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerCryptContainer"}
+```
+
+| Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                               |
+| :-------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [version](#version-1) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCryptContainer/properties/version") |
+| [data](#data-1)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer-properties-data.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCryptContainer/properties/data")       |
+
+### version
+
+
+
+`version`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCryptContainer/properties/version")
+
+#### version Type
+
+`string`
+
+### data
+
+
+
+`data`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-servercryptcontainer-properties-data.md "https://timelimit.io/ServerDataStatus#/definitions/ServerCryptContainer/properties/data")
+
+#### data Type
+
+`string`
+
 ## Definitions group ServerInstalledAppsData
 
 Reference this group by using
@@ -1033,8 +1226,8 @@ Reference this group by using
 
 | Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                           |
 | :------------------------ | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [deviceId](#deviceid-1)   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverinstalledappsdata-properties-deviceid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/deviceId")     |
-| [version](#version-1)     | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverinstalledappsdata-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/version")       |
+| [deviceId](#deviceid-2)   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverinstalledappsdata-properties-deviceid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/deviceId")     |
+| [version](#version-2)     | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverinstalledappsdata-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/version")       |
 | [apps](#apps-1)           | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverinstalledappsdata-properties-apps.md "https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/apps")             |
 | [activities](#activities) | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverinstalledappsdata-properties-activities.md "https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/activities") |
 
@@ -1304,7 +1497,7 @@ Reference this group by using
 | [extraTimeDay](#extratimeday)                     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-extratimeday.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/extraTimeDay")                     |
 | [tempBlocked](#tempblocked)                       | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-tempblocked.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/tempBlocked")                       |
 | [tempBlockTime](#tempblocktime)                   | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-tempblocktime.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/tempBlockTime")                   |
-| [version](#version-2)                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/version")                               |
+| [version](#version-3)                             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/version")                               |
 | [parentCategoryId](#parentcategoryid)             | `string`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-parentcategoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/parentCategoryId")             |
 | [blockAllNotifications](#blockallnotifications)   | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-blockallnotifications.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/blockAllNotifications")   |
 | [timeWarnings](#timewarnings)                     | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorybasedata-properties-timewarnings.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryBaseData/properties/timeWarnings")                     |
@@ -1738,7 +1931,7 @@ Reference this group by using
 | :-------------------------- | :------- | :------- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [categoryId](#categoryid-1) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryassignedapps-properties-categoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryAssignedApps/properties/categoryId") |
 | [apps](#apps-2)             | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryassignedapps-properties-apps.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryAssignedApps/properties/apps")             |
-| [version](#version-3)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryassignedapps-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryAssignedApps/properties/version")       |
+| [version](#version-4)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryassignedapps-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryAssignedApps/properties/version")       |
 
 ### categoryId
 
@@ -1807,7 +2000,7 @@ Reference this group by using
 | [categoryId](#categoryid-2)           | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-categoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/categoryId")             |
 | [times](#times)                       | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-times.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/times")                       |
 | [sessionDurations](#sessiondurations) | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-sessiondurations.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/sessionDurations") |
-| [version](#version-4)                 | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/version")                   |
+| [version](#version-5)                 | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategoryusedtimes-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryUsedTimes/properties/version")                   |
 
 ### categoryId
 
@@ -2106,7 +2299,7 @@ Reference this group by using
 | Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                   |
 | :-------------------------- | :------- | :------- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [categoryId](#categoryid-3) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedtimelimitrules-properties-categoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedTimeLimitRules/properties/categoryId") |
-| [version](#version-5)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedtimelimitrules-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedTimeLimitRules/properties/version")       |
+| [version](#version-6)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedtimelimitrules-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedTimeLimitRules/properties/version")       |
 | [rules](#rules-1)           | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedtimelimitrules-properties-rules.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedTimeLimitRules/properties/rules")           |
 
 ### categoryId
@@ -2356,7 +2549,7 @@ Reference this group by using
 | Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                 |
 | :-------------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [categoryId](#categoryid-4) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-categoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/categoryId") |
-| [version](#version-6)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/version")       |
+| [version](#version-7)       | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/version")       |
 | [tasks](#tasks-1)           | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverupdatedcategorytasks-properties-tasks.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/tasks")           |
 
 ### categoryId
@@ -2529,8 +2722,8 @@ Reference this group by using
 
 | Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                   |
 | :-------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [version](#version-7) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserList/properties/version") |
-| [data](#data-1)       | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist-properties-data.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserList/properties/data")       |
+| [version](#version-8) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist-properties-version.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserList/properties/version") |
+| [data](#data-2)       | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist-properties-data.md "https://timelimit.io/ServerDataStatus#/definitions/ServerUserList/properties/data")       |
 
 ### version
 
@@ -2891,3 +3084,291 @@ Reference this group by using
 #### pbd Type
 
 `number`
+
+## Definitions group ServerKeyRequest
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest"}
+```
+
+| Property                    | Type     | Required | Nullable       | Defined by                                                                                                                                                                             |
+| :-------------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [srvSeq](#srvseq)           | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-srvseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/srvSeq")         |
+| [senId](#senid)             | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-senid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/senId")           |
+| [senSeq](#senseq)           | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-senseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/senSeq")         |
+| [deviceId](#deviceid-3)     | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-deviceid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/deviceId")     |
+| [categoryId](#categoryid-5) | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-categoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/categoryId") |
+| [type](#type-1)             | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-type.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/type")             |
+| [tempKey](#tempkey)         | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-tempkey.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/tempKey")       |
+| [signature](#signature)     | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-signature.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/signature")   |
+
+### srvSeq
+
+
+
+`srvSeq`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-srvseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/srvSeq")
+
+#### srvSeq Type
+
+`number`
+
+### senId
+
+
+
+`senId`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-senid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/senId")
+
+#### senId Type
+
+`string`
+
+### senSeq
+
+
+
+`senSeq`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-senseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/senSeq")
+
+#### senSeq Type
+
+`number`
+
+### deviceId
+
+
+
+`deviceId`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-deviceid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/deviceId")
+
+#### deviceId Type
+
+`string`
+
+### categoryId
+
+
+
+`categoryId`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-categoryid.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/categoryId")
+
+#### categoryId Type
+
+`string`
+
+### type
+
+
+
+`type`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-type.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/type")
+
+#### type Type
+
+`number`
+
+### tempKey
+
+
+
+`tempKey`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-tempkey.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/tempKey")
+
+#### tempKey Type
+
+`string`
+
+### signature
+
+
+
+`signature`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyrequest-properties-signature.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyRequest/properties/signature")
+
+#### signature Type
+
+`string`
+
+## Definitions group ServerKeyResponse
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse"}
+```
+
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                             |
+| :------------------------ | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [srvSeq](#srvseq-1)       | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-srvseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/srvSeq")       |
+| [sender](#sender)         | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-sender.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/sender")       |
+| [rqSeq](#rqseq)           | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-rqseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/rqSeq")         |
+| [tempKey](#tempkey-1)     | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-tempkey.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/tempKey")     |
+| [cryptKey](#cryptkey)     | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-cryptkey.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/cryptKey")   |
+| [signature](#signature-1) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-signature.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/signature") |
+
+### srvSeq
+
+
+
+`srvSeq`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-srvseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/srvSeq")
+
+#### srvSeq Type
+
+`number`
+
+### sender
+
+
+
+`sender`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-sender.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/sender")
+
+#### sender Type
+
+`string`
+
+### rqSeq
+
+
+
+`rqSeq`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-rqseq.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/rqSeq")
+
+#### rqSeq Type
+
+`number`
+
+### tempKey
+
+
+
+`tempKey`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-tempkey.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/tempKey")
+
+#### tempKey Type
+
+`string`
+
+### cryptKey
+
+
+
+`cryptKey`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-cryptkey.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/cryptKey")
+
+#### cryptKey Type
+
+`string`
+
+### signature
+
+
+
+`signature`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-signature.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/signature")
+
+#### signature Type
+
+`string`

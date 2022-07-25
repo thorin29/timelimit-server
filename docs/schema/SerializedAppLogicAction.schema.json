@@ -10,13 +10,25 @@
       "$ref": "#/definitions/SerializedAddUsedTimeActionVersion2"
     },
     {
+      "$ref": "#/definitions/SerializedFinishKeyRequestAction"
+    },
+    {
       "$ref": "#/definitions/SerializedForceSyncAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedReplyToKeyRequestAction"
     },
     {
       "$ref": "#/definitions/SerializedMarkTaskPendingAction"
     },
     {
+      "$ref": "#/definitions/SerializedUpdateInstalledAppsAction"
+    },
+    {
       "$ref": "#/definitions/SerializedRemoveInstalledAppsAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedSendKeyRequestAction"
     },
     {
       "$ref": "#/definitions/SerializedSignOutAtDeviceAction"
@@ -29,6 +41,9 @@
     },
     {
       "$ref": "#/definitions/SerializedUpdateDeviceStatusAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUploadDevicePublicKeyAction"
     }
   ],
   "definitions": {
@@ -206,6 +221,26 @@
       ],
       "title": "SerializedAddUsedTimeActionVersion2"
     },
+    "SerializedFinishKeyRequestAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "FINISH_KEY_REQUEST"
+          ]
+        },
+        "dsn": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "dsn",
+        "type"
+      ],
+      "title": "SerializedFinishKeyRequestAction"
+    },
     "SerializedForceSyncAction": {
       "type": "object",
       "properties": {
@@ -221,6 +256,38 @@
         "type"
       ],
       "title": "SerializedForceSyncAction"
+    },
+    "SerializedReplyToKeyRequestAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "REPLY_TO_KEY_REQUEST"
+          ]
+        },
+        "rsn": {
+          "type": "number"
+        },
+        "tempKey": {
+          "type": "string"
+        },
+        "encryptedKey": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "encryptedKey",
+        "rsn",
+        "signature",
+        "tempKey",
+        "type"
+      ],
+      "title": "SerializedReplyToKeyRequestAction"
     },
     "SerializedMarkTaskPendingAction": {
       "type": "object",
@@ -241,6 +308,32 @@
         "type"
       ],
       "title": "SerializedMarkTaskPendingAction"
+    },
+    "SerializedUpdateInstalledAppsAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "UPDATE_INSTALLED_APPS"
+          ]
+        },
+        "b": {
+          "type": "string"
+        },
+        "d": {
+          "type": "string"
+        },
+        "w": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "w"
+      ],
+      "title": "SerializedUpdateInstalledAppsAction"
     },
     "SerializedRemoveInstalledAppsAction": {
       "type": "object",
@@ -264,6 +357,44 @@
         "type"
       ],
       "title": "SerializedRemoveInstalledAppsAction"
+    },
+    "SerializedSendKeyRequestAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "SEND_KEY_REQUEST"
+          ]
+        },
+        "dsn": {
+          "type": "number"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "dataType": {
+          "type": "number"
+        },
+        "tempKey": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "dataType",
+        "dsn",
+        "signature",
+        "tempKey",
+        "type"
+      ],
+      "title": "SerializedSendKeyRequestAction"
     },
     "SerializedSignOutAtDeviceAction": {
       "type": "object",
@@ -421,6 +552,26 @@
         "type"
       ],
       "title": "SerializedUpdateDeviceStatusAction"
+    },
+    "SerializedUploadDevicePublicKeyAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "UPLOAD_DEVICE_PUBLIC_KEY"
+          ]
+        },
+        "key": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "type"
+      ],
+      "title": "SerializedUploadDevicePublicKeyAction"
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#",

@@ -4,6 +4,12 @@
     "devices": {
       "$ref": "#/definitions/ServerDeviceList"
     },
+    "devices2": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ServerExtendedDeviceData"
+      }
+    },
     "apps": {
       "type": "array",
       "items": {
@@ -48,6 +54,18 @@
     },
     "users": {
       "$ref": "#/definitions/ServerUserList"
+    },
+    "krq": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ServerKeyRequest"
+      }
+    },
+    "kr": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ServerKeyResponse"
+      }
     },
     "fullVersion": {
       "type": "number"
@@ -185,6 +203,9 @@
         },
         "mFlags": {
           "type": "number"
+        },
+        "pk": {
+          "type": "string"
         }
       },
       "additionalProperties": false,
@@ -250,6 +271,42 @@
       ],
       "type": "string",
       "title": "NewPermissionStatus"
+    },
+    "ServerExtendedDeviceData": {
+      "type": "object",
+      "properties": {
+        "deviceId": {
+          "type": "string"
+        },
+        "appsBase": {
+          "$ref": "#/definitions/ServerCryptContainer"
+        },
+        "appsDiff": {
+          "$ref": "#/definitions/ServerCryptContainer"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "deviceId"
+      ],
+      "title": "ServerExtendedDeviceData"
+    },
+    "ServerCryptContainer": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "version"
+      ],
+      "title": "ServerCryptContainer"
     },
     "ServerInstalledAppsData": {
       "type": "object",
@@ -784,6 +841,78 @@
         "type"
       ],
       "title": "ServerUserEntry"
+    },
+    "ServerKeyRequest": {
+      "type": "object",
+      "properties": {
+        "srvSeq": {
+          "type": "number"
+        },
+        "senId": {
+          "type": "string"
+        },
+        "senSeq": {
+          "type": "number"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "categoryId": {
+          "type": "string"
+        },
+        "type": {
+          "type": "number"
+        },
+        "tempKey": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "senId",
+        "senSeq",
+        "signature",
+        "srvSeq",
+        "tempKey",
+        "type"
+      ],
+      "title": "ServerKeyRequest"
+    },
+    "ServerKeyResponse": {
+      "type": "object",
+      "properties": {
+        "srvSeq": {
+          "type": "number"
+        },
+        "sender": {
+          "type": "string"
+        },
+        "rqSeq": {
+          "type": "number"
+        },
+        "tempKey": {
+          "type": "string"
+        },
+        "cryptKey": {
+          "type": "string"
+        },
+        "signature": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cryptKey",
+        "rqSeq",
+        "sender",
+        "signature",
+        "srvSeq",
+        "tempKey"
+      ],
+      "title": "ServerKeyResponse"
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#",

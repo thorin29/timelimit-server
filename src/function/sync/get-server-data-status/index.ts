@@ -26,25 +26,32 @@ import {
   getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync,
   getRules, getTasks, getUsedTimes
 } from './category'
+import { getDeviceDetailList } from './device-detail'
 import { getDeviceList } from './device-list'
 import { getFamilyEntry } from './family-entry'
 import { getUserList } from './user-list'
+import { getKeyRequests } from './key-requests'
+import { getKeyResponses } from './key-responses'
 
-export const generateServerDataStatus = async ({ database, clientStatus, familyId, transaction }: {
+export const generateServerDataStatus = async ({
+  database, clientStatus, familyId, deviceId, transaction
+}: {
   database: Database
   clientStatus: ClientDataStatus
   familyId: string
+  deviceId: string
   transaction: Sequelize.Transaction
 }): Promise<ServerDataStatus> => {
   const familyEntry = await getFamilyEntry({ database, familyId, transaction })
   const doesClientSupportTasks = clientStatus.clientLevel !== undefined && clientStatus.clientLevel >= 3
+  const doesClientSupportCryptoApps = clientStatus.clientLevel !== undefined && clientStatus.clientLevel >= 4
 
   const result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),
     message: await getStatusMessage({ database, transaction }) || undefined,
-    apiLevel: 3
+    apiLevel: 4
   }
 
   if (familyEntry.deviceListVersion !== clientStatus.devices) {
@@ -101,6 +108,31 @@ export const generateServerDataStatus = async ({ database, clientStatus, familyI
       serverCategoriesVersions: categoryDataToSync.serverCategoriesVersions,
       categoryIdsToSyncTasks: categoryDataToSync.categoryIdsToSyncTasks
     })
+  }
+
+  if (doesClientSupportCryptoApps) {
+    result.devices2 = await getDeviceDetailList({
+      database,
+      transaction,
+      familyEntry,
+      devicesDetail: clientStatus.devicesDetail || {}
+    }) || undefined
+
+    result.krq = await getKeyRequests({
+      database,
+      transaction,
+      familyEntry,
+      deviceId,
+      lastSeenRequestIndex: clientStatus.kri || null
+    }) || undefined
+
+    result.kr = await getKeyResponses({
+      database,
+      transaction,
+      familyEntry,
+      deviceId,
+      lastSeenRequestIndex: clientStatus.kr || null
+    }) || undefined
   }
 
   return result

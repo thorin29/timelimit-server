@@ -19,26 +19,36 @@ import { AddInstalledAppsAction, SerializedAddInstalledAppsAction } from '../add
 import { AddUsedTimeAction, SerializedAddUsedTimeAction } from '../addusedtime'
 import { AddUsedTimeActionVersion2, SerializedAddUsedTimeActionVersion2 } from '../addusedtime2'
 import { AppLogicAction } from '../basetypes'
+import { FinishKeyRequestAction, SerializedFinishKeyRequestAction } from '../finishkeyrequest'
 import { ForceSyncAction, SerializedForceSyncAction } from '../forcesync'
+import { ReplyToKeyRequestAction, SerializedReplyToKeyRequestAction } from '../replytokeyrequest'
 import { MarkTaskPendingAction, SerializedMarkTaskPendingAction } from '../marktaskpendingaction'
 import { UnknownActionTypeException } from '../meta/exception'
+import { UpdateInstalledAppsAction, SerializedUpdateInstalledAppsAction } from '../updateinstalledapps'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
+import { SendKeyRequestAction, SerializedSendKeyRequestAction } from '../sendkeyrequest'
 import { SerializedSignOutAtDeviceAction, SignOutAtDeviceAction } from '../signoutatdevice'
 import { SerialiezdTriedDisablingDeviceAdminAction, TriedDisablingDeviceAdminAction } from '../trieddisablingdeviceadmin'
 import { SerializedUpdateAppActivitiesAction, UpdateAppActivitiesAction } from '../updateappactivities'
 import { SerializedUpdateDeviceStatusAction, UpdateDeviceStatusAction } from '../updatedevicestatus'
+import { SerializedUploadDevicePublicKeyAction, UploadDevicePublicKeyAction } from '../uploaddevicepublickey'
 
 export type SerializedAppLogicAction =
   SerializedAddInstalledAppsAction |
   SerializedAddUsedTimeAction |
   SerializedAddUsedTimeActionVersion2 |
+  SerializedFinishKeyRequestAction |
   SerializedForceSyncAction |
+  SerializedReplyToKeyRequestAction |
   SerializedMarkTaskPendingAction |
+  SerializedUpdateInstalledAppsAction |
   SerializedRemoveInstalledAppsAction |
+  SerializedSendKeyRequestAction |
   SerializedSignOutAtDeviceAction |
   SerialiezdTriedDisablingDeviceAdminAction |
   SerializedUpdateAppActivitiesAction |
-  SerializedUpdateDeviceStatusAction
+  SerializedUpdateDeviceStatusAction |
+  SerializedUploadDevicePublicKeyAction
 
 export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLogicAction => {
   if (serialized.type === 'ADD_USED_TIME') {
@@ -47,12 +57,20 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
     return AddUsedTimeActionVersion2.parse(serialized)
   } else if (serialized.type === 'ADD_INSTALLED_APPS') {
     return AddInstalledAppsAction.parse(serialized)
+  } else if (serialized.type === 'FINISH_KEY_REQUEST') {
+    return FinishKeyRequestAction.parse(serialized)
   } else if (serialized.type === 'FORCE_SYNC') {
     return ForceSyncAction.instance
+  } else if (serialized.type === 'REPLY_TO_KEY_REQUEST') {
+    return ReplyToKeyRequestAction.parse(serialized)
   } else if (serialized.type === 'MARK_TASK_PENDING') {
     return MarkTaskPendingAction.parse(serialized)
+  } else if (serialized.type === 'UPDATE_INSTALLED_APPS') {
+    return UpdateInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'REMOVE_INSTALLED_APPS') {
     return RemoveInstalledAppsAction.parse(serialized)
+  } else if (serialized.type === 'SEND_KEY_REQUEST') {
+    return SendKeyRequestAction.parse(serialized)
   } else if (serialized.type === 'SIGN_OUT_AT_DEVICE') {
     return SignOutAtDeviceAction.instance
   } else if (serialized.type === 'TRIED_DISABLING_DEVICE_ADMIN') {
@@ -61,6 +79,8 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
     return UpdateAppActivitiesAction.parse(serialized)
   } else if (serialized.type === 'UPDATE_DEVICE_STATUS') {
     return UpdateDeviceStatusAction.parse(serialized)
+  } else if (serialized.type === 'UPLOAD_DEVICE_PUBLIC_KEY') {
+    return UploadDevicePublicKeyAction.parse(serialized)
   } else {
     throw new UnknownActionTypeException({ group: 'app logic' })
   }

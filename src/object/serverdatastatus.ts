@@ -23,6 +23,7 @@ import { RuntimePermissionStatus } from '../model/runtimepermissionstatus'
 
 export interface ServerDataStatus {
   devices?: ServerDeviceList  // newDeviceList
+  devices2?: Array<ServerExtendedDeviceData> // updatedExtendedDeviceData
   apps?: Array<ServerInstalledAppsData> // newInstalledApps
   rmCategories?: Array<string> // removedCategories
   categoryBase?: Array<ServerUpdatedCategoryBaseData>  // newCategoryBaseData
@@ -31,6 +32,8 @@ export interface ServerDataStatus {
   rules?: Array<ServerUpdatedTimeLimitRules> // newOrUpdatedTimeLimitRules
   tasks?: Array<ServerUpdatedCategoryTasks> // newOrUpdatedTasks
   users?: ServerUserList  // newUserList
+  krq?: Array<ServerKeyRequest> // pendingKeyRequests
+  kr?: Array<ServerKeyResponse> // keyResponses
   fullVersion: number     // fullVersionUntil
   message?: string
   apiLevel: number
@@ -97,6 +100,7 @@ export interface ServerDeviceData {
   activityLevelBlocking: boolean
   qOrLater: boolean
   mFlags: number  // manipulation flags
+  pk?: string     // public key
 }
 
 export interface ServerUpdatedCategoryBaseData {
@@ -216,4 +220,35 @@ export interface ServerInstalledAppsData {
   version: string
   apps: Array<SerializedInstalledApp>
   activities: Array<SerializedAppActivityItem>
+}
+
+export interface ServerExtendedDeviceData {
+  deviceId: string
+  appsBase?: ServerCryptContainer
+  appsDiff?: ServerCryptContainer
+}
+
+export interface ServerCryptContainer {
+  version: string
+  data: string
+}
+
+export interface ServerKeyRequest {
+  srvSeq: number
+  senId: string
+  senSeq: number
+  deviceId?: string
+  categoryId?: string
+  type: number
+  tempKey: string
+  signature: string
+}
+
+export interface ServerKeyResponse {
+  srvSeq: number
+  sender: string
+  rqSeq: number
+  tempKey: string,
+  cryptKey: string,
+  signature: string
 }

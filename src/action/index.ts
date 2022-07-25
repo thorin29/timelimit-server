@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,6 +30,7 @@ export { CreateCategoryAction } from './createcategory'
 export { CreateTimeLimitRuleAction } from './createtimelimitrule'
 export { DeleteCategoryAction } from './deletecategory'
 export { DeleteTimeLimitRuleAction } from './deletetimelimitrule'
+export { FinishKeyRequestAction } from './finishkeyrequest'
 export { ForceSyncAction } from './forcesync'
 export { IgnoreManipulationAction } from './ignoremanipulation'
 export { IncrementCategoryExtraTimeAction } from './incrementcategoryextratime'
@@ -38,6 +39,7 @@ export { RemoveInstalledAppsAction } from './removeinstalledapps'
 export { RemoveUserAction } from './removeuser'
 export { ResetCategoryNetworkIdsAction } from './resetcategorynetworkids'
 export { RenameChildAction } from './renamechild'
+export { ReplyToKeyRequestAction } from './replytokeyrequest'
 export { SetCategoryExtraTimeAction } from './setcategoryextratime'
 export { SetCategoryForUnassignedAppsAction } from './setcategoryforunassignedapps'
 export { SetChildPasswordAction } from './setchildpassword'
@@ -66,6 +68,7 @@ export { UpdateCategoryTitleAction } from './updatecategorytitle'
 export { UpdateDeviceNameAction } from './updatedevicename'
 export { UpdateDeviceStatusAction } from './updatedevicestatus'
 export { UpdateEnableActivityLevelBlockingAction } from './updateenableactivitylevelblocking'
+export { UpdateInstalledAppsAction } from './updateinstalledapps'
 export { UpdateNetworkTimeVerificationAction } from './updatenetworktimeverification'
 export { UpdateParentNotificationFlagsAction } from './updateparentnotificationflags'
 export { UpdateTimelimitRuleAction } from './updatetimelimitrule'
@@ -76,3 +79,5 @@ export { DeleteChildTaskAction } from './deletechildtaskaction'
 export { UpdateChildTaskAction } from './updatechildtaskaction'
 export { ReviewChildTaskAction } from './reviewchildtaskaction'
 export { UpdateUserLimitLoginPreBlockDuration } from './updateuserlimitloginpreblockduration'
+export { UploadDevicePublicKeyAction } from './uploaddevicepublickey'
+export { SendKeyRequestAction } from './sendkeyrequest'

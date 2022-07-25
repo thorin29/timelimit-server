@@ -60,6 +60,18 @@ const definitions = {
       },
       "clientLevel": {
         "type": "number"
+      },
+      "devicesDetail": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/DeviceDataStatus"
+        }
+      },
+      "kri": {
+        "type": "number"
+      },
+      "kr": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -96,6 +108,18 @@ const definitions = {
       "rules",
       "usedTime"
     ]
+  },
+  "DeviceDataStatus": {
+    "type": "object",
+    "properties": {
+      "appsB": {
+        "type": "string"
+      },
+      "appsD": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
   },
   "ParentPassword": {
     "type": "object",
@@ -1555,6 +1579,25 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedFinishKeyRequestAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "FINISH_KEY_REQUEST"
+        ]
+      },
+      "dsn": {
+        "type": "number"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "dsn",
+      "type"
+    ]
+  },
   "SerializedForceSyncAction": {
     "type": "object",
     "properties": {
@@ -1567,6 +1610,37 @@ const definitions = {
     },
     "additionalProperties": false,
     "required": [
+      "type"
+    ]
+  },
+  "SerializedReplyToKeyRequestAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "REPLY_TO_KEY_REQUEST"
+        ]
+      },
+      "rsn": {
+        "type": "number"
+      },
+      "tempKey": {
+        "type": "string"
+      },
+      "encryptedKey": {
+        "type": "string"
+      },
+      "signature": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "encryptedKey",
+      "rsn",
+      "signature",
+      "tempKey",
       "type"
     ]
   },
@@ -1589,6 +1663,31 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedUpdateInstalledAppsAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPDATE_INSTALLED_APPS"
+        ]
+      },
+      "b": {
+        "type": "string"
+      },
+      "d": {
+        "type": "string"
+      },
+      "w": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "type",
+      "w"
+    ]
+  },
   "SerializedRemoveInstalledAppsAction": {
     "type": "object",
     "properties": {
@@ -1608,6 +1707,43 @@ const definitions = {
     "additionalProperties": false,
     "required": [
       "packageNames",
+      "type"
+    ]
+  },
+  "SerializedSendKeyRequestAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "SEND_KEY_REQUEST"
+        ]
+      },
+      "dsn": {
+        "type": "number"
+      },
+      "deviceId": {
+        "type": "string"
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "dataType": {
+        "type": "number"
+      },
+      "tempKey": {
+        "type": "string"
+      },
+      "signature": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "dataType",
+      "dsn",
+      "signature",
+      "tempKey",
       "type"
     ]
   },
@@ -1760,6 +1896,25 @@ const definitions = {
     },
     "additionalProperties": false,
     "required": [
+      "type"
+    ]
+  },
+  "SerializedUploadDevicePublicKeyAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "UPLOAD_DEVICE_PUBLIC_KEY"
+        ]
+      },
+      "key": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "key",
       "type"
     ]
   },
@@ -1916,6 +2071,9 @@ const definitions = {
       },
       "mFlags": {
         "type": "number"
+      },
+      "pk": {
+        "type": "string"
       }
     },
     "additionalProperties": false,
@@ -1977,6 +2135,40 @@ const definitions = {
       "not supported"
     ],
     "type": "string"
+  },
+  "ServerExtendedDeviceData": {
+    "type": "object",
+    "properties": {
+      "deviceId": {
+        "type": "string"
+      },
+      "appsBase": {
+        "$ref": "#/definitions/ServerCryptContainer"
+      },
+      "appsDiff": {
+        "$ref": "#/definitions/ServerCryptContainer"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "deviceId"
+    ]
+  },
+  "ServerCryptContainer": {
+    "type": "object",
+    "properties": {
+      "version": {
+        "type": "string"
+      },
+      "data": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "data",
+      "version"
+    ]
   },
   "ServerInstalledAppsData": {
     "type": "object",
@@ -2443,6 +2635,76 @@ const definitions = {
       "timeZone",
       "type"
     ]
+  },
+  "ServerKeyRequest": {
+    "type": "object",
+    "properties": {
+      "srvSeq": {
+        "type": "number"
+      },
+      "senId": {
+        "type": "string"
+      },
+      "senSeq": {
+        "type": "number"
+      },
+      "deviceId": {
+        "type": "string"
+      },
+      "categoryId": {
+        "type": "string"
+      },
+      "type": {
+        "type": "number"
+      },
+      "tempKey": {
+        "type": "string"
+      },
+      "signature": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "senId",
+      "senSeq",
+      "signature",
+      "srvSeq",
+      "tempKey",
+      "type"
+    ]
+  },
+  "ServerKeyResponse": {
+    "type": "object",
+    "properties": {
+      "srvSeq": {
+        "type": "number"
+      },
+      "sender": {
+        "type": "string"
+      },
+      "rqSeq": {
+        "type": "number"
+      },
+      "tempKey": {
+        "type": "string"
+      },
+      "cryptKey": {
+        "type": "string"
+      },
+      "signature": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "cryptKey",
+      "rqSeq",
+      "sender",
+      "signature",
+      "srvSeq",
+      "tempKey"
+    ]
   }
 }
 
@@ -2754,13 +3016,25 @@ export const isSerializedAppLogicAction: (value: unknown) => value is Serialized
       "$ref": "#/definitions/SerializedAddUsedTimeActionVersion2"
     },
     {
+      "$ref": "#/definitions/SerializedFinishKeyRequestAction"
+    },
+    {
       "$ref": "#/definitions/SerializedForceSyncAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedReplyToKeyRequestAction"
     },
     {
       "$ref": "#/definitions/SerializedMarkTaskPendingAction"
     },
     {
+      "$ref": "#/definitions/SerializedUpdateInstalledAppsAction"
+    },
+    {
       "$ref": "#/definitions/SerializedRemoveInstalledAppsAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedSendKeyRequestAction"
     },
     {
       "$ref": "#/definitions/SerializedSignOutAtDeviceAction"
@@ -2773,6 +3047,9 @@ export const isSerializedAppLogicAction: (value: unknown) => value is Serialized
     },
     {
       "$ref": "#/definitions/SerializedUpdateDeviceStatusAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedUploadDevicePublicKeyAction"
     }
   ],
   "definitions": definitions,
