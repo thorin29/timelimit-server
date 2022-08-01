@@ -19,7 +19,7 @@ import { AppLogicAction } from './basetypes'
 import { InvalidActionParameterException } from './meta/exception'
 
 const actionType = 'UpdateInstalledAppsAction'
-const SIZE_LIMIT = 1024 * 256
+const SIZE_LIMIT = 1024 * 512
 
 export class UpdateInstalledAppsAction extends AppLogicAction {
   readonly base?: Buffer
