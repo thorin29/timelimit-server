@@ -54,6 +54,7 @@
     "email-addresses": "^3.1.0",
     "express": "^4.17.1",
     "http-errors": "^1.8.0",
+    "jose": "^4.9.3",
     "lodash": "^4.17.21",
     "mariadb": "^2.5.2",
     "nodemailer": "^6.7.2",

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,6 +21,7 @@ interface Config {
   disableSignup: boolean
   pingInterval: number
   alwaysPro: boolean
+  signSecret: string
 }
 
 function parseYesNo (value: string) {
@@ -37,7 +38,8 @@ export const config: Config = {
   mailWhitelist: (process.env.MAIL_WHITELIST || '').split(',').map((item) => item.trim()).filter((item) => item.length > 0),
   disableSignup: parseYesNo(process.env.DISABLE_SIGNUP || 'no'),
   pingInterval: parseInt(process.env.PING_INTERVAL_SEC || '25', 10) * 1000,
-  alwaysPro: process.env.ALWAYS_PRO ? parseYesNo(process.env.ALWAYS_PRO) : false
+  alwaysPro: process.env.ALWAYS_PRO ? parseYesNo(process.env.ALWAYS_PRO) : false,
+  signSecret: process.env.SIGN_SECRET || ''
 }
 
 class ParseYesNoException extends Error {}

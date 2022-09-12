@@ -26,6 +26,8 @@
 
 *   [RemoveDeviceRequest](./removedevicerequest.md) – `https://timelimit.io/RemoveDeviceRequest`
 
+*   [RequestIdentityTokenRequest](./requestidentitytokenrequest.md) – `https://timelimit.io/RequestIdentityTokenRequest`
+
 *   [RequestWithAuthToken](./requestwithauthtoken.md) – `https://timelimit.io/RequestWithAuthToken`
 
 *   [SendMailLoginCodeRequest](./sendmaillogincoderequest.md) – `https://timelimit.io/SendMailLoginCodeRequest`

@@ -54,3 +54,6 @@
 - PING_INTERVAL_SEC
   - ping interval at the websocket in seconds
   - the default value is ``25``
+- SIGN_SECRET
+  - used for signing tokens
+  - if not set or set to an empty string, then the features that depend on it are disabled

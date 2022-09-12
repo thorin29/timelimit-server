@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,12 +27,13 @@ import { getStatusByMailToken } from '../function/parent/get-status-by-mail-addr
 import { linkMailAddress } from '../function/parent/link-mail-address'
 import { recoverParentPassword } from '../function/parent/recover-parent-password'
 import { signInIntoFamily } from '../function/parent/sign-in-into-family'
+import { createIdentityToken, MissingSignSecretException } from '../util/identity-token'
 import { WebsocketApi } from '../websocket'
 import {
   isCreateFamilyByMailTokenRequest,
   isCreateRegisterDeviceTokenRequest, isLinkParentMailAddressRequest,
   isMailAuthTokenRequestBody, isRecoverParentPasswordRequest,
-  isRemoveDeviceRequest, isSignIntoFamilyRequest
+  isRemoveDeviceRequest, isSignIntoFamilyRequest, isRequestIdentityTokenRequest
 } from './validator'
 
 export const createParentRouter = ({ database, websocket }: {database: Database, websocket: WebsocketApi}) => {
@@ -131,7 +132,7 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
     }
   })
 
-  async function assertAuthValidAndReturnDeviceEntry ({ deviceAuthToken, parentId, secondPasswordHash, transaction }: {
+  async function assertAuthValidAndReturnDetails ({ deviceAuthToken, parentId, secondPasswordHash, transaction }: {
     deviceAuthToken: string
     parentId: string
     secondPasswordHash: string
@@ -165,6 +166,8 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       if (!parentEntry) {
         throw new Unauthorized()
       }
+
+      return { deviceEntry, parentEntry }
     } else {
       const parentEntry = await database.user.findOne({
         where: {
@@ -179,9 +182,9 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       if (!parentEntry) {
         throw new Unauthorized()
       }
-    }
 
-    return deviceEntry
+      return { deviceEntry, parentEntry }
+    }
   }
 
   router.post('/create-add-device-token', json(), async (req, res, next) => {
@@ -191,7 +194,7 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       }
 
       const { token, deviceId } = await database.transaction(async (transaction) => {
-        const deviceEntry = await assertAuthValidAndReturnDeviceEntry({
+        const { deviceEntry } = await assertAuthValidAndReturnDetails({
           deviceAuthToken: req.body.deviceAuthToken,
           parentId: req.body.parentId,
           secondPasswordHash: req.body.parentPasswordSecondHash,
@@ -235,7 +238,7 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       }
 
       await database.transaction(async (transaction) => {
-        const deviceEntry = await assertAuthValidAndReturnDeviceEntry({
+        const { deviceEntry } = await assertAuthValidAndReturnDetails({
           deviceAuthToken: req.body.deviceAuthToken,
           parentId: req.body.parentUserId,
           secondPasswordHash: req.body.parentPasswordSecondHash,
@@ -254,6 +257,37 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       res.json({ ok: true })
     } catch (ex) {
       next(ex)
+    }
+  })
+
+  router.post('/create-identity-token', json(), async (req, res, next) => {
+    try {
+      if (!isRequestIdentityTokenRequest(req.body)) {
+        throw new BadRequest()
+      }
+
+      const body = req.body
+
+      await database.transaction(async (transaction) => {
+        const { deviceEntry, parentEntry } = await assertAuthValidAndReturnDetails({
+          deviceAuthToken: body.deviceAuthToken,
+          parentId: body.parentUserId,
+          secondPasswordHash: body.parentPasswordSecondHash,
+          transaction
+        })
+
+        const token = await createIdentityToken({
+          purpose: body.purpose,
+          familyId: deviceEntry.familyId,
+          userId: parentEntry.userId,
+          mail: parentEntry.mail
+        })
+
+        res.json({ token })
+      })
+    } catch (ex) {
+      if (ex instanceof MissingSignSecretException) res.sendStatus(404)
+      else next(ex)
     }
   })
 

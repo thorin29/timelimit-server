@@ -140,6 +140,13 @@ export interface RemoveDeviceRequest {
   deviceId: string
 }
 
+export interface RequestIdentityTokenRequest {
+  deviceAuthToken: string
+  parentUserId: string
+  parentPasswordSecondHash: string
+  purpose: 'purchase'
+}
+
 export interface RequestWithAuthToken {
   deviceAuthToken: string
 }

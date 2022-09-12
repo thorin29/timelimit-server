@@ -169,3 +169,28 @@ If there is no device with the specified ``deviceId``: HTTP status code 409 Conf
 If the ``secondPasswordHash`` is invalid: HTTP status code 401 Unauthorized
 
 On success: ``{"ok": true}``
+
+## POST /parent/create-identity-token
+
+Use this to get a identity token.
+This can be used to inform the server operator about ones user account.
+
+### request
+
+see [this JSON schema](../schema/requestidentitytokenrequest.md)
+
+in case of a device used by a parent with disabled password checks, use ``device`` as ``secondPasswordHash``
+
+## response
+
+On a invalid request body: HTTP status code 400 Bad Request
+
+If the device auth token is invalid: HTTP status code 401 Unauthorized
+
+If there is no device with the specified ``deviceId``: HTTP status code 409 Conflict
+
+If the ``secondPasswordHash`` is invalid: HTTP status code 401 Unauthorized
+
+If the server does not support this request: HTTP status code 404
+
+On success: ``{"token": "some string"}``; you should not make any assumptions about the token string
