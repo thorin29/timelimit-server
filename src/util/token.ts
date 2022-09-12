@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,22 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as TokenGenerator from 'tokgen'
+import { randomInt } from 'crypto'
 import { ValidationException } from '../exception'
 
-const authTokenGenerator = new TokenGenerator({
-  length: 32,
-  chars: 'a-zA-Z0-9'
-})
+const defaultAlphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-export const generateAuthToken = () => authTokenGenerator.generate()
+function randomString(chars: string, length: number) {
+  let result = ''
 
-const idWithinFamilyGenerator = new TokenGenerator({
-  length: 6,
-  chars: 'a-zA-Z0-9'
-})
+  for (let i = 0; i < length; i++) {
+    result += chars[randomInt(chars.length)]
+  }
 
-export const generateIdWithinFamily = () => idWithinFamilyGenerator.generate()
+  if (result.length !== length) throw new Error()
+
+  return result
+}
+
+export const generateAuthToken = randomString.bind(null, defaultAlphabet, 32)
+
+export const generateIdWithinFamily = randomString.bind(null, defaultAlphabet, 6)
 export const isIdWithinFamily = (id: string) => id.length === 6 && /^[a-zA-Z0-9]+$/.test(id)
 export const assertIdWithinFamily = (id: string) => {
   if (!isIdWithinFamily(id)) {
@@ -41,23 +45,6 @@ export const assertIdWithinFamily = (id: string) => {
   }
 }
 
-const versionIdGenerator = new TokenGenerator({
-  length: 4,
-  chars: 'a-zA-Z0-9'
-})
-
-export const generateVersionId = () => versionIdGenerator.generate()
-
-const familyIdGenerator = new TokenGenerator({
-  length: 10,
-  chars: 'a-zA-Z0-9'
-})
-
-export const generateFamilyId = () => familyIdGenerator.generate()
-
-const purchaseIdGenerator = new TokenGenerator({
-  length: 10,
-  chars: 'a-zA-Z0-9'
-})
-
-export const generatePurchaseId = () => purchaseIdGenerator.generate()
+export const generateVersionId = randomString.bind(null, defaultAlphabet, 4)
+export const generateFamilyId = randomString.bind(null, defaultAlphabet, 10)
+export const generatePurchaseId = randomString.bind(null, defaultAlphabet, 10)
