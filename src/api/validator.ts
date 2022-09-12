@@ -124,7 +124,7 @@ const definitions = {
     },
     "additionalProperties": false
   },
-  "ParentPassword": {
+  "PlaintextParentPassword": {
     "type": "object",
     "properties": {
       "hash": {
@@ -232,7 +232,7 @@ const definitions = {
         "type": "string"
       },
       "password": {
-        "$ref": "#/definitions/ParentPassword"
+        "$ref": "#/definitions/EncryptableParentPassword"
       },
       "timeZone": {
         "type": "string"
@@ -245,6 +245,29 @@ const definitions = {
       "type",
       "userId",
       "userType"
+    ]
+  },
+  "EncryptableParentPassword": {
+    "type": "object",
+    "properties": {
+      "hash": {
+        "type": "string"
+      },
+      "secondHash": {
+        "type": "string"
+      },
+      "secondSalt": {
+        "type": "string"
+      },
+      "encrypted": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "hash",
+      "secondHash",
+      "secondSalt"
     ]
   },
   "SerializedChangeParentPasswordAction": {
@@ -694,7 +717,7 @@ const definitions = {
         "type": "string"
       },
       "newPassword": {
-        "$ref": "#/definitions/ParentPassword"
+        "$ref": "#/definitions/EncryptableParentPassword"
       }
     },
     "additionalProperties": false,
@@ -1931,7 +1954,7 @@ const definitions = {
         ]
       },
       "password": {
-        "$ref": "#/definitions/ParentPassword"
+        "$ref": "#/definitions/EncryptableParentPassword"
       }
     },
     "additionalProperties": false,
@@ -2787,7 +2810,7 @@ export const isCreateFamilyByMailTokenRequest: (value: unknown) => value is Crea
       "type": "string"
     },
     "parentPassword": {
-      "$ref": "#/definitions/ParentPassword"
+      "$ref": "#/definitions/PlaintextParentPassword"
     },
     "parentDevice": {
       "$ref": "#/definitions/NewDeviceInfo"
@@ -2843,7 +2866,7 @@ export const isRecoverParentPasswordRequest: (value: unknown) => value is Recove
       "type": "string"
     },
     "password": {
-      "$ref": "#/definitions/ParentPassword"
+      "$ref": "#/definitions/PlaintextParentPassword"
     }
   },
   "additionalProperties": false,

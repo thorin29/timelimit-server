@@ -56,19 +56,19 @@
 
 *   [DeviceDataStatus](./clientpullchangesrequest-definitions-devicedatastatus.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/DeviceDataStatus`
 
+*   [EncryptableParentPassword](./serializedchildaction-definitions-encryptableparentpassword.md) – `https://timelimit.io/SerializedChildAction#/definitions/EncryptableParentPassword`
+
+*   [EncryptableParentPassword](./serializedparentaction-definitions-encryptableparentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword`
+
 *   [NewDeviceInfo](./createfamilybymailtokenrequest-definitions-newdeviceinfo.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/NewDeviceInfo`
 
 *   [NewDeviceInfo](./registerchilddevicerequest-definitions-newdeviceinfo.md) – `https://timelimit.io/RegisterChildDeviceRequest#/definitions/NewDeviceInfo`
 
 *   [NewDeviceInfo](./signintofamilyrequest-definitions-newdeviceinfo.md) – `https://timelimit.io/SignIntoFamilyRequest#/definitions/NewDeviceInfo`
 
-*   [ParentPassword](./createfamilybymailtokenrequest-definitions-parentpassword.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword`
+*   [PlaintextParentPassword](./createfamilybymailtokenrequest-definitions-plaintextparentpassword.md) – `https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword`
 
-*   [ParentPassword](./recoverparentpasswordrequest-definitions-parentpassword.md) – `https://timelimit.io/RecoverParentPasswordRequest#/definitions/ParentPassword`
-
-*   [ParentPassword](./serializedchildaction-definitions-parentpassword.md) – `https://timelimit.io/SerializedChildAction#/definitions/ParentPassword`
-
-*   [ParentPassword](./serializedparentaction-definitions-parentpassword.md) – `https://timelimit.io/SerializedParentAction#/definitions/ParentPassword`
+*   [PlaintextParentPassword](./recoverparentpasswordrequest-definitions-plaintextparentpassword.md) – `https://timelimit.io/RecoverParentPasswordRequest#/definitions/PlaintextParentPassword`
 
 *   [SerialiezdTriedDisablingDeviceAdminAction](./serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerialiezdTriedDisablingDeviceAdminAction`
 

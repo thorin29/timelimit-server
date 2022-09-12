@@ -297,7 +297,7 @@ Reference this group by using
 | [name](#name)         | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-name.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/name")         |
 | [userType](#usertype) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-usertype.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/userType") |
 | [userId](#userid)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-userid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/userId")     |
-| [password](#password) | `object` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")                              |
+| [password](#password) | `object` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")                   |
 | [timeZone](#timezone) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-timezone.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/timeZone") |
 
 ### type
@@ -397,15 +397,15 @@ Reference this group by using
 
 *   is optional
 
-*   Type: `object` ([ParentPassword](serializedparentaction-definitions-parentpassword.md))
+*   Type: `object` ([EncryptableParentPassword](serializedparentaction-definitions-encryptableparentpassword.md))
 
 *   cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-parentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")
 
 #### password Type
 
-`object` ([ParentPassword](serializedparentaction-definitions-parentpassword.md))
+`object` ([EncryptableParentPassword](serializedparentaction-definitions-encryptableparentpassword.md))
 
 ### timeZone
 
@@ -425,19 +425,20 @@ Reference this group by using
 
 `string`
 
-## Definitions group ParentPassword
+## Definitions group EncryptableParentPassword
 
 Reference this group by using
 
 ```json
-{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/ParentPassword"}
+{"$ref":"https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword"}
 ```
 
-| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                           |
-| :------------------------ | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [hash](#hash)             | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-hash.md "https://timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/hash")             |
-| [secondHash](#secondhash) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondhash.md "https://timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondHash") |
-| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondsalt.md "https://timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondSalt") |
+| Property                  | Type      | Required | Nullable       | Defined by                                                                                                                                                                                                                 |
+| :------------------------ | :-------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [hash](#hash)             | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-hash.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/hash")             |
+| [secondHash](#secondhash) | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-secondhash.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/secondHash") |
+| [secondSalt](#secondsalt) | `string`  | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-secondsalt.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/secondSalt") |
+| [encrypted](#encrypted)   | `boolean` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-encrypted.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/encrypted")   |
 
 ### hash
 
@@ -451,7 +452,7 @@ Reference this group by using
 
 *   cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-hash.md "https://timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/hash")
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-hash.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/hash")
 
 #### hash Type
 
@@ -469,7 +470,7 @@ Reference this group by using
 
 *   cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondhash.md "https://timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondHash")
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-secondhash.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/secondHash")
 
 #### secondHash Type
 
@@ -487,11 +488,29 @@ Reference this group by using
 
 *   cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-parentpassword-properties-secondsalt.md "https://timelimit.io/SerializedParentAction#/definitions/ParentPassword/properties/secondSalt")
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-secondsalt.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/secondSalt")
 
 #### secondSalt Type
 
 `string`
+
+### encrypted
+
+
+
+`encrypted`
+
+*   is optional
+
+*   Type: `boolean`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword-properties-encrypted.md "https://timelimit.io/SerializedParentAction#/definitions/EncryptableParentPassword/properties/encrypted")
+
+#### encrypted Type
+
+`boolean`
 
 ## Definitions group SerializedChangeParentPasswordAction
 
@@ -2093,7 +2112,7 @@ Reference this group by using
 | :-------------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type-18)            | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetchildpasswordaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/type")       |
 | [childId](#childid-3)       | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedsetchildpasswordaction-properties-childid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/childId") |
-| [newPassword](#newpassword) | `object` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/newPassword")                                  |
+| [newPassword](#newpassword) | `object` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/newPassword")                       |
 
 ### type
 
@@ -2147,15 +2166,15 @@ Reference this group by using
 
 *   is required
 
-*   Type: `object` ([ParentPassword](serializedparentaction-definitions-parentpassword.md))
+*   Type: `object` ([EncryptableParentPassword](serializedparentaction-definitions-encryptableparentpassword.md))
 
 *   cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-parentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/newPassword")
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetChildPasswordAction/properties/newPassword")
 
 #### newPassword Type
 
-`object` ([ParentPassword](serializedparentaction-definitions-parentpassword.md))
+`object` ([EncryptableParentPassword](serializedparentaction-definitions-encryptableparentpassword.md))
 
 ## Definitions group SerializedSetConsiderRebootManipulationAction
 

@@ -46,5 +46,8 @@ export const assertIdWithinFamily = (id: string) => {
 }
 
 export const generateVersionId = randomString.bind(null, defaultAlphabet, 4)
+
+export const isVersionId = (id: string) => id.length === 4 && /^[a-zA-Z0-9]+$/.test(id)
+
 export const generateFamilyId = randomString.bind(null, defaultAlphabet, 10)
 export const generatePurchaseId = randomString.bind(null, defaultAlphabet, 10)

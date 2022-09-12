@@ -22,7 +22,7 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction
 | [name](#name)         | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-name.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/name")         |
 | [userType](#usertype) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-usertype.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/userType") |
 | [userId](#userid)     | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-userid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/userId")     |
-| [password](#password) | `object` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-parentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")                              |
+| [password](#password) | `object` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")                   |
 | [timeZone](#timezone) | `string` | Required | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedadduseraction-properties-timezone.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/timeZone") |
 
 ## type
@@ -122,15 +122,15 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction
 
 *   is optional
 
-*   Type: `object` ([ParentPassword](serializedparentaction-definitions-parentpassword.md))
+*   Type: `object` ([EncryptableParentPassword](serializedparentaction-definitions-encryptableparentpassword.md))
 
 *   cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-parentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddUserAction/properties/password")
 
 ### password Type
 
-`object` ([ParentPassword](serializedparentaction-definitions-parentpassword.md))
+`object` ([EncryptableParentPassword](serializedparentaction-definitions-encryptableparentpassword.md))
 
 ## timeZone
 

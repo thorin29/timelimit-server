@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -44,18 +44,33 @@ export interface NewDeviceInfo {
   model: string
 }
 
-export interface ParentPassword {
+export interface PlaintextParentPassword {
   hash: string
   secondHash: string
   secondSalt: string
 }
 
-export const assertParentPasswordValid = (password: ParentPassword) => {
+export interface EncryptableParentPassword {
+  hash: string
+  secondHash: string
+  secondSalt: string
+  encrypted?: boolean
+}
+
+export const assertPlaintextParentPasswordValid = (password: PlaintextParentPassword) => {
+  assertParentPasswordValid({ ...password, encrypted: false })
+}
+
+export const assertParentPasswordValid = (password: EncryptableParentPassword) => {
   if (password.hash === '' || password.secondHash === '' || password.secondSalt === '') {
     throw new ParentPasswordValidationException('missing fields at parent password')
   }
 
-  if (!(optionalPasswordRegex.test(password.hash) && optionalPasswordRegex.test(password.secondHash) && optionalSaltRegex.test(password.secondSalt))) {
+  if (!(optionalPasswordRegex.test(password.hash) && optionalSaltRegex.test(password.secondSalt))) {
+    throw new ParentPasswordValidationException('invalid parent password')
+  }
+
+  if (!password.encrypted && !optionalPasswordRegex.test(password.secondHash)) {
     throw new ParentPasswordValidationException('invalid parent password')
   }
 }
@@ -64,7 +79,7 @@ export class ParentPasswordValidationException extends Error {}
 
 export interface CreateFamilyByMailTokenRequest {
   mailAuthToken: string
-  parentPassword: ParentPassword
+  parentPassword: PlaintextParentPassword
   parentDevice: NewDeviceInfo
   deviceName: string
   timeZone: string
@@ -79,7 +94,7 @@ export interface SignIntoFamilyRequest {
 
 export interface RecoverParentPasswordRequest {
   mailAuthToken: string
-  password: ParentPassword
+  password: PlaintextParentPassword
 }
 
 export interface RegisterChildDeviceRequest {

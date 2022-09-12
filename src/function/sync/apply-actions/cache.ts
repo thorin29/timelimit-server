@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -27,6 +27,7 @@ import { InvalidChildActionIntegrityValue } from './exception/integrity'
 
 export class Cache {
   readonly familyId: string
+  readonly deviceId: string
   readonly hasFullVersion: boolean
   transaction: Sequelize.Transaction
   readonly database: Database
@@ -46,14 +47,16 @@ export class Cache {
   invalidiateDeviceList = false
   areChangesImportant = false
 
-  constructor ({ familyId, hasFullVersion, database, transaction, connectedDevicesManager }: {
+  constructor ({ familyId, deviceId, hasFullVersion, database, transaction, connectedDevicesManager }: {
     familyId: string
+    deviceId: string
     hasFullVersion: boolean
     database: Database
     transaction: Sequelize.Transaction
     connectedDevicesManager: VisibleConnectedDevicesManager
   }) {
     this.familyId = familyId
+    this.deviceId = deviceId
     this.hasFullVersion = hasFullVersion || config.alwaysPro
     this.database = database
     this.transaction = transaction

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@
 import { SetChildPasswordAction } from '../../../../action'
 import { Cache } from '../cache'
 import { MissingUserException } from '../exception/missing-item'
+import { decryptParentPassword } from '../../../dh'
 
 export async function dispatchSetChildPassword ({ action, cache }: {
   action: SetChildPasswordAction
@@ -36,9 +37,11 @@ export async function dispatchSetChildPassword ({ action, cache }: {
     throw new MissingUserException()
   }
 
-  childEntry.passwordHash = action.newPassword.hash
-  childEntry.secondPasswordSalt = action.newPassword.secondSalt
-  childEntry.secondPasswordHash = action.newPassword.secondHash
+  const newPassword = await decryptParentPassword({ cache, password: action.newPassword })
+
+  childEntry.passwordHash = newPassword.hash
+  childEntry.secondPasswordSalt = newPassword.secondSalt
+  childEntry.secondPasswordHash = newPassword.secondHash
 
   await childEntry.save({ transaction: cache.transaction })
 

@@ -18,7 +18,7 @@
           ]
         },
         "password": {
-          "$ref": "#/definitions/ParentPassword"
+          "$ref": "#/definitions/EncryptableParentPassword"
         }
       },
       "additionalProperties": false,
@@ -28,7 +28,7 @@
       ],
       "title": "SerializedChildChangePasswordAction"
     },
-    "ParentPassword": {
+    "EncryptableParentPassword": {
       "type": "object",
       "properties": {
         "hash": {
@@ -39,6 +39,9 @@
         },
         "secondSalt": {
           "type": "string"
+        },
+        "encrypted": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -47,7 +50,7 @@
         "secondHash",
         "secondSalt"
       ],
-      "title": "ParentPassword"
+      "title": "EncryptableParentPassword"
     },
     "SerializedChildSignInAction": {
       "type": "object",

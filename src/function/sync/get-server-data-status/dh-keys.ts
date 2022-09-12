@@ -21,11 +21,8 @@ import { config, calculateExpireTime } from '../../../database/devicedhkey'
 import { ServerDhKey } from '../../../object/serverdatastatus'
 import { generateVersionId } from '../../../util/token'
 import { EventHandler } from '../../../monitoring/eventhandler'
+import { generateDhKeypair } from '../../../function/dh'
 import { FamilyEntry } from './family-entry'
-import { generateKeyPair } from 'crypto'
-import { promisify } from 'util'
-
-const generateKeyPairAsync = promisify(generateKeyPair)
 
 export async function getDeviceDhKeys ({
   database, transaction, familyEntry, deviceId, lastVersionId, eventHandler
@@ -56,20 +53,7 @@ export async function getDeviceDhKeys ({
     eventHandler.countEvent('getDeviceDhKeys:needsNewKey')
 
     const newVersion = generateVersionId()
-    const newKeypair = await generateKeyPairAsync(
-      'ec',
-      {
-        namedCurve: 'prime256v1',
-        publicKeyEncoding: {
-          type: 'spki',
-          format: 'der'
-        },
-        privateKeyEncoding: {
-          type: 'pkcs8',
-          format: 'der'
-        }
-      }
-    )
+    const newKeypair = await generateDhKeypair()
 
     if (savedData.length >= 8) {
       eventHandler.countEvent('getDeviceDhKeys:gc')

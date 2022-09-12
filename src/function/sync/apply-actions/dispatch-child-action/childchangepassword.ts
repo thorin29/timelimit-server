@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@
 import { ChildChangePasswordAction } from '../../../../action'
 import { Cache } from '../cache'
 import { SourceUserNotFoundException } from '../exception/illegal-state'
+import { decryptParentPassword } from '../../../dh'
 
 export const dispatchChildChangePassword = async ({ action, childUserId, cache }: {
   action: ChildChangePasswordAction
@@ -37,9 +38,11 @@ export const dispatchChildChangePassword = async ({ action, childUserId, cache }
     throw new SourceUserNotFoundException()
   }
 
-  childEntry.passwordHash = action.password.hash
-  childEntry.secondPasswordSalt = action.password.secondSalt
-  childEntry.secondPasswordHash = action.password.secondHash
+  const newPassword = await decryptParentPassword({ cache, password: action.password })
+
+  childEntry.passwordHash = newPassword.hash
+  childEntry.secondPasswordSalt = newPassword.secondSalt
+  childEntry.secondPasswordHash = newPassword.secondHash
 
   await childEntry.save({ transaction: cache.transaction })
 

@@ -16,7 +16,7 @@
  */
 
 import { Conflict } from 'http-errors'
-import { ParentPassword } from '../../api/schema'
+import { PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema'
 import { Database } from '../../database'
 import { sendPasswordRecoveryUsedMail } from '../../util/mail'
 import { generateVersionId } from '../../util/token'
@@ -27,10 +27,12 @@ import { notifyClientsAboutChangesDelayed } from '../websocket'
 export const recoverParentPassword = async ({ database, websocket, password, mailAuthToken }: {
   database: Database
   websocket: WebsocketApi
-  password: ParentPassword
+  password: PlaintextParentPassword
   mailAuthToken: string
   // no transaction here because this is directly called from an API endpoint
 }) => {
+  assertPlaintextParentPasswordValid(password)
+
   await database.transaction(async (transaction) => {
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, database, transaction, invalidate: true })
 

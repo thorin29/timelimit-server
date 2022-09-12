@@ -221,7 +221,7 @@
           "type": "string"
         },
         "password": {
-          "$ref": "#/definitions/ParentPassword"
+          "$ref": "#/definitions/EncryptableParentPassword"
         },
         "timeZone": {
           "type": "string"
@@ -237,7 +237,7 @@
       ],
       "title": "SerializedAddUserAction"
     },
-    "ParentPassword": {
+    "EncryptableParentPassword": {
       "type": "object",
       "properties": {
         "hash": {
@@ -248,6 +248,9 @@
         },
         "secondSalt": {
           "type": "string"
+        },
+        "encrypted": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -256,7 +259,7 @@
         "secondHash",
         "secondSalt"
       ],
-      "title": "ParentPassword"
+      "title": "EncryptableParentPassword"
     },
     "SerializedChangeParentPasswordAction": {
       "type": "object",
@@ -721,7 +724,7 @@
           "type": "string"
         },
         "newPassword": {
-          "$ref": "#/definitions/ParentPassword"
+          "$ref": "#/definitions/EncryptableParentPassword"
         }
       },
       "additionalProperties": false,

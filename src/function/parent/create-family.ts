@@ -16,7 +16,7 @@
  */
 
 import { Conflict } from 'http-errors'
-import { NewDeviceInfo, ParentPassword } from '../../api/schema'
+import { NewDeviceInfo, PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema'
 import { Database } from '../../database'
 import { maxMailNotificationFlags } from '../../database/user'
 import {
@@ -29,12 +29,14 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
   database: Database,
   mailAuthToken: string,
   firstParentDevice: NewDeviceInfo,
-  password: ParentPassword,
+  password: PlaintextParentPassword,
   timeZone: string,
   parentName: string,
   deviceName: string
   // no transaction here because this is directly called from an API endpoint
 }) => {
+  assertPlaintextParentPasswordValid(password)
+
   return database.transaction(async (transaction) => {
     const now = Date.now().toString(10)
     const mailInfo = await requireMailAndLocaleByAuthToken({ database, mailAuthToken, transaction, invalidate: true })

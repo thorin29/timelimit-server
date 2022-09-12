@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertParentPasswordValid, ParentPassword, ParentPasswordValidationException } from '../api/schema'
+import { assertParentPasswordValid, EncryptableParentPassword, ParentPasswordValidationException } from '../api/schema'
 import { ParentAction } from './basetypes'
 import { InvalidActionParameterException } from './meta/exception'
 import { assertIdWithinFamily } from './meta/util'
@@ -26,14 +26,14 @@ export class AddUserAction extends ParentAction {
   readonly userId: string
   readonly name: string
   readonly userType: 'parent' | 'child'
-  readonly password?: ParentPassword
+  readonly password?: EncryptableParentPassword
   readonly timeZone: string
 
   constructor ({ userId, name, userType, password, timeZone }: {
     userId: string
     name: string
     userType: 'parent' | 'child'
-    password?: ParentPassword
+    password?: EncryptableParentPassword
     timeZone: string
   }) {
     super()
@@ -85,6 +85,6 @@ export interface SerializedAddUserAction {
   name: string
   userType: 'parent' | 'child'
   userId: string
-  password?: ParentPassword
+  password?: EncryptableParentPassword
   timeZone: string
 }

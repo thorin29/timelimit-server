@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,21 +16,27 @@
  */
 
 import { AddUserAction } from '../../../../action'
+import { decryptParentPassword } from '../../../dh'
 import { Cache } from '../cache'
 
 export async function dispatchAddUser ({ action, cache }: {
   action: AddUserAction
   cache: Cache
 }) {
+  const password =
+    action.password ?
+    await decryptParentPassword({ cache, password: action.password }) :
+    null
+
   await cache.database.user.create({
     familyId: cache.familyId,
     userId: action.userId,
     type: action.userType,
     name: action.name,
     timeZone: action.timeZone,
-    passwordHash: action.password ? action.password.hash : '',
-    secondPasswordHash: action.password ? action.password.secondHash : '',
-    secondPasswordSalt: action.password ? action.password.secondSalt : '',
+    passwordHash: password ? password.hash : '',
+    secondPasswordHash: password ? password.secondHash : '',
+    secondPasswordSalt: password ? password.secondSalt : '',
     mail: '',
     disableTimelimitsUntil: '0',
     currentDevice: '',

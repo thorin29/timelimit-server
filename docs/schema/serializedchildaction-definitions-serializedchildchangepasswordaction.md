@@ -19,7 +19,7 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 | Property              | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                      |
 | :-------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [type](#type)         | `string` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type") |
-| [password](#password) | `object` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-parentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")                                  |
+| [password](#password) | `object` | Required | cannot be null | [SerializedChildAction](serializedchildaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")                       |
 
 ## type
 
@@ -55,12 +55,12 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 
 *   is required
 
-*   Type: `object` ([ParentPassword](serializedchildaction-definitions-parentpassword.md))
+*   Type: `object` ([EncryptableParentPassword](serializedchildaction-definitions-encryptableparentpassword.md))
 
 *   cannot be null
 
-*   defined in: [SerializedChildAction](serializedchildaction-definitions-parentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")
+*   defined in: [SerializedChildAction](serializedchildaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")
 
 ### password Type
 
-`object` ([ParentPassword](serializedchildaction-definitions-parentpassword.md))
+`object` ([EncryptableParentPassword](serializedchildaction-definitions-encryptableparentpassword.md))

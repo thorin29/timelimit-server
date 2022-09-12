@@ -16,14 +16,14 @@ https://timelimit.io/CreateFamilyByMailTokenRequest
 
 # CreateFamilyByMailTokenRequest Properties
 
-| Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                                      |
-| :-------------------------------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [mailAuthToken](#mailauthtoken)   | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-mailauthtoken.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/mailAuthToken")    |
-| [parentPassword](#parentpassword) | `object` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentPassword") |
-| [parentDevice](#parentdevice)     | `object` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-newdeviceinfo.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentDevice")    |
-| [deviceName](#devicename)         | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-devicename.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/deviceName")          |
-| [timeZone](#timezone)             | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-timezone.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/timeZone")              |
-| [parentName](#parentname)         | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-parentname.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentName")          |
+| Property                          | Type     | Required | Nullable       | Defined by                                                                                                                                                                               |
+| :-------------------------------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [mailAuthToken](#mailauthtoken)   | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-mailauthtoken.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/mailAuthToken")             |
+| [parentPassword](#parentpassword) | `object` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentPassword") |
+| [parentDevice](#parentdevice)     | `object` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-newdeviceinfo.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentDevice")             |
+| [deviceName](#devicename)         | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-devicename.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/deviceName")                   |
+| [timeZone](#timezone)             | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-timezone.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/timeZone")                       |
+| [parentName](#parentname)         | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-parentname.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentName")                   |
 
 ## mailAuthToken
 
@@ -51,15 +51,15 @@ https://timelimit.io/CreateFamilyByMailTokenRequest
 
 *   is required
 
-*   Type: `object` ([ParentPassword](createfamilybymailtokenrequest-definitions-parentpassword.md))
+*   Type: `object` ([PlaintextParentPassword](createfamilybymailtokenrequest-definitions-plaintextparentpassword.md))
 
 *   cannot be null
 
-*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentPassword")
+*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentPassword")
 
 ### parentPassword Type
 
-`object` ([ParentPassword](createfamilybymailtokenrequest-definitions-parentpassword.md))
+`object` ([PlaintextParentPassword](createfamilybymailtokenrequest-definitions-plaintextparentpassword.md))
 
 ## parentDevice
 
@@ -135,19 +135,19 @@ https://timelimit.io/CreateFamilyByMailTokenRequest
 
 # CreateFamilyByMailTokenRequest Definitions
 
-## Definitions group ParentPassword
+## Definitions group PlaintextParentPassword
 
 Reference this group by using
 
 ```json
-{"$ref":"https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword"}
+{"$ref":"https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword"}
 ```
 
-| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                   |
-| :------------------------ | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [hash](#hash)             | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword-properties-hash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword/properties/hash")             |
-| [secondHash](#secondhash) | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword-properties-secondhash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword/properties/secondHash") |
-| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword-properties-secondsalt.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword/properties/secondSalt") |
+| Property                  | Type     | Required | Nullable       | Defined by                                                                                                                                                                                                                                     |
+| :------------------------ | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [hash](#hash)             | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword-properties-hash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword/properties/hash")             |
+| [secondHash](#secondhash) | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword-properties-secondhash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword/properties/secondHash") |
+| [secondSalt](#secondsalt) | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword-properties-secondsalt.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword/properties/secondSalt") |
 
 ### hash
 
@@ -161,7 +161,7 @@ Reference this group by using
 
 *   cannot be null
 
-*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword-properties-hash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword/properties/hash")
+*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword-properties-hash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword/properties/hash")
 
 #### hash Type
 
@@ -179,7 +179,7 @@ Reference this group by using
 
 *   cannot be null
 
-*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword-properties-secondhash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword/properties/secondHash")
+*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword-properties-secondhash.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword/properties/secondHash")
 
 #### secondHash Type
 
@@ -197,7 +197,7 @@ Reference this group by using
 
 *   cannot be null
 
-*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-parentpassword-properties-secondsalt.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/ParentPassword/properties/secondSalt")
+*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-definitions-plaintextparentpassword-properties-secondsalt.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/definitions/PlaintextParentPassword/properties/secondSalt")
 
 #### secondSalt Type
 
