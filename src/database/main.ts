@@ -27,6 +27,7 @@ import { CategoryTimeWarningModelStatic, createCategoryTimeWarningModel } from '
 import { ChildTaskModelStatic, createChildTaskModel } from './childtask'
 import { ConfigModelStatic, createConfigModel } from './config'
 import { createDeviceModel, DeviceModelStatic } from './device'
+import { createDeviceDhKey, DeviceDhKeyModelStatic } from './devicedhkey'
 import { createEncryptedAppListModel, EncryptedAppListModelStatic } from './encryptedapplist'
 import { createFamilyModel, FamilyModelStatic } from './family'
 import { createKeyRequestModel, KeyRequestModelStatic } from './keyrequest'
@@ -55,6 +56,7 @@ export interface Database {
   childTask: ChildTaskModelStatic
   config: ConfigModelStatic
   device: DeviceModelStatic
+  deviceDhKey: DeviceDhKeyModelStatic
   encryptedAppList: EncryptedAppListModelStatic
   family: FamilyModelStatic
   keyRequest: KeyRequestModelStatic
@@ -83,6 +85,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   categoryTimeWarning: createCategoryTimeWarningModel(sequelize),
   config: createConfigModel(sequelize),
   device: createDeviceModel(sequelize),
+  deviceDhKey: createDeviceDhKey(sequelize),
   encryptedAppList: createEncryptedAppListModel(sequelize),
   family: createFamilyModel(sequelize),
   keyRequest: createKeyRequestModel(sequelize),

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -70,5 +70,13 @@ async function deleteOldTokens ({ database }: {
       },
       transaction
     })
+  })
+
+  await database.deviceDhKey.destroy({
+    where: {
+      expireAt: {
+        [Sequelize.Op.lt]: Date.now().toString()
+      }
+    }
   })
 }

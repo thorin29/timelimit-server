@@ -24,6 +24,7 @@ export interface ClientDataStatus {
   devicesDetail?: ClientDataStatusDevicesExtended
   kri?: number  // last key request index
   kr?: number   // last key response index
+  dh?: string   // last Diffie Hellman key version
 }
 
 export type ClientDataStatusApps = {[key: string]: string} // installedAppsVersionsByDeviceId

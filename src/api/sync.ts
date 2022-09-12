@@ -117,7 +117,8 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
           familyId,
           deviceId,
           clientStatus: body.status,
-          transaction
+          transaction,
+          eventHandler
         })
       })
 
@@ -128,6 +129,9 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
       if (serverStatus.usedTimes) { eventHandler.countEvent('pullStatusRequest usedTimes') }
       if (serverStatus.rules) { eventHandler.countEvent('pullStatusRequest rules') }
       if (serverStatus.users) { eventHandler.countEvent('pullStatusRequest users') }
+      if (serverStatus.krq) { eventHandler.countEvent('pullStatusRequest pendingKeyRequests') }
+      if (serverStatus.kr) { eventHandler.countEvent('pullStatusRequest keyResponses') }
+      if (serverStatus.dh) { eventHandler.countEvent('pullStatusRequest dh') }
 
       res.json(serverStatus)
     } catch (ex) {

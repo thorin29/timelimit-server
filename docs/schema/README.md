@@ -216,6 +216,8 @@
 
 *   [ServerDeviceList](./serverdatastatus-definitions-serverdevicelist.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceList`
 
+*   [ServerDhKey](./serverdatastatus-definitions-serverdhkey.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey`
+
 *   [ServerExtendedDeviceData](./serverdatastatus-definitions-serverextendeddevicedata.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerExtendedDeviceData`
 
 *   [ServerInstalledAppsData](./serverdatastatus-definitions-serverinstalledappsdata.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData`

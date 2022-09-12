@@ -72,6 +72,9 @@ const definitions = {
       },
       "kr": {
         "type": "number"
+      },
+      "dh": {
+        "type": "string"
       }
     },
     "additionalProperties": false,
@@ -2704,6 +2707,22 @@ const definitions = {
       "signature",
       "srvSeq",
       "tempKey"
+    ]
+  },
+  "ServerDhKey": {
+    "type": "object",
+    "properties": {
+      "v": {
+        "type": "string"
+      },
+      "k": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "k",
+      "v"
     ]
   }
 }

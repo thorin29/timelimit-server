@@ -30,6 +30,7 @@ https://timelimit.io/ServerDataStatus
 | [users](#users)               | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serveruserlist.md "https://timelimit.io/ServerDataStatus#/properties/users")     |
 | [krq](#krq)                   | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-krq.md "https://timelimit.io/ServerDataStatus#/properties/krq")                   |
 | [kr](#kr)                     | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-kr.md "https://timelimit.io/ServerDataStatus#/properties/kr")                     |
+| [dh](#dh)                     | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdhkey.md "https://timelimit.io/ServerDataStatus#/properties/dh")           |
 | [fullVersion](#fullversion)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-fullversion.md "https://timelimit.io/ServerDataStatus#/properties/fullVersion")   |
 | [message](#message)           | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-message.md "https://timelimit.io/ServerDataStatus#/properties/message")           |
 | [apiLevel](#apilevel)         | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-apilevel.md "https://timelimit.io/ServerDataStatus#/properties/apiLevel")         |
@@ -249,6 +250,24 @@ https://timelimit.io/ServerDataStatus
 ### kr Type
 
 `object[]` ([ServerKeyResponse](serverdatastatus-definitions-serverkeyresponse.md))
+
+## dh
+
+
+
+`dh`
+
+*   is optional
+
+*   Type: `object` ([ServerDhKey](serverdatastatus-definitions-serverdhkey.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdhkey.md "https://timelimit.io/ServerDataStatus#/properties/dh")
+
+### dh Type
+
+`object` ([ServerDhKey](serverdatastatus-definitions-serverdhkey.md))
 
 ## fullVersion
 
@@ -3370,5 +3389,54 @@ Reference this group by using
 *   defined in: [ServerDataStatus](serverdatastatus-definitions-serverkeyresponse-properties-signature.md "https://timelimit.io/ServerDataStatus#/definitions/ServerKeyResponse/properties/signature")
 
 #### signature Type
+
+`string`
+
+## Definitions group ServerDhKey
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey"}
+```
+
+| Property | Type     | Required | Nullable       | Defined by                                                                                                                                                 |
+| :------- | :------- | :------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [v](#v)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdhkey-properties-v.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey/properties/v") |
+| [k](#k)  | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdhkey-properties-k.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey/properties/k") |
+
+### v
+
+
+
+`v`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdhkey-properties-v.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey/properties/v")
+
+#### v Type
+
+`string`
+
+### k
+
+
+
+`k`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdhkey-properties-k.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey/properties/k")
+
+#### k Type
 
 `string`

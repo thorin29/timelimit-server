@@ -1,0 +1,81 @@
+/*
+ * server component for the TimeLimit App
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, version 3 of the License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import * as Sequelize from 'sequelize'
+import { familyIdColumn, idWithinFamilyColumn, versionColumn, timestampColumn } from './columns'
+import { SequelizeAttributes } from './types'
+
+export const config = {
+  generateNewKeyAfterAge: 1000 * 60 * 60 * 24,
+  generationTimeRounding: 1000 * 60 * 60,
+  expireDelay: 1000 * 60 * 60 * 2,
+  expireTimeRounding: 1000 * 60 * 15
+}
+
+export function calculateExpireTime(now: bigint): BigInt {
+  const expireBaseTime = now + BigInt(config.expireDelay)
+  const expireTime = expireBaseTime - expireBaseTime % BigInt(config.expireTimeRounding) + BigInt(config.expireTimeRounding)
+
+  return expireTime
+}
+
+export interface DeviceDhKeyAttributes {
+  familyId: string
+  deviceId: string
+  version: string
+  createdAt: string
+  expireAt: string | null
+  publicKey: Buffer
+  privateKey: Buffer
+}
+
+export type DeviceDhKeyModel = Sequelize.Model<DeviceDhKeyAttributes> & DeviceDhKeyAttributes
+export type DeviceDhKeyModelStatic = typeof Sequelize.Model & {
+  new (values?: object, options?: Sequelize.BuildOptions): DeviceDhKeyModel;
+}
+
+export const attributes: SequelizeAttributes<DeviceDhKeyAttributes> = {
+  familyId: {
+    ...familyIdColumn,
+    primaryKey: true
+  },
+  deviceId: {
+    ...idWithinFamilyColumn,
+    primaryKey: true
+  },
+  version: {
+    ...versionColumn,
+    primaryKey: true
+  },
+  createdAt: {
+    ...timestampColumn
+  },
+  expireAt: {
+    ...timestampColumn,
+    allowNull: true
+  },
+  publicKey: {
+    type: Sequelize.BLOB,
+    allowNull: false
+  },
+  privateKey: {
+    type: Sequelize.BLOB,
+    allowNull: false
+  }
+}
+
+export const createDeviceDhKey = (sequelize: Sequelize.Sequelize): DeviceDhKeyModelStatic => sequelize.define('DeviceDhKey', attributes) as DeviceDhKeyModelStatic

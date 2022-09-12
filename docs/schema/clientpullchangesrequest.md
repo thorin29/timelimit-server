@@ -77,6 +77,7 @@ Reference this group by using
 | [devicesDetail](#devicesdetail) | `object` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-devicesdetail.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/devicesDetail") |
 | [kri](#kri)                     | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kri.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kri")                     |
 | [kr](#kr)                       | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kr.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kr")                       |
+| [dh](#dh)                       | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-dh.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/dh")                       |
 
 ### devices
 
@@ -221,6 +222,24 @@ Reference this group by using
 #### kr Type
 
 `number`
+
+### dh
+
+
+
+`dh`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-dh.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/dh")
+
+#### dh Type
+
+`string`
 
 ## Definitions group CategoryDataStatus
 

@@ -34,6 +34,7 @@ export interface ServerDataStatus {
   users?: ServerUserList  // newUserList
   krq?: Array<ServerKeyRequest> // pendingKeyRequests
   kr?: Array<ServerKeyResponse> // keyResponses
+  dh?: ServerDhKey // Diffie Hellman
   fullVersion: number     // fullVersionUntil
   message?: string
   apiLevel: number
@@ -251,4 +252,9 @@ export interface ServerKeyResponse {
   tempKey: string,
   cryptKey: string,
   signature: string
+}
+
+export interface ServerDhKey {
+  v: string // version
+  k: string // key, base64
 }

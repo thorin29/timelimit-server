@@ -21,6 +21,7 @@ import { Database } from '../../../database'
 import { getStatusMessage } from '../../../function/statusmessage'
 import { ClientDataStatus } from '../../../object/clientdatastatus'
 import { ServerDataStatus } from '../../../object/serverdatastatus'
+import { EventHandler } from '../../../monitoring/eventhandler'
 import { getAppList } from './app-list'
 import {
   getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync,
@@ -28,23 +29,28 @@ import {
 } from './category'
 import { getDeviceDetailList } from './device-detail'
 import { getDeviceList } from './device-list'
+import { getDeviceDhKeys } from './dh-keys'
 import { getFamilyEntry } from './family-entry'
 import { getUserList } from './user-list'
 import { getKeyRequests } from './key-requests'
 import { getKeyResponses } from './key-responses'
 
 export const generateServerDataStatus = async ({
-  database, clientStatus, familyId, deviceId, transaction
+  database, clientStatus, familyId, deviceId, transaction, eventHandler
 }: {
   database: Database
   clientStatus: ClientDataStatus
   familyId: string
   deviceId: string
   transaction: Sequelize.Transaction
+  eventHandler: EventHandler
 }): Promise<ServerDataStatus> => {
+  const clientLevel = clientStatus.clientLevel || 0
+
   const familyEntry = await getFamilyEntry({ database, familyId, transaction })
-  const doesClientSupportTasks = clientStatus.clientLevel !== undefined && clientStatus.clientLevel >= 3
-  const doesClientSupportCryptoApps = clientStatus.clientLevel !== undefined && clientStatus.clientLevel >= 4
+  const doesClientSupportTasks = clientLevel >= 3
+  const doesClientSupportCryptoApps = clientLevel >= 4
+  const doesClientSupportDh = clientLevel >= 5
 
   const result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
@@ -132,6 +138,17 @@ export const generateServerDataStatus = async ({
       familyEntry,
       deviceId,
       lastSeenRequestIndex: clientStatus.kr || null
+    }) || undefined
+  }
+
+  if (doesClientSupportDh) {
+    result.dh = await getDeviceDhKeys({
+      database,
+      transaction,
+      familyEntry,
+      deviceId,
+      lastVersionId: clientStatus.dh || null,
+      eventHandler
     }) || undefined
   }
 

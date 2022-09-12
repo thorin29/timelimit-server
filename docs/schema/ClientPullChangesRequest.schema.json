@@ -49,6 +49,9 @@
         },
         "kr": {
           "type": "number"
+        },
+        "dh": {
+          "type": "string"
         }
       },
       "additionalProperties": false,
