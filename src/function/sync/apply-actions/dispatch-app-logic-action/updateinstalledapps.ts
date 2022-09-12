@@ -26,49 +26,13 @@ export async function dispatchUpdateInstalledApps ({ deviceId, action, cache }: 
   cache: Cache
 }) {
   async function upsert({ type, data }: { type: number, data: Buffer }) {
-    const dialect = cache.database.dialect
-    const isMysql = dialect === 'mysql' || dialect === 'mariadb'
-
-    if (isMysql) {
-      const counter = await cache.database.encryptedAppList.count({
-        where: {
-          familyId: cache.familyId,
-          deviceId,
-          type
-        },
-        transaction: cache.transaction
-      })
-
-      if (counter === 0) {
-        await cache.database.encryptedAppList.create({
-          familyId: cache.familyId,
-          deviceId,
-          type,
-          version: generateVersionId(),
-          data
-        }, { transaction: cache.transaction })
-      } else {
-        await cache.database.encryptedAppList.update({
-          data,
-          version: generateVersionId()
-        }, {
-          where: {
-            familyId: cache.familyId,
-            deviceId,
-            type
-          },
-          transaction: cache.transaction
-        })
-      }
-    } else {
-      await cache.database.encryptedAppList.upsert({
-        familyId: cache.familyId,
-        deviceId,
-        type,
-        version: generateVersionId(),
-        data
-      }, { transaction: cache.transaction })
-    }
+    await cache.database.encryptedAppList.upsert({
+      familyId: cache.familyId,
+      deviceId,
+      type,
+      version: generateVersionId(),
+      data
+    }, { transaction: cache.transaction })
   }
 
   if (action.base) {
