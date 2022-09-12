@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,19 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const TokenGenerator = require('tokgen')
+const { randomBytes } = require('crypto')
 
-const tokenGenerator = new TokenGenerator({
-  length: 32,
-  chars: 'a-zA-Z0-9'
-})
-
-const shortTokenGenerator = new TokenGenerator({
-  length: 8,
-  chars: 'a-zA-Z0-9'
-})
-
-function generateToken() { return tokenGenerator.generate() }
-function generateShortToken() { return shortTokenGenerator.generate() }
+function generateToken() { return randomBytes(32).toString('hex') }
+function generateShortToken() { return randomBytes(8).toString('hex') }
 
 module.exports = { generateToken, generateShortToken }
