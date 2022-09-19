@@ -31,6 +31,7 @@ https://timelimit.io/ServerDataStatus
 | [krq](#krq)                   | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-krq.md "https://timelimit.io/ServerDataStatus#/properties/krq")                   |
 | [kr](#kr)                     | `array`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-kr.md "https://timelimit.io/ServerDataStatus#/properties/kr")                     |
 | [dh](#dh)                     | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdhkey.md "https://timelimit.io/ServerDataStatus#/properties/dh")           |
+| [u2f](#u2f)                   | `object` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fdata.md "https://timelimit.io/ServerDataStatus#/properties/u2f")              |
 | [fullVersion](#fullversion)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-fullversion.md "https://timelimit.io/ServerDataStatus#/properties/fullVersion")   |
 | [message](#message)           | `string` | Optional | cannot be null | [ServerDataStatus](serverdatastatus-properties-message.md "https://timelimit.io/ServerDataStatus#/properties/message")           |
 | [apiLevel](#apilevel)         | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-properties-apilevel.md "https://timelimit.io/ServerDataStatus#/properties/apiLevel")         |
@@ -268,6 +269,24 @@ https://timelimit.io/ServerDataStatus
 ### dh Type
 
 `object` ([ServerDhKey](serverdatastatus-definitions-serverdhkey.md))
+
+## u2f
+
+
+
+`u2f`
+
+*   is optional
+
+*   Type: `object` ([U2fData](serverdatastatus-definitions-u2fdata.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fdata.md "https://timelimit.io/ServerDataStatus#/properties/u2f")
+
+### u2f Type
+
+`object` ([U2fData](serverdatastatus-definitions-u2fdata.md))
 
 ## fullVersion
 
@@ -3438,5 +3457,141 @@ Reference this group by using
 *   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdhkey-properties-k.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDhKey/properties/k")
 
 #### k Type
+
+`string`
+
+## Definitions group U2fData
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/U2fData"}
+```
+
+| Property  | Type     | Required | Nullable       | Defined by                                                                                                                                         |
+| :-------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [v](#v-1) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fdata-properties-v.md "https://timelimit.io/ServerDataStatus#/definitions/U2fData/properties/v") |
+| [d](#d-2) | `array`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fdata-properties-d.md "https://timelimit.io/ServerDataStatus#/definitions/U2fData/properties/d") |
+
+### v
+
+
+
+`v`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fdata-properties-v.md "https://timelimit.io/ServerDataStatus#/definitions/U2fData/properties/v")
+
+#### v Type
+
+`string`
+
+### d
+
+
+
+`d`
+
+*   is required
+
+*   Type: `object[]` ([U2fItem](serverdatastatus-definitions-u2fitem.md))
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fdata-properties-d.md "https://timelimit.io/ServerDataStatus#/definitions/U2fData/properties/d")
+
+#### d Type
+
+`object[]` ([U2fItem](serverdatastatus-definitions-u2fitem.md))
+
+## Definitions group U2fItem
+
+Reference this group by using
+
+```json
+{"$ref":"https://timelimit.io/ServerDataStatus#/definitions/U2fItem"}
+```
+
+| Property  | Type     | Required | Nullable       | Defined by                                                                                                                                         |
+| :-------- | :------- | :------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [u](#u)   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-u.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/u") |
+| [a](#a)   | `number` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-a.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/a") |
+| [h](#h)   | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-h.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/h") |
+| [p](#p-2) | `string` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-p.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/p") |
+
+### u
+
+
+
+`u`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-u.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/u")
+
+#### u Type
+
+`string`
+
+### a
+
+
+
+`a`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-a.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/a")
+
+#### a Type
+
+`number`
+
+### h
+
+
+
+`h`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-h.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/h")
+
+#### h Type
+
+`string`
+
+### p
+
+
+
+`p`
+
+*   is required
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-u2fitem-properties-p.md "https://timelimit.io/ServerDataStatus#/definitions/U2fItem/properties/p")
+
+#### p Type
 
 `string`

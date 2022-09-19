@@ -132,6 +132,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
       if (serverStatus.krq) { eventHandler.countEvent('pullStatusRequest pendingKeyRequests') }
       if (serverStatus.kr) { eventHandler.countEvent('pullStatusRequest keyResponses') }
       if (serverStatus.dh) { eventHandler.countEvent('pullStatusRequest dh') }
+      if (serverStatus.u2f) { eventHandler.countEvent('pullStatusRequest u2f') }
 
       res.json(serverStatus)
     } catch (ex) {

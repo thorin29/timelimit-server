@@ -33,7 +33,12 @@ export interface FamilyAttributesVersion2 {
   nextServerKeyRequestSeq: string
 }
 
-export type FamilyAttributes = FamilyAttributesVersion1 & FamilyAttributesVersion2
+export interface FamilyAttributesVersion3 {
+  u2fKeysVersion: string
+}
+
+export type FamilyAttributes = FamilyAttributesVersion1 &
+  FamilyAttributesVersion2 & FamilyAttributesVersion3
 
 export type FamilyModel = Sequelize.Model<FamilyAttributes> & FamilyAttributes
 export type FamilyModelStatic = typeof Sequelize.Model & {
@@ -64,9 +69,17 @@ export const attributesVersion2: SequelizeAttributes<FamilyAttributesVersion2> =
   }
 }
 
+export const attributesVersion3: SequelizeAttributes<FamilyAttributesVersion3> = {
+  u2fKeysVersion: {
+    ...versionColumn,
+    defaultValue: '0000'
+  }
+}
+
 export const attributes: SequelizeAttributes<FamilyAttributes> = {
   ...attributesVersion1,
-  ...attributesVersion2
+  ...attributesVersion2,
+  ...attributesVersion3
 }
 
 export const createFamilyModel = (sequelize: Sequelize.Sequelize): FamilyModelStatic => sequelize.define('Family', attributes) as FamilyModelStatic

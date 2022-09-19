@@ -45,6 +45,7 @@ export class Cache {
 
   invalidiateUserList = false
   invalidiateDeviceList = false
+  invalidateU2fList = false
   areChangesImportant = false
 
   constructor ({ familyId, deviceId, hasFullVersion, database, transaction, connectedDevicesManager }: {
@@ -269,6 +270,19 @@ export class Cache {
       })
 
       this.invalidiateDeviceList = false
+    }
+
+    if (this.invalidateU2fList) {
+      await database.family.update({
+        u2fKeysVersion: generateVersionId()
+      }, {
+        where: {
+          familyId: this.familyId
+        },
+        transaction
+      })
+
+      this.invalidateU2fList = false
     }
 
     this.devicesWithModifiedShowDeviceConnected.forEach((showDeviceConnected, deviceId) => {

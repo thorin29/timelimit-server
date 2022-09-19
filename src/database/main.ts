@@ -38,6 +38,7 @@ import { createOldDeviceModel, OldDeviceModelStatic } from './olddevice'
 import { createPurchaseModel, PurchaseModelStatic } from './purchase'
 import { createSessionDurationModel, SessionDurationModelStatic } from './sessionduration'
 import { createTimelimitRuleModel, TimelimitRuleModelStatic } from './timelimitrule'
+import { createU2fKeyModel, U2fKeyModelStatic } from './u2fkey'
 import { createUsedTimeModel, UsedTimeModelStatic } from './usedtime'
 import { createUserModel, UserModelStatic } from './user'
 import { createUserLimitLoginCategoryModel, UserLimitLoginCategoryModelStatic } from './userlimitlogincategory'
@@ -66,6 +67,7 @@ export interface Database {
   purchase: PurchaseModelStatic
   sessionDuration: SessionDurationModelStatic
   timelimitRule: TimelimitRuleModelStatic
+  u2fKey: U2fKeyModelStatic
   usedTime: UsedTimeModelStatic
   user: UserModelStatic
   userLimitLoginCategory: UserLimitLoginCategoryModelStatic
@@ -95,6 +97,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   purchase: createPurchaseModel(sequelize),
   sessionDuration: createSessionDurationModel(sequelize),
   timelimitRule: createTimelimitRuleModel(sequelize),
+  u2fKey: createU2fKeyModel(sequelize),
   usedTime: createUsedTimeModel(sequelize),
   user: createUserModel(sequelize),
   userLimitLoginCategory: createUserLimitLoginCategoryModel(sequelize),

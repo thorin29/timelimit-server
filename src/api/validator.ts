@@ -75,6 +75,9 @@ const definitions = {
       },
       "dh": {
         "type": "string"
+      },
+      "u2f": {
+        "type": "string"
       }
     },
     "additionalProperties": false,
@@ -206,6 +209,29 @@ const definitions = {
       "categoryId",
       "hashedNetworkId",
       "itemId",
+      "type"
+    ]
+  },
+  "SerializedAddParentU2fKeyAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "ADD_PARENT_U2F"
+        ]
+      },
+      "keyHandle": {
+        "type": "string"
+      },
+      "publicKey": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "keyHandle",
+      "publicKey",
       "type"
     ]
   },
@@ -535,6 +561,21 @@ const definitions = {
       "type"
     ]
   },
+  "SerializedReportU2fLoginAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "REPORT_U2F_LOGIN"
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "type"
+    ]
+  },
   "SerializedRemoveCategoryAppsAction": {
     "type": "object",
     "properties": {
@@ -558,6 +599,29 @@ const definitions = {
     "required": [
       "categoryId",
       "packageNames",
+      "type"
+    ]
+  },
+  "SerializedRemoveParentU2fKeyAction": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "REMOVE_PARENT_U2F"
+        ]
+      },
+      "keyHandle": {
+        "type": "string"
+      },
+      "publicKey": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "keyHandle",
+      "publicKey",
       "type"
     ]
   },
@@ -2747,6 +2811,49 @@ const definitions = {
       "k",
       "v"
     ]
+  },
+  "U2fData": {
+    "type": "object",
+    "properties": {
+      "v": {
+        "type": "string"
+      },
+      "d": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/U2fItem"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "d",
+      "v"
+    ]
+  },
+  "U2fItem": {
+    "type": "object",
+    "properties": {
+      "u": {
+        "type": "string"
+      },
+      "a": {
+        "type": "number"
+      },
+      "h": {
+        "type": "string"
+      },
+      "p": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "a",
+      "h",
+      "p",
+      "u"
+    ]
   }
 }
 
@@ -2908,6 +3015,9 @@ export const isSerializedParentAction: (value: unknown) => value is SerializedPa
       "$ref": "#/definitions/SerializedAddCategoryNetworkIdAction"
     },
     {
+      "$ref": "#/definitions/SerializedAddParentU2fKeyAction"
+    },
+    {
       "$ref": "#/definitions/SerializedAddUserAction"
     },
     {
@@ -2935,7 +3045,13 @@ export const isSerializedParentAction: (value: unknown) => value is SerializedPa
       "$ref": "#/definitions/SerializedIncrementCategoryExtraTimeAction"
     },
     {
+      "$ref": "#/definitions/SerializedReportU2fLoginAction"
+    },
+    {
       "$ref": "#/definitions/SerializedRemoveCategoryAppsAction"
+    },
+    {
+      "$ref": "#/definitions/SerializedRemoveParentU2fKeyAction"
     },
     {
       "$ref": "#/definitions/SerializedRemoveUserAction"

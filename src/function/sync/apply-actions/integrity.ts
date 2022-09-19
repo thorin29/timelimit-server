@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,20 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { createHash } from 'crypto'
+import { createHash, createHmac, timingSafeEqual } from 'crypto'
 import { ClientPushChangesRequestAction } from '../../../api/schema'
+import { intToBuffer, longToBuffer } from '../../../util/binary-number'
+import { validateU2fIntegrity, U2fValidationError } from '../../u2f'
 import { Cache } from './cache'
 import {
-  InvalidChildActionIntegrityValue, InvalidParentActionIntegrityValue, ParentDeviceActionWithoutParentDeviceException
+  InvalidChildActionIntegrityValue, InvalidParentActionIntegrityValue,
+  ParentDeviceActionWithoutParentDeviceException, InvalidU2fIntegrityValue
 } from './exception/integrity'
+import { ActionObjectTypeNotHandledException } from './exception/illegal-state'
+import { AuthenticationMethod } from './types'
 
 export async function assertActionIntegrity ({ action, cache, deviceId }: {
   action: ClientPushChangesRequestAction
   cache: Cache
   deviceId: string
-}): Promise<{ isChildLimitAdding: boolean }> {
-  let isChildLimitAdding = false
-
+}): Promise<{
+  isChildLimitAdding: boolean
+  authentication: AuthenticationMethod
+}> {
   if (action.type === 'parent') {
     if (action.integrity === 'device') {
       const deviceEntryUnsafe = await cache.database.device.findOne({
@@ -48,10 +54,69 @@ export async function assertActionIntegrity ({ action, cache, deviceId }: {
 
       // this ensures that the parent exists
       await cache.getSecondPasswordHashOfParent(action.userId)
+
+      return {
+        isChildLimitAdding: false,
+        authentication: 'device'
+      }
     } else if (action.integrity === 'childDevice') {
-      // will be checked later
-      isChildLimitAdding = true
+      return {
+        isChildLimitAdding: true, // will be checked later
+        authentication: 'device'
+      }
+    } else if (action.integrity.startsWith('u2f:')) {
+      // this ensures that the parent exists
+      await cache.getSecondPasswordHashOfParent(action.userId)
+
+      try {
+        const checkResult = await validateU2fIntegrity({
+          integrity: action.integrity,
+          hasFullVersion: cache.hasFullVersion,
+          familyId: cache.familyId,
+          deviceId,
+          database: cache.database,
+          transaction: cache.transaction,
+          calculateHmac: (secret) => calculateActionHmac({
+            action,
+            deviceId,
+            secret
+          })
+        })
+
+        if (checkResult.userId !== action.userId) {
+          throw new InvalidParentActionIntegrityValue()
+        }
+      } catch (ex) {
+        if (ex instanceof U2fValidationError) throw new InvalidU2fIntegrityValue(ex.message)
+        else throw ex
+      }
+
+      return {
+        isChildLimitAdding: false,
+        authentication: 'u2f'
+      }
+    } else if (action.integrity.startsWith('password:')) {
+      // password method with hmac
+      const parentSecondHash = await cache.getSecondPasswordHashOfParent(action.userId)
+
+      const correctResponse = calculateActionHmac({
+        action,
+        deviceId,
+        secret: Buffer.from(parentSecondHash, 'utf8')
+      })
+
+      const providedResult = Buffer.from(action.integrity.substring(9), 'base64')
+
+      if (!timingSafeEqual(providedResult, correctResponse)) {
+        throw new InvalidParentActionIntegrityValue()
+      }
+
+      return {
+        isChildLimitAdding: false,
+        authentication: 'password'
+      }
     } else {
+      // legacy password method
       const parentSecondHash = await cache.getSecondPasswordHashOfParent(action.userId)
 
       const integrityData = action.sequenceNumber.toString(10) +
@@ -64,10 +129,13 @@ export async function assertActionIntegrity ({ action, cache, deviceId }: {
       if (action.integrity !== expectedIntegrityValue) {
         throw new InvalidParentActionIntegrityValue()
       }
-    }
-  }
 
-  if (action.type === 'child') {
+      return {
+        isChildLimitAdding: false,
+        authentication: 'password'
+      }
+    }
+  } else if (action.type === 'child') {
     const childSecondHash = await cache.getSecondPasswordHashOfChild(action.userId)
 
     const integrityData = action.sequenceNumber.toString(10) +
@@ -80,7 +148,29 @@ export async function assertActionIntegrity ({ action, cache, deviceId }: {
     if (action.integrity !== expectedIntegrityValue) {
       throw new InvalidChildActionIntegrityValue()
     }
-  }
 
-  return { isChildLimitAdding }
+    return {
+      isChildLimitAdding: false,
+      authentication: 'password'
+    }
+  } else {
+    throw new ActionObjectTypeNotHandledException()
+  }
+}
+
+function calculateActionHmac({ action, deviceId, secret }: {
+  action: ClientPushChangesRequestAction
+  deviceId: string
+  secret: Buffer
+}): Buffer {
+  const binaryDeviceId = Buffer.from(deviceId, 'utf8')
+  const binaryAction = Buffer.from(action.encodedAction, 'utf8')
+
+  return createHmac('sha256', secret)
+    .update(longToBuffer(BigInt(action.sequenceNumber)))
+    .update(intToBuffer(binaryDeviceId.length))
+    .update(binaryDeviceId)
+    .update(intToBuffer(binaryAction.length))
+    .update(binaryAction)
+    .digest()
 }

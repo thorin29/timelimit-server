@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@
 import {
   AddCategoryAppsAction,
   AddCategoryNetworkIdAction,
+  AddParentU2fKeyAction,
   AddUserAction,
   ChangeParentPasswordAction,
   CreateCategoryAction,
@@ -29,7 +30,9 @@ import {
   IncrementCategoryExtraTimeAction,
   ParentAction,
   RemoveCategoryAppsAction,
+  RemoveParentU2fKeyAction,
   RemoveUserAction,
+  ReportU2fLoginAction,
   RenameChildAction,
   ResetCategoryNetworkIdsAction,
   ReviewChildTaskAction,
@@ -68,8 +71,10 @@ import {
 import { Cache } from '../cache'
 import { ActionObjectTypeNotHandledException } from '../exception/illegal-state'
 import { ActionNotSupportedBySelfLimitationException } from '../exception/self-limit'
+import { AuthenticationMethod } from '../types'
 import { dispatchAddCategoryApps } from './addcategoryapps'
 import { dispatchAddCategoryNetworkId } from './addcategorynetworkid'
+import { dispatchAddU2f } from './addu2fkey'
 import { dispatchAddUser } from './adduser'
 import { dispatchChangeParentPassword } from './changeparentpassword'
 import { dispatchCreateCategory } from './createcategory'
@@ -80,7 +85,9 @@ import { dispatchDeleteTimeLimitRule } from './deletetimelimitrule'
 import { dispatchIgnoreManipulation } from './ignoremanipulation'
 import { dispatchIncrementCategoryExtraTime } from './incrementcategoryextratime'
 import { dispatchRemoveCategoryApps } from './removecategoryapps'
+import { dispatchRemoveU2f } from './removeu2fkey'
 import { dispatchRemoveUser } from './removeuser'
+import { dispatchReportU2fLogin } from './reportu2flogin'
 import { dispatchRenameChild } from './renamechild'
 import { dispatchResetCategoryNetworkIds } from './resetcategorynetworkids'
 import { dispatchReviewChildTaskAction } from './reviewchildtaskaction'
@@ -116,12 +123,16 @@ import { dispatchUpdateUserFlagsAction } from './updateuserflags'
 import { dispatchUpdateUserLimitLoginCategoryAction } from './updateuserlimitlogincategory'
 import { dispatchUpdateUserLimitPreBlockDuration } from './updateuserlimitloginpreblockduration'
 
-export const dispatchParentAction = async ({ action, cache, parentUserId, sourceDeviceId, fromChildSelfLimitAddChildUserId }: {
+export const dispatchParentAction = async ({
+  action, cache, parentUserId, sourceDeviceId,
+  fromChildSelfLimitAddChildUserId, authentication
+}: {
   action: ParentAction
   cache: Cache
   parentUserId: string
   sourceDeviceId: string | null
   fromChildSelfLimitAddChildUserId: string | null
+  authentication: AuthenticationMethod
 }) => {
   if (action instanceof AddCategoryAppsAction) {
     return dispatchAddCategoryApps({ action, cache, fromChildSelfLimitAddChildUserId })
@@ -146,10 +157,14 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
   } else {
     if (action instanceof AddCategoryNetworkIdAction) {
       return dispatchAddCategoryNetworkId({ action, cache })
+    } else if (action instanceof AddParentU2fKeyAction) {
+      return dispatchAddU2f({ action, cache, parentUserId, authentication })
     } else if (action instanceof AddUserAction) {
       return dispatchAddUser({ action, cache })
     } else if (action instanceof RemoveCategoryAppsAction) {
       return dispatchRemoveCategoryApps({ action, cache })
+    } else if (action instanceof RemoveParentU2fKeyAction) {
+      return dispatchRemoveU2f({ action, cache, parentUserId, authentication })
     } else if (action instanceof DeleteCategoryAction) {
       return dispatchDeleteCategory({ action, cache })
     } else if (action instanceof UpdateCategoryTitleAction) {
@@ -200,6 +215,8 @@ export const dispatchParentAction = async ({ action, cache, parentUserId, source
       return dispatchUpdateTimelimitRule({ action, cache })
     } else if (action instanceof RemoveUserAction) {
       return dispatchRemoveUser({ action, cache, parentUserId })
+    } else if (action instanceof ReportU2fLoginAction) {
+      return dispatchReportU2fLogin({ action, cache, authentication })
     } else if (action instanceof ResetCategoryNetworkIdsAction) {
       return dispatchResetCategoryNetworkIds({ action, cache })
     } else if (action instanceof RenameChildAction) {

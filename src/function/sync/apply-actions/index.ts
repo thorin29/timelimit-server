@@ -71,12 +71,6 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
           // update the next sequence number
           nextSequenceNumber = action.sequenceNumber + 1
 
-          const { isChildLimitAdding } = await assertActionIntegrity({
-            deviceId: baseInfo.deviceId,
-            cache,
-            action
-          })
-
           if (action.type === 'appLogic') {
             await dispatchAppLogicAction({
               action,
@@ -85,14 +79,27 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
               eventHandler
             })
           } else if (action.type === 'parent') {
+            const { isChildLimitAdding, authentication } = await assertActionIntegrity({
+              deviceId: baseInfo.deviceId,
+              cache,
+              action
+            })
+
             await dispatchParentAction({
               action,
               cache,
               deviceId: baseInfo.deviceId,
               eventHandler,
-              isChildLimitAdding
+              isChildLimitAdding,
+              authentication
             })
           } else if (action.type === 'child') {
+            await assertActionIntegrity({
+              deviceId: baseInfo.deviceId,
+              cache,
+              action
+            })
+
             await dispatchChildAction({
               action,
               cache,

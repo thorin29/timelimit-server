@@ -25,6 +25,7 @@ export interface ClientDataStatus {
   kri?: number  // last key request index
   kr?: number   // last key response index
   dh?: string   // last Diffie Hellman key version
+  u2f?: string  // last u2f list version
 }
 
 export type ClientDataStatusApps = {[key: string]: string} // installedAppsVersionsByDeviceId

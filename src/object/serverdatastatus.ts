@@ -35,6 +35,7 @@ export interface ServerDataStatus {
   krq?: Array<ServerKeyRequest> // pendingKeyRequests
   kr?: Array<ServerKeyResponse> // keyResponses
   dh?: ServerDhKey // Diffie Hellman
+  u2f?: U2fData
   fullVersion: number     // fullVersionUntil
   message?: string
   apiLevel: number
@@ -257,4 +258,16 @@ export interface ServerKeyResponse {
 export interface ServerDhKey {
   v: string // version
   k: string // key, base64
+}
+
+export interface U2fData {
+  v: string // version
+  d: Array<U2fItem> // data
+}
+
+export interface U2fItem {
+  u: string // userId
+  a: number // addedAt
+  h: string // key handle, base64
+  p: string // public key, base64
 }

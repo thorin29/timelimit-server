@@ -16,6 +16,7 @@
  */
 
 import { json } from 'body-parser'
+import { createHmac } from 'crypto'
 import { Router } from 'express'
 import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
 import { config } from '../config'
@@ -27,6 +28,7 @@ import { getStatusByMailToken } from '../function/parent/get-status-by-mail-addr
 import { linkMailAddress } from '../function/parent/link-mail-address'
 import { recoverParentPassword } from '../function/parent/recover-parent-password'
 import { signInIntoFamily } from '../function/parent/sign-in-into-family'
+import { validateU2fIntegrity, U2fValidationError } from '../function/u2f'
 import { createIdentityToken, MissingSignSecretException } from '../util/identity-token'
 import { WebsocketApi } from '../websocket'
 import {
@@ -168,6 +170,56 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
       }
 
       return { deviceEntry, parentEntry }
+    } else if (secondPasswordHash.startsWith('u2f:')) {
+      try {
+        const familyEntryUnsafe = await database.family.findOne({
+          where: {
+            familyId: deviceEntry.familyId
+          },
+          transaction,
+          attributes: ['hasFullVersion']
+        })
+
+        if (!familyEntryUnsafe) {
+          throw new Unauthorized()
+        }
+
+        const familyEntry = { hasFullVersion: familyEntryUnsafe.hasFullVersion }
+
+        const hasFullVersion = familyEntry.hasFullVersion || config.alwaysPro
+
+        const u2fResult = await validateU2fIntegrity({
+          integrity: secondPasswordHash,
+          hasFullVersion,
+          familyId: deviceEntry.familyId,
+          deviceId: deviceEntry.deviceId,
+          database,
+          transaction,
+          calculateHmac: (secret) => createHmac('sha256', secret)
+            .update('direct action')
+            .digest()
+        })
+
+        if (u2fResult.userId !== parentId) throw new Unauthorized()
+
+        const parentEntry = await database.user.findOne({
+          where: {
+            familyId: deviceEntry.familyId,
+            type: 'parent',
+            userId: u2fResult.userId
+          },
+          transaction
+        })
+
+        if (!parentEntry) {
+          throw new Unauthorized()
+        }
+
+        return { deviceEntry, parentEntry }
+      } catch (ex) {
+        if (ex instanceof U2fValidationError) throw new Unauthorized()
+        else throw ex
+      }
     } else {
       const parentEntry = await database.user.findOne({
         where: {

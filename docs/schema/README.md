@@ -84,6 +84,8 @@
 
 *   [SerializedAddInstalledAppsAction](./serializedapplogicaction-definitions-serializedaddinstalledappsaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction`
 
+*   [SerializedAddParentU2fKeyAction](./serializedparentaction-definitions-serializedaddparentu2fkeyaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction`
+
 *   [SerializedAddUsedTimeAction](./serializedapplogicaction-definitions-serializedaddusedtimeaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction`
 
 *   [SerializedAddUsedTimeActionVersion2](./serializedapplogicaction-definitions-serializedaddusedtimeactionversion2.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2`
@@ -128,11 +130,15 @@
 
 *   [SerializedRemoveInstalledAppsAction](./serializedapplogicaction-definitions-serializedremoveinstalledappsaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction`
 
+*   [SerializedRemoveParentU2fKeyAction](./serializedparentaction-definitions-serializedremoveparentu2fkeyaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRemoveParentU2fKeyAction`
+
 *   [SerializedRemoveUserAction](./serializedparentaction-definitions-serializedremoveuseraction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRemoveUserAction`
 
 *   [SerializedRenameChildAction](./serializedparentaction-definitions-serializedrenamechildaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedRenameChildAction`
 
 *   [SerializedReplyToKeyRequestAction](./serializedapplogicaction-definitions-serializedreplytokeyrequestaction.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction`
+
+*   [SerializedReportU2fLoginAction](./serializedparentaction-definitions-serializedreportu2floginaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedReportU2fLoginAction`
 
 *   [SerializedReviewChildTaskAction](./serializedparentaction-definitions-serializedreviewchildtaskaction.md) – `https://timelimit.io/SerializedParentAction#/definitions/SerializedReviewChildTaskAction`
 
@@ -250,6 +256,10 @@
 
 *   [ServerUserList](./serverdatastatus-definitions-serveruserlist.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerUserList`
 
+*   [U2fData](./serverdatastatus-definitions-u2fdata.md) – `https://timelimit.io/ServerDataStatus#/definitions/U2fData`
+
+*   [U2fItem](./serverdatastatus-definitions-u2fitem.md) – `https://timelimit.io/ServerDataStatus#/definitions/U2fItem`
+
 *   [Untitled object in ClientPullChangesRequest](./clientpullchangesrequest-definitions-clientdatastatus-properties-apps.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/apps`
 
 *   [Untitled object in ClientPullChangesRequest](./clientpullchangesrequest-definitions-clientdatastatus-properties-categories.md) – `https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/categories`
@@ -364,6 +374,8 @@
 
 *   [Untitled array in ServerDataStatus](./serverdatastatus-properties-kr.md) – `https://timelimit.io/ServerDataStatus#/properties/kr`
 
+*   [Untitled array in ServerDataStatus](./serverdatastatus-definitions-u2fdata-properties-d.md) – `https://timelimit.io/ServerDataStatus#/definitions/U2fData/properties/d`
+
 *   [Untitled array in ServerDataStatus](./serverdatastatus-definitions-serverdevicelist-properties-data.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceList/properties/data`
 
 *   [Untitled array in ServerDataStatus](./serverdatastatus-definitions-serverinstalledappsdata-properties-apps.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerInstalledAppsData/properties/apps`
@@ -385,6 +397,8 @@
 *   [Untitled array in ServerDataStatus](./serverdatastatus-definitions-serverupdatedcategorytasks-properties-tasks.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerUpdatedCategoryTasks/properties/tasks`
 
 *   [Untitled array in ServerDataStatus](./serverdatastatus-definitions-serveruserlist-properties-data.md) – `https://timelimit.io/ServerDataStatus#/definitions/ServerUserList/properties/data`
+
+*   [Untitled array in ServerDataStatus](./serverdatastatus-definitions-u2fdata-properties-d.md) – `https://timelimit.io/ServerDataStatus#/definitions/U2fData/properties/d`
 
 ## Version Note
 

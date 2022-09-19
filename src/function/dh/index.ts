@@ -18,3 +18,4 @@
 export { decrypt } from './decrypt'
 export { generateDhKeypair } from './genkey'
 export { decryptParentPassword } from './parentpassword'
+export { getSharedSecret, SharedSecretException } from './shared-secret'

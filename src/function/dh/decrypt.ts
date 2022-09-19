@@ -16,10 +16,10 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { createDecipheriv, createPrivateKey, createPublicKey, diffieHellman } from 'crypto'
+import { createDecipheriv } from 'crypto'
 import { Database } from '../../database'
-import { calculateExpireTime } from '../../database/devicedhkey'
 import { isVersionId } from '../../util/token'
+import { getSharedSecret, SharedSecretException } from './shared-secret'
 
 export async function decrypt({
   database, transaction, familyId, deviceId, encryptedData, authData
@@ -43,61 +43,24 @@ export async function decrypt({
 
   if (!isVersionId(keyId)) throw new KeyNotFoundDecryptException('invalid key id')
 
-  const databaseKeyEntry = await database.deviceDhKey.findOne({
-    where: {
-      familyId,
-      deviceId,
-      version: keyId
-    },
-    transaction
-  })
-
-  if (!databaseKeyEntry) throw new KeyNotFoundDecryptException('private key not found')
-
-  if (databaseKeyEntry.expireAt === null) {
-    databaseKeyEntry.expireAt = calculateExpireTime(BigInt(Date.now())).toString(10)
-    await databaseKeyEntry.save({ transaction })
-  } else {
-    if (BigInt(databaseKeyEntry.expireAt) < BigInt(Date.now())) throw new KeyExpiredDecryptException()
-  }
-
-  const privateKey = (() => {
+  const sharedSecret = await (async () => {
     try {
-      return createPrivateKey({
-        key: databaseKeyEntry.privateKey,
-        format: 'der',
-        type: 'pkcs8'
+      return getSharedSecret({
+        database,
+        transaction,
+        familyId,
+        deviceId,
+        keyId,
+        otherPublicKey
       })
     } catch (ex) {
-      throw new MalformedPrivateKeyException()
-    }
-  })()
-
-  const decodedOtherPublicKey = (() => {
-    try {
-      return createPublicKey({
-        key: otherPublicKey,
-        format: 'der',
-        type: 'spki'
-      })
-    } catch (ex) {
-      throw new MalformedPublicKeyException()
-    }
-  })()
-
-  const sharedSecret = (() => {
-    try {
-      return diffieHellman({
-        privateKey,
-        publicKey: decodedOtherPublicKey
-      })
-    } catch (ex) {
-      throw new MalformedNoMatchingKeysException()
+      if (ex instanceof SharedSecretException) throw new SharedSecretDecryptException(ex)
+      throw ex
     }
   })()
 
   try {
-    const decipher = createDecipheriv('aes-128-gcm', sharedSecret.slice(0, 16), ivAndEncrypted.slice(0, 12), {
+    const decipher = createDecipheriv('aes-128-gcm', sharedSecret.sharedSecret.slice(0, 16), ivAndEncrypted.slice(0, 12), {
       authTagLength: 16
     })
 
@@ -116,10 +79,7 @@ export async function decrypt({
 }
 
 export class DecryptException extends Error {}
+class SharedSecretDecryptException extends DecryptException { constructor(cause: Error) { super(cause.message) } }
 class MalformedDataDecryptException extends DecryptException { constructor(message: string) { super('malformed data: ' + message) } }
-class MalformedPrivateKeyException extends DecryptException { constructor() { super('private key') } }
-class MalformedPublicKeyException extends DecryptException { constructor() { super('public key') } }
-class MalformedNoMatchingKeysException extends DecryptException { constructor() { super('no matching keys') } }
 class MalformedAuthenticationException extends DecryptException { constructor() { super('authentication data') } }
-class KeyExpiredDecryptException extends DecryptException { constructor() { super('key expired') } }
 class KeyNotFoundDecryptException extends DecryptException { constructor(message: string) { super('key not found: ' + message) } }

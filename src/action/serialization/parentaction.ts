@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 
 import { AddCategoryAppsAction, SerializedAddCategoryAppsAction } from '../addcategoryapps'
 import { AddCategoryNetworkIdAction, SerializedAddCategoryNetworkIdAction } from '../addcategorynetworkid'
+import { AddParentU2fKeyAction, SerializedAddParentU2fKeyAction } from '../addu2fkey'
 import { AddUserAction, SerializedAddUserAction } from '../adduser'
 import { ParentAction } from '../basetypes'
 import { ChangeParentPasswordAction, SerializedChangeParentPasswordAction } from '../changeparentpassword'
@@ -27,8 +28,10 @@ import { DeleteChildTaskAction, SerializedDeleteChildTaskAction } from '../delet
 import { DeleteTimeLimitRuleAction, SerializedDeleteTimeLimitRuleAction } from '../deletetimelimitrule'
 import { IgnoreManipulationAction, SerializedIgnoreManipulationAction } from '../ignoremanipulation'
 import { IncrementCategoryExtraTimeAction, SerializedIncrementCategoryExtraTimeAction } from '../incrementcategoryextratime'
+import { ReportU2fLoginAction, SerializedReportU2fLoginAction } from '../reportu2flogin'
 import { UnknownActionTypeException } from '../meta/exception'
 import { RemoveCategoryAppsAction, SerializedRemoveCategoryAppsAction } from '../removecategoryapps'
+import { RemoveParentU2fKeyAction, SerializedRemoveParentU2fKeyAction } from '../removeu2fkey'
 import { RemoveUserAction, SerializedRemoveUserAction } from '../removeuser'
 import { RenameChildAction, SerializedRenameChildAction } from '../renamechild'
 import { ResetCategoryNetworkIdsAction, SerializeResetCategoryNetworkIdsAction } from '../resetcategorynetworkids'
@@ -68,6 +71,7 @@ import { SerializedUpdateUserLimitLoginPreBlockDuration, UpdateUserLimitLoginPre
 export type SerializedParentAction =
   SerializedAddCategoryAppsAction |
   SerializedAddCategoryNetworkIdAction |
+  SerializedAddParentU2fKeyAction |
   SerializedAddUserAction |
   SerializedChangeParentPasswordAction |
   SerializedCreateCategoryAction |
@@ -77,7 +81,9 @@ export type SerializedParentAction =
   SerializedDeleteTimeLimitRuleAction |
   SerializedIgnoreManipulationAction |
   SerializedIncrementCategoryExtraTimeAction |
+  SerializedReportU2fLoginAction |
   SerializedRemoveCategoryAppsAction |
+  SerializedRemoveParentU2fKeyAction |
   SerializedRemoveUserAction |
   SerializedRenameChildAction |
   SerializeResetCategoryNetworkIdsAction |
@@ -119,6 +125,8 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return AddCategoryAppsAction.parse(action)
   } else if (action.type === 'ADD_CATEGORY_NETWORK_ID') {
     return AddCategoryNetworkIdAction.parse(action)
+  } else if (action.type === 'ADD_PARENT_U2F') {
+    return AddParentU2fKeyAction.parse(action)
   } else if (action.type === 'ADD_USER') {
     return AddUserAction.parse(action)
   } else if (action.type === 'CHANGE_PARENT_PASSWORD') {
@@ -137,8 +145,12 @@ export const parseParentAction = (action: SerializedParentAction): ParentAction 
     return IgnoreManipulationAction.parse(action)
   } else if (action.type === 'INCREMENT_CATEGORY_EXTRATIME') {
     return IncrementCategoryExtraTimeAction.parse(action)
+  } else if (action.type === 'REPORT_U2F_LOGIN') {
+    return ReportU2fLoginAction.instance
   } else if (action.type === 'REMOVE_CATEGORY_APPS') {
     return RemoveCategoryAppsAction.parse(action)
+  } else if (action.type === 'REMOVE_PARENT_U2F') {
+    return RemoveParentU2fKeyAction.parse(action)
   } else if (action.type === 'REMOVE_USER') {
     return RemoveUserAction.parse(action)
   } else if (action.type === 'RENAME_CHILD') {

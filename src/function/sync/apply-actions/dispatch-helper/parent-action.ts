@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,14 +24,18 @@ import { Cache } from '../cache'
 import { dispatchParentAction as dispatchParentActionInternal } from '../dispatch-parent-action'
 import { SourceDeviceNotFoundException } from '../exception/illegal-state'
 import { SelfLimitNotPossibleException } from '../exception/self-limit'
+import { AuthenticationMethod } from '../types'
 import { dispatch } from './helper'
 
-export async function dispatchParentAction ({ action, eventHandler, cache, isChildLimitAdding, deviceId }: {
+export async function dispatchParentAction ({
+  action, eventHandler, cache, isChildLimitAdding, deviceId, authentication
+}: {
   action: ClientPushChangesRequestAction
   cache: Cache
   eventHandler: EventHandler
   isChildLimitAdding: boolean
   deviceId: string
+  authentication: AuthenticationMethod
 }) {
   return dispatch({
     action,
@@ -90,7 +94,8 @@ export async function dispatchParentAction ({ action, eventHandler, cache, isChi
           cache,
           parentUserId: action.userId,
           sourceDeviceId: deviceId,
-          fromChildSelfLimitAddChildUserId: deviceUserId
+          fromChildSelfLimitAddChildUserId: deviceUserId,
+          authentication
         })
       } else {
         await dispatchParentActionInternal({
@@ -98,7 +103,8 @@ export async function dispatchParentAction ({ action, eventHandler, cache, isChi
           cache,
           parentUserId: action.userId,
           sourceDeviceId: deviceId,
-          fromChildSelfLimitAddChildUserId: null
+          fromChildSelfLimitAddChildUserId: null,
+          authentication
         })
       }
     }

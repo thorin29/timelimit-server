@@ -34,6 +34,7 @@ import { getFamilyEntry } from './family-entry'
 import { getUserList } from './user-list'
 import { getKeyRequests } from './key-requests'
 import { getKeyResponses } from './key-responses'
+import { getU2f } from './u2f'
 
 export const generateServerDataStatus = async ({
   database, clientStatus, familyId, deviceId, transaction, eventHandler
@@ -51,13 +52,14 @@ export const generateServerDataStatus = async ({
   const doesClientSupportTasks = clientLevel >= 3
   const doesClientSupportCryptoApps = clientLevel >= 4
   const doesClientSupportDh = clientLevel >= 5
+  const doesClientSupportU2f = clientLevel >= 6
 
   const result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),
     message: await getStatusMessage({ database, transaction }) || undefined,
-    apiLevel: 5
+    apiLevel: 6
   }
 
   if (familyEntry.deviceListVersion !== clientStatus.devices) {
@@ -149,6 +151,15 @@ export const generateServerDataStatus = async ({
       deviceId,
       lastVersionId: clientStatus.dh || null,
       eventHandler
+    }) || undefined
+  }
+
+  if (doesClientSupportU2f) {
+    result.u2f = await getU2f({
+      database,
+      transaction,
+      familyEntry,
+      lastVersionId: clientStatus.u2f || null
     }) || undefined
   }
 

@@ -52,6 +52,9 @@
         },
         "dh": {
           "type": "string"
+        },
+        "u2f": {
+          "type": "string"
         }
       },
       "additionalProperties": false,

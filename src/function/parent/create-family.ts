@@ -68,7 +68,8 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       // 14 days demo version
       fullVersionUntil: (Date.now() + 1000 * 60 * 60 * 24 * 14).toString(10),
       hasFullVersion: true,
-      nextServerKeyRequestSeq: '1'
+      nextServerKeyRequestSeq: '1',
+      u2fKeysVersion: generateIdWithinFamily()
     }, { transaction })
 
     // create parent user

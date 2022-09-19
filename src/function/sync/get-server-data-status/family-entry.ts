@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,6 +25,7 @@ export interface FamilyEntry {
   userListVersion: string
   hasFullVersion: boolean
   fullVersionUntil: string
+  u2fKeysVersion: string
 }
 
 export async function getFamilyEntry ({ database, familyId, transaction }: {
@@ -40,7 +41,8 @@ export async function getFamilyEntry ({ database, familyId, transaction }: {
       'deviceListVersion',
       'userListVersion',
       'hasFullVersion',
-      'fullVersionUntil'
+      'fullVersionUntil',
+      'u2fKeysVersion'
     ],
     transaction
   })
@@ -54,6 +56,7 @@ export async function getFamilyEntry ({ database, familyId, transaction }: {
     deviceListVersion: familyEntryUnsafe.deviceListVersion,
     userListVersion: familyEntryUnsafe.userListVersion,
     hasFullVersion: familyEntryUnsafe.hasFullVersion,
-    fullVersionUntil: familyEntryUnsafe.fullVersionUntil
+    fullVersionUntil: familyEntryUnsafe.fullVersionUntil,
+    u2fKeysVersion: familyEntryUnsafe.u2fKeysVersion
   }
 }

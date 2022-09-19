@@ -78,6 +78,7 @@ Reference this group by using
 | [kri](#kri)                     | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kri.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kri")                     |
 | [kr](#kr)                       | `number` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-kr.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/kr")                       |
 | [dh](#dh)                       | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-dh.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/dh")                       |
+| [u2f](#u2f)                     | `string` | Optional | cannot be null | [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-u2f.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/u2f")                     |
 
 ### devices
 
@@ -238,6 +239,24 @@ Reference this group by using
 *   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-dh.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/dh")
 
 #### dh Type
+
+`string`
+
+### u2f
+
+
+
+`u2f`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ClientPullChangesRequest](clientpullchangesrequest-definitions-clientdatastatus-properties-u2f.md "https://timelimit.io/ClientPullChangesRequest#/definitions/ClientDataStatus/properties/u2f")
+
+#### u2f Type
 
 `string`
 

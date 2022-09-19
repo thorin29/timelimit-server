@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,6 +25,10 @@ export class ParentDeviceActionWithoutParentDeviceException extends ApplyActionI
 
 export class InvalidParentActionIntegrityValue extends ApplyActionIntegrityException {
   constructor () { super({ staticMessage: 'invalid parent action integrity value' }) }
+}
+
+export class InvalidU2fIntegrityValue extends ApplyActionIntegrityException {
+  constructor (message: string) { super({ staticMessage: 'invalid parent action u2f integrity value: ' + message }) }
 }
 
 export class InvalidChildActionIntegrityValue extends ApplyActionIntegrityException {
