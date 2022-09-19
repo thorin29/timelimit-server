@@ -33,7 +33,7 @@ export function calculateExpireTime(now: bigint): BigInt {
   return expireTime
 }
 
-export interface DeviceDhKeyAttributes {
+interface DeviceDhKeyAttributesVersion1 {
   familyId: string
   deviceId: string
   version: string
@@ -43,12 +43,18 @@ export interface DeviceDhKeyAttributes {
   privateKey: Buffer
 }
 
+interface DeviceDhKeyAttributesVersion2 {
+  createdAtSubsequence: number
+}
+
+export type DeviceDhKeyAttributes = DeviceDhKeyAttributesVersion1 & DeviceDhKeyAttributesVersion2
+
 export type DeviceDhKeyModel = Sequelize.Model<DeviceDhKeyAttributes> & DeviceDhKeyAttributes
 export type DeviceDhKeyModelStatic = typeof Sequelize.Model & {
   new (values?: object, options?: Sequelize.BuildOptions): DeviceDhKeyModel;
 }
 
-export const attributes: SequelizeAttributes<DeviceDhKeyAttributes> = {
+export const attributesVersion1: SequelizeAttributes<DeviceDhKeyAttributesVersion1> = {
   familyId: {
     ...familyIdColumn,
     primaryKey: true
@@ -76,6 +82,19 @@ export const attributes: SequelizeAttributes<DeviceDhKeyAttributes> = {
     type: Sequelize.BLOB,
     allowNull: false
   }
+}
+
+export const attributesVersion2: SequelizeAttributes<DeviceDhKeyAttributesVersion2> = {
+  createdAtSubsequence: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  }
+}
+
+export const attributes: SequelizeAttributes<DeviceDhKeyAttributes> = {
+  ...attributesVersion1,
+  ...attributesVersion2
 }
 
 export const createDeviceDhKey = (sequelize: Sequelize.Sequelize): DeviceDhKeyModelStatic => sequelize.define('DeviceDhKey', attributes) as DeviceDhKeyModelStatic

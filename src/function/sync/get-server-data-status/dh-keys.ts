@@ -58,18 +58,30 @@ export async function getDeviceDhKeys ({
     if (savedData.length >= 8) {
       eventHandler.countEvent('getDeviceDhKeys:gc')
 
-      const minCreatedAtValue = savedData.map((item) => BigInt(item.createdAt)).sort()[0]
+      const elementToRemove = savedData.reduce((a, currentItem, currentIndex) => {
+        const b = { item: currentItem, index: currentIndex }
+
+        const createdA = BigInt(a.item.createdAt)
+        const createdB = BigInt(b.item.createdAt)
+
+        if (createdA > createdB) return b
+        else if (createdA < createdB) return a
+        else {
+          if (a.item.createdAtSubsequence > b.item.createdAtSubsequence) return b
+          else return a
+        }
+      }, { index: 0, item: savedData[0] })
 
       await database.deviceDhKey.destroy({
         where: {
           familyId: familyEntry.familyId,
           deviceId,
-          createdAt: {
-            [Sequelize.Op.lte]: minCreatedAtValue.toString(10)
-          }
+          version: elementToRemove.item.version
         },
         transaction
       })
+
+      savedData.splice(elementToRemove.index, 1)
     }
 
     await database.deviceDhKey.update({
@@ -83,11 +95,22 @@ export async function getDeviceDhKeys ({
       transaction
     })
 
+    const newItemCreatedAt = (now - now % BigInt(config.generationTimeRounding))
+
+    const newItemExistingSubsequenceValues =
+      savedData
+        .filter((item) => BigInt(item.createdAt) === newItemCreatedAt)
+        .map((item) => item.createdAtSubsequence)
+
+    const newItemCreatedAtSubsequence =
+      newItemExistingSubsequenceValues.reduce((max, item) => Math.max(max, item + 1), 0)
+
     await database.deviceDhKey.create({
       familyId: familyEntry.familyId,
       deviceId,
       version: newVersion,
-      createdAt: (now - now % BigInt(config.generationTimeRounding)).toString(10),
+      createdAt: newItemCreatedAt.toString(10),
+      createdAtSubsequence: Math.min(newItemCreatedAtSubsequence, 1 << 30),
       expireAt: null,
       publicKey: newKeypair.publicKey,
       privateKey: newKeypair.privateKey
