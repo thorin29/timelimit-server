@@ -31,4 +31,6 @@ export async function dispatchFinishKeyRequestAction ({ action, cache, deviceId 
     },
     transaction: cache.transaction
   })
+
+  // no sync triggered
 }

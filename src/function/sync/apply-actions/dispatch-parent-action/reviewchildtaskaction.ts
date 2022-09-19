@@ -98,6 +98,8 @@ export async function dispatchReviewChildTaskAction ({ action, cache }: {
       },
       transaction: cache.transaction
     })
+
+    cache.incrementTriggeredSyncLevel(2)
   } else {
     await cache.database.childTask.update({
       pendingRequest: 0
@@ -111,4 +113,5 @@ export async function dispatchReviewChildTaskAction ({ action, cache }: {
   }
 
   cache.categoriesWithModifiedTasks.add(taskInfo.categoryId)
+  cache.incrementTriggeredSyncLevel(1)
 }

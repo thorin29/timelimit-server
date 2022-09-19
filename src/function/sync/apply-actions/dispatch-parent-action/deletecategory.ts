@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -80,7 +80,7 @@ export async function dispatchDeleteCategory ({ action, cache }: {
 
   // update the cache
   cache.doesCategoryExist.cache.set(action.categoryId, false)
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 
   if (affectedUserRows !== 0) {
     cache.invalidiateUserList = true

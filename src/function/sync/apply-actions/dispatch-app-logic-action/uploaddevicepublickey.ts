@@ -42,6 +42,7 @@ export async function dispatchUploadDevicePublicKeyAction ({ deviceId, action, c
     await deviceEntry.save({ transaction: cache.transaction })
 
     cache.invalidiateDeviceList = true
+    cache.incrementTriggeredSyncLevel(2)
   } else if (deviceEntry.publicKey.equals(action.key)) {
     eventHandler.countEvent('dispatchUploadDevicePublicKeyAction:duplicate action')
   } else {

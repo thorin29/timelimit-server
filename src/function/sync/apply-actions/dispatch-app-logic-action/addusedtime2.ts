@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -72,7 +72,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
     // verify that the category exists
     if (!categoryEntryUnsafe) {
       eventHandler.countEvent('add used time category to add time for not found')
-      cache.requireFullSync()
+      cache.requireSenderFullSync()
 
       continue
     }
@@ -247,9 +247,11 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
       // As it should occur not too often, a full sync should be no problem.
       // To keep an eye on it, it is counted.
 
-      cache.areChangesImportant = true
+      cache.incrementTriggeredSyncLevel(2)
 
       eventHandler.countEvent('add used time for a different user than the current user of the device')
     }
   }
+
+  cache.incrementTriggeredSyncLevel(1)
 }

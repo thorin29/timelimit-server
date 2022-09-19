@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -80,7 +80,8 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
       familyId: userEntry.familyId,
       websocket,
       database,
-      isImportant: true,
+      generalLevel: 1,
+      targetedLevels: new Map(),
       sourceDeviceId: deviceId,
       transaction
     })

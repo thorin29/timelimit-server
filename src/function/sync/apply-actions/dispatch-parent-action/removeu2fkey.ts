@@ -43,5 +43,5 @@ export async function dispatchRemoveU2f ({ action, cache, parentUserId, authenti
   })
 
   cache.invalidateU2fList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 }

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -178,7 +178,7 @@ export async function dispatchRemoveUser ({ action, cache, parentUserId }: {
   await user.destroy({ transaction: cache.transaction })
 
   cache.invalidiateUserList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 
   cache.doesUserExist.cache.set(action.userId, false)
   cache.getSecondPasswordHashOfParent.cache.delete(action.userId)

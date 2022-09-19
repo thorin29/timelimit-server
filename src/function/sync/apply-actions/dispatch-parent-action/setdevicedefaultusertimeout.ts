@@ -46,5 +46,7 @@ export async function dispatchSetDeviceDefaultUserTimeout ({ action, cache }: {
   })
 
   cache.invalidiateDeviceList = true
-  cache.areChangesImportant = true
+
+  cache.incrementTriggeredSyncLevel(1)
+  cache.incrementTargetedTriggeredSyncLevel(action.deviceId, 2)
 }

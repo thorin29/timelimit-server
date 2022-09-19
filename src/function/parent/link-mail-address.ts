@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -101,9 +101,10 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
     await notifyClientsAboutChangesDelayed({
       familyId,
       sourceDeviceId: null,
+      generalLevel: 1,
+      targetedLevels: new Map(),
       database,
       websocket,
-      isImportant: true,
       transaction
     })
   })

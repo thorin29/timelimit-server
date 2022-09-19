@@ -52,5 +52,5 @@ export async function dispatchAddU2f ({ action, cache, parentUserId, authenticat
   }, { transaction: cache.transaction })
 
   cache.invalidateU2fList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(1)
 }

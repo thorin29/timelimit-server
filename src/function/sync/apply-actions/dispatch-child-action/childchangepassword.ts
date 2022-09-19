@@ -52,5 +52,5 @@ export const dispatchChildChangePassword = async ({ action, childUserId, cache }
   }
 
   cache.invalidiateUserList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 }

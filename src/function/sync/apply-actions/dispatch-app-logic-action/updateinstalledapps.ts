@@ -54,4 +54,6 @@ export async function dispatchUpdateInstalledApps ({ deviceId, action, cache }: 
 
     cache.devicesWithModifiedInstalledApps.add(deviceId)
   }
+
+  cache.incrementTriggeredSyncLevel(1)
 }

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -104,7 +104,8 @@ export async function removeDevice ({ database, familyId, deviceId, websocket, t
     websocket,
     familyId,
     sourceDeviceId: null,
-    isImportant: false,
+    generalLevel: 1,
+    targetedLevels: new Map(),
     transaction
   })
 

@@ -87,4 +87,6 @@ export async function dispatchIgnoreManipulation ({ action, cache }: {
 
   await deviceEntry.save({ transaction: cache.transaction })
   cache.invalidiateDeviceList = true
+  cache.incrementTriggeredSyncLevel(1)
+  cache.incrementTargetedTriggeredSyncLevel(action.deviceId, 2)
 }

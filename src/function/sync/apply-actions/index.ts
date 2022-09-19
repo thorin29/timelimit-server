@@ -124,7 +124,7 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
           eventHandler.countEvent('applyActionsFromDevice errorDispatchingAction:other:' + stack)
         }
 
-        cache.requireFullSync()
+        cache.requireSenderFullSync()
       }
     }
 
@@ -148,20 +148,25 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
     await notifyClientsAboutChangesDelayed({
       familyId: baseInfo.familyId,
       sourceDeviceId: baseInfo.deviceId,
-      isImportant: cache.areChangesImportant,
       websocket,
       database,
-      transaction
+      transaction,
+      generalLevel: cache.triggeredSyncLevel,
+      targetedLevels: cache.targetedTriggeredSyncLevels
     })
 
-    if (cache.areChangesImportant) {
+    if (cache.triggeredSyncLevel === 2) {
       transaction.afterCommit(() => {
         eventHandler.countEvent('applyActionsFromDevice areChangesImportant')
+      })
+    } else if ([...cache.targetedTriggeredSyncLevels.entries()].some((entry) => entry[1] === 2)) {
+      transaction.afterCommit(() => {
+        eventHandler.countEvent('applyActionsFromDevice areChangesImportantTargeted')
       })
     }
 
     return {
-      shouldDoFullSync: cache.shouldDoFullSync()
+      shouldDoFullSync: cache.isSenderDoFullSyncTrue()
     }
   })
 }

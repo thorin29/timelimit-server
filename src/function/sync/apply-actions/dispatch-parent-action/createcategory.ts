@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -86,5 +86,5 @@ export async function dispatchCreateCategory ({ action, cache, fromChildSelfLimi
 
   // update the cache
   cache.doesCategoryExist.cache.set(action.categoryId, true)
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(1)
 }

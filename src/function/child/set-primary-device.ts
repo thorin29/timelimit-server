@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -164,7 +164,8 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
       sourceDeviceId: deviceEntry.deviceId,
       websocket,
       database,
-      isImportant: false,  // the source device knows it already
+      generalLevel: 1,  // the source device knows it already
+      targetedLevels: new Map(),
       transaction
     })
 

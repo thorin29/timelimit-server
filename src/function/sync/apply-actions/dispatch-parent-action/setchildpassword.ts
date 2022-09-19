@@ -51,5 +51,5 @@ export async function dispatchSetChildPassword ({ action, cache }: {
   }
 
   cache.invalidiateUserList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 }

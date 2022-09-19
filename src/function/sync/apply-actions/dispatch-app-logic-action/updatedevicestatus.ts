@@ -177,5 +177,5 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
   }
 
   cache.invalidiateDeviceList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(1)
 }

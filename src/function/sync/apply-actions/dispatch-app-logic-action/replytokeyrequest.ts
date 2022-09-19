@@ -105,6 +105,5 @@ export async function dispatchReplyToKeyRequestAction ({ deviceId, action, cache
     transaction: cache.transaction
   })
 
-  // there is no way (yet) to inform the specific device only
-  cache.areChangesImportant = true
+  cache.incrementTargetedTriggeredSyncLevel(request.senderDeviceId, 2)
 }

@@ -66,5 +66,5 @@ export async function dispatchUpdateCategoryTimeWarnings ({ action, cache }: {
   }
 
   cache.categoriesWithModifiedBaseData.add(action.categoryId)
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 }

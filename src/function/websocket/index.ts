@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,39 +15,45 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Sequelize from 'sequelize'
 import { Database, Transaction } from '../../database'
 import { WebsocketApi } from '../../websocket'
 
-export const notifyClientsAboutChangesDelayed = async ({ familyId, sourceDeviceId, database, websocket, isImportant, transaction }: {
+export const notifyClientsAboutChangesDelayed = async ({
+  familyId, sourceDeviceId, database,
+  websocket, transaction, generalLevel, targetedLevels
+}: {
   familyId: string
   sourceDeviceId: string | null  // this device will not get an push
   database: Database
   websocket: WebsocketApi
-  isImportant: boolean
   transaction: Transaction
+  generalLevel: 0 | 1 | 2
+  targetedLevels: Map<string, 0 | 1 | 2>
 }) => {
   const relatedDeviceEntries = (await database.device.findAll({
-    where: sourceDeviceId ? {
-      familyId,
-      deviceId: {
-        [Sequelize.Op.not]: sourceDeviceId
-      }
-    } : {
+    where: {
       familyId
     },
-    attributes: ['deviceAuthToken'],
+    attributes: ['deviceId', 'deviceAuthToken'],
     transaction
   })).map((item) => ({
+    deviceId: item.deviceId,
     deviceAuthToken: item.deviceAuthToken
   }))
 
   transaction.afterCommit(() => {
-    relatedDeviceEntries.forEach((item) => {
-      websocket.triggerSyncByDeviceAuthToken({
-        deviceAuthToken: item.deviceAuthToken,
-        isImportant
-      })
-    })
+    for (const deviceEntry of relatedDeviceEntries) {
+      if (deviceEntry.deviceId === sourceDeviceId) continue
+
+      const targetedLevel = targetedLevels.get(deviceEntry.deviceId) ?? 0
+      const effectiveLevel = Math.max(targetedLevel, generalLevel)
+
+      if (effectiveLevel > 0) {
+        websocket.triggerSyncByDeviceAuthToken({
+          deviceAuthToken: deviceEntry.deviceAuthToken,
+          isImportant: effectiveLevel === 2
+        })
+      }
+    }
   })
 }

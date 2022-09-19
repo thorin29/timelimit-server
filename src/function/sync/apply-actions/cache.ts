@@ -32,7 +32,7 @@ export class Cache {
   transaction: Sequelize.Transaction
   readonly database: Database
   readonly connectedDevicesManager: VisibleConnectedDevicesManager
-  private shouldTriggerFullSync = false
+  private requireSenderDoFullSync = false
 
   categoriesWithModifiedApps = new Set<string>()
   categoriesWithModifiedBaseData = new Set<string>()
@@ -46,7 +46,8 @@ export class Cache {
   invalidiateUserList = false
   invalidiateDeviceList = false
   invalidateU2fList = false
-  areChangesImportant = false
+  triggeredSyncLevel: 0 | 1 | 2 = 0 // 0 = no, 1 = unimportant, 2 = important
+  targetedTriggeredSyncLevels = new Map<string, 0 | 1 | 2>()
 
   constructor ({ familyId, deviceId, hasFullVersion, database, transaction, connectedDevicesManager }: {
     familyId: string
@@ -62,6 +63,16 @@ export class Cache {
     this.database = database
     this.transaction = transaction
     this.connectedDevicesManager = connectedDevicesManager
+  }
+
+  incrementTriggeredSyncLevel(newLevel: 1 | 2) {
+    if (newLevel > this.triggeredSyncLevel) this.triggeredSyncLevel = newLevel
+  }
+
+  incrementTargetedTriggeredSyncLevel(deviceId: string, newLevel: 1 | 2) {
+    const oldLevel = this.targetedTriggeredSyncLevels.get(deviceId) || 0
+
+    if (newLevel > oldLevel) this.targetedTriggeredSyncLevels.set(deviceId, newLevel)
   }
 
   async subtransaction<T> (callback: () => Promise<T>): Promise<T> {
@@ -144,8 +155,8 @@ export class Cache {
     return !!userEntry
   })
 
-  shouldDoFullSync = () => this.shouldTriggerFullSync
-  requireFullSync: () => void = () => this.shouldTriggerFullSync = true
+  isSenderDoFullSyncTrue = () => this.requireSenderDoFullSync
+  requireSenderFullSync: () => void = () => this.requireSenderDoFullSync = true
 
   async saveModifiedVersionNumbers () {
     const { database, transaction, familyId } = this

@@ -48,7 +48,7 @@ export async function dispatchAddUser ({ action, cache }: {
   }, { transaction: cache.transaction })
 
   cache.invalidiateUserList = true
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(1)
 
   cache.doesUserExist.cache.set(action.userId, true)
 }

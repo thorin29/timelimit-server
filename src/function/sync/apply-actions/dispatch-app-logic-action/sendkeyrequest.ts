@@ -72,5 +72,5 @@ export async function dispatchSendKeyRequestAction ({ action, cache, deviceId }:
     transaction: cache.transaction
   })
 
-  cache.areChangesImportant = true
+  cache.incrementTriggeredSyncLevel(2)
 }
