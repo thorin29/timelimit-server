@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -32,3 +32,9 @@ export class ActionNotSupportedBySelfLimitationException extends SelfLimitationE
 }
 
 export class SelfLimitNotPossibleException extends SelfLimitationException {}
+
+export class CanNotRelaxRestrictionsSelfLimitException extends SelfLimitationException {
+  constructor () {
+    super({ staticMessage: 'can not relax restrictions with the self limitation' })
+  }
+}

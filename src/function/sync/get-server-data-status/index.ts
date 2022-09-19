@@ -59,7 +59,7 @@ export const generateServerDataStatus = async ({
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),
     message: await getStatusMessage({ database, transaction }) || undefined,
-    apiLevel: 6
+    apiLevel: 7
   }
 
   if (familyEntry.deviceListVersion !== clientStatus.devices) {

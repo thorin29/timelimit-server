@@ -150,6 +150,8 @@ export const dispatchParentAction = async ({
     return dispatchUpdateCategoryBlockedTimes({ action, cache, fromChildSelfLimitAddChildUserId })
   } else if (action instanceof UpdateCategoryDisableLimitsAction) {
     return dispatchUpdateCategoryDisableLimits({ action, cache, fromChildSelfLimitAddChildUserId })
+  } else if (action instanceof UpdateTimelimitRuleAction) {
+    return dispatchUpdateTimelimitRule({ action, cache, fromChildSelfLimitAddChildUserId })
   }
 
   if (fromChildSelfLimitAddChildUserId !== null) {
@@ -211,8 +213,6 @@ export const dispatchParentAction = async ({
       return dispatchUpdateNetworkTimeVerification({ action, cache })
     } else if (action instanceof UpdateParentNotificationFlagsAction) {
       return dispatchUpdateParentNotificationFlags({ action, cache })
-    } else if (action instanceof UpdateTimelimitRuleAction) {
-      return dispatchUpdateTimelimitRule({ action, cache })
     } else if (action instanceof RemoveUserAction) {
       return dispatchRemoveUser({ action, cache, parentUserId })
     } else if (action instanceof ReportU2fLoginAction) {
