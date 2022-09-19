@@ -158,7 +158,7 @@ export const dispatchParentAction = async ({
     if (action instanceof AddCategoryNetworkIdAction) {
       return dispatchAddCategoryNetworkId({ action, cache })
     } else if (action instanceof AddParentU2fKeyAction) {
-      return dispatchAddU2f({ action, cache, parentUserId, authentication })
+      return dispatchAddU2f({ action, cache, parentUserId })
     } else if (action instanceof AddUserAction) {
       return dispatchAddUser({ action, cache })
     } else if (action instanceof RemoveCategoryAppsAction) {

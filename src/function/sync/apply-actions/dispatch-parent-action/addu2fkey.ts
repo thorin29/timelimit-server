@@ -18,20 +18,13 @@
 import { AddParentU2fKeyAction } from '../../../../action'
 import { getU2fKeyId } from '../../../../database/u2fkey'
 import { Cache } from '../cache'
-import { ApplyActionUnacceptableAuthMethodException } from '../exception/auth'
 import { LimitReachedException } from '../exception/limit'
-import { AuthenticationMethod } from '../types'
 
-export async function dispatchAddU2f ({ action, cache, parentUserId, authentication }: {
+export async function dispatchAddU2f ({ action, cache, parentUserId }: {
   action: AddParentU2fKeyAction
   cache: Cache
   parentUserId: string
-  authentication: AuthenticationMethod
 }) {
-  if (authentication === 'u2f') {
-    throw new ApplyActionUnacceptableAuthMethodException()
-  }
-
   const counter = await cache.database.u2fKey.count({
     where: {
       familyId: cache.familyId
