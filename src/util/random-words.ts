@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { randomInt } from 'crypto'
 import { readFileSync } from 'fs'
 import { range } from 'lodash'
 import { resolve } from 'path'
@@ -24,7 +25,7 @@ const wordlist = readFileSync(resolve(__dirname, '../../other/wordlist/de.txt'))
   .split('\n')
   .filter((item) => item.trim().length > 0)
 
-const randomWord = () => wordlist[Math.floor(Math.random() * (wordlist.length - 1))]
+const randomWord = () => wordlist[randomInt(wordlist.length)]
 
 export const randomWords = (numberOfWords: number) => (
   range(numberOfWords)
