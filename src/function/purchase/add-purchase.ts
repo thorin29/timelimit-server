@@ -24,16 +24,15 @@ const day = 1000 * 60 * 60 * 24
 const month = day * 31
 const year = day * 366
 
-export const addPurchase = async ({ database, familyId, type, transactionId, websocket, transaction }: {
+export const addPurchase = async ({ database, familyId, type, service, transactionId, websocket, transaction }: {
   database: Database
   familyId: string
   type: 'month' | 'year'
+  service: 'googleplay' | 'directpurchase'
   transactionId: string
   websocket: WebsocketApi
   transaction: Transaction
 }) => {
-  const service = 'googleplay'
-
   const oldPurchaseEntry = await database.purchase.findOne({
     where: {
       service,

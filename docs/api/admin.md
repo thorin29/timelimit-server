@@ -89,3 +89,41 @@ If there was nothing found for the mail address: HTTP status code 409 Conflict
 ### see
 
 - [premium concept](../concept/premium.md)
+
+## POST /admin/unlock-premium-v2
+
+Use this to unlock all features for one user for a specified duration.
+
+### request
+
+request properties: ``purchaseToken`` and ``purchaseId``
+
+- ``purchasetoken`` is a string which the client shows at the purchase screen
+- ``purchaseId`` is the ID that is used at the bill
+
+### response
+
+The response contains the following properties:
+
+- ``ok`` (boolean)
+- ``error``
+  - string
+  - set if and only if ``ok`` is false
+  - possible values
+    - ``token invalid``
+    - ``illegal state``
+    - ``purchase id already used``
+- ``detail``
+  - optional string
+  - should be shown to the support
+- ``lastPurchase``
+  - optional object
+  - should be shown to the support
+- ``wasAlreadyExecuted`` (boolean, set if and only if ``ok`` is true)
+
+If the request was malformed: HTTP status code 400 Bad Request
+
+Using the same ``purchaseId`` twice results in:
+
+- ``wasAlreadyExecuted`` if the familyId is unchanged
+- ``error`` = ``purchase id already used`` otherwise

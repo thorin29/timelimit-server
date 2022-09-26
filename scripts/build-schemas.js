@@ -42,7 +42,8 @@ const types = [
   'RequestIdentityTokenRequest',
   'RequestWithAuthToken',
   'SendMailLoginCodeRequest',
-  'SignInByMailCodeRequest'
+  'SignInByMailCodeRequest',
+  'IdentityTokenPayload'
 ]
 
 const docOnlyTypes = [

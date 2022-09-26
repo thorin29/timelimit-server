@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@ import { SequelizeAttributes } from './types'
 
 export interface PurchaseAttributes {
   familyId: string
-  service: 'googleplay'
+  service: 'googleplay' | 'directpurchase'
   transactionId: string
   type: 'month' | 'year'
   loggedAt: string
@@ -37,7 +37,7 @@ export type PurchaseModelStatic = typeof Sequelize.Model & {
 export const attributes: SequelizeAttributes<PurchaseAttributes> = {
   familyId: { ...familyIdColumn },
   service: {
-    ...createEnumColumn(['googleplay']),
+    ...createEnumColumn(['googleplay', 'directpurchase']),
     primaryKey: true
   },
   transactionId: {

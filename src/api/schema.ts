@@ -162,5 +162,16 @@ export interface SignInByMailCodeRequest {
   receivedCode: string
 }
 
+export interface IdentityTokenCreatePayload {
+  purpose: 'purchase'
+  familyId: string
+  userId: string
+  mail: string
+}
+
+export type IdentityTokenPayload = IdentityTokenCreatePayload & {
+  exp: number
+}
+
 export { SerializedParentAction, SerializedChildAction, SerializedAppLogicAction } from '../action/serialization'
 export { ServerDataStatus } from '../object/serverdatastatus'
