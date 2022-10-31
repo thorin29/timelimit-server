@@ -9,7 +9,7 @@ COPY package.json package-lock.json tsconfig.json .eslintignore .eslintrc.js Rea
 COPY src/ /usr/src/app/src/
 COPY scripts/ /usr/src/app/scripts/
 COPY other/ /usr/src/app/other/
-RUN mkdir -p docs/schema && npm install --no-optional && npm run build && npm prune --production && rm -rf ./src
+RUN mkdir -p docs/schema && npm install --exclude=optional && npm run build && npm prune --omit=dev && rm -rf ./src
 
 # Start the App
 EXPOSE 8080
