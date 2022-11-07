@@ -42,6 +42,7 @@ import { createU2fKeyModel, U2fKeyModelStatic } from './u2fkey'
 import { createUsedTimeModel, UsedTimeModelStatic } from './usedtime'
 import { createUserModel, UserModelStatic } from './user'
 import { createUserLimitLoginCategoryModel, UserLimitLoginCategoryModelStatic } from './userlimitlogincategory'
+import { shouldRetryWithException } from './utils/serialized'
 
 export type Transaction = Sequelize.Transaction
 
@@ -71,8 +72,16 @@ export interface Database {
   usedTime: UsedTimeModelStatic
   user: UserModelStatic
   userLimitLoginCategory: UserLimitLoginCategoryModelStatic
-  transaction: <T> (autoCallback: (t: Transaction) => Promise<T>, options?: { transaction: Transaction }) => Promise<T>
+  transaction: <T> (
+    autoCallback: (t: Transaction) => Promise<T>,
+    options?: TransactionOptions
+  ) => Promise<T>
   dialect: string
+}
+
+interface TransactionOptions {
+  transaction?: Transaction
+  disableRetry?: boolean
 }
 
 const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
@@ -101,10 +110,39 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   usedTime: createUsedTimeModel(sequelize),
   user: createUserModel(sequelize),
   userLimitLoginCategory: createUserLimitLoginCategoryModel(sequelize),
-  transaction: <T> (autoCallback: (transaction: Transaction) => Promise<T>, options?: { transaction: Transaction }) => (sequelize.transaction({
-    isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE,
-    transaction: options?.transaction
-  }, autoCallback)) as Promise<T>,
+  async transaction<T>(
+    autoCallback: (transaction: Transaction) => Promise<T>,
+    options?: TransactionOptions
+  ): Promise<T> {
+    const runAttempt = () => sequelize.transaction({
+      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+      transaction: options?.transaction
+    }, autoCallback)
+
+    const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time))
+
+    try {
+      return await runAttempt()
+    } catch (ex) {
+      if (
+        options?.disableRetry ||
+        options?.transaction ||
+        !shouldRetryWithException(this, ex)
+      ) throw ex
+    }
+
+    await delay(10 * (1 + Math.random()))
+
+    try {
+      return await runAttempt()
+    } catch (ex) {
+      if (!shouldRetryWithException(this, ex)) throw ex
+    }
+
+    await delay(100 * (1 + Math.random()))
+
+    return await runAttempt()
+  },
   dialect: sequelize.getDialect()
 })
 

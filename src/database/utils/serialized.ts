@@ -86,8 +86,8 @@ export async function assertSerializeableTransactionsAreWorking (database: Datab
             await database.config.update({ value: 'd' }, { where: { id: configItemIds.secondSelfTestData }, transaction: transactionTwo })
           })()
         ])
-      })
-    })
+      }, { disableRetry: true })
+    }, { disableRetry: true })
 
     throw new SerializationFeatureCheckException()
   } catch (ex) {
