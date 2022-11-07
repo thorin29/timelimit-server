@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,6 +16,7 @@
  */
 
 import { Server } from 'http'
+import { pid } from 'process'
 import { createApi } from './api'
 import { config } from './config'
 import { VisibleConnectedDevicesManager } from './connected-devices'
@@ -61,7 +62,22 @@ async function main () {
     pingInterval: config.pingInterval
   })
 
-  server.listen(process.env.PORT || 8080)
+  const port = process.env.PORT || 8080
+
+  if (port === 'socketactivation') {
+    if (process.env.LISTEN_FDS !== '1') {
+      console.warn('expecting exactly one file descriptor for the socket activation')
+      process.exit(1)
+    } else if (process.env.LISTEN_PID !== pid.toString(10)) {
+      console.warn('expecting handover of file descriptors to this process for the socket activation')
+      process.exit(1)
+    }
+
+    // the sockets are passed using fd 3 + index (with index = 0 in this case)
+    server.listen({ fd: 3 })
+  } else {
+    server.listen(port)
+  }
 
   console.log('ready')
 }
