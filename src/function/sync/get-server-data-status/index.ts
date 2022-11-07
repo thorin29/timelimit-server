@@ -22,7 +22,6 @@ import { getStatusMessage } from '../../../function/statusmessage'
 import { ClientDataStatus } from '../../../object/clientdatastatus'
 import { ServerDataStatus } from '../../../object/serverdatastatus'
 import { EventHandler } from '../../../monitoring/eventhandler'
-import { getAppList } from './app-list'
 import {
   getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync,
   getRules, getTasks, getUsedTimes
@@ -69,8 +68,6 @@ export const generateServerDataStatus = async ({
   if (familyEntry.userListVersion !== clientStatus.users) {
     result.users = await getUserList({ database, transaction, familyEntry })
   }
-
-  result.apps = await getAppList({ database, transaction, familyEntry, appsStatus: clientStatus.apps }) || undefined
 
   const categoryDataToSync = await getCategoryDataToSync({ database, transaction, familyEntry, categoriesStatus: clientStatus.categories })
 
