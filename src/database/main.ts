@@ -17,8 +17,6 @@
 
 import * as Sequelize from 'sequelize'
 import { AddDeviceTokenModelStatic, createAddDeviceTokenModel } from './adddevicetoken'
-import { AppModelStatic, createAppModel } from './app'
-import { AppActivityModelStatic, createAppActivityModel } from './appactivity'
 import { AuthTokenModelStatic, createAuthtokenModel } from './authtoken'
 import { CategoryModelStatic, createCategoryModel } from './category'
 import { CategoryAppModelStatic, createCategoryAppModel } from './categoryapp'
@@ -49,8 +47,6 @@ export type Transaction = Sequelize.Transaction
 export interface Database {
   addDeviceToken: AddDeviceTokenModelStatic
   authtoken: AuthTokenModelStatic
-  app: AppModelStatic
-  appActivity: AppActivityModelStatic
   category: CategoryModelStatic
   categoryApp: CategoryAppModelStatic
   categoryNetworkId: CategoryNetworkIdModelStatic
@@ -87,8 +83,6 @@ interface TransactionOptions {
 const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   addDeviceToken: createAddDeviceTokenModel(sequelize),
   authtoken: createAuthtokenModel(sequelize),
-  app: createAppModel(sequelize),
-  appActivity: createAppActivityModel(sequelize),
   category: createCategoryModel(sequelize),
   categoryApp: createCategoryAppModel(sequelize),
   childTask: createChildTaskModel(sequelize),

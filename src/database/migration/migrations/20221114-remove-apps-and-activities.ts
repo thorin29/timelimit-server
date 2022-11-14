@@ -15,13 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { RemoveInstalledAppsAction } from '../../../../action'
-import { Cache } from '../cache'
+import { QueryInterface, Sequelize, Transaction } from 'sequelize'
 
-export async function dispatchRemoveInstalledApps (_: {
-  deviceId: string
-  action: RemoveInstalledAppsAction
-  cache: Cache
-}) {
-  // do nothing
+export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
+  await sequelize.transaction({
+    type: Transaction.TYPES.EXCLUSIVE
+  }, async (transaction) => {
+    await queryInterface.dropTable('Apps', { transaction })
+    await queryInterface.dropTable('AppActivities', { transaction })
+  })
+}
+
+export async function down() {
+  throw new Error('not possible')
 }

@@ -15,49 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Sequelize from 'sequelize'
 import { AddInstalledAppsAction } from '../../../../action'
-import { AppAttributes, maxPackageNameLength } from '../../../../database/app'
 import { Cache } from '../cache'
-import { ApplyActionException } from '../exception'
 
-export async function dispatchAddInstalledApps ({ deviceId, action, cache }: {
+export async function dispatchAddInstalledApps (_: {
   deviceId: string
   action: AddInstalledAppsAction
   cache: Cache
 }) {
-  action.apps.forEach((app) => {
-    if (app.packageName.length > maxPackageNameLength) {
-      throw new ApplyActionException({
-        staticMessage: 'package name too long',
-        dynamicMessage: 'package name too long: ' + app.packageName
-      })
-    }
-  })
-
-  await cache.database.app.destroy({
-    where: {
-      familyId: cache.familyId,
-      deviceId,
-      packageName: {
-        [Sequelize.Op.in]: action.apps.map((app) => app.packageName)
-      }
-    },
-    transaction: cache.transaction
-  })
-
-  await cache.database.app.bulkCreate(
-    action.apps.map((app): AppAttributes => ({
-      familyId: cache.familyId,
-      deviceId,
-      packageName: app.packageName,
-      title: app.title,
-      isLaunchable: app.isLaunchable,
-      recommendation: app.recommendation
-    })),
-    { transaction: cache.transaction }
-  )
-
-  cache.devicesWithModifiedInstalledApps.add(deviceId)
-  cache.incrementTriggeredSyncLevel(1)
+  // do nothing
 }

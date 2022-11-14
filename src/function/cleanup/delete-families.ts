@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,26 +29,6 @@ export async function deleteFamilies ({ database, familiyIds }: {
   }
 
   await database.transaction(async (transaction) => {
-    // app
-    await database.app.destroy({
-      where: {
-        familyId: {
-          [Sequelize.Op.in]: familiyIds
-        }
-      },
-      transaction
-    })
-
-    // app activity
-    await database.appActivity.destroy({
-      where: {
-        familyId: {
-          [Sequelize.Op.in]: familiyIds
-        }
-      },
-      transaction
-    })
-
     // category
     await database.category.destroy({
       where: {

@@ -40,23 +40,6 @@ export async function removeDevice ({ database, familyId, deviceId, websocket, t
     throw new Conflict()
   }
 
-  // remove app entries
-  await database.app.destroy({
-    where: {
-      familyId,
-      deviceId
-    },
-    transaction
-  })
-
-  await database.appActivity.destroy({
-    where: {
-      familyId,
-      deviceId
-    },
-    transaction
-  })
-
   // remove as current device
   await database.user.update({
     currentDevice: ''
