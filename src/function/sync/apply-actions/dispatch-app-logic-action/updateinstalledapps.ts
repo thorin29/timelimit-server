@@ -16,12 +16,32 @@
  */
 
 import { UpdateInstalledAppsAction } from '../../../../action'
+import { types } from '../../../../database/encryptedapplist'
+import { generateVersionId } from '../../../../util/token'
 import { Cache } from '../cache'
 
-export async function dispatchUpdateInstalledApps (_: {
+export async function dispatchUpdateInstalledApps ({ deviceId, action, cache }: {
   deviceId: string
   action: UpdateInstalledAppsAction
   cache: Cache
 }) {
-  // do nothing
+  async function upsert({ type, data }: { type: number, data: Buffer }) {
+    await cache.database.encryptedAppList.upsert({
+      familyId: cache.familyId,
+      deviceId,
+      type,
+      version: generateVersionId(),
+      data
+    }, { transaction: cache.transaction })
+  }
+
+  if (action.base) {
+    await upsert({ type: types.base, data: action.base })
+  }
+
+  if (action.diff) {
+    await upsert({ type: types.diff, data: action.diff })
+  }
+
+  cache.incrementTriggeredSyncLevel(1)
 }

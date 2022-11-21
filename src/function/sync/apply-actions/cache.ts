@@ -40,7 +40,6 @@ export class Cache {
   categoriesWithModifiedUsedTimes = new Set<string>()
   categoriesWithModifiedTasks = new Set<string>()
 
-  devicesWithModifiedInstalledApps = new Set<string>()
   devicesWithModifiedShowDeviceConnected = new Map<string, boolean>()
 
   invalidiateUserList = false
@@ -239,22 +238,6 @@ export class Cache {
       })
 
       this.categoriesWithModifiedUsedTimes.clear()
-    }
-
-    if (this.devicesWithModifiedInstalledApps.size > 0) {
-      await database.device.update({
-        installedAppsVersion: generateVersionId()
-      }, {
-        where: {
-          familyId,
-          deviceId: {
-            [Sequelize.Op.in]: setToList(this.devicesWithModifiedInstalledApps)
-          }
-        },
-        transaction
-      })
-
-      this.devicesWithModifiedInstalledApps.clear()
     }
 
     if (this.invalidiateUserList) {
