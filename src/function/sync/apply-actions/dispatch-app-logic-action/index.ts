@@ -36,18 +36,15 @@ import {
 import { EventHandler } from '../../../../monitoring/eventhandler'
 import { Cache } from '../cache'
 import { ActionObjectTypeNotHandledException } from '../exception/illegal-state'
-import { dispatchAddInstalledApps } from './addinstalledapps'
 import { dispatchAddUsedTime } from './addusedtime'
 import { dispatchAddUsedTimeVersion2 } from './addusedtime2'
 import { dispatchFinishKeyRequestAction } from './finishkeyrequest'
 import { dispatchForceSyncAction } from './forcesync'
 import { dispatchMarkTaskPendingAction } from './marktaskpendingaction'
 import { dispatchReplyToKeyRequestAction } from './replytokeyrequest'
-import { dispatchRemoveInstalledApps } from './removeinstalledapps'
 import { dispatchSendKeyRequestAction } from './sendkeyrequest'
 import { dispatchSignOutAtDevice } from './signoutatdevice'
 import { dispatchTriedDisablingDeviceAdmin } from './trieddisablingdeviceadmin'
-import { dispatchUpdateAppActivities } from './updateappactivities'
 import { dispatchUpdateDeviceStatus } from './updatedevicestatus'
 import { dispatchUpdateInstalledApps } from './updateinstalledapps'
 import { dispatchUploadDevicePublicKeyAction } from './uploaddevicepublickey'
@@ -59,7 +56,7 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHan
   eventHandler: EventHandler
 }) => {
   if (action instanceof AddInstalledAppsAction) {
-    await dispatchAddInstalledApps({ deviceId, action, cache })
+    // do nothing
   } else if (action instanceof AddUsedTimeAction) {
     await dispatchAddUsedTime({ deviceId, action, cache })
   } else if (action instanceof AddUsedTimeActionVersion2) {
@@ -73,7 +70,7 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHan
   } else if (action instanceof ReplyToKeyRequestAction) {
     await dispatchReplyToKeyRequestAction({ deviceId, action, cache, eventHandler })
   } else if (action instanceof RemoveInstalledAppsAction) {
-    await dispatchRemoveInstalledApps({ deviceId, action, cache })
+    // do nothing
   } else if (action instanceof SendKeyRequestAction) {
     await dispatchSendKeyRequestAction({ deviceId, action, cache })
   } else if (action instanceof SignOutAtDeviceAction) {
@@ -81,7 +78,7 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHan
   } else if (action instanceof UpdateDeviceStatusAction) {
     await dispatchUpdateDeviceStatus({ deviceId, action, cache })
   } else if (action instanceof UpdateAppActivitiesAction) {
-    await dispatchUpdateAppActivities({ deviceId, action, cache })
+    // do nothing
   } else if (action instanceof TriedDisablingDeviceAdminAction) {
     await dispatchTriedDisablingDeviceAdmin({ deviceId, action, cache })
   } else if (action instanceof UpdateInstalledAppsAction) {
