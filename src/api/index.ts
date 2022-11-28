@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2022 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -47,8 +47,8 @@ export const createApi = ({ database, websocket, connectedDevicesManager, eventH
   })
 
   app.use('/auth', createAuthRouter(database))
-  app.use('/child', createChildRouter({ database, websocket }))
-  app.use('/parent', createParentRouter({ database, websocket }))
+  app.use('/child', createChildRouter({ database, websocket, eventHandler }))
+  app.use('/parent', createParentRouter({ database, websocket, eventHandler }))
   app.use('/purchase', createPurchaseRouter({ database, websocket }))
   app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager, eventHandler }))
 

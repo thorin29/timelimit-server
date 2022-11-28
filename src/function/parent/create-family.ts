@@ -16,25 +16,38 @@
  */
 
 import { Conflict } from 'http-errors'
+import { generateServerDataStatus } from '../sync/get-server-data-status'
 import { NewDeviceInfo, PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema'
 import { Database } from '../../database'
 import { maxMailNotificationFlags } from '../../database/user'
+import { EventHandler } from '../../monitoring/eventhandler'
+import { ServerDataStatus } from '../../object/serverdatastatus'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
 import {
   generateAuthToken, generateFamilyId, generateIdWithinFamily, generateVersionId
 } from '../../util/token'
 import { requireMailAndLocaleByAuthToken } from '../authentication'
 import { prepareDeviceEntry } from '../device/prepare-device-entry'
 
-export const createFamily = async ({ database, mailAuthToken, firstParentDevice, password, timeZone, parentName, deviceName }: {
-  database: Database,
-  mailAuthToken: string,
-  firstParentDevice: NewDeviceInfo,
-  password: PlaintextParentPassword,
-  timeZone: string,
-  parentName: string,
+export async function createFamily ({
+  database, eventHandler, mailAuthToken, firstParentDevice,
+  password, timeZone, parentName, deviceName, clientLevel
+}: {
+  database: Database
+  eventHandler: EventHandler
+  mailAuthToken: string
+  firstParentDevice: NewDeviceInfo
+  password: PlaintextParentPassword
+  timeZone: string
+  parentName: string
   deviceName: string
+  clientLevel: number | null
   // no transaction here because this is directly called from an API endpoint
-}) => {
+}): Promise<{
+  deviceAuthToken: string
+  deviceId: string
+  data: ServerDataStatus
+}> {
   assertPlaintextParentPasswordValid(password)
 
   return database.transaction(async (transaction) => {
@@ -42,14 +55,14 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
     const mailInfo = await requireMailAndLocaleByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
 
     // ensure that no family was created for this mail yet
-    const exisitngUserEntry = await database.user.findOne({
+    const existingUserEntry = await database.user.findOne({
       where: {
         mail: mailInfo.mail
       },
       transaction
     })
 
-    if (exisitngUserEntry) {
+    if (existingUserEntry) {
       throw new Conflict()
     }
 
@@ -103,9 +116,19 @@ export const createFamily = async ({ database, mailAuthToken, firstParentDevice,
       isUserKeptSignedIn: true
     }), { transaction })
 
+    const data = await generateServerDataStatus({
+      database,
+      clientStatus: createEmptyClientDataStatus({ clientLevel }),
+      familyId,
+      deviceId,
+      transaction,
+      eventHandler
+    })
+
     return {
       deviceAuthToken,
-      deviceId
+      deviceId,
+      data
     }
   })
 }

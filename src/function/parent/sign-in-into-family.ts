@@ -24,15 +24,21 @@ import { WebsocketApi } from '../../websocket'
 import { requireMailAndLocaleByAuthToken } from '../authentication'
 import { prepareDeviceEntry } from '../device/prepare-device-entry'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
+import { generateServerDataStatus } from '../sync/get-server-data-status'
+import { EventHandler } from '../../monitoring/eventhandler'
+import { ServerDataStatus } from '../../object/serverdatastatus'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
 
-export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo, deviceName, websocket }: {
+export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
   database: Database
+  eventHandler: EventHandler
   mailAuthToken: string
   newDeviceInfo: NewDeviceInfo
   deviceName: string
   websocket: WebsocketApi
+  clientLevel: number | null
   // no transaction here because this is directly called from an API endpoint
-}): Promise<{ deviceId: string; deviceAuthToken: string }> => {
+}): Promise<{ deviceId: string; deviceAuthToken: string; data: ServerDataStatus }> => {
   return database.transaction(async (transaction) => {
     const mailInfo = await requireMailAndLocaleByAuthToken({ database, mailAuthToken, transaction, invalidate: true })
 
@@ -94,9 +100,19 @@ export const signInIntoFamily = async ({ database, mailAuthToken, newDeviceInfo,
       })
     })
 
+    const data = await generateServerDataStatus({
+      database,
+      clientStatus: createEmptyClientDataStatus({ clientLevel }),
+      familyId: userEntry.familyId,
+      deviceId,
+      transaction,
+      eventHandler
+    })
+
     return {
       deviceId,
-      deviceAuthToken
+      deviceAuthToken,
+      data
     }
   })
 }

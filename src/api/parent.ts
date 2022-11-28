@@ -31,6 +31,7 @@ import { signInIntoFamily } from '../function/parent/sign-in-into-family'
 import { validateU2fIntegrity, U2fValidationError } from '../function/u2f'
 import { createIdentityToken, MissingSignSecretException } from '../util/identity-token'
 import { WebsocketApi } from '../websocket'
+import { EventHandler } from '../monitoring/eventhandler'
 import {
   isCreateFamilyByMailTokenRequest,
   isCreateRegisterDeviceTokenRequest, isLinkParentMailAddressRequest,
@@ -38,7 +39,13 @@ import {
   isRemoveDeviceRequest, isSignIntoFamilyRequest, isRequestIdentityTokenRequest
 } from './validator'
 
-export const createParentRouter = ({ database, websocket }: {database: Database, websocket: WebsocketApi}) => {
+export const createParentRouter = ({
+  database, websocket, eventHandler
+}: {
+  database: Database
+  websocket: WebsocketApi
+  eventHandler: EventHandler
+}) => {
   const router = Router()
 
   router.post('/get-status-by-mail-address', json(), async (req, res, next) => {
@@ -75,17 +82,20 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
 
       const result = await createFamily({
         database,
+        eventHandler,
         firstParentDevice: req.body.parentDevice,
         mailAuthToken: req.body.mailAuthToken,
         password: req.body.parentPassword,
         deviceName: req.body.deviceName,
         parentName: req.body.parentName,
-        timeZone: req.body.timeZone
+        timeZone: req.body.timeZone,
+        clientLevel: req.body.clientLevel || null
       })
 
       res.json({
         deviceAuthToken: result.deviceAuthToken,
-        ownDeviceId: result.deviceId
+        ownDeviceId: result.deviceId,
+        data: result.data
       })
     } catch (ex) {
       next(ex)
@@ -100,15 +110,18 @@ export const createParentRouter = ({ database, websocket }: {database: Database,
 
       const result = await signInIntoFamily({
         database,
+        eventHandler,
         newDeviceInfo: req.body.parentDevice,
         mailAuthToken: req.body.mailAuthToken,
         deviceName: req.body.deviceName,
+        clientLevel: req.body.clientLevel || null,
         websocket
       })
 
       res.json({
         deviceAuthToken: result.deviceAuthToken,
-        ownDeviceId: result.deviceId
+        ownDeviceId: result.deviceId,
+        data: result.data
       })
     } catch (ex) {
       next(ex)

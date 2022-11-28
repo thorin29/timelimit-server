@@ -84,12 +84,14 @@ export interface CreateFamilyByMailTokenRequest {
   deviceName: string
   timeZone: string
   parentName: string
+  clientLevel?: number
 }
 
 export interface SignIntoFamilyRequest {
   mailAuthToken: string
   parentDevice: NewDeviceInfo
   deviceName: string
+  clientLevel?: number
 }
 
 export interface RecoverParentPasswordRequest {
@@ -101,6 +103,7 @@ export interface RegisterChildDeviceRequest {
   registerToken: string
   childDevice: NewDeviceInfo
   deviceName: string
+  clientLevel?: number
 }
 
 export interface CreateRegisterDeviceTokenRequest {

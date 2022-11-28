@@ -21,6 +21,7 @@ https://timelimit.io/RegisterChildDeviceRequest
 | [registerToken](#registertoken) | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-registertoken.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/registerToken") |
 | [childDevice](#childdevice)     | `object` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-definitions-newdeviceinfo.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/childDevice")  |
 | [deviceName](#devicename)       | `string` | Required | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-devicename.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/deviceName")       |
+| [clientLevel](#clientlevel)     | `number` | Optional | cannot be null | [RegisterChildDeviceRequest](registerchilddevicerequest-properties-clientlevel.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/clientLevel")     |
 
 ## registerToken
 
@@ -75,6 +76,24 @@ https://timelimit.io/RegisterChildDeviceRequest
 ### deviceName Type
 
 `string`
+
+## clientLevel
+
+
+
+`clientLevel`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [RegisterChildDeviceRequest](registerchilddevicerequest-properties-clientlevel.md "https://timelimit.io/RegisterChildDeviceRequest#/properties/clientLevel")
+
+### clientLevel Type
+
+`number`
 
 # RegisterChildDeviceRequest Definitions
 

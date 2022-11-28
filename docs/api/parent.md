@@ -44,7 +44,7 @@ If the mail auth token is invalid/ expired: HTTP status code 401 Unauthorized
 
 If there is already a user with the mail address of the mail auth token: HTTP status code 409 Conflict
 
-On success: object with ``deviceAuthToken`` (string) and ``ownDeviceId`` (string)
+On success: object with ``deviceAuthToken`` (string), ``ownDeviceId`` (string) and ``data`` (like a ``/sync/pull-status`` response)
 
 ## POST /parent/sign-in-into-family
 
@@ -60,7 +60,7 @@ On a invalid request body: HTTP status code 400 Bad Request
 
 If there is no user with the mail address of the mail auth token: HTTP status code 409 Conflict
 
-On success: object with ``deviceAuthToken`` (string) and ``ownDeviceId`` (string)
+On success: object with ``deviceAuthToken`` (string), ``ownDeviceId`` (string) and ``data`` (like a ``/sync/pull-status`` response)
 
 ## POST /parent/can-recover-password
 

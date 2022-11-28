@@ -21,6 +21,7 @@ https://timelimit.io/SignIntoFamilyRequest
 | [mailAuthToken](#mailauthtoken) | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-mailauthtoken.md "https://timelimit.io/SignIntoFamilyRequest#/properties/mailAuthToken") |
 | [parentDevice](#parentdevice)   | `object` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-definitions-newdeviceinfo.md "https://timelimit.io/SignIntoFamilyRequest#/properties/parentDevice") |
 | [deviceName](#devicename)       | `string` | Required | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-devicename.md "https://timelimit.io/SignIntoFamilyRequest#/properties/deviceName")       |
+| [clientLevel](#clientlevel)     | `number` | Optional | cannot be null | [SignIntoFamilyRequest](signintofamilyrequest-properties-clientlevel.md "https://timelimit.io/SignIntoFamilyRequest#/properties/clientLevel")     |
 
 ## mailAuthToken
 
@@ -75,6 +76,24 @@ https://timelimit.io/SignIntoFamilyRequest
 ### deviceName Type
 
 `string`
+
+## clientLevel
+
+
+
+`clientLevel`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SignIntoFamilyRequest](signintofamilyrequest-properties-clientlevel.md "https://timelimit.io/SignIntoFamilyRequest#/properties/clientLevel")
+
+### clientLevel Type
+
+`number`
 
 # SignIntoFamilyRequest Definitions
 

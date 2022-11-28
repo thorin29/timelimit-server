@@ -24,6 +24,7 @@ https://timelimit.io/CreateFamilyByMailTokenRequest
 | [deviceName](#devicename)         | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-devicename.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/deviceName")                   |
 | [timeZone](#timezone)             | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-timezone.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/timeZone")                       |
 | [parentName](#parentname)         | `string` | Required | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-parentname.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/parentName")                   |
+| [clientLevel](#clientlevel)       | `number` | Optional | cannot be null | [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-clientlevel.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/clientLevel")                 |
 
 ## mailAuthToken
 
@@ -132,6 +133,24 @@ https://timelimit.io/CreateFamilyByMailTokenRequest
 ### parentName Type
 
 `string`
+
+## clientLevel
+
+
+
+`clientLevel`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [CreateFamilyByMailTokenRequest](createfamilybymailtokenrequest-properties-clientlevel.md "https://timelimit.io/CreateFamilyByMailTokenRequest#/properties/clientLevel")
+
+### clientLevel Type
+
+`number`
 
 # CreateFamilyByMailTokenRequest Definitions
 

@@ -18,6 +18,9 @@
     },
     "parentName": {
       "type": "string"
+    },
+    "clientLevel": {
+      "type": "number"
     }
   },
   "additionalProperties": false,

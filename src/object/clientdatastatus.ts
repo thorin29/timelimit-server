@@ -28,6 +28,18 @@ export interface ClientDataStatus {
   u2f?: string  // last u2f list version
 }
 
+export function createEmptyClientDataStatus({ clientLevel }: {
+  clientLevel: number | null
+}): ClientDataStatus {
+  return {
+    devices: '',
+    apps: {},
+    categories: {},
+    users: '',
+    clientLevel: clientLevel || undefined
+  }
+}
+
 export type ClientDataStatusApps = {[key: string]: string} // installedAppsVersionsByDeviceId
 export type ClientDataStatusCategories = {[key: string]: CategoryDataStatus}
 export type ClientDataStatusDevicesExtended = {[key: string]: DeviceDataStatus}

@@ -22,13 +22,22 @@ import { generateAuthToken, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
 import { prepareDeviceEntry } from '../device/prepare-device-entry'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
+import { generateServerDataStatus } from '../sync/get-server-data-status'
+import { EventHandler } from '../../monitoring/eventhandler'
+import { ServerDataStatus } from '../../object/serverdatastatus'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
 
-export const addChildDevice = async ({ database, websocket, request }: {
+export const addChildDevice = async ({ database, eventHandler, websocket, request }: {
   database: Database
+  eventHandler: EventHandler
   websocket: WebsocketApi
   request: RegisterChildDeviceRequest
   // no transaction here because this is directly called from an API endpoint
-}) => {
+}): Promise<{
+  deviceId: string
+  deviceAuthToken: string
+  data: ServerDataStatus
+}> => {
   return database.transaction(async (transaction) => {
     const entry = await database.addDeviceToken.findOne({
       where: {
@@ -75,9 +84,19 @@ export const addChildDevice = async ({ database, websocket, request }: {
       transaction
     })
 
+    const data = await generateServerDataStatus({
+      database,
+      clientStatus: createEmptyClientDataStatus({ clientLevel: request.clientLevel || null }),
+      familyId: entry.familyId,
+      deviceId,
+      transaction,
+      eventHandler
+    })
+
     return {
       deviceId,
-      deviceAuthToken
+      deviceAuthToken,
+      data
     }
   })
 }

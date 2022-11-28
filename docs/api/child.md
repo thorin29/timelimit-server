@@ -16,8 +16,7 @@ On a invalid request body: HTTP status code 400 Bad request
 
 On a invalid add device token: HTTP status code 401 Unauthorized
 
-On success: a JSON object with the properties ``deviceAuthToken`` and ``ownDeviceId``,
-both of the type string
+On success: object with ``deviceAuthToken`` (string), ``ownDeviceId`` (string) and ``data`` (like a ``/sync/pull-status`` response)
 
 ## POST /child/update-primary-device
 

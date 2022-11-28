@@ -2930,6 +2930,9 @@ export const isCreateFamilyByMailTokenRequest: (value: unknown) => value is Crea
     },
     "parentName": {
       "type": "string"
+    },
+    "clientLevel": {
+      "type": "number"
     }
   },
   "additionalProperties": false,
@@ -2955,6 +2958,9 @@ export const isSignIntoFamilyRequest: (value: unknown) => value is SignIntoFamil
     },
     "deviceName": {
       "type": "string"
+    },
+    "clientLevel": {
+      "type": "number"
     }
   },
   "additionalProperties": false,
@@ -2995,6 +3001,9 @@ export const isRegisterChildDeviceRequest: (value: unknown) => value is Register
     },
     "deviceName": {
       "type": "string"
+    },
+    "clientLevel": {
+      "type": "number"
     }
   },
   "additionalProperties": false,
