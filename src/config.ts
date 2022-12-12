@@ -34,6 +34,8 @@ function parseYesNo (value: string) {
   }
 }
 
+class ParseYesNoException extends Error {}
+
 export const config: Config = {
   mailWhitelist: (process.env.MAIL_WHITELIST || '').split(',').map((item) => item.trim()).filter((item) => item.length > 0),
   disableSignup: parseYesNo(process.env.DISABLE_SIGNUP || 'no'),
@@ -41,5 +43,3 @@ export const config: Config = {
   alwaysPro: process.env.ALWAYS_PRO ? parseYesNo(process.env.ALWAYS_PRO) : false,
   signSecret: process.env.SIGN_SECRET || ''
 }
-
-class ParseYesNoException extends Error {}
