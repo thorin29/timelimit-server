@@ -24,6 +24,8 @@ interface Config {
   signSecret: string
 }
 
+class ParseYesNoException extends Error {}
+
 function parseYesNo (value: string) {
   if (value === 'yes') {
     return true
@@ -41,5 +43,3 @@ export const config: Config = {
   alwaysPro: process.env.ALWAYS_PRO ? parseYesNo(process.env.ALWAYS_PRO) : false,
   signSecret: process.env.SIGN_SECRET || ''
 }
-
-class ParseYesNoException extends Error {}
