@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,6 +21,7 @@ import { Router } from 'express'
 import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
 import { config } from '../config'
 import { Database, Transaction } from '../database'
+import { deleteAccount } from '../function/cleanup/account-deletion'
 import { removeDevice } from '../function/device/remove-device'
 import { createAddDeviceToken } from '../function/parent/create-add-device-token'
 import { createFamily } from '../function/parent/create-family'
@@ -36,7 +37,8 @@ import {
   isCreateFamilyByMailTokenRequest,
   isCreateRegisterDeviceTokenRequest, isLinkParentMailAddressRequest,
   isMailAuthTokenRequestBody, isRecoverParentPasswordRequest,
-  isRemoveDeviceRequest, isSignIntoFamilyRequest, isRequestIdentityTokenRequest
+  isRemoveDeviceRequest, isSignIntoFamilyRequest, isRequestIdentityTokenRequest,
+  isDeleteAccountPayload
 } from './validator'
 
 export const createParentRouter = ({
@@ -353,6 +355,20 @@ export const createParentRouter = ({
     } catch (ex) {
       if (ex instanceof MissingSignSecretException) res.sendStatus(404)
       else next(ex)
+    }
+  })
+
+  router.post('/delete-account', json(), async (req, res, next) => {
+    try {
+      if (!isDeleteAccountPayload(req.body)) {
+        throw new BadRequest()
+      }
+
+      await deleteAccount({ database, request: req.body, websocket })
+
+      res.sendStatus(200)
+    } catch (ex) {
+      next(ex)
     }
   })
 

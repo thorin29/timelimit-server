@@ -193,6 +193,19 @@ export const sendPasswordRecoveryUsedMail = async ({ receiver, locale }: {
   })
 }
 
+const accountDeletedMailSender = createMailTemplateSender('account-deleted')
+
+export const sendAccountDeletedMail = async ({ receiver }: {
+  receiver: string
+}) => {
+  await accountDeletedMailSender.sendMail({
+    receiver,
+    params: {
+      mailimprint
+    }
+  })
+}
+
 function getMailSecurityText (locale: string) {
   if (locale === 'de') {
     return 'Achten Sie darauf, dass Ihr Kind/Ihre Kinder keinen Zugang zu der E-Mail-Adresse hat/haben, die Sie bei TimeLimit angegeben haben.'

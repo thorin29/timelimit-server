@@ -194,3 +194,27 @@ If the ``secondPasswordHash`` is invalid: HTTP status code 401 Unauthorized
 If the server does not support this request: HTTP status code 404
 
 On success: ``{"token": "some string"}``; you should not make any assumptions about the token string
+
+## POST /parent/delete-account
+
+Use this to delete an account. This includes the complete family registration
+with users and devices. Due to that, all parents with a linked mail address
+have to authenticate this action.
+
+## request
+
+see [this JSON schema](../schema/deleteaccountpayload.md)
+
+## response
+
+On success: HTTP status code 200
+
+On a invalid request body: HTTP status code 400 Bad Request
+
+On unknown device auth token: HTTP status code 401 Unauthorized
+
+On missing parent authentication: HTTP status code 401 Unauthorized
+
+On unrelated parent authentication: HTTP status code 401 Unauthorized
+
+If a newer endpoint must be used/the client is too old: HTTP status code 410 Gone

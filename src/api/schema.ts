@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -174,6 +174,11 @@ export interface IdentityTokenCreatePayload {
 
 export type IdentityTokenPayload = IdentityTokenCreatePayload & {
   exp: number
+}
+
+export interface DeleteAccountPayload {
+  deviceAuthToken: string
+  mailAuthTokens: Array<string>
 }
 
 export { SerializedParentAction, SerializedChildAction, SerializedAppLogicAction } from '../action/serialization'

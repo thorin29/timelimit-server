@@ -14,6 +14,8 @@
 
 *   [CreateRegisterDeviceTokenRequest](./createregisterdevicetokenrequest.md) – `https://timelimit.io/CreateRegisterDeviceTokenRequest`
 
+*   [DeleteAccountPayload](./deleteaccountpayload.md) – `https://timelimit.io/DeleteAccountPayload`
+
 *   [FinishPurchaseByGooglePlayRequest](./finishpurchasebygoogleplayrequest.md) – `https://timelimit.io/FinishPurchaseByGooglePlayRequest`
 
 *   [IdentityTokenPayload](./identitytokenpayload.md) – `https://timelimit.io/IdentityTokenPayload`
@@ -281,6 +283,8 @@
 ### Arrays
 
 *   [Untitled array in ClientPushChangesRequest](./clientpushchangesrequest-properties-actions.md) – `https://timelimit.io/ClientPushChangesRequest#/properties/actions`
+
+*   [Untitled array in DeleteAccountPayload](./deleteaccountpayload-properties-mailauthtokens.md) – `https://timelimit.io/DeleteAccountPayload#/properties/mailAuthTokens`
 
 *   [Untitled array in SerializedAppLogicAction](./serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md) – `https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps`
 
