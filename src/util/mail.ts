@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -72,7 +72,10 @@ function createMailTemplateSender (templateName: string) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const data = (info as any).message
 
-            console.log(JSON.stringify(JSON.parse(data), null, 2))
+            console.log(JSON.stringify({
+              ...JSON.parse(data),
+              params
+            }, null, 2))
           }
 
           resolve()
