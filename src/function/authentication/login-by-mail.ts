@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -109,7 +109,7 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
   database: Database
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ mailAuthToken: string }> => {
-  return database.transaction(async (transaction) => {
+  const result = await database.transaction(async (transaction) => {
     const entry = await database.mailLoginToken.findOne({
       where: {
         mailLoginToken
@@ -127,9 +127,9 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
       await entry.save({ transaction })
 
       if (entry.remainingAttempts === 0) {
-        throw new Gone()
+        return () => { throw new Gone() }
       } else {
-        throw new Forbidden()
+        return () => { throw new Forbidden() }
       }
     }
 
@@ -151,6 +151,8 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
       transaction
     })
 
-    return { mailAuthToken }
+    return () => ({ mailAuthToken })
   })
+
+  return result()
 }
