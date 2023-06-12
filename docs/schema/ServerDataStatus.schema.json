@@ -212,6 +212,12 @@
         },
         "pk": {
           "type": "string"
+        },
+        "pType": {
+          "type": "string"
+        },
+        "pLevel": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
@@ -240,6 +246,7 @@
         "model",
         "name",
         "networkTime",
+        "pLevel",
         "qOrLater",
         "reboot",
         "rebootIsManipulation",

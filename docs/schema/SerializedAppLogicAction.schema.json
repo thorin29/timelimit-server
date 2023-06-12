@@ -545,6 +545,12 @@
         },
         "addedManipulationFlags": {
           "type": "number"
+        },
+        "platformType": {
+          "type": "string"
+        },
+        "platformLevel": {
+          "type": "number"
         }
       },
       "additionalProperties": false,

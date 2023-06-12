@@ -1240,6 +1240,8 @@ Reference this group by using
 | [didReboot](#didreboot)                                     | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")                                     |
 | [isQOrLaterNow](#isqorlaternow)                             | `boolean` | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")                             |
 | [addedManipulationFlags](#addedmanipulationflags)           | `number`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-addedmanipulationflags.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/addedManipulationFlags")           |
+| [platformType](#platformtype)                               | `string`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformtype.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformType")                               |
+| [platformLevel](#platformlevel)                             | `number`  | Optional | cannot be null | [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformLevel")                             |
 
 ### type
 
@@ -1467,6 +1469,42 @@ Reference this group by using
 *   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-addedmanipulationflags.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/addedManipulationFlags")
 
 #### addedManipulationFlags Type
+
+`number`
+
+### platformType
+
+
+
+`platformType`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformtype.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformType")
+
+#### platformType Type
+
+`string`
+
+### platformLevel
+
+
+
+`platformLevel`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformLevel")
+
+#### platformLevel Type
 
 `number`
 

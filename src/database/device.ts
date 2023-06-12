@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -36,6 +36,12 @@ export const DeviceManipulationFlags = {
   USED_FGS_KILLER: 1,
   ALL: 1
 }
+
+export const minPlatformTypeLength = 1
+export const maxPlatformTypeLength = 8
+
+export const minPlatformLevel = 0
+export const maxPlatformLevel = 128
 
 export interface DeviceAttributesVersion1 {
   familyId: string
@@ -119,11 +125,17 @@ export interface DeviceAttributesVersion14 {
   nextKeyReplySequenceNumber: string
 }
 
+export interface DeviceAttributesVersion15 {
+  platformType: string | null
+  platformLevel: number
+}
+
 export type DeviceAttributes = DeviceAttributesVersion1 & DeviceAttributesVersion2 &
   DeviceAttributesVersion3 & DeviceAttributesVersion4 & DeviceAttributesVersion5 &
   DeviceAttributesVersion6 & DeviceAttributesVersion7 & DeviceAttributesVersion8 &
   DeviceAttributesVersion9 & DeviceAttributesVersion10 & DeviceAttributesVersion11 &
-  DeviceAttributesVersion12 & DeviceAttributesVersion13 & DeviceAttributesVersion14
+  DeviceAttributesVersion12 & DeviceAttributesVersion13 & DeviceAttributesVersion14 &
+  DeviceAttributesVersion15
 
 export type DeviceModel = Sequelize.Model<DeviceAttributes> & DeviceAttributes
 export type DeviceModelStatic = typeof Sequelize.Model & {
@@ -305,6 +317,26 @@ export const attributesVersion14: SequelizeAttributes<DeviceAttributesVersion14>
   }
 }
 
+export const attributesVersion15: SequelizeAttributes<DeviceAttributesVersion15> = {
+  platformType: {
+    type: Sequelize.STRING(maxPlatformTypeLength),
+    allowNull: true,
+    defaultValue: null,
+    validate: {
+      len: [minPlatformTypeLength, maxPlatformTypeLength]
+    }
+  },
+  platformLevel: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    defaultValue: minPlatformLevel,
+    validate: {
+      min: minPlatformLevel,
+      max: maxPlatformLevel
+    }
+  }
+}
+
 export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
@@ -319,7 +351,8 @@ export const attributes: SequelizeAttributes<DeviceAttributes> = {
   ...attributesVersion11,
   ...attributesVersion12,
   ...attributesVersion13,
-  ...attributesVersion14
+  ...attributesVersion14,
+  ...attributesVersion15
 }
 
 export const createDeviceModel = (sequelize: Sequelize.Sequelize): DeviceModelStatic => sequelize.define('Device', attributes) as DeviceModelStatic

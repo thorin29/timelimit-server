@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -152,6 +152,18 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
 
     if (hasChanged) {
       deviceEntry.isQorLater = true
+    }
+  }
+
+  if (action.platformType !== undefined) {
+    if (action.platformType !== deviceEntry.platformType) {
+      deviceEntry.platformType = action.platformType
+    }
+  }
+
+  if (action.platformLevel !== undefined) {
+    if (action.platformLevel !== deviceEntry.platformLevel) {
+      deviceEntry.platformLevel = action.platformLevel
     }
   }
 

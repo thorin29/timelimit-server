@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { minPlatformLevel, maxPlatformLevel, minPlatformTypeLength, maxPlatformTypeLength } from '../database/device'
 import { NewPermissionStatus } from '../model/newpermissionstatus'
 import { ProtectionLevel } from '../model/protectionlevel'
 import { RuntimePermissionStatus } from '../model/runtimepermissionstatus'
@@ -33,6 +34,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
   readonly didReboot: boolean
   readonly isQOrLaterNow: boolean
   readonly addedManipulationFlags: number
+  readonly platformType?: string
+  readonly platformLevel?: number
 
   constructor ({
     newProtetionLevel,
@@ -43,7 +46,9 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     newAppVersion,
     didReboot,
     isQOrLaterNow,
-    addedManipulationFlags
+    addedManipulationFlags,
+    platformType,
+    platformLevel
   }: {
     newProtetionLevel?: ProtectionLevel
     newUsageStatsPermissionStatus?: RuntimePermissionStatus
@@ -54,6 +59,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     didReboot: boolean
     isQOrLaterNow: boolean
     addedManipulationFlags: number
+    platformType?: string
+    platformLevel?: number
   }) {
     super()
 
@@ -67,6 +74,20 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
 
     assertSafeInteger({ actionType, field: 'addedManipulationFlags', value: addedManipulationFlags })
 
+    if (platformType !== undefined) {
+      if (platformType.length < minPlatformTypeLength || platformType.length > maxPlatformTypeLength) {
+        throwOutOfRange({ actionType, field: 'platformType.length', value: platformType.length })
+      }
+    }
+
+    if (platformLevel !== undefined) {
+      assertSafeInteger({ actionType, field: 'platformLevel', value: platformLevel })
+
+      if (platformLevel < minPlatformLevel || platformLevel > maxPlatformLevel) {
+        throwOutOfRange({ actionType, field: 'platformLevel', value: platformLevel })
+      }
+    }
+
     this.newProtetionLevel = newProtetionLevel
     this.newUsageStatsPermissionStatus = newUsageStatsPermissionStatus
     this.newNotificationAccessPermission = newNotificationAccessPermission
@@ -76,6 +97,8 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     this.didReboot = didReboot
     this.isQOrLaterNow = isQOrLaterNow
     this.addedManipulationFlags = addedManipulationFlags
+    this.platformType = platformType
+    this.platformLevel = platformLevel
   }
 
   static parse = ({
@@ -87,7 +110,9 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
     appVersion,
     didReboot,
     isQOrLaterNow,
-    addedManipulationFlags
+    addedManipulationFlags,
+    platformType,
+    platformLevel
   }: SerializedUpdateDeviceStatusAction) => (
     new UpdateDeviceStatusAction({
       newProtetionLevel: protectionLevel,
@@ -98,7 +123,9 @@ export class UpdateDeviceStatusAction extends AppLogicAction {
       newAppVersion: appVersion,
       didReboot: !!didReboot,
       isQOrLaterNow: !!isQOrLaterNow,
-      addedManipulationFlags: addedManipulationFlags || 0
+      addedManipulationFlags: addedManipulationFlags || 0,
+      platformType: platformType,
+      platformLevel: platformLevel
     })
   )
 }
@@ -114,4 +141,6 @@ export interface SerializedUpdateDeviceStatusAction {
   didReboot?: boolean
   isQOrLaterNow?: boolean
   addedManipulationFlags?: number
+  platformType?: string
+  platformLevel?: number
 }

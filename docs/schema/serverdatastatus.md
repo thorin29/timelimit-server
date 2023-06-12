@@ -435,6 +435,8 @@ Reference this group by using
 | [qOrLater](#qorlater)                           | `boolean` | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-qorlater.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/qOrLater")                           |
 | [mFlags](#mflags)                               | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-mflags.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/mFlags")                               |
 | [pk](#pk)                                       | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-pk.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pk")                                       |
+| [pType](#ptype)                                 | `string`  | Optional | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-ptype.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pType")                                 |
+| [pLevel](#plevel)                               | `number`  | Required | cannot be null | [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-plevel.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pLevel")                               |
 
 ### deviceId
 
@@ -1103,6 +1105,42 @@ Reference this group by using
 #### pk Type
 
 `string`
+
+### pType
+
+
+
+`pType`
+
+*   is optional
+
+*   Type: `string`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-ptype.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pType")
+
+#### pType Type
+
+`string`
+
+### pLevel
+
+
+
+`pLevel`
+
+*   is required
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [ServerDataStatus](serverdatastatus-definitions-serverdevicedata-properties-plevel.md "https://timelimit.io/ServerDataStatus#/definitions/ServerDeviceData/properties/pLevel")
+
+#### pLevel Type
+
+`number`
 
 ## Definitions group ProtectionLevel
 

@@ -1982,6 +1982,12 @@ const definitions = {
       },
       "addedManipulationFlags": {
         "type": "number"
+      },
+      "platformType": {
+        "type": "string"
+      },
+      "platformLevel": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2164,6 +2170,12 @@ const definitions = {
       },
       "pk": {
         "type": "string"
+      },
+      "pType": {
+        "type": "string"
+      },
+      "pLevel": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -2192,6 +2204,7 @@ const definitions = {
       "model",
       "name",
       "networkTime",
+      "pLevel",
       "qOrLater",
       "reboot",
       "rebootIsManipulation",

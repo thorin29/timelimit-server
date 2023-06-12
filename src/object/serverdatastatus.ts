@@ -103,6 +103,8 @@ export interface ServerDeviceData {
   qOrLater: boolean
   mFlags: number  // manipulation flags
   pk?: string     // public key
+  pType?: string
+  pLevel: number
 }
 
 export interface ServerUpdatedCategoryBaseData {
