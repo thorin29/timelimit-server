@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2023 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,12 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as Sequelize from 'sequelize'
 import { AddUsedTimeActionVersion2 } from '../../../../action'
 import { EventHandler } from '../../../../monitoring/eventhandler'
 import { MinuteOfDay } from '../../../../util/minuteofday'
 import { Cache } from '../cache'
 import { IllegalStateException, SourceDeviceNotFoundException } from '../exception/illegal-state'
 import { getRoundedTimestamp as getRoundedTimestampForUsedTime } from './addusedtime'
+
+const tolerance = 5 * 1000  // 5 seconds
 
 export const getRoundedTimestampForSessionDuration = () => {
   const now = Date.now()
@@ -129,11 +132,32 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
           }
         }
       } else {
+        const oldTime: number | null = await cache.database.usedTime.aggregate(
+          'usedTime',
+          'MAX',
+          {
+            where: {
+              familyId: cache.familyId,
+              categoryId: item.categoryId,
+              dayOfEpoch: action.dayOfEpoch,
+              startMinuteOfDay: {
+                [Sequelize.Op.gte]: start
+              },
+              endMinuteOfDay: {
+                [Sequelize.Op.lte]: end
+              }
+            },
+            transaction: cache.transaction
+          }
+        ) || 0
+
+        if (oldTime !== null && typeof oldTime !== 'number') throw new Error()
+
         await cache.database.usedTime.create({
           familyId: cache.familyId,
           categoryId: item.categoryId,
           dayOfEpoch: action.dayOfEpoch,
-          usedTime: Math.max(0, Math.min(item.timeToAdd, lengthInMs)),
+          usedTime: Math.max(0, Math.min(oldTime + item.timeToAdd, lengthInMs)),
           lastUpdate: roundedTimestampForUsedTime,
           startMinuteOfDay: start,
           endMinuteOfDay: end
@@ -168,6 +192,39 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
         transaction: cache.transaction
       })
 
+      const oldDuration: () => Promise<number> = async () => {
+        const fittingDurationItems = await cache.database.sessionDuration.findAll({
+          where: {
+            familyId: cache.familyId,
+            categoryId: item.categoryId,
+            startMinuteOfDay: {
+              [Sequelize.Op.gte]: limit.start
+            },
+            endMinuteOfDay: {
+              [Sequelize.Op.lte]: limit.end
+            },
+            maxSessionDuration: {
+              [Sequelize.Op.gte]: limit.duration
+            },
+            sessionPauseDuration: {
+              [Sequelize.Op.lte]: limit.pause
+            }
+          },
+          transaction: cache.transaction
+        })
+
+        const fittingDurationItemsLastUsageFiltered =
+          hasTrustedTimestamp ?
+          fittingDurationItems.filter((it) => {
+            action.trustedTimestamp - item.timeToAdd <=
+            parseInt(it.lastUsage, 10) + it.sessionPauseDuration - tolerance
+          }) : fittingDurationItems
+
+        return fittingDurationItemsLastUsageFiltered
+          .map((it) => it.lastSessionDuration)
+          .reduce((a, b) => Math.max(a, b), 0)
+      }
+
       if (oldItem) {
         let extendSession: boolean
 
@@ -188,14 +245,13 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
            * Due to this, a session is reset if it would be over in a few seconds, too.
            */
 
-          const tolerance = 5 * 1000  // 5 seconds
           const timeWhenStartingCurrentUsage = action.trustedTimestamp - item.timeToAdd
           const nextSessionStart = parseInt(oldItem.lastUsage, 10) + oldItem.sessionPauseDuration - tolerance
 
           extendSession = timeWhenStartingCurrentUsage <= nextSessionStart
         }
 
-        oldItem.lastSessionDuration = extendSession ? oldItem.lastSessionDuration + item.timeToAdd : item.timeToAdd
+        oldItem.lastSessionDuration = extendSession ? oldItem.lastSessionDuration + item.timeToAdd : await oldDuration() + item.timeToAdd
         oldItem.roundedLastUpdate = roundedTimestampForSessionDuration
 
         if (hasTrustedTimestamp) {
@@ -215,7 +271,7 @@ export async function dispatchAddUsedTimeVersion2 ({ deviceId, action, cache, ev
           endMinuteOfDay: limit.end,
           // end of primary key
           lastUsage: action.trustedTimestamp.toString(10),
-          lastSessionDuration: item.timeToAdd,
+          lastSessionDuration: await oldDuration() + item.timeToAdd,
           roundedLastUpdate: roundedTimestampForSessionDuration
         }, { transaction: cache.transaction })
       }
