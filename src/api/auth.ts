@@ -17,7 +17,8 @@
 
 import { json } from 'body-parser'
 import { Router } from 'express'
-import { BadRequest } from 'http-errors'
+import { BadRequest, Forbidden } from 'http-errors'
+import { config } from '../config'
 import { Database } from '../database'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail'
 import { isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail'
@@ -49,6 +50,8 @@ export const createAuthRouter = (database: Database) => {
         res.json({ mailAddressNotWhitelisted: true })
       } else if (isMailServerBlacklisted(mail)) {
         res.json({ mailServerBlacklisted: true })
+      } else if (config.uaMailBlocklist.indexOf(req.headers['user-agent'] || '') !== -1) {
+        throw new Forbidden()
       } else {
         const { mailLoginToken } = await sendLoginCode({
           mail,
