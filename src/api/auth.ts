@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,6 +30,10 @@ export const createAuthRouter = (database: Database) => {
   const router = Router()
 
   router.post('/send-mail-login-code-v2', json(), async (req, res, next) => {
+    const info = {
+      ua: req.headers['user-agent']
+    }
+
     try {
       if (!isSendMailLoginCodeRequest(req.body)) {
         throw new BadRequest()
@@ -50,7 +54,8 @@ export const createAuthRouter = (database: Database) => {
           mail,
           deviceAuthToken: req.body.deviceAuthToken,
           locale: req.body.locale,
-          database
+          database,
+          info: Buffer.from(JSON.stringify(info), 'utf8')
         })
 
         res.json({ mailLoginToken })

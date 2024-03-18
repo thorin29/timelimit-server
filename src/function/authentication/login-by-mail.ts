@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,11 +23,12 @@ import { checkMailSendLimit } from '../../util/ratelimit-authmail'
 import { generateAuthToken } from '../../util/token'
 import { createAuthTokenByMailAddress } from './index'
 
-export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }: {
+export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database, info }: {
   mail: string
   deviceAuthToken?: string
   locale: string
   database: Database
+  info: Buffer
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ mailLoginToken: string }> => {
   let deviceName = null
@@ -82,7 +83,8 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
     receiver: mail,
     code,
     locale,
-    deviceName
+    deviceName,
+    info
   })
 
   await database.transaction(async (transaction) => {

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -45,9 +45,10 @@ function createMailTemplateSender (templateName: string) {
   const textTemplate = compileTemplate('text.ejs')
   const htmlTemplate = compileTemplate('html.ejs')
 
-  const sendMail = async ({ receiver, params }: {
+  const sendMail = async ({ receiver, params, info }: {
     receiver: string
     params: object
+    info?: Buffer
   }) => {
     if (!mailTransport) {
       throw new Error('can not send mails without mail config and without NODE_ENV=development')
@@ -56,6 +57,9 @@ function createMailTemplateSender (templateName: string) {
     const subject = subjectTemplate(params).replace(/\n/g, ' ')
     const text = textTemplate(params)
     const html = htmlTemplate(params)
+    const headers: {[key: string]: string} = info ? {
+      'X-TlInfo': info.toString('base64')
+    } : {}
 
     await new Promise<void>((resolve, reject) => {
       mailTransport.sendMail({
@@ -63,7 +67,8 @@ function createMailTemplateSender (templateName: string) {
         to: receiver,
         subject,
         text,
-        html
+        html,
+        headers
       }, (err, info) => {
         if (err) {
           reject(err)
@@ -90,9 +95,13 @@ function createMailTemplateSender (templateName: string) {
 const loginMailSender = createMailTemplateSender('login')
 
 export const sendAuthenticationMail = async ({
-  receiver, code, locale, deviceName
+  receiver, code, locale, deviceName, info
 }: {
-  receiver: string, code: string, locale: string, deviceName: string | null
+  receiver: string
+  code: string
+  locale: string
+  deviceName: string | null
+  info: Buffer
 }) => {
   await loginMailSender.sendMail({
     receiver,
@@ -105,7 +114,8 @@ export const sendAuthenticationMail = async ({
       deviceName,
       deviceNameIntro: locale === 'de' ? 'Die Anmeldung wurde am Gerät' : 'The login was attempted at the device',
       deviceNameOutro: locale === 'de' ? 'versucht.' : '.'
-    }
+    },
+    info
   })
 }
 
