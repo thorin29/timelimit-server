@@ -41,6 +41,10 @@ If a whitelist was configured and the mail address is not within it: ``{"mailAdd
 
 If a blacklist was configured and the mail server is within it: ``{"mailServerBlacklisted": true}``
 
+If a temporarily blacklist was configured and the mail server is within it (used in case of known mail delivery issues): ``{"mailServerBlacklistedTemporarily": true}``
+
+If the client is suspicious: ``{"blockedForIntegrityReasons": true}``
+
 On success: a object with a ``mailLoginToken`` of the type string
 
 #### example response
