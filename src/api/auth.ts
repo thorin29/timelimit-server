@@ -26,13 +26,15 @@ import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
 } from './validator'
+import { analyze } from './integrity'
 
 export const createAuthRouter = (database: Database) => {
   const router = Router()
 
   router.post('/send-mail-login-code-v2', json(), async (req, res, next) => {
     const info = {
-      ua: req.headers['user-agent']
+      ua: req.headers['user-agent'],
+      cert: analyze(req),
     }
 
     try {
