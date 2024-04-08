@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -81,7 +81,8 @@ export async function dispatchUpdateTimelimitRule ({
           action.sessionDurationMilliseconds <= ruleEntry.sessionDurationMilliseconds &&
           action.sessionPauseMilliseconds >= ruleEntry.sessionPauseMilliseconds
       )) &&
-      (!action.perDay || ruleEntry.perDay || countOldAffectedDays <= 1)
+      (!action.perDay || ruleEntry.perDay || countOldAffectedDays <= 1) &&
+      (action.expiresAt === undefined || (ruleEntry.expiresAt !== null && action.expiresAt >= parseInt(ruleEntry.expiresAt, 10)))
 
     if (!isAtLeastAsStrictAsPreviously) {
       throw new CanNotRelaxRestrictionsSelfLimitException()
@@ -96,6 +97,7 @@ export async function dispatchUpdateTimelimitRule ({
   ruleEntry.sessionDurationMilliseconds = action.sessionDurationMilliseconds
   ruleEntry.sessionPauseMilliseconds = action.sessionPauseMilliseconds
   ruleEntry.perDay = action.perDay ? 1 : 0
+  ruleEntry.expiresAt = action.expiresAt ? action.expiresAt.toString() : null
 
   await ruleEntry.save({ transaction: cache.transaction })
 

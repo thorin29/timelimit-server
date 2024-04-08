@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -45,7 +45,8 @@ export async function getRules ({ database, transaction, categoryIdsToSyncRules,
       'endMinuteOfDay',
       'sessionDurationMilliseconds',
       'sessionPauseMilliseconds',
-      'perDay'
+      'perDay',
+      'expiresAt'
     ],
     transaction
   })).map((item) => ({
@@ -58,7 +59,8 @@ export async function getRules ({ database, transaction, categoryIdsToSyncRules,
     endMinuteOfDay: item.endMinuteOfDay,
     sessionDurationMilliseconds: item.sessionDurationMilliseconds,
     sessionPauseMilliseconds: item.sessionPauseMilliseconds,
-    perDay: item.perDay
+    perDay: item.perDay,
+    expiresAt: item.expiresAt ? parseInt(item.expiresAt, 10) : undefined
   }))
 
   const getCategoryRulesVersion = (categoryId: string) => (
@@ -76,7 +78,8 @@ export async function getRules ({ database, transaction, categoryIdsToSyncRules,
       end: item.endMinuteOfDay,
       session: item.sessionDurationMilliseconds,
       pause: item.sessionPauseMilliseconds,
-      perDay: item.perDay !== 0 ? true : false
+      perDay: item.perDay !== 0 ? true : false,
+      e: item.expiresAt
     })),
     version: getCategoryRulesVersion(categoryId)
   }))

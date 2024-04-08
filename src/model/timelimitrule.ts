@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,11 +29,12 @@ export class TimelimitRule {
   readonly sessionDurationMilliseconds: number
   readonly sessionPauseMilliseconds: number
   readonly perDay: boolean
+  readonly expiresAt?: number
 
   constructor ({
     ruleId, categoryId, maxTimeInMillis, dayMask, applyToExtraTimeUsage,
     start, end, sessionDurationMilliseconds, sessionPauseMilliseconds,
-    perDay
+    perDay, expiresAt
   }: {
     ruleId: string
     categoryId: string
@@ -45,6 +46,7 @@ export class TimelimitRule {
     sessionDurationMilliseconds: number
     sessionPauseMilliseconds: number
     perDay: boolean
+    expiresAt?: number
   }) {
     this.ruleId = ruleId
     this.categoryId = categoryId
@@ -56,6 +58,7 @@ export class TimelimitRule {
     this.sessionDurationMilliseconds = sessionDurationMilliseconds
     this.sessionPauseMilliseconds = sessionPauseMilliseconds
     this.perDay = perDay
+    this.expiresAt = expiresAt
 
     assertIdWithinFamily(ruleId)
     assertIdWithinFamily(categoryId)
@@ -88,6 +91,14 @@ export class TimelimitRule {
     if (sessionDurationMilliseconds < 0 || sessionPauseMilliseconds < 0) {
       throw new ParseTimeLimitRuleException()
     }
+
+    if (expiresAt !== undefined) {
+      if (!Number.isSafeInteger(expiresAt)) throw new ParseTimeLimitRuleException()
+
+      if (expiresAt <= 0) {
+        throw new ParseTimeLimitRuleException()
+      }
+    }
   }
 
   serialize = (): SerializedTimeLimitRule => ({
@@ -99,10 +110,11 @@ export class TimelimitRule {
     start: this.start,
     end: this.end,
     pause: this.sessionPauseMilliseconds,
-    dur: this.sessionDurationMilliseconds
+    dur: this.sessionDurationMilliseconds,
+    e: this.expiresAt
   })
 
-  static parse = ({ ruleId, categoryId, time, days, extraTime, start, end, dur, pause, perDay }: SerializedTimeLimitRule) => (
+  static parse = ({ ruleId, categoryId, time, days, extraTime, start, end, dur, pause, perDay, e }: SerializedTimeLimitRule) => (
     new TimelimitRule({
       ruleId,
       categoryId,
@@ -113,7 +125,8 @@ export class TimelimitRule {
       end: end ?? MinuteOfDay.MAX,
       sessionDurationMilliseconds: dur ?? 0,
       sessionPauseMilliseconds: pause ?? 0,
-      perDay: perDay ?? false
+      perDay: perDay ?? false,
+      expiresAt: e
     })
   )
 }
@@ -129,6 +142,7 @@ export interface SerializedTimeLimitRule {
   dur?: number
   pause?: number
   perDay?: boolean
+  e?: number // expiresAt
 }
 
 export class ParseTimeLimitRuleException extends Error {}

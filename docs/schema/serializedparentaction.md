@@ -899,6 +899,7 @@ Reference this group by using
 | [dur](#dur)                 | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedtimelimitrule-properties-dur.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedTimeLimitRule/properties/dur")               |
 | [pause](#pause)             | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedtimelimitrule-properties-pause.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedTimeLimitRule/properties/pause")           |
 | [perDay](#perday)           | `boolean` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedtimelimitrule-properties-perday.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedTimeLimitRule/properties/perDay")         |
+| [e](#e)                     | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedtimelimitrule-properties-e.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedTimeLimitRule/properties/e")                   |
 
 ### ruleId
 
@@ -1079,6 +1080,24 @@ Reference this group by using
 #### perDay Type
 
 `boolean`
+
+### e
+
+
+
+`e`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedtimelimitrule-properties-e.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedTimeLimitRule/properties/e")
+
+#### e Type
+
+`number`
 
 ## Definitions group SerializedDeleteCategoryAction
 
@@ -4397,6 +4416,7 @@ Reference this group by using
 | [dur](#dur-1)             | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-dur.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/dur")             |
 | [pause](#pause-1)         | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-pause.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/pause")         |
 | [perDay](#perday-1)       | `boolean` | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-perday.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/perDay")       |
+| [e](#e-1)                 | `number`  | Optional | cannot be null | [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-e.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/e")                 |
 
 ### type
 
@@ -4585,6 +4605,24 @@ Reference this group by using
 #### perDay Type
 
 `boolean`
+
+### e
+
+
+
+`e`
+
+*   is optional
+
+*   Type: `number`
+
+*   cannot be null
+
+*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatetimelimitruleaction-properties-e.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateTimelimitRuleAction/properties/e")
+
+#### e Type
+
+`number`
 
 ## Definitions group SerializedUpdateUserFlagsAction
 
