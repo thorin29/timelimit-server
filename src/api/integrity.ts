@@ -4,7 +4,6 @@ import { fromBER, Sequence, Integer, OctetString, Set } from 'asn1js'
 import { Certificate } from 'pkijs'
 
 export interface CertInfo {
-  raw: string
   applicationCerts: Array<string>
 }
 
@@ -95,7 +94,6 @@ export function analyze(req: Request): CertInfo | null {
     }
 
     return {
-      raw: nativeCert.raw.toString('base64'),
       applicationCerts
     }
   } catch (ex) {
