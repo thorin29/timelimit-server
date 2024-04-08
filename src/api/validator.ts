@@ -409,6 +409,9 @@ const definitions = {
       },
       "perDay": {
         "type": "boolean"
+      },
+      "e": {
+        "type": "number"
       }
     },
     "additionalProperties": false,
@@ -1417,6 +1420,9 @@ const definitions = {
       },
       "perDay": {
         "type": "boolean"
+      },
+      "e": {
+        "type": "number"
       }
     },
     "additionalProperties": false,

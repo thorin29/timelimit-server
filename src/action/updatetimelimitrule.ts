@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -32,11 +32,12 @@ export class UpdateTimelimitRuleAction extends ParentAction {
   readonly sessionDurationMilliseconds: number
   readonly sessionPauseMilliseconds: number
   readonly perDay: boolean
+  readonly expiresAt?: number
 
   constructor ({
     ruleId, maximumTimeInMillis, dayMask, applyToExtraTimeUsage,
     start, end, sessionDurationMilliseconds, sessionPauseMilliseconds,
-    perDay
+    perDay, expiresAt
   }: {
     ruleId: string
     maximumTimeInMillis: number
@@ -47,6 +48,7 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     sessionDurationMilliseconds: number
     sessionPauseMilliseconds: number
     perDay: boolean
+    expiresAt?: number
   }) {
     super()
 
@@ -59,6 +61,7 @@ export class UpdateTimelimitRuleAction extends ParentAction {
     this.sessionDurationMilliseconds = sessionDurationMilliseconds
     this.sessionPauseMilliseconds = sessionPauseMilliseconds
     this.perDay = perDay
+    this.expiresAt = expiresAt
 
     assertIdWithinFamily({ actionType, field: 'ruleId', value: ruleId })
 
@@ -92,9 +95,17 @@ export class UpdateTimelimitRuleAction extends ParentAction {
         staticMessage: 'session duration lesser than zero'
       })
     }
+
+    if (expiresAt !== undefined) {
+      assertSafeInteger({ actionType, field: 'expiresAt', value: expiresAt })
+
+      if (expiresAt <= 0) {
+        throwOutOfRange({ actionType, field: 'expiresAt', value: expiresAt })
+      }
+    }
   }
 
-  static parse = ({ ruleId, time, days, extraTime, start, end, dur, pause, perDay }: SerializedUpdateTimelimitRuleAction) => (
+  static parse = ({ ruleId, time, days, extraTime, start, end, dur, pause, perDay, e }: SerializedUpdateTimelimitRuleAction) => (
     new UpdateTimelimitRuleAction({
       ruleId,
       maximumTimeInMillis: time,
@@ -104,7 +115,8 @@ export class UpdateTimelimitRuleAction extends ParentAction {
       end: end ?? MinuteOfDay.MAX,
       sessionDurationMilliseconds: dur ?? 0,
       sessionPauseMilliseconds: pause ?? 0,
-      perDay: perDay ?? false
+      perDay: perDay ?? false,
+      expiresAt: e
     })
   )
 }
@@ -120,4 +132,5 @@ export interface SerializedUpdateTimelimitRuleAction {
   dur?: number
   pause?: number
   perDay?: boolean
+  e?: number
 }

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -41,8 +41,13 @@ interface TimelimitRuleAttributesVersion3 {
   perDay: number
 }
 
+interface TimelimitRuleAttributesVersion4 {
+  expiresAt: string | null
+}
+
 type TimelimitRuleAttributes = TimelimitRuleAttributesVersion1 &
-  TimelimitRuleAttributesVersion2 & TimelimitRuleAttributesVersion3
+  TimelimitRuleAttributesVersion2 & TimelimitRuleAttributesVersion3 &
+  TimelimitRuleAttributesVersion4
 
 export type TimelimitRuleModel = Sequelize.Model<TimelimitRuleAttributes> & TimelimitRuleAttributes
 export type TimelimitRuleModelStatic = typeof Sequelize.Model & {
@@ -137,10 +142,22 @@ export const attributesVersion3: SequelizeAttributes<TimelimitRuleAttributesVers
   }
 }
 
+export const attributesVersion4: SequelizeAttributes<TimelimitRuleAttributesVersion4> = {
+  expiresAt: {
+    type: Sequelize.BIGINT,
+    validate: {
+      min: 1
+    },
+    allowNull: true,
+    defaultValue: null
+  }
+}
+
 export const attributes: SequelizeAttributes<TimelimitRuleAttributes> = {
   ...attributesVersion1,
   ...attributesVersion2,
-  ...attributesVersion3
+  ...attributesVersion3,
+  ...attributesVersion4
 }
 
 export const createTimelimitRuleModel = (sequelize: Sequelize.Sequelize): TimelimitRuleModelStatic => sequelize.define('TimelimitRule', attributes) as TimelimitRuleModelStatic
