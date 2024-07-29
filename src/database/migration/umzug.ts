@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,18 +17,23 @@
 
 import { resolve } from 'path'
 import { Sequelize } from 'sequelize'
-import * as Umzug from 'umzug'
+import { Umzug, SequelizeStorage } from 'umzug'
 
 export const createUmzug = (sequelize: Sequelize) => (
   new Umzug({
-    storage: 'sequelize',
-    storageOptions: {
-      sequelize
-    },
+    storage: new SequelizeStorage({ sequelize }),
     migrations: {
-      params: [sequelize.getQueryInterface(), sequelize],
-      path: resolve(__dirname, '../../../build/database/migration/migrations'),
-      pattern: /^\d+[\w-]+\.js$/
-    }
+      glob: resolve(__dirname, '../../../build/database/migration/migrations/*.js'),
+      resolve: ({ name, path }) => {
+        const migration = require(path!!)
+
+        return {
+          name,
+          up: async () => migration.up(sequelize.getQueryInterface(), sequelize),
+          down: async () => migration.down(sequelize.getQueryInterface(), sequelize),
+        }
+      },
+    },
+    logger: console
   })
 )
