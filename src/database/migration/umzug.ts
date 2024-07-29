@@ -25,7 +25,10 @@ export const createUmzug = (sequelize: Sequelize) => (
     migrations: {
       glob: resolve(__dirname, '../../../build/database/migration/migrations/*.js'),
       resolve: ({ name, path }) => {
-        const migration = require(path!!)
+        if (!path) throw new Error()
+
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const migration = require(path)
 
         return {
           name,
