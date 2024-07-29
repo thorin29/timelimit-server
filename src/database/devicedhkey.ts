@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2024 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@ export const config = {
   expireTimeRounding: 1000 * 60 * 15
 }
 
-export function calculateExpireTime(now: bigint): BigInt {
+export function calculateExpireTime(now: bigint): bigint {
   const expireBaseTime = now + BigInt(config.expireDelay)
   const expireTime = expireBaseTime - expireBaseTime % BigInt(config.expireTimeRounding) + BigInt(config.expireTimeRounding)
 
