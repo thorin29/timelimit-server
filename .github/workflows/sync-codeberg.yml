@@ -15,9 +15,11 @@ jobs:
         ref: master
     - name: Fetch from Codeberg
       run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
         git remote add codeberg https://codeberg.org/timelimit/timelimit-server.git || true
         git fetch codeberg
-        git merge codeberg/master --allow-unrelated-histories -X theirs
+        git pull codeberg master --rebase --allow-unrelated-histories
     - name: Push to GitHub
       run: |
         git push origin master
