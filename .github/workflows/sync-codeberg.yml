@@ -4,7 +4,7 @@ on:
     - cron: '0 0 * * 0'  # Weekly on Sunday at 00:00 UTC
   workflow_dispatch:  # Allows manual trigger
 permissions:
-  contents: write  # Allows push to repository
+  contents: write
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -12,12 +12,12 @@ jobs:
     - uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        ref: master  # Ensure it checks out master
+        ref: master
     - name: Fetch from Codeberg
       run: |
-        git remote add codeberg https://codeberg.org/timelimit/timelimit-server.git || true
+        git remote set-url codeberg https://codeberg.org/timelimit/timelimit-server.git
         git fetch codeberg
-        git merge codeberg/master --allow-unrelated-histories
+        git pull codeberg master --allow-unrelated-histories
     - name: Push to GitHub
       run: |
         git push origin master
