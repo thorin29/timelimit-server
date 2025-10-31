@@ -17,7 +17,7 @@ jobs:
       run: |
         git remote add codeberg https://codeberg.org/timelimit/timelimit-server.git || true
         git fetch codeberg
-        git pull codeberg master --allow-unrelated-histories
+        git pull codeberg master --rebase --allow-unrelated-histories
     - name: Push to GitHub
       run: |
         git push origin master
