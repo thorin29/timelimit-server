@@ -28,13 +28,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryFo
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction/properties/type")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction/properties/type")
 
 ### type Type
 
@@ -54,13 +54,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryFo
 
 `childId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction-properties-childid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction/properties/childId")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction-properties-childid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction/properties/childId")
 
 ### childId Type
 
@@ -72,13 +72,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryFo
 
 `categoryId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction/properties/categoryId")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedsetcategoryforunassignedappsaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedSetCategoryForUnassignedAppsAction/properties/categoryId")
 
 ### categoryId Type
 

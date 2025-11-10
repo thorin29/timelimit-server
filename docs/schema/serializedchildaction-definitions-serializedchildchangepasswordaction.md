@@ -27,13 +27,13 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type")
+* defined in: [SerializedChildAction](serializedchildaction-definitions-serializedchildchangepasswordaction-properties-type.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/type")
 
 ### type Type
 
@@ -53,13 +53,13 @@ https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePas
 
 `password`
 
-*   is required
+* is required
 
-*   Type: `object` ([EncryptableParentPassword](serializedchildaction-definitions-encryptableparentpassword.md))
+* Type: `object` ([EncryptableParentPassword](serializedchildaction-definitions-encryptableparentpassword.md))
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedChildAction](serializedchildaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")
+* defined in: [SerializedChildAction](serializedchildaction-definitions-encryptableparentpassword.md "https://timelimit.io/SerializedChildAction#/definitions/SerializedChildChangePasswordAction/properties/password")
 
 ### password Type
 

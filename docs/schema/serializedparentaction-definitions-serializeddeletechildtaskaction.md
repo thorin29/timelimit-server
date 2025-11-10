@@ -27,13 +27,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTa
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/type")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/type")
 
 ### type Type
 
@@ -53,13 +53,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTa
 
 `taskId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-taskid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/taskId")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializeddeletechildtaskaction-properties-taskid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedDeleteChildTaskAction/properties/taskId")
 
 ### taskId Type
 

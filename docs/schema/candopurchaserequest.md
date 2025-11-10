@@ -27,13 +27,13 @@ https://timelimit.io/CanDoPurchaseRequest
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [CanDoPurchaseRequest](candopurchaserequest-properties-type.md "https://timelimit.io/CanDoPurchaseRequest#/properties/type")
+* defined in: [CanDoPurchaseRequest](candopurchaserequest-properties-type.md "https://timelimit.io/CanDoPurchaseRequest#/properties/type")
 
 ### type Type
 
@@ -54,13 +54,13 @@ https://timelimit.io/CanDoPurchaseRequest
 
 `deviceAuthToken`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [CanDoPurchaseRequest](candopurchaserequest-properties-deviceauthtoken.md "https://timelimit.io/CanDoPurchaseRequest#/properties/deviceAuthToken")
+* defined in: [CanDoPurchaseRequest](candopurchaserequest-properties-deviceauthtoken.md "https://timelimit.io/CanDoPurchaseRequest#/properties/deviceAuthToken")
 
 ### deviceAuthToken Type
 

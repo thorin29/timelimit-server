@@ -27,13 +27,13 @@ https://timelimit.io/SignInByMailCodeRequest
 
 `mailLoginToken`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https://timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken")
+* defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-maillogintoken.md "https://timelimit.io/SignInByMailCodeRequest#/properties/mailLoginToken")
 
 ### mailLoginToken Type
 
@@ -45,13 +45,13 @@ https://timelimit.io/SignInByMailCodeRequest
 
 `receivedCode`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https://timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")
+* defined in: [SignInByMailCodeRequest](signinbymailcoderequest-properties-receivedcode.md "https://timelimit.io/SignInByMailCodeRequest#/properties/receivedCode")
 
 ### receivedCode Type
 

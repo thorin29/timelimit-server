@@ -28,13 +28,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAp
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategoryappsaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/type")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategoryappsaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/type")
 
 ### type Type
 
@@ -54,13 +54,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAp
 
 `categoryId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategoryappsaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/categoryId")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategoryappsaction-properties-categoryid.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/categoryId")
 
 ### categoryId Type
 
@@ -72,13 +72,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAp
 
 `packageNames`
 
-*   is required
+* is required
 
-*   Type: `string[]`
+* Type: `string[]`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategoryappsaction-properties-packagenames.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/packageNames")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddcategoryappsaction-properties-packagenames.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddCategoryAppsAction/properties/packageNames")
 
 ### packageNames Type
 
