@@ -16,35 +16,35 @@ merged type ([SerializedAppLogicAction](serializedapplogicaction.md))
 
 any of
 
-*   [SerializedAddInstalledAppsAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction.md "check type definition")
+* [SerializedAddInstalledAppsAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction.md "check type definition")
 
-*   [SerializedAddUsedTimeAction](serializedapplogicaction-definitions-serializedaddusedtimeaction.md "check type definition")
+* [SerializedAddUsedTimeAction](serializedapplogicaction-definitions-serializedaddusedtimeaction.md "check type definition")
 
-*   [SerializedAddUsedTimeActionVersion2](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2.md "check type definition")
+* [SerializedAddUsedTimeActionVersion2](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2.md "check type definition")
 
-*   [SerializedFinishKeyRequestAction](serializedapplogicaction-definitions-serializedfinishkeyrequestaction.md "check type definition")
+* [SerializedFinishKeyRequestAction](serializedapplogicaction-definitions-serializedfinishkeyrequestaction.md "check type definition")
 
-*   [SerializedForceSyncAction](serializedapplogicaction-definitions-serializedforcesyncaction.md "check type definition")
+* [SerializedForceSyncAction](serializedapplogicaction-definitions-serializedforcesyncaction.md "check type definition")
 
-*   [SerializedReplyToKeyRequestAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction.md "check type definition")
+* [SerializedReplyToKeyRequestAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction.md "check type definition")
 
-*   [SerializedMarkTaskPendingAction](serializedapplogicaction-definitions-serializedmarktaskpendingaction.md "check type definition")
+* [SerializedMarkTaskPendingAction](serializedapplogicaction-definitions-serializedmarktaskpendingaction.md "check type definition")
 
-*   [SerializedUpdateInstalledAppsAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction.md "check type definition")
+* [SerializedUpdateInstalledAppsAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction.md "check type definition")
 
-*   [SerializedRemoveInstalledAppsAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction.md "check type definition")
+* [SerializedRemoveInstalledAppsAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction.md "check type definition")
 
-*   [SerializedSendKeyRequestAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction.md "check type definition")
+* [SerializedSendKeyRequestAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction.md "check type definition")
 
-*   [SerializedSignOutAtDeviceAction](serializedapplogicaction-definitions-serializedsignoutatdeviceaction.md "check type definition")
+* [SerializedSignOutAtDeviceAction](serializedapplogicaction-definitions-serializedsignoutatdeviceaction.md "check type definition")
 
-*   [SerialiezdTriedDisablingDeviceAdminAction](serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction.md "check type definition")
+* [SerialiezdTriedDisablingDeviceAdminAction](serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction.md "check type definition")
 
-*   [SerializedUpdateAppActivitiesAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction.md "check type definition")
+* [SerializedUpdateAppActivitiesAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction.md "check type definition")
 
-*   [SerializedUpdateDeviceStatusAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction.md "check type definition")
+* [SerializedUpdateDeviceStatusAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction.md "check type definition")
 
-*   [SerializedUploadDevicePublicKeyAction](serializedapplogicaction-definitions-serializeduploaddevicepublickeyaction.md "check type definition")
+* [SerializedUploadDevicePublicKeyAction](serializedapplogicaction-definitions-serializeduploaddevicepublickeyaction.md "check type definition")
 
 # SerializedAppLogicAction Definitions
 
@@ -67,13 +67,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/type")
 
 #### type Type
 
@@ -93,13 +93,13 @@ Reference this group by using
 
 `apps`
 
-*   is required
+* is required
 
-*   Type: `object[]` ([SerializedInstalledApp](serializedapplogicaction-definitions-serializedinstalledapp.md))
+* Type: `object[]` ([SerializedInstalledApp](serializedapplogicaction-definitions-serializedinstalledapp.md))
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddinstalledappsaction-properties-apps.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddInstalledAppsAction/properties/apps")
 
 #### apps Type
 
@@ -126,13 +126,13 @@ Reference this group by using
 
 `packageName`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-packagename.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/packageName")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-packagename.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/packageName")
 
 #### packageName Type
 
@@ -144,13 +144,13 @@ Reference this group by using
 
 `title`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-title.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/title")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-title.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/title")
 
 #### title Type
 
@@ -162,13 +162,13 @@ Reference this group by using
 
 `isLaunchable`
 
-*   is required
+* is required
 
-*   Type: `boolean`
+* Type: `boolean`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-islaunchable.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/isLaunchable")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-islaunchable.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/isLaunchable")
 
 #### isLaunchable Type
 
@@ -180,13 +180,13 @@ Reference this group by using
 
 `recommendation`
 
-*   is required
+* is required
 
-*   Type: `string` ([AppRecommendation](serializedapplogicaction-definitions-serializedinstalledapp-properties-apprecommendation.md))
+* Type: `string` ([AppRecommendation](serializedapplogicaction-definitions-serializedinstalledapp-properties-apprecommendation.md))
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-apprecommendation.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/recommendation")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedinstalledapp-properties-apprecommendation.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedInstalledApp/properties/recommendation")
 
 #### recommendation Type
 
@@ -235,13 +235,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/type")
 
 #### type Type
 
@@ -261,13 +261,13 @@ Reference this group by using
 
 `categoryId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-categoryid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/categoryId")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-categoryid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/categoryId")
 
 #### categoryId Type
 
@@ -279,13 +279,13 @@ Reference this group by using
 
 `day`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-day.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/day")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-day.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/day")
 
 #### day Type
 
@@ -297,13 +297,13 @@ Reference this group by using
 
 `timeToAdd`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-timetoadd.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/timeToAdd")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-timetoadd.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/timeToAdd")
 
 #### timeToAdd Type
 
@@ -315,13 +315,13 @@ Reference this group by using
 
 `extraTimeToSubtract`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-extratimetosubtract.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/extraTimeToSubtract")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeaction-properties-extratimetosubtract.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeAction/properties/extraTimeToSubtract")
 
 #### extraTimeToSubtract Type
 
@@ -348,13 +348,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/type")
 
 #### type Type
 
@@ -374,13 +374,13 @@ Reference this group by using
 
 `d`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-d.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/d")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-d.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/d")
 
 #### d Type
 
@@ -392,13 +392,13 @@ Reference this group by using
 
 `i`
 
-*   is required
+* is required
 
-*   Type: `object[]` ([Details](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items.md))
+* Type: `object[]` ([Details](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i-items.md))
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-i.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/i")
 
 #### i Type
 
@@ -410,13 +410,13 @@ Reference this group by using
 
 `t`
 
-*   is optional
+* is optional
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-t.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/t")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedaddusedtimeactionversion2-properties-t.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAddUsedTimeActionVersion2/properties/t")
 
 #### t Type
 
@@ -441,13 +441,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedfinishkeyrequestaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedFinishKeyRequestAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedfinishkeyrequestaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedFinishKeyRequestAction/properties/type")
 
 #### type Type
 
@@ -467,13 +467,13 @@ Reference this group by using
 
 `dsn`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedfinishkeyrequestaction-properties-dsn.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedFinishKeyRequestAction/properties/dsn")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedfinishkeyrequestaction-properties-dsn.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedFinishKeyRequestAction/properties/dsn")
 
 #### dsn Type
 
@@ -497,13 +497,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedforcesyncaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedForceSyncAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedforcesyncaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedForceSyncAction/properties/type")
 
 #### type Type
 
@@ -539,13 +539,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/type")
 
 #### type Type
 
@@ -565,13 +565,13 @@ Reference this group by using
 
 `rsn`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-rsn.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/rsn")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-rsn.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/rsn")
 
 #### rsn Type
 
@@ -583,13 +583,13 @@ Reference this group by using
 
 `tempKey`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-tempkey.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/tempKey")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-tempkey.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/tempKey")
 
 #### tempKey Type
 
@@ -601,13 +601,13 @@ Reference this group by using
 
 `encryptedKey`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-encryptedkey.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/encryptedKey")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-encryptedkey.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/encryptedKey")
 
 #### encryptedKey Type
 
@@ -619,13 +619,13 @@ Reference this group by using
 
 `signature`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-signature.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/signature")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedreplytokeyrequestaction-properties-signature.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedReplyToKeyRequestAction/properties/signature")
 
 #### signature Type
 
@@ -650,13 +650,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedmarktaskpendingaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedMarkTaskPendingAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedmarktaskpendingaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedMarkTaskPendingAction/properties/type")
 
 #### type Type
 
@@ -676,13 +676,13 @@ Reference this group by using
 
 `taskId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedmarktaskpendingaction-properties-taskid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedMarkTaskPendingAction/properties/taskId")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedmarktaskpendingaction-properties-taskid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedMarkTaskPendingAction/properties/taskId")
 
 #### taskId Type
 
@@ -709,13 +709,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/type")
 
 #### type Type
 
@@ -735,13 +735,13 @@ Reference this group by using
 
 `b`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-b.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/b")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-b.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/b")
 
 #### b Type
 
@@ -753,13 +753,13 @@ Reference this group by using
 
 `d`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-d.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/d")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-d.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/d")
 
 #### d Type
 
@@ -771,13 +771,13 @@ Reference this group by using
 
 `w`
 
-*   is required
+* is required
 
-*   Type: `boolean`
+* Type: `boolean`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-w.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/w")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateinstalledappsaction-properties-w.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateInstalledAppsAction/properties/w")
 
 #### w Type
 
@@ -802,13 +802,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction/properties/type")
 
 #### type Type
 
@@ -828,13 +828,13 @@ Reference this group by using
 
 `packageNames`
 
-*   is required
+* is required
 
-*   Type: `string[]`
+* Type: `string[]`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction-properties-packagenames.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction/properties/packageNames")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedremoveinstalledappsaction-properties-packagenames.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedRemoveInstalledAppsAction/properties/packageNames")
 
 #### packageNames Type
 
@@ -864,13 +864,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/type")
 
 #### type Type
 
@@ -890,13 +890,13 @@ Reference this group by using
 
 `dsn`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-dsn.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/dsn")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-dsn.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/dsn")
 
 #### dsn Type
 
@@ -908,13 +908,13 @@ Reference this group by using
 
 `deviceId`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-deviceid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/deviceId")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-deviceid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/deviceId")
 
 #### deviceId Type
 
@@ -926,13 +926,13 @@ Reference this group by using
 
 `categoryId`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-categoryid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/categoryId")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-categoryid.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/categoryId")
 
 #### categoryId Type
 
@@ -944,13 +944,13 @@ Reference this group by using
 
 `dataType`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-datatype.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/dataType")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-datatype.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/dataType")
 
 #### dataType Type
 
@@ -962,13 +962,13 @@ Reference this group by using
 
 `tempKey`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-tempkey.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/tempKey")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-tempkey.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/tempKey")
 
 #### tempKey Type
 
@@ -980,13 +980,13 @@ Reference this group by using
 
 `signature`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-signature.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/signature")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsendkeyrequestaction-properties-signature.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSendKeyRequestAction/properties/signature")
 
 #### signature Type
 
@@ -1010,13 +1010,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsignoutatdeviceaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSignOutAtDeviceAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedsignoutatdeviceaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedSignOutAtDeviceAction/properties/type")
 
 #### type Type
 
@@ -1048,13 +1048,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerialiezdTriedDisablingDeviceAdminAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serialiezdtrieddisablingdeviceadminaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerialiezdTriedDisablingDeviceAdminAction/properties/type")
 
 #### type Type
 
@@ -1088,13 +1088,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/type")
 
 #### type Type
 
@@ -1114,25 +1114,25 @@ Reference this group by using
 
 `removed`
 
-*   is required
+* is required
 
-*   Type: an array where each item follows the corresponding schema in the following list:
+* Type: an array where each item follows the corresponding schema in the following list:
 
-    1.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-0.md "check type definition")
+  1. [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-0.md "check type definition")
 
-    2.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-1.md "check type definition")
+  2. [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-1.md "check type definition")
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/removed")
 
 #### removed Type
 
 an array where each item follows the corresponding schema in the following list:
 
-1.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-0.md "check type definition")
+1. [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-0.md "check type definition")
 
-2.  [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-1.md "check type definition")
+2. [Untitled string in SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-removed-items-items-1.md "check type definition")
 
 ### updatedOrAdded
 
@@ -1140,13 +1140,13 @@ an array where each item follows the corresponding schema in the following list:
 
 `updatedOrAdded`
 
-*   is required
+* is required
 
-*   Type: `object[]` ([SerializedAppActivityItem](serializedapplogicaction-definitions-serializedappactivityitem.md))
+* Type: `object[]` ([SerializedAppActivityItem](serializedapplogicaction-definitions-serializedappactivityitem.md))
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-updatedoradded.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/updatedOrAdded")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdateappactivitiesaction-properties-updatedoradded.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateAppActivitiesAction/properties/updatedOrAdded")
 
 #### updatedOrAdded Type
 
@@ -1172,13 +1172,13 @@ Reference this group by using
 
 `p`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-p.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/p")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-p.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/p")
 
 #### p Type
 
@@ -1190,13 +1190,13 @@ Reference this group by using
 
 `c`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-c.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/c")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-c.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/c")
 
 #### c Type
 
@@ -1208,13 +1208,13 @@ Reference this group by using
 
 `t`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-t.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/t")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedappactivityitem-properties-t.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedAppActivityItem/properties/t")
 
 #### t Type
 
@@ -1249,13 +1249,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/type")
 
 #### type Type
 
@@ -1275,13 +1275,13 @@ Reference this group by using
 
 `protectionLevel`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-protectionlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/protectionLevel")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-protectionlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/protectionLevel")
 
 #### protectionLevel Type
 
@@ -1304,13 +1304,13 @@ Reference this group by using
 
 `usageStats`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-usagestats.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/usageStats")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-usagestats.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/usageStats")
 
 #### usageStats Type
 
@@ -1332,13 +1332,13 @@ Reference this group by using
 
 `notificationAccess`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-notificationaccess.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/notificationAccess")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-notificationaccess.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/notificationAccess")
 
 #### notificationAccess Type
 
@@ -1360,13 +1360,13 @@ Reference this group by using
 
 `overlayPermission`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-overlaypermission.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/overlayPermission")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-overlaypermission.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/overlayPermission")
 
 #### overlayPermission Type
 
@@ -1388,13 +1388,13 @@ Reference this group by using
 
 `accessibilityServiceEnabled`
 
-*   is optional
+* is optional
 
-*   Type: `boolean`
+* Type: `boolean`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-accessibilityserviceenabled.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/accessibilityServiceEnabled")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-accessibilityserviceenabled.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/accessibilityServiceEnabled")
 
 #### accessibilityServiceEnabled Type
 
@@ -1406,13 +1406,13 @@ Reference this group by using
 
 `appVersion`
 
-*   is optional
+* is optional
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-appversion.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/appVersion")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-appversion.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/appVersion")
 
 #### appVersion Type
 
@@ -1424,13 +1424,13 @@ Reference this group by using
 
 `didReboot`
 
-*   is optional
+* is optional
 
-*   Type: `boolean`
+* Type: `boolean`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-didreboot.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/didReboot")
 
 #### didReboot Type
 
@@ -1442,13 +1442,13 @@ Reference this group by using
 
 `isQOrLaterNow`
 
-*   is optional
+* is optional
 
-*   Type: `boolean`
+* Type: `boolean`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-isqorlaternow.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/isQOrLaterNow")
 
 #### isQOrLaterNow Type
 
@@ -1460,13 +1460,13 @@ Reference this group by using
 
 `addedManipulationFlags`
 
-*   is optional
+* is optional
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-addedmanipulationflags.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/addedManipulationFlags")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-addedmanipulationflags.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/addedManipulationFlags")
 
 #### addedManipulationFlags Type
 
@@ -1478,13 +1478,13 @@ Reference this group by using
 
 `platformType`
 
-*   is optional
+* is optional
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformtype.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformType")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformtype.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformType")
 
 #### platformType Type
 
@@ -1496,13 +1496,13 @@ Reference this group by using
 
 `platformLevel`
 
-*   is optional
+* is optional
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformLevel")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializedupdatedevicestatusaction-properties-platformlevel.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUpdateDeviceStatusAction/properties/platformLevel")
 
 #### platformLevel Type
 
@@ -1527,13 +1527,13 @@ Reference this group by using
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializeduploaddevicepublickeyaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUploadDevicePublicKeyAction/properties/type")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializeduploaddevicepublickeyaction-properties-type.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUploadDevicePublicKeyAction/properties/type")
 
 #### type Type
 
@@ -1553,13 +1553,13 @@ Reference this group by using
 
 `key`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializeduploaddevicepublickeyaction-properties-key.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUploadDevicePublicKeyAction/properties/key")
+* defined in: [SerializedAppLogicAction](serializedapplogicaction-definitions-serializeduploaddevicepublickeyaction-properties-key.md "https://timelimit.io/SerializedAppLogicAction#/definitions/SerializedUploadDevicePublicKeyAction/properties/key")
 
 #### key Type
 

@@ -28,13 +28,13 @@ https://timelimit.io/FinishPurchaseByGooglePlayRequest
 
 `deviceAuthToken`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-deviceauthtoken.md "https://timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/deviceAuthToken")
+* defined in: [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-deviceauthtoken.md "https://timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/deviceAuthToken")
 
 ### deviceAuthToken Type
 
@@ -46,13 +46,13 @@ https://timelimit.io/FinishPurchaseByGooglePlayRequest
 
 `receipt`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-receipt.md "https://timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/receipt")
+* defined in: [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-receipt.md "https://timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/receipt")
 
 ### receipt Type
 
@@ -64,13 +64,13 @@ https://timelimit.io/FinishPurchaseByGooglePlayRequest
 
 `signature`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-signature.md "https://timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/signature")
+* defined in: [FinishPurchaseByGooglePlayRequest](finishpurchasebygoogleplayrequest-properties-signature.md "https://timelimit.io/FinishPurchaseByGooglePlayRequest#/properties/signature")
 
 ### signature Type
 

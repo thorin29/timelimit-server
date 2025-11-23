@@ -26,13 +26,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedReportU2fLogi
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreportu2floginaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReportU2fLoginAction/properties/type")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedreportu2floginaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedReportU2fLoginAction/properties/type")
 
 ### type Type
 

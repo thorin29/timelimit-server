@@ -26,13 +26,13 @@ https://timelimit.io/RequestWithAuthToken
 
 `deviceAuthToken`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [RequestWithAuthToken](requestwithauthtoken-properties-deviceauthtoken.md "https://timelimit.io/RequestWithAuthToken#/properties/deviceAuthToken")
+* defined in: [RequestWithAuthToken](requestwithauthtoken-properties-deviceauthtoken.md "https://timelimit.io/RequestWithAuthToken#/properties/deviceAuthToken")
 
 ### deviceAuthToken Type
 

@@ -28,13 +28,13 @@ https://timelimit.io/UpdatePrimaryDeviceRequest
 
 `action`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-action.md "https://timelimit.io/UpdatePrimaryDeviceRequest#/properties/action")
+* defined in: [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-action.md "https://timelimit.io/UpdatePrimaryDeviceRequest#/properties/action")
 
 ### action Type
 
@@ -55,13 +55,13 @@ https://timelimit.io/UpdatePrimaryDeviceRequest
 
 `currentUserId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-currentuserid.md "https://timelimit.io/UpdatePrimaryDeviceRequest#/properties/currentUserId")
+* defined in: [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-currentuserid.md "https://timelimit.io/UpdatePrimaryDeviceRequest#/properties/currentUserId")
 
 ### currentUserId Type
 
@@ -73,13 +73,13 @@ https://timelimit.io/UpdatePrimaryDeviceRequest
 
 `authToken`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-authtoken.md "https://timelimit.io/UpdatePrimaryDeviceRequest#/properties/authToken")
+* defined in: [UpdatePrimaryDeviceRequest](updateprimarydevicerequest-properties-authtoken.md "https://timelimit.io/UpdatePrimaryDeviceRequest#/properties/authToken")
 
 ### authToken Type
 

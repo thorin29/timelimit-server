@@ -27,13 +27,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/type")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/type")
 
 ### type Type
 
@@ -53,13 +53,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategor
 
 `categoryIds`
 
-*   is required
+* is required
 
-*   Type: `string[]`
+* Type: `string[]`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-categoryids.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/categoryIds")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedupdatecategorysortingaction-properties-categoryids.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedUpdateCategorySortingAction/properties/categoryIds")
 
 ### categoryIds Type
 

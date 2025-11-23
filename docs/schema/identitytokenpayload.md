@@ -30,13 +30,13 @@ https://timelimit.io/IdentityTokenPayload
 
 `purpose`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [IdentityTokenPayload](identitytokenpayload-properties-purpose.md "https://timelimit.io/IdentityTokenPayload#/properties/purpose")
+* defined in: [IdentityTokenPayload](identitytokenpayload-properties-purpose.md "https://timelimit.io/IdentityTokenPayload#/properties/purpose")
 
 ### purpose Type
 
@@ -56,13 +56,13 @@ https://timelimit.io/IdentityTokenPayload
 
 `familyId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [IdentityTokenPayload](identitytokenpayload-properties-familyid.md "https://timelimit.io/IdentityTokenPayload#/properties/familyId")
+* defined in: [IdentityTokenPayload](identitytokenpayload-properties-familyid.md "https://timelimit.io/IdentityTokenPayload#/properties/familyId")
 
 ### familyId Type
 
@@ -74,13 +74,13 @@ https://timelimit.io/IdentityTokenPayload
 
 `userId`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [IdentityTokenPayload](identitytokenpayload-properties-userid.md "https://timelimit.io/IdentityTokenPayload#/properties/userId")
+* defined in: [IdentityTokenPayload](identitytokenpayload-properties-userid.md "https://timelimit.io/IdentityTokenPayload#/properties/userId")
 
 ### userId Type
 
@@ -92,13 +92,13 @@ https://timelimit.io/IdentityTokenPayload
 
 `mail`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [IdentityTokenPayload](identitytokenpayload-properties-mail.md "https://timelimit.io/IdentityTokenPayload#/properties/mail")
+* defined in: [IdentityTokenPayload](identitytokenpayload-properties-mail.md "https://timelimit.io/IdentityTokenPayload#/properties/mail")
 
 ### mail Type
 
@@ -110,13 +110,13 @@ https://timelimit.io/IdentityTokenPayload
 
 `exp`
 
-*   is required
+* is required
 
-*   Type: `number`
+* Type: `number`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [IdentityTokenPayload](identitytokenpayload-properties-exp.md "https://timelimit.io/IdentityTokenPayload#/properties/exp")
+* defined in: [IdentityTokenPayload](identitytokenpayload-properties-exp.md "https://timelimit.io/IdentityTokenPayload#/properties/exp")
 
 ### exp Type
 

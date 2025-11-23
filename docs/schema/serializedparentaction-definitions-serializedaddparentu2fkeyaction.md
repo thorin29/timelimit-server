@@ -28,13 +28,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fK
 
 `type`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddparentu2fkeyaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction/properties/type")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddparentu2fkeyaction-properties-type.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction/properties/type")
 
 ### type Type
 
@@ -54,13 +54,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fK
 
 `keyHandle`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddparentu2fkeyaction-properties-keyhandle.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction/properties/keyHandle")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddparentu2fkeyaction-properties-keyhandle.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction/properties/keyHandle")
 
 ### keyHandle Type
 
@@ -72,13 +72,13 @@ https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fK
 
 `publicKey`
 
-*   is required
+* is required
 
-*   Type: `string`
+* Type: `string`
 
-*   cannot be null
+* cannot be null
 
-*   defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddparentu2fkeyaction-properties-publickey.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction/properties/publicKey")
+* defined in: [SerializedParentAction](serializedparentaction-definitions-serializedaddparentu2fkeyaction-properties-publickey.md "https://timelimit.io/SerializedParentAction#/definitions/SerializedAddParentU2fKeyAction/properties/publicKey")
 
 ### publicKey Type
 
