@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:20-alpine
 
 # Temporary build tools — only installed when GitHub Actions asks for them
 ARG NEED_BUILD_TOOLS=0
