@@ -15,7 +15,7 @@ jobs:
       with:
         context: .
         push: true
-        tags:
+        tags: |
           docker.io/knox39/timelimit-server:latest
           docker.io/knox39/timelimit-server:${{ github.run_number }}
           docker.io/knox39/timelimit-server:${{ github.sha }}
