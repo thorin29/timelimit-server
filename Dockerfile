@@ -1,5 +1,7 @@
 FROM node:16-alpine
 
+RUN apk add --no-cache python3 make g++
+
 # Create app directories
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
