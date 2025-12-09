@@ -1,5 +1,9 @@
 FROM node:16-alpine
 
+# Temporary build tools — only installed when GitHub Actions asks for them
+ARG NEED_BUILD_TOOLS=0
+RUN if [ "$NEED_BUILD_TOOLS" = "1" ]; then apk add --no-cache python3 make g++; fi
+
 # Create app directories
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
