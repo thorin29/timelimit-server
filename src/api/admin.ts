@@ -140,13 +140,15 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
       if (
         typeof req.body !== 'object' ||
         typeof req.body.purchaseToken !== 'string' ||
-        typeof req.body.purchaseId !== 'string'
+        typeof req.body.purchaseId !== 'string' ||
+        typeof req.body.dryRun !== 'boolean'
       ) {
         throw new BadRequest()
       }
 
       const purchaseToken: string = req.body.purchaseToken
       const purchaseId: string = req.body.purchaseId
+      const dryRun: boolean = req.body.dryRun
 
       const tokenContent = await verifyIdentitifyToken(purchaseToken)
 
@@ -250,15 +252,17 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
             }
           }
 
-          await addPurchase({
-            database,
-            familyId: tokenContent.familyId,
-            type: 'year',
-            service: 'directpurchase',
-            transactionId: purchaseId,
-            websocket,
-            transaction
-          })
+          if (!dryRun) {
+            await addPurchase({
+              database,
+              familyId: tokenContent.familyId,
+              type: 'year',
+              service: 'directpurchase',
+              transactionId: purchaseId,
+              websocket,
+              transaction
+            })
+          }
         }
 
         return {
