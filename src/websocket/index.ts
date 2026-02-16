@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -56,7 +56,7 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
 
       const importantSyncForAllListener = () => {
         setTimeout(() => {
-          socket.connected && socket.emit('should sync', { isImportant: true })
+          if (socket.connected) socket.emit('should sync', { isImportant: true })
         }, Math.random() * 1000 * 60 /* wait up to one minute */)
       }
 
