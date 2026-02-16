@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "build": "npm run build:clean && npm run build:json && npm run build:ts && npm run lint && npm run build:doc",
-    "build:clean": "rimraf build",
+    "build:clean": "rm -rf build",
     "build:json": "node ./scripts/build-schemas.js",
     "build:ts": "tsc",
     "build:doc": "npm run build:doc:json",
@@ -41,7 +41,6 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.7.0",
-    "rimraf": "^3.0.2",
     "typescript": "^5.5.4",
     "typescript-json-schema": "^0.52.0"
   },
