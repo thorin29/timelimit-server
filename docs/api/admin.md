@@ -96,10 +96,11 @@ Use this to unlock all features for one user for a specified duration.
 
 ### request
 
-request properties: ``purchaseToken`` and ``purchaseId``
+request properties: ``purchaseToken``, ``purchaseId`` and ``dryRun``
 
 - ``purchasetoken`` is a string which the client shows at the purchase screen
 - ``purchaseId`` is the ID that is used at the bill
+- ``dryRun`` is a boolean; setting true will skip the actual unlocking
 
 ### response
 
