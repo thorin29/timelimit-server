@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2024 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -30,6 +30,7 @@ import { getDeviceDetailList } from './device-detail'
 import { getDeviceList } from './device-list'
 import { getDeviceDhKeys } from './dh-keys'
 import { getFamilyEntry } from './family-entry'
+import { getPings } from './pings'
 import { getUserList } from './user-list'
 import { getKeyRequests } from './key-requests'
 import { getKeyResponses } from './key-responses'
@@ -52,13 +53,14 @@ export const generateServerDataStatus = async ({
   const doesClientSupportCryptoApps = clientLevel >= 4
   const doesClientSupportDh = clientLevel >= 5
   const doesClientSupportU2f = clientLevel >= 6
+  const doesClientSupportPing = clientLevel >= 7
 
   const result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),
     message: await getStatusMessage({ database, transaction }) || undefined,
-    apiLevel: 8
+    apiLevel: 9
   }
 
   if (familyEntry.deviceListVersion !== clientStatus.devices) {
@@ -158,6 +160,15 @@ export const generateServerDataStatus = async ({
       familyEntry,
       lastVersionId: clientStatus.u2f || null
     }) || undefined
+  }
+
+  if (doesClientSupportPing) {
+    result.pings = await getPings({
+      database,
+      transaction,
+      familyEntry,
+      deviceId
+    })
   }
 
   return result
