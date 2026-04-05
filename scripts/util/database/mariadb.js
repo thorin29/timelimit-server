@@ -24,6 +24,8 @@ const { spawnAsync } = require('../process.js')
 const { sleep } = require('../sleep.js')
 
 async function startMariadb() {
+  const osUsername = require('os').userInfo().username
+
   try { await mkdirAsync(tempDir) } catch (ex) {/* ignore */}
 
   const instanceDir = resolve(tempDir, generateShortToken())
@@ -60,12 +62,12 @@ async function startMariadb() {
 
   for (command of commands) {
     console.log(command)
-    await spawnAsync('mysql', ['-S', socketPath, '-u', 'root', '-e', command], { stdio: 'inherit' })
+    await spawnAsync('mysql', ['-S', socketPath, '-u', osUsername, '-e', command], { stdio: 'inherit' })
   }
 
   return {
     shutdown: () => {
-      spawnAsync('mysql', ['-S', socketPath, '-u', 'root', '-e', 'SHUTDOWN;'], { stdio: 'inherit' }).catch((ex) => {
+      spawnAsync('mysql', ['-S', socketPath, '-u', osUsername, '-e', 'SHUTDOWN;'], { stdio: 'inherit' }).catch((ex) => {
         console.warn(ex)
       })
     },

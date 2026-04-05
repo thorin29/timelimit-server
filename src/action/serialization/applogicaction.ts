@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,6 +24,7 @@ import { ForceSyncAction, SerializedForceSyncAction } from '../forcesync'
 import { ReplyToKeyRequestAction, SerializedReplyToKeyRequestAction } from '../replytokeyrequest'
 import { MarkTaskPendingAction, SerializedMarkTaskPendingAction } from '../marktaskpendingaction'
 import { UnknownActionTypeException } from '../meta/exception'
+import { PingAction, SerializedPingAction } from '../ping'
 import { UpdateInstalledAppsAction, SerializedUpdateInstalledAppsAction } from '../updateinstalledapps'
 import { RemoveInstalledAppsAction, SerializedRemoveInstalledAppsAction } from '../removeinstalledapps'
 import { SendKeyRequestAction, SerializedSendKeyRequestAction } from '../sendkeyrequest'
@@ -41,6 +42,7 @@ export type SerializedAppLogicAction =
   SerializedForceSyncAction |
   SerializedReplyToKeyRequestAction |
   SerializedMarkTaskPendingAction |
+  SerializedPingAction |
   SerializedUpdateInstalledAppsAction |
   SerializedRemoveInstalledAppsAction |
   SerializedSendKeyRequestAction |
@@ -65,6 +67,8 @@ export const parseAppLogicAction = (serialized: SerializedAppLogicAction): AppLo
     return ReplyToKeyRequestAction.parse(serialized)
   } else if (serialized.type === 'MARK_TASK_PENDING') {
     return MarkTaskPendingAction.parse(serialized)
+  } else if (serialized.type === 'PING') {
+    return PingAction.parse(serialized)
   } else if (serialized.type === 'UPDATE_INSTALLED_APPS') {
     return UpdateInstalledAppsAction.parse(serialized)
   } else if (serialized.type === 'REMOVE_INSTALLED_APPS') {

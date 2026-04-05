@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,6 +23,7 @@ import {
   FinishKeyRequestAction,
   ForceSyncAction,
   MarkTaskPendingAction,
+  PingAction,
   ReplyToKeyRequestAction,
   RemoveInstalledAppsAction,
   SendKeyRequestAction,
@@ -41,6 +42,7 @@ import { dispatchAddUsedTimeVersion2 } from './addusedtime2'
 import { dispatchFinishKeyRequestAction } from './finishkeyrequest'
 import { dispatchForceSyncAction } from './forcesync'
 import { dispatchMarkTaskPendingAction } from './marktaskpendingaction'
+import { dispatchPingAction } from './ping'
 import { dispatchReplyToKeyRequestAction } from './replytokeyrequest'
 import { dispatchSendKeyRequestAction } from './sendkeyrequest'
 import { dispatchSignOutAtDevice } from './signoutatdevice'
@@ -67,6 +69,8 @@ export const dispatchAppLogicAction = async ({ action, deviceId, cache, eventHan
     await dispatchForceSyncAction({ deviceId, action, cache })
   } else if (action instanceof MarkTaskPendingAction) {
     await dispatchMarkTaskPendingAction({ deviceId, action, cache })
+  } else if (action instanceof PingAction) {
+    await dispatchPingAction({ deviceId, action, cache })
   } else if (action instanceof ReplyToKeyRequestAction) {
     await dispatchReplyToKeyRequestAction({ deviceId, action, cache, eventHandler })
   } else if (action instanceof RemoveInstalledAppsAction) {

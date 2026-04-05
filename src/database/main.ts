@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,6 +33,7 @@ import { createKeyResponseModel, KeyResponseModelStatic } from './keyresponse'
 import { createMailLoginTokenModel, MailLoginTokenModelStatic } from './maillogintoken'
 import { createUmzug } from './migration/umzug'
 import { createOldDeviceModel, OldDeviceModelStatic } from './olddevice'
+import { createPingModel, PingModelStatic } from './ping'
 import { createPurchaseModel, PurchaseModelStatic } from './purchase'
 import { createSessionDurationModel, SessionDurationModelStatic } from './sessionduration'
 import { createTimelimitRuleModel, TimelimitRuleModelStatic } from './timelimitrule'
@@ -61,6 +62,7 @@ export interface Database {
   keyResponse: KeyResponseModelStatic
   mailLoginToken: MailLoginTokenModelStatic
   oldDevice: OldDeviceModelStatic
+  ping: PingModelStatic
   purchase: PurchaseModelStatic
   sessionDuration: SessionDurationModelStatic
   timelimitRule: TimelimitRuleModelStatic
@@ -97,6 +99,7 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   keyResponse: createKeyResponseModel(sequelize),
   mailLoginToken: createMailLoginTokenModel(sequelize),
   oldDevice: createOldDeviceModel(sequelize),
+  ping: createPingModel(sequelize),
   purchase: createPurchaseModel(sequelize),
   sessionDuration: createSessionDurationModel(sequelize),
   timelimitRule: createTimelimitRuleModel(sequelize),
