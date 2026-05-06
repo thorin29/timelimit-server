@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [ master ]
-  workflow_dispatch:     # Allows you to trigger manually if needed
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v7   # Updated to latest
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
@@ -30,3 +30,5 @@ jobs:
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/timelimit-server:latest
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/timelimit-server:${{ github.sha }}
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/timelimit-server:${{ github.run_number }}
+          build-args: |
+            NODE_VERSION=20   # Try forcing a stable version
