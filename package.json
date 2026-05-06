@@ -8,7 +8,7 @@
     "test": "node scripts/test-launch-with-different-databases.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "npm run build:clean && npm run build:json && npm run build:ts && npm run build:doc"
+    "build": "npm run build:clean && npm run build:json && npm run build:ts && npm run build:doc",
     "build:clean": "rm -rf build",
     "build:json": "node ./scripts/build-schemas.js",
     "build:ts": "tsc",
