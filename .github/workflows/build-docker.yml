@@ -3,7 +3,10 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [ master ]
-  workflow_dispatch:
+  workflow_dispatch:        # Allows you to trigger manually
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -22,7 +25,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -30,6 +33,5 @@ jobs:
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/timelimit-server:latest
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/timelimit-server:${{ github.sha }}
             docker.io/${{ secrets.DOCKERHUB_USERNAME }}/timelimit-server:${{ github.run_number }}
-          build-args: |
-            NODE_VERSION=20   # This overrides the FROM in Dockerfile if it supports ARG
-          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
