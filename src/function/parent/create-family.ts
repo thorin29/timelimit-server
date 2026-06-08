@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -82,7 +82,8 @@ export async function createFamily ({
       fullVersionUntil: (Date.now() + 1000 * 60 * 60 * 24 * 14).toString(10),
       hasFullVersion: true,
       nextServerKeyRequestSeq: '1',
-      u2fKeysVersion: generateVersionId()
+      u2fKeysVersion: generateVersionId(),
+      fullVersionDebts: '0'
     }, { transaction })
 
     // create parent user
