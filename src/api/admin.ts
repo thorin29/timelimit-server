@@ -156,7 +156,7 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
         throw new BadRequest()
       }
 
-      const tokenContent = await verifyIdentitifyToken(purchaseToken)
+      const tokenContent = await verifyIdentitifyToken(purchaseToken, dryRun)
 
       if (tokenContent.purpose !== 'purchase') {
         res.json({ ok: false, error: 'token invalid', detail: 'wrong purpose' })
