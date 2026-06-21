@@ -113,7 +113,7 @@ export interface CreateRegisterDeviceTokenRequest {
 }
 
 export interface CanDoPurchaseRequest {
-  type: 'googleplay' | 'any'
+  type?: 'googleplay' | 'any'
   deviceAuthToken: string
 }
 

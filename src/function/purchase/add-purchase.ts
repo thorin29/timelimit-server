@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,13 +21,14 @@ import { notifyClientsAboutChangesDelayed } from '../../function/websocket'
 import { WebsocketApi } from '../../websocket'
 
 const day = 1000 * 60 * 60 * 24
+const week = day * 7
 const month = day * 31
 const year = day * 366
 
 export const addPurchase = async ({ database, familyId, type, service, transactionId, websocket, transaction }: {
   database: Database
   familyId: string
-  type: 'month' | 'year'
+  type: 'month' | 'year' | 'unpaid14'
   service: 'googleplay' | 'directpurchase'
   transactionId: string
   websocket: WebsocketApi
@@ -57,11 +58,42 @@ export const addPurchase = async ({ database, familyId, type, service, transacti
   }
 
   const previousFullVersionEndTime = familyEntry.fullVersionUntil
+  const previousFullVersionDebts = parseInt(familyEntry.fullVersionDebts, 10)
 
-  const newFullVersionUntil = Math.max(parseInt(familyEntry.fullVersionUntil, 10), Date.now()) + (type === 'year' ? year : month)
+  if (type === 'month' || type === 'year') {
+    const typeDuration = type === 'year' ? year : month
 
-  familyEntry.fullVersionUntil = newFullVersionUntil.toString(10)
-  familyEntry.hasFullVersion = true
+    if (typeDuration > previousFullVersionDebts) {
+      const newFullVersionUntil = Math.max(parseInt(familyEntry.fullVersionUntil, 10), Date.now()) + typeDuration - previousFullVersionDebts
+
+      familyEntry.fullVersionUntil = newFullVersionUntil.toString(10)
+      familyEntry.fullVersionDebts = '0'
+      familyEntry.hasFullVersion = true
+    } else {
+      familyEntry.fullVersionDebts = (previousFullVersionDebts - typeDuration).toString(10)
+    }
+  } else if (type === 'unpaid14') {
+    const debtsAdd = 2 * week
+    const debtsMax = 3 * week
+
+    const newDebts = Math.min(debtsMax, previousFullVersionDebts + debtsAdd)
+
+    if (newDebts <= previousFullVersionDebts) {
+      // do not save anything
+
+      return
+    }
+
+    const durationToAdd = newDebts - previousFullVersionDebts
+
+    const newFullVersionUntil = Math.max(parseInt(familyEntry.fullVersionUntil, 10), Date.now()) + durationToAdd
+
+    familyEntry.fullVersionUntil = newFullVersionUntil.toString(10)
+    familyEntry.fullVersionDebts = newDebts.toString(10)
+    familyEntry.hasFullVersion = true
+  } else {
+    throw new Error()
+  }
 
   await familyEntry.save({ transaction })
 
@@ -72,7 +104,7 @@ export const addPurchase = async ({ database, familyId, type, service, transacti
     type,
     loggedAt: Date.now().toString(10),
     previousFullVersionEndTime,
-    newFullVersionEndTime: newFullVersionUntil.toString(10)
+    newFullVersionEndTime: familyEntry.fullVersionUntil
   }, {
     transaction
   })
