@@ -22,6 +22,7 @@ import { getStatusMessage } from '../../../function/statusmessage'
 import { ClientDataStatus } from '../../../object/clientdatastatus'
 import { ServerDataStatus } from '../../../object/serverdatastatus'
 import { EventHandler } from '../../../monitoring/eventhandler'
+import { getCampaign } from './campaign'
 import {
   getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync,
   getRules, getTasks, getUsedTimes
@@ -54,12 +55,18 @@ export const generateServerDataStatus = async ({
   const doesClientSupportDh = clientLevel >= 5
   const doesClientSupportU2f = clientLevel >= 6
   const doesClientSupportPing = clientLevel >= 7
+  const isClient750OrNewer = clientLevel >= 8 // first release in the post gplay time
+
+  const message: string | undefined =
+    await getStatusMessage({ database, transaction }) ||
+    getCampaign({ familyId, isClient750OrNewer }) ||
+    undefined
 
   const result: ServerDataStatus = {
     fullVersion: config.alwaysPro ? 1 : (
       familyEntry.hasFullVersion ? parseInt(familyEntry.fullVersionUntil, 10) : 0
     ),
-    message: await getStatusMessage({ database, transaction }) || undefined,
+    message,
     apiLevel: 9
   }
 
