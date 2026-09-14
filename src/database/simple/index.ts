@@ -36,10 +36,14 @@ export interface SimpleDatabaseTransaction {
 
   family: {
     getFullVersionUntilAndDebtsByFamilyId: (familyId: string) => Promise<{ fullVersionUntil: number, fullVersionDebts: number } | null>
+    hasFullVersionByFamilyId: (familyId: string) => Promise<boolean> // returns false if the family was not found
   }
 
   device: {
+    getFamilyIdByAuthToken: (deviceAuthToken: string) => Promise<string | null>
     getFamilyIdAndDeviceNameByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceName: string} | null>
+    getFamilyIdAndDeviceIdByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string} | null>
+    getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string, currentUserId: string, isUserKeptSignedIn: boolean} | null>
     getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
   }
 
@@ -47,6 +51,9 @@ export interface SimpleDatabaseTransaction {
     doesFamilyHaveUserWithMail: (params: { familyId: string, mail: string }) => Promise<boolean>
     doesSpecificParentUserExist: (params: { familyId: string, userId: string, mail: string }) => Promise<boolean>
     getSmallestMailAddressByFamilyId: (familyId: string) => Promise<string | null>
+    getMailAddressByUserId: (params: { familyId: string, userId: string }) => Promise<string> // returns the empty string if the user was not found
+    doesParentUserExist: (params: { familyId: string, userId: string }) => Promise<boolean>
+    doesParentUserWithSpecificSecondPasswordHashExist: (params: { familyId: string, userId: string, secondPasswordHash: string }) => Promise<boolean>
   }
 
   mailLoginToken: {
@@ -95,9 +102,30 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             fullVersionDebts: parseInt(item.fullVersionDebts),
           }
         } else return null
+      },
+      hasFullVersionByFamilyId: async (familyId: string) => {
+        const item = await database.family.findOne({
+          where: {
+            familyId
+          },
+          transaction: legacyTransaction,
+          attributes: ['hasFullVersion']
+        })
+
+        return !!(item && item.hasFullVersion)
       }
     },
     device: {
+      getFamilyIdByAuthToken: async (deviceAuthToken) => {
+        const deviceEntry = await database.device.findOne({
+          where: { deviceAuthToken },
+          attributes: ['familyId'],
+          transaction: legacyTransaction
+        })
+
+        if (deviceEntry) return deviceEntry.familyId
+        else return null
+      },
       getFamilyIdAndDeviceNameByAuthToken: async (deviceAuthToken) => {
         const deviceEntry = await database.device.findOne({
           where: { deviceAuthToken },
@@ -109,6 +137,36 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           return {
             familyId: deviceEntry.familyId,
             deviceName: deviceEntry.name,
+          }
+        } else return null
+      },
+      getFamilyIdAndDeviceIdByAuthToken: async (deviceAuthToken) => {
+        const deviceEntry = await database.device.findOne({
+          where: { deviceAuthToken },
+          attributes: ['familyId', 'deviceId'],
+          transaction: legacyTransaction
+        })
+
+        if (deviceEntry) {
+          return {
+            familyId: deviceEntry.familyId,
+            deviceId: deviceEntry.deviceId,
+          }
+        } else return null
+      },
+      getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken: async (deviceAuthToken: string) => {
+        const deviceEntry = await database.device.findOne({
+          where: { deviceAuthToken },
+          attributes: ['familyId', 'deviceId', 'currentUserId', 'isUserKeptSignedIn'],
+          transaction: legacyTransaction
+        })
+
+        if (deviceEntry) {
+          return {
+            familyId: deviceEntry.familyId,
+            deviceId: deviceEntry.deviceId,
+            currentUserId: deviceEntry.currentUserId,
+            isUserKeptSignedIn: deviceEntry.isUserKeptSignedIn
           }
         } else return null
       },
@@ -167,7 +225,44 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
 
         if (userEntryWithMail) return userEntryWithMail.mail
         else return null
-      }
+      },
+      getMailAddressByUserId: async ({ familyId, userId }) => {
+        const item = await database.user.findOne({
+          where: {
+            familyId,
+            userId,
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) return item.mail || ''
+        else return ''
+      },
+      doesParentUserExist: async ({ familyId, userId }) => {
+        const counter = await database.user.count({
+          where: {
+            familyId,
+            type: 'parent',
+            userId,
+          },
+          transaction: legacyTransaction
+        })
+
+        return counter === 1
+      },
+      doesParentUserWithSpecificSecondPasswordHashExist: async ({ familyId, userId, secondPasswordHash }) => {
+        const counter = await database.user.count({
+          where: {
+            familyId,
+            type: 'parent',
+            userId,
+            secondPasswordHash: secondPasswordHash
+          },
+          transaction: legacyTransaction
+        })
+
+        return counter === 1
+      },
     },
     mailLoginToken: {
       create: async ({ time, mail, code, locale }) => {
