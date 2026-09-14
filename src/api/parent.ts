@@ -223,7 +223,7 @@ export const createParentRouter = ({
     } else {
       const familyId = await transaction.device.getFamilyIdByAuthToken(deviceAuthToken)
 
-      if (!familyId) {
+      if (familyId === null) {
         throw new Unauthorized()
       }
 
