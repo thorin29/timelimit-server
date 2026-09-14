@@ -34,6 +34,7 @@ export interface SimpleDatabaseTransaction {
 
   device: {
     getFamilyIdAndDeviceNameByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceName: string} | null>
+    getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
   }
 
   user: {
@@ -80,6 +81,18 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             deviceName: deviceEntry.name,
           }
         } else return null
+      },
+      getDeviceIdsAndAuthTokensByFamilyId: async (familyId) => {
+        return (await database.device.findAll({
+          where: {
+            familyId
+          },
+          attributes: ['deviceId', 'deviceAuthToken'],
+          transaction: legacyTransaction
+        })).map((item) => ({
+          deviceId: item.deviceId,
+          deviceAuthToken: item.deviceAuthToken
+        }))
       },
     },
     user: {

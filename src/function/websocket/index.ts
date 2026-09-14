@@ -29,16 +29,7 @@ export const notifyClientsAboutChangesDelayed = async ({
   generalLevel: 0 | 1 | 2
   targetedLevels: Map<string, 0 | 1 | 2>
 }) => {
-  const relatedDeviceEntries = (await transaction.legacy.database.device.findAll({
-    where: {
-      familyId
-    },
-    attributes: ['deviceId', 'deviceAuthToken'],
-    transaction: transaction.legacy.transaction
-  })).map((item) => ({
-    deviceId: item.deviceId,
-    deviceAuthToken: item.deviceAuthToken
-  }))
+  const relatedDeviceEntries = await transaction.device.getDeviceIdsAndAuthTokensByFamilyId(familyId)
 
   transaction.enqueueAfterCommit(() => {
     for (const deviceEntry of relatedDeviceEntries) {
