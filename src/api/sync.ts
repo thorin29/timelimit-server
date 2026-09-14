@@ -86,29 +86,19 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
       }
 
       const serverStatus = await database.transaction(async (transaction) => {
-        const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-          where: {
-            deviceAuthToken: body.deviceAuthToken
-          },
-          attributes: ['familyId', 'deviceId', 'lastConnectivity'],
-          transaction: transaction.legacy.transaction
-        })
+        const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdAndLastConnectivityByAuthToken(body.deviceAuthToken)
 
-        if (!deviceEntryUnsafe) {
+        if (!deviceEntry) {
           throw new Unauthorized()
         }
 
-        const { familyId, deviceId, lastConnectivity } = deviceEntryUnsafe
+        const { familyId, deviceId, lastConnectivity } = deviceEntry
         const now = getRoundedTimestampForLastConnectivity()
 
-        if (parseInt(lastConnectivity, 10) !== now) {
-          await transaction.legacy.database.device.update({
-            lastConnectivity: now.toString(10)
-          }, {
-            where: {
-              deviceAuthToken: body.deviceAuthToken
-            },
-            transaction: transaction.legacy.transaction
+        if (lastConnectivity !== now) {
+          await transaction.device.updateLastConnectivityByDeviceAuthToken({
+            deviceAuthToken: body.deviceAuthToken,
+            lastConnectivity: now
           })
         }
 
@@ -164,14 +154,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
       }
 
       const isDeviceRemoved: boolean = await database.transaction(async (transaction) => {
-        const removedEntry = await transaction.legacy.database.oldDevice.findOne({
-          where: {
-            deviceAuthToken: req.body.deviceAuthToken
-          },
-          transaction: transaction.legacy.transaction
-        })
-
-        return !!removedEntry
+        return await transaction.oldDevice.hasAuthToken(req.body.deviceAuthToken)
       })
 
       res.json({
