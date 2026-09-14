@@ -17,12 +17,9 @@
 
 import { json } from 'body-parser'
 import { Router } from 'express'
-import { BadRequest } from 'http-errors'
+import { BadRequest, InternalServerError, Unauthorized } from 'http-errors'
 import { SimpleDatabase } from '../database/simple'
-import {
-  canDoNextPurchase,
-  requireFamilyEntry
-} from '../function/purchase'
+import { canDoNextPurchase } from '../function/purchase'
 import { isCanDoPurchaseRequest } from './validator'
 
 export const createPurchaseRouter = ({ database }: { database: SimpleDatabase }) => {
@@ -35,15 +32,15 @@ export const createPurchaseRouter = ({ database }: { database: SimpleDatabase })
       }
 
       const result: boolean = await database.transaction(async (transaction) => {
-        const familyEntry = await requireFamilyEntry({
-          transaction,
-          deviceAuthToken: req.body.deviceAuthToken,
-        })
+        const familyId = await transaction.device.getFamilyIdByAuthToken(req.body.deviceAuthToken)
 
-        return canDoNextPurchase({
-          fullVersionUntil: parseInt(familyEntry.fullVersionUntil, 10),
-          fullVersionDebts: parseInt(familyEntry.fullVersionDebts, 10),
-        })
+        if (familyId === null) throw new Unauthorized()
+
+        const canDoNextPurchaseData = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(familyId)
+
+        if (!canDoNextPurchaseData) throw new InternalServerError()
+
+        return canDoNextPurchase(canDoNextPurchaseData)
       })
 
       res.json({
