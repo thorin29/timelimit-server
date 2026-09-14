@@ -46,6 +46,7 @@ export interface SimpleDatabaseTransaction {
     getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string, currentUserId: string, isUserKeptSignedIn: boolean} | null>
     getFamilyIdAndDeviceIdAndLastConnectivityByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string, lastConnectivity: number} | null>
     getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
+    getDeviceIdsAndShowDeviceConnectedByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, showDeviceConnected: boolean }>>
     updateLastConnectivityByDeviceAuthToken: (params: { deviceAuthToken: string, lastConnectivity: number }) => Promise<void>
   }
 
@@ -201,6 +202,22 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
         })).map((item) => ({
           deviceId: item.deviceId,
           deviceAuthToken: item.deviceAuthToken
+        }))
+      },
+      getDeviceIdsAndShowDeviceConnectedByFamilyId: async (familyId: string) => {
+        const items = await database.device.findAll({
+          where: {
+            familyId
+          },
+          attributes: [
+            'deviceId',
+            'showDeviceConnected'
+          ],
+          transaction: legacyTransaction
+        })
+
+        return items.map(({ deviceId, showDeviceConnected }) => ({
+          deviceId, showDeviceConnected
         }))
       },
       updateLastConnectivityByDeviceAuthToken: async ({ deviceAuthToken, lastConnectivity }) => {

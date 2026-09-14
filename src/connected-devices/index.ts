@@ -175,22 +175,7 @@ export class VisibleConnectedDevicesManager {
     // add all current devices
     ;(async () => {
       const devices = await this.database.transaction(async (transaction) => {
-        const devicesUnsafe = await transaction.legacy.database.device.findAll({
-          where: {
-            familyId
-          },
-          attributes: [
-            'deviceId',
-            'showDeviceConnected'
-          ],
-          transaction: transaction.legacy.transaction
-        })
-
-        const devices = devicesUnsafe.map(({ deviceId, showDeviceConnected }) => ({
-          deviceId, showDeviceConnected
-        }))
-
-        return devices
+        return await transaction.device.getDeviceIdsAndShowDeviceConnectedByFamilyId(familyId);
       })
 
       devices.forEach(({ deviceId, showDeviceConnected }) => {
