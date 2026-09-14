@@ -14,9 +14,6 @@
 - NODE_ENV
   - should be set to ``production`` in production
   - when using ``development``, then mails are not sent; instead they are print to the console
-- GOOGLE_PLAY_PUBLIC_KEY
-  - key for validating purchases
-  - purchases using google play don't work without it/ when it is not set
 - MAIL_SENDER
   - sender (for the from-field) for sent mails
   - the sent mails contain the info that one can reply to it in case of questions ... so you should have someone who looks into the inbox and send replies (or you know that there is nobody and don't ask anything)

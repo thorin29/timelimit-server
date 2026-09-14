@@ -17,34 +17,21 @@
 
 import { json } from 'body-parser'
 import { Router } from 'express'
-import { BadRequest, Conflict, Unauthorized } from 'http-errors'
+import { BadRequest } from 'http-errors'
 import { SimpleDatabase } from '../database/simple'
 import {
-  addPurchase,
-  areGooglePlayPaymentsPossible,
   canDoNextPurchase,
-  googlePlayPublicKey,
-  isGooglePlayPurchaseSignatureValid,
   requireFamilyEntry
 } from '../function/purchase'
-import { WebsocketApi } from '../websocket'
-import { isCanDoPurchaseRequest, isFinishPurchaseByGooglePlayRequest } from './validator'
+import { isCanDoPurchaseRequest } from './validator'
 
-export const createPurchaseRouter = ({ database, websocket }: {
-  database: SimpleDatabase
-  websocket: WebsocketApi
-}) => {
+export const createPurchaseRouter = ({ database }: { database: SimpleDatabase }) => {
   const router = Router()
 
   router.post('/can-do-purchase', json(), async (req, res, next) => {
     try {
       if (!isCanDoPurchaseRequest(req.body)) {
         throw new BadRequest()
-      }
-
-      if (req.body.type === 'googleplay' && !areGooglePlayPaymentsPossible) {
-        res.json({ canDoPurchase: 'no because not supported by the server' })
-        return
       }
 
       const result: boolean = await database.transaction(async (transaction) => {
@@ -60,77 +47,8 @@ export const createPurchaseRouter = ({ database, websocket }: {
       })
 
       res.json({
-        canDoPurchase: result ? 'yes' : 'no due to old purchase',
-        googlePlayPublicKey
+        canDoPurchase: result ? 'yes' : 'no due to old purchase'
       })
-    } catch (ex) {
-      next(ex)
-    }
-  })
-
-  router.post('/finish-purchase-by-google-play', json(), async (req, res, next) => {
-    try {
-      if (!isFinishPurchaseByGooglePlayRequest(req.body)) {
-        throw new BadRequest()
-      }
-
-      await database.transaction(async (transaction) => {
-        const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-          where: {
-            deviceAuthToken: req.body.deviceAuthToken
-          },
-          attributes: ['familyId'],
-          transaction: transaction.legacy.transaction
-        })
-
-        if (!deviceEntryUnsafe) {
-          throw new Unauthorized()
-        }
-
-        const deviceEntry = {
-          familyId: deviceEntryUnsafe.familyId
-        }
-
-        if (!isGooglePlayPurchaseSignatureValid({
-          receipt: req.body.receipt,
-          signature: req.body.signature
-        })) {
-          throw new Conflict()
-        }
-
-        const receipt = JSON.parse(req.body.receipt)
-
-        if (typeof receipt !== 'object') {
-          throw new Conflict()
-        }
-
-        let type: 'month' | 'year'
-
-        if (receipt.productId === 'premium_year_2018') {
-          type = 'year'
-        } else if (receipt.productId === 'premium_month_2018') {
-          type = 'month'
-        } else {
-          throw new Conflict()
-        }
-
-        const orderId = receipt.orderId
-
-        if (typeof orderId !== 'string') {
-          throw new Conflict()
-        }
-
-        await addPurchase({
-          transaction,
-          familyId: deviceEntry.familyId,
-          type,
-          service: 'googleplay',
-          transactionId: orderId,
-          websocket
-        })
-      })
-
-      res.json({ ok: true })
     } catch (ex) {
       next(ex)
     }

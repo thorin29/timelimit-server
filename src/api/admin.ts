@@ -185,7 +185,6 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
               transaction,
               familyId: tokenContent.familyId,
               type,
-              service: 'directpurchase',
               transactionId: purchaseId,
               websocket,
             })

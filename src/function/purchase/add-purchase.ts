@@ -25,14 +25,15 @@ const week = day * 7
 const month = day * 31
 const year = day * 366
 
-export const addPurchase = async ({ familyId, type, service, transactionId, websocket, transaction }: {
+export const addPurchase = async ({ familyId, type, transactionId, websocket, transaction }: {
   transaction: SimpleDatabaseTransaction
   familyId: string
   type: 'month' | 'year' | 'unpaid14'
-  service: 'googleplay' | 'directpurchase'
   transactionId: string
   websocket: WebsocketApi
 }) => {
+  const service = 'directpurchase'
+
   const oldPurchaseEntry = await transaction.legacy.database.purchase.findOne({
     where: {
       service,

@@ -17,7 +17,4 @@
 
 export { canDoNextPurchase } from './can-do-next-purchase'
 export { requireFamilyEntry } from './require-family-entry'
-export {
-  isGooglePlayPurchaseSignatureValid, areGooglePlayPaymentsPossible, googlePlayPublicKey
-} from './verification'
 export { addPurchase } from './add-purchase'

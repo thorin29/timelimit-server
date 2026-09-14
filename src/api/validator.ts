@@ -1,5 +1,5 @@
 // tslint:disable 
-import { ClientPushChangesRequest, ClientPullChangesRequest, MailAuthTokenRequestBody, CreateFamilyByMailTokenRequest, SignIntoFamilyRequest, RecoverParentPasswordRequest, RegisterChildDeviceRequest, SerializedParentAction, SerializedAppLogicAction, SerializedChildAction, CreateRegisterDeviceTokenRequest, CanDoPurchaseRequest, FinishPurchaseByGooglePlayRequest, LinkParentMailAddressRequest, UpdatePrimaryDeviceRequest, RemoveDeviceRequest, RequestIdentityTokenRequest, RequestWithAuthToken, SendMailLoginCodeRequest, SignInByMailCodeRequest, IdentityTokenPayload, DeleteAccountPayload } from './schema'
+import { ClientPushChangesRequest, ClientPullChangesRequest, MailAuthTokenRequestBody, CreateFamilyByMailTokenRequest, SignIntoFamilyRequest, RecoverParentPasswordRequest, RegisterChildDeviceRequest, SerializedParentAction, SerializedAppLogicAction, SerializedChildAction, CreateRegisterDeviceTokenRequest, CanDoPurchaseRequest, LinkParentMailAddressRequest, UpdatePrimaryDeviceRequest, RemoveDeviceRequest, RequestIdentityTokenRequest, RequestWithAuthToken, SendMailLoginCodeRequest, SignInByMailCodeRequest, IdentityTokenPayload, DeleteAccountPayload } from './schema'
 import Ajv from 'ajv'
 const ajv = new Ajv()
 
@@ -3354,28 +3354,6 @@ export const isCanDoPurchaseRequest: (value: unknown) => value is CanDoPurchaseR
   "additionalProperties": false,
   "required": [
     "deviceAuthToken"
-  ],
-  "definitions": definitions,
-  "$schema": "http://json-schema.org/draft-07/schema#"
-})
-export const isFinishPurchaseByGooglePlayRequest: (value: unknown) => value is FinishPurchaseByGooglePlayRequest = ajv.compile({
-  "type": "object",
-  "properties": {
-    "deviceAuthToken": {
-      "type": "string"
-    },
-    "receipt": {
-      "type": "string"
-    },
-    "signature": {
-      "type": "string"
-    }
-  },
-  "additionalProperties": false,
-  "required": [
-    "deviceAuthToken",
-    "receipt",
-    "signature"
   ],
   "definitions": definitions,
   "$schema": "http://json-schema.org/draft-07/schema#"

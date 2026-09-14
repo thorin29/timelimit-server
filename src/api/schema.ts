@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -115,12 +115,6 @@ export interface CreateRegisterDeviceTokenRequest {
 export interface CanDoPurchaseRequest {
   type?: 'googleplay' | 'any'
   deviceAuthToken: string
-}
-
-export interface FinishPurchaseByGooglePlayRequest {
-  deviceAuthToken: string
-  receipt: string
-  signature: string
 }
 
 export interface LinkParentMailAddressRequest {

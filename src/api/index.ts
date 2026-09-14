@@ -49,7 +49,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager, eventH
   app.use('/auth', createAuthRouter(database))
   app.use('/child', createChildRouter({ database, websocket, eventHandler }))
   app.use('/parent', createParentRouter({ database, websocket, eventHandler }))
-  app.use('/purchase', createPurchaseRouter({ database, websocket }))
+  app.use('/purchase', createPurchaseRouter({ database }))
   app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager, eventHandler }))
 
   app.use(
