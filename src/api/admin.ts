@@ -18,7 +18,6 @@
 import { json } from 'body-parser'
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
-import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../database/simple'
 import { addPurchase, canDoNextPurchase } from '../function/purchase'
 import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
@@ -119,14 +118,10 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
       }
 
       const response = await database.transaction(async (transaction) => {
-        const userValid = await transaction.legacy.database.user.count({
-          where: {
-            familyId: tokenContent.familyId,
-            userId: tokenContent.userId,
-            mail: tokenContent.mail,
-            type: 'parent'
-          },
-          transaction: transaction.legacy.transaction
+        const userValid = await transaction.user.doesSpecificParentUserExist({
+          familyId: tokenContent.familyId,
+          userId: tokenContent.userId,
+          mail: tokenContent.mail,
         })
 
         if (!userValid) return {
@@ -139,79 +134,48 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
 
         if (tokenContent.mail !== '') mailToReturn = tokenContent.mail
         else {
-          const userEntryWithMail = await transaction.legacy.database.user.findOne({
-            where: {
-              familyId: tokenContent.familyId,
-              mail: {
-                [Sequelize.Op.ne]: ''
-              },
-              type: 'parent'
-            },
-            transaction: transaction.legacy.transaction
-          })
+          const familyMail = await transaction.user.getSmallestMailAddressByFamilyId(tokenContent.familyId)
 
-          if (!userEntryWithMail) return {
+          if (!familyMail) return {
             ok: false,
             error: 'illegal state',
             detail: 'no user with mail found'
           }
 
-          mailToReturn = userEntryWithMail.mail
+          mailToReturn = familyMail
         }
 
         let wasAlreadyExecuted: boolean
 
-        const oldPurchaseByPurchaseId = await transaction.legacy.database.purchase.findOne({
-          where: {
-            service: 'directpurchase',
-            transactionId: purchaseId
-          },
-          transaction: transaction.legacy.transaction
-        })
+        const existingPurchaseFamilyId = await transaction.purchase.getFamilyIdByPurchaseId(purchaseId)
 
-        if (oldPurchaseByPurchaseId === null) wasAlreadyExecuted = false
-        else if (oldPurchaseByPurchaseId.familyId === tokenContent.familyId) wasAlreadyExecuted = true
+        if (existingPurchaseFamilyId === null) wasAlreadyExecuted = false
+        else if (existingPurchaseFamilyId === tokenContent.familyId) wasAlreadyExecuted = true
         else return {
           ok: false,
           error: 'purchase id already used'
         }
 
         if (!wasAlreadyExecuted) {
-          const familyEntry = await transaction.legacy.database.family.findOne({
-            where: {
-              familyId: tokenContent.familyId
-            },
-            transaction: transaction.legacy.transaction
-          })
+          const canDoNextPurchaseData = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(tokenContent.familyId)
 
-          if (!familyEntry) return {
+          if (!canDoNextPurchaseData) return {
             ok: false,
             error: 'family not found'
           }
 
-          const canDoPurchase = canDoNextPurchase({
-            fullVersionUntil: parseInt(familyEntry.fullVersionUntil),
-            fullVersionDebts: parseInt(familyEntry.fullVersionDebts),
-          })
+          const canDoPurchase = canDoNextPurchase(canDoNextPurchaseData)
 
           if (!canDoPurchase) {
-            const lastPurchase = await transaction.legacy.database.purchase.findOne({
-              where: {
-                familyId: tokenContent.familyId
-              },
-              transaction: transaction.legacy.transaction,
-              order: [['loggedAt', 'DESC']],
-              limit: 1
-            })
+            const lastPurchase = await transaction.purchase.getLastPurchaseByFamilyId(tokenContent.familyId)
 
             return {
               ok: false,
               error: 'can not renew now',
               lastPurchase: lastPurchase ? {
-                service: lastPurchase.service,
-                transactionId: lastPurchase.transactionId,
-                timestamp: parseInt(lastPurchase.loggedAt),
-                timestring: new Date(parseInt(lastPurchase.loggedAt)).toISOString()
+                purchaseId: lastPurchase.purchaseId,
+                timestamp: lastPurchase.loggedAt,
+                timestring: new Date(lastPurchase.loggedAt).toISOString()
               } : undefined
             }
           }

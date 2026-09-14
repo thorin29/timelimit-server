@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as Sequelize from 'sequelize'
+
 import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main'
 import { generateAuthToken } from '../../util/token'
 
@@ -32,6 +34,10 @@ export interface SimpleDatabaseTransaction {
 
   enqueueAfterCommit(callback: () => void): void
 
+  family: {
+    getFullVersionUntilAndDebtsByFamilyId: (familyId: string) => Promise<{ fullVersionUntil: number, fullVersionDebts: number } | null>
+  }
+
   device: {
     getFamilyIdAndDeviceNameByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceName: string} | null>
     getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
@@ -39,6 +45,8 @@ export interface SimpleDatabaseTransaction {
 
   user: {
     doesFamilyHaveUserWithMail: (params: { familyId: string, mail: string }) => Promise<boolean>
+    doesSpecificParentUserExist: (params: { familyId: string, userId: string, mail: string }) => Promise<boolean>
+    getSmallestMailAddressByFamilyId: (familyId: string) => Promise<string | null>
   }
 
   mailLoginToken: {
@@ -46,6 +54,11 @@ export interface SimpleDatabaseTransaction {
     query: (token: string) => Promise<{ mail: string, code: string, locale: string, remainingAttempts: number } | null>
     updateRemainingAttempts: (token: string, attempts: number) => Promise<{ found: boolean }>
     destroy: (token: string) => Promise<{ found: boolean }>
+  }
+
+  purchase: {
+    getFamilyIdByPurchaseId: (purchaseId: string) => Promise<string | null>
+    getLastPurchaseByFamilyId: (familyId: string) => Promise<{ purchaseId: string, loggedAt: number } | null>
   }
 
   legacy: {
@@ -67,6 +80,23 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
       (innerTransaction) => inner(fromLegacyTransaction(database, innerTransaction)),
       { transaction: legacyTransaction }
     ),
+    family: {
+      getFullVersionUntilAndDebtsByFamilyId: async (familyId: string) => {
+        const item = await database.family.findOne({
+          where: {
+            familyId
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            fullVersionUntil: parseInt(item.fullVersionUntil),
+            fullVersionDebts: parseInt(item.fullVersionDebts),
+          }
+        } else return null
+      }
+    },
     device: {
       getFamilyIdAndDeviceNameByAuthToken: async (deviceAuthToken) => {
         const deviceEntry = await database.device.findOne({
@@ -108,6 +138,35 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
         })
 
         return userEntryCounter === 1
+      },
+      doesSpecificParentUserExist: async ({ familyId, userId, mail }) => {
+        const counter = await database.user.count({
+          where: {
+            familyId,
+            userId,
+            mail,
+            type: 'parent'
+          },
+          transaction: legacyTransaction
+        })
+
+        return counter === 1
+      },
+      getSmallestMailAddressByFamilyId: async (familyId: string) => {
+        const userEntryWithMail = await database.user.findOne({
+          where: {
+            familyId,
+            mail: {
+              [Sequelize.Op.ne]: ''
+            },
+            type: 'parent'
+          },
+          order: [['mail', 'ASC']],
+          transaction: legacyTransaction
+        })
+
+        if (userEntryWithMail) return userEntryWithMail.mail
+        else return null
       }
     },
     mailLoginToken: {
@@ -164,6 +223,37 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
 
         return { found: counter === 1 }
       }
+    },
+    purchase: {
+      getFamilyIdByPurchaseId: async (purchaseId: string) => {
+        const item = await database.purchase.findOne({
+          where: {
+            service: 'directpurchase',
+            transactionId: purchaseId
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) return item.familyId
+        else return null
+      },
+      getLastPurchaseByFamilyId: async (familyId: string) => {
+        const item = await database.purchase.findOne({
+          where: {
+            familyId: familyId
+          },
+          transaction: legacyTransaction,
+          order: [['loggedAt', 'DESC']],
+          limit: 1
+        })
+
+        if (item) {
+          return {
+            purchaseId: item.transactionId,
+            loggedAt: parseInt(item.loggedAt)
+          }
+        } else return null
+      },
     },
     enqueueAfterCommit: (afterCommitAction) => legacyTransaction.afterCommit(afterCommitAction),
     legacy: {
