@@ -16,6 +16,7 @@
  */
 
 import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main'
+import { generateAuthToken } from '../../util/token'
 
 export interface SimpleDatabase {
   legacy: LegacyDatabase
@@ -30,6 +31,21 @@ export interface SimpleDatabaseTransaction {
   ) => Promise<T>
 
   enqueueAfterCommit(callback: () => void): void
+
+  device: {
+    getFamilyIdAndDeviceNameByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceName: string} | null>
+  }
+
+  user: {
+    doesFamilyHaveUserWithMail: (params: { familyId: string, mail: string }) => Promise<boolean>
+  }
+
+  mailLoginToken: {
+    create: (params: { time: number, mail: string, code: string, locale: string }) => Promise<{ token: string }>
+    query: (token: string) => Promise<{ mail: string, code: string, locale: string, remainingAttempts: number } | null>
+    updateRemainingAttempts: (token: string, attempts: number) => Promise<{ found: boolean }>
+    destroy: (token: string) => Promise<{ found: boolean }>
+  }
 
   legacy: {
     database: LegacyDatabase
@@ -50,6 +66,92 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
       (innerTransaction) => inner(fromLegacyTransaction(database, innerTransaction)),
       { transaction: legacyTransaction }
     ),
+    device: {
+      getFamilyIdAndDeviceNameByAuthToken: async (deviceAuthToken) => {
+        const deviceEntry = await database.device.findOne({
+          where: { deviceAuthToken },
+          attributes: ['familyId', 'name'],
+          transaction: legacyTransaction
+        })
+
+        if (deviceEntry) {
+          return {
+            familyId: deviceEntry.familyId,
+            deviceName: deviceEntry.name,
+          }
+        } else return null
+      },
+    },
+    user: {
+      doesFamilyHaveUserWithMail: async ({ familyId, mail }) => {
+        if (mail === '') return false
+
+        const userEntryCounter = await database.user.count({
+          where: {
+            familyId: familyId,
+            mail
+          },
+          transaction: legacyTransaction
+        })
+
+        return userEntryCounter === 1
+      }
+    },
+    mailLoginToken: {
+      create: async ({ time, mail, code, locale }) => {
+        const mailLoginToken = generateAuthToken()
+
+        await database.mailLoginToken.create({
+          mailLoginToken,
+          receivedCode: code,
+          mail,
+          createdAt: time.toString(10),
+          remainingAttempts: 3,
+          locale
+        }, { transaction: legacyTransaction })
+
+        return { token: mailLoginToken }
+      },
+      query: async (token) => {
+        const entry = await database.mailLoginToken.findOne({
+          where: {
+            mailLoginToken: token
+          },
+          transaction: legacyTransaction
+        })
+
+        if (entry) {
+          return {
+            mail: entry.mail,
+            code: entry.receivedCode,
+            locale: entry.locale,
+            remainingAttempts: entry.remainingAttempts
+          }
+        } else return null
+      },
+      updateRemainingAttempts: async (token: string, attempts: number) => {
+        const [counter] = await database.mailLoginToken.update({
+          remainingAttempts: attempts
+        }, {
+          where: {
+            mailLoginToken: token
+          },
+          transaction: legacyTransaction
+        })
+
+        return { found: counter === 1 }
+      },
+      destroy: async (token: string) => {
+        const counter = await database.mailLoginToken.destroy({
+          where: {
+            mailLoginToken: token
+          },
+          transaction: legacyTransaction
+        })
+
+        return { found: counter === 1 }
+      }
+    },
     enqueueAfterCommit: (afterCommitAction) => legacyTransaction.afterCommit(afterCommitAction),
     legacy: {
       database,

@@ -20,7 +20,6 @@ import { SimpleDatabase } from '../../database/simple'
 import { sendAuthenticationMail } from '../../util/mail'
 import { areWordSequencesEqual, randomWords } from '../../util/random-words'
 import { checkMailSendLimit } from '../../util/ratelimit-authmail'
-import { generateAuthToken } from '../../util/token'
 import { createAuthTokenByMailAddress } from './index'
 
 export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }: {
@@ -33,40 +32,23 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
   let deviceName = null
 
   if (deviceAuthToken !== undefined) {
-    const info = await database.transaction(async (transaction) => {
-      const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-        where: { deviceAuthToken },
-        attributes: ['familyId', 'name'],
-        transaction: transaction.legacy.transaction
-      })
+    deviceName = await database.transaction(async (transaction) => {
+      const deviceEntry = await transaction.device.getFamilyIdAndDeviceNameByAuthToken(deviceAuthToken)
 
-      if (!deviceEntryUnsafe) {
+      if (!deviceEntry) {
         throw new Unauthorized()
       }
 
-      const deviceEntry = {
-        familyId: deviceEntryUnsafe.familyId,
-        name: deviceEntryUnsafe.name
-      }
+      const hasMail = await transaction.user.doesFamilyHaveUserWithMail({ familyId: deviceEntry.familyId, mail })
 
-      const userEntryCounter = await transaction.legacy.database.user.count({
-        where: {
-          familyId: deviceEntry.familyId,
-          mail
-        },
-        transaction: transaction.legacy.transaction
-      })
-
-      if (userEntryCounter === 1) {
-        return { deviceName: deviceEntry.name }
+      if (hasMail) {
+        return deviceEntry.deviceName
       } else {
         // do not show the device name if it is from another family
         // otherwise third parties could chose a part of the content of the mail
-        return { deviceName: null }
+        return null
       }
     })
-
-    deviceName = info.deviceName
   }
 
   try {
@@ -75,7 +57,6 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
     throw new TooManyRequests()
   }
 
-  const mailLoginToken = generateAuthToken()
   const code = randomWords(3)
 
   await sendAuthenticationMail({
@@ -85,15 +66,13 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
     deviceName
   })
 
-  await database.transaction(async (transaction) => {
-    await transaction.legacy.database.mailLoginToken.create({
-      mailLoginToken,
-      receivedCode: code,
+  const mailLoginToken = await database.transaction(async (transaction) => {
+    return (await transaction.mailLoginToken.create({
+      time: Date.now(),
+      code,
       mail,
-      createdAt: Date.now().toString(10),
-      remainingAttempts: 3,
       locale
-    }, { transaction: transaction.legacy.transaction })
+    })).token
   })
 
   return {
@@ -110,37 +89,29 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ mailAuthToken: string }> => {
   const result = await database.transaction(async (transaction) => {
-    const entry = await transaction.legacy.database.mailLoginToken.findOne({
-      where: {
-        mailLoginToken
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const entry = await transaction.mailLoginToken.query(mailLoginToken)
 
     if ((!entry) || entry.remainingAttempts === 0) {
       throw new Gone()
     }
 
-    if (!areWordSequencesEqual(entry.receivedCode, receivedCode)) {
-      entry.remainingAttempts--
+    if (!areWordSequencesEqual(entry.code, receivedCode)) {
+      const updateResult = await transaction.mailLoginToken.updateRemainingAttempts(mailLoginToken, entry.remainingAttempts - 1)
 
-      await entry.save({ transaction: transaction.legacy.transaction })
+      if (!updateResult.found) {
+        throw new Gone()
+      }
 
-      if (entry.remainingAttempts === 0) {
+      if (entry.remainingAttempts === 1) {
         return () => { throw new Gone() }
       } else {
         return () => { throw new Forbidden() }
       }
     }
 
-    const counter = await transaction.legacy.database.mailLoginToken.destroy({
-      where: {
-        mailLoginToken
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const destroyResult = await transaction.mailLoginToken.destroy(mailLoginToken)
 
-    if (counter !== 1) {
+    if (!destroyResult.found) {
       throw new Gone()
     }
 
