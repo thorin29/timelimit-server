@@ -17,13 +17,12 @@
 
 import { json } from 'body-parser'
 import { Router } from 'express'
-import { BadRequest, Conflict } from 'http-errors'
+import { BadRequest } from 'http-errors'
 import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../database/simple'
 import { addPurchase, canDoNextPurchase } from '../function/purchase'
 import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
 import { EventHandler } from '../monitoring/eventhandler'
-import { generatePurchaseId } from '../util/token'
 import { verifyIdentitifyToken, TokenValidationException } from '../util/identity-token'
 import { WebsocketApi } from '../websocket'
 
@@ -83,52 +82,6 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
       await setStatusMessage({ database, newStatusMessage })
 
       websocket.triggerImportantSyncAtAllDevicesInBackground()
-
-      res.json({ ok: true })
-    } catch (ex) {
-      next(ex)
-    }
-  })
-
-  router.post('/unlock-premium', json(), async (req, res, next) => {
-    try {
-      if (typeof req.body !== 'object' || typeof req.body.mail !== 'string' || typeof req.body.duration !== 'string') {
-        throw new BadRequest()
-      }
-
-      const mail: string = req.body.mail
-      const type: string = req.body.duration
-
-      if (type !== 'month' && type !== 'year' || mail === '') {
-        throw new BadRequest()
-      }
-
-      await database.transaction(async (transaction) => {
-        const userEntryUnsafe = await transaction.legacy.database.user.findOne({
-          where: {
-            mail
-          },
-          attributes: ['familyId'],
-          transaction: transaction.legacy.transaction
-        })
-
-        if (!userEntryUnsafe) {
-          throw new Conflict('no user with specified mail address')
-        }
-
-        const userEntry = {
-          familyId: userEntryUnsafe.familyId
-        }
-
-        await addPurchase({
-          transaction,
-          familyId: userEntry.familyId,
-          type,
-          service: 'directpurchase',
-          transactionId: 'legacyunlock-' + type + '-' + generatePurchaseId(),
-          websocket
-        })
-      })
 
       res.json({ ok: true })
     } catch (ex) {
