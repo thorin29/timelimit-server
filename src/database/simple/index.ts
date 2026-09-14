@@ -70,6 +70,12 @@ export interface SimpleDatabaseTransaction {
     destroy: (token: string) => Promise<{ found: boolean }>
   }
 
+  authToken: {
+    create: (params: { time: number, mail: string, locale: string }) => Promise<string>
+    checkAndKeep: (token: string) => Promise<{ mail: string, locale: string } | null>
+    checkAndDestroy: (token: string) => Promise<{ mail: string, locale: string } | null>
+  }
+
   purchase: {
     getFamilyIdByPurchaseId: (purchaseId: string) => Promise<string | null>
     getLastPurchaseByFamilyId: (familyId: string) => Promise<{ purchaseId: string, loggedAt: number } | null>
@@ -378,6 +384,61 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
 
         return { found: counter === 1 }
       }
+    },
+    authToken: {
+      create: async ({ time, mail, locale }) => {
+        const token = generateAuthToken()
+
+        await database.authtoken.create({
+          token,
+          mail,
+          createdAt: time.toString(),
+          locale
+        }, { transaction: legacyTransaction })
+
+        return token
+      },
+      checkAndKeep: async (token: string) => {
+        const item = await database.authtoken.findOne({
+          where: {
+            token
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            mail: item.mail,
+            locale: item.locale
+          }
+        } else return null
+      },
+      checkAndDestroy: async (token: string) => {
+        const item = await database.authtoken.findOne({
+          where: {
+            token
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          const counter = await database.authtoken.destroy({
+            where: {
+              token
+            },
+            transaction: legacyTransaction
+          })
+
+          if (counter !== 1) {
+            return null
+          }
+
+          return {
+            mail: item.mail,
+            locale: item.locale
+          }
+        } else return null
+      },
     },
     purchase: {
       getFamilyIdByPurchaseId: async (purchaseId: string) => {
