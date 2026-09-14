@@ -43,9 +43,18 @@ export const createPurchaseRouter = ({ database }: { database: SimpleDatabase })
         return canDoNextPurchase(canDoNextPurchaseData)
       })
 
-      res.json({
-        canDoPurchase: result ? 'yes' : 'no due to old purchase'
-      })
+      const canDoPurchase = result ? 'yes' : 'no due to old purchase'
+
+      if (canDoPurchase === 'yes' && req.body.type === 'googleplay') {
+        res.json({
+          canDoPurchase: 'yes',
+          googlePlayPublicKey: 'dW5zdXBwb3J0ZWQK' // unsupported as base64
+        })
+      } else {
+        res.json({
+          canDoPurchase
+        })
+      }
     } catch (ex) {
       next(ex)
     }
