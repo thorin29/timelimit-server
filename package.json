@@ -13,10 +13,7 @@
     "build:json": "node ./scripts/build-schemas.js",
     "build:ts": "tsc",
     "build:doc": "npm run build:doc:json",
-    "build:doc:json": "jsonschema2md -d docs/schema -o docs/schema -x -",
-    "tool:find-old-families": "node build/cli/find-old-families.js",
-    "tool:delete-old-families": "node build/cli/delete-old-families.js",
-    "tool:count-families": "node build/cli/count-families.js"
+    "build:doc:json": "jsonschema2md -d docs/schema -o docs/schema -x -"
   },
   "repository": {
     "type": "git",
