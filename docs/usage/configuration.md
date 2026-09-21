@@ -2,11 +2,11 @@
 
 - DATABASE_URL
   - this specifies the database to use
-  - default value: ``sqlite://test.db`` (sqlite database in the source code directory)
-  - supports mysql, postgresql and sqlite (sqlite in development builds only because it's declared as dev dependency)
+  - there is no default value
+  - supports postgresql only; utf8 locale required
   - looks like ``postgres://user:pass@example.com:5432/dbname``
   - no extra setup needed
-      - when starting the application, the database tables are created/ migrated
+      - when starting the application, the database tables are created/migrated
         - this only works for upgrading; if you intend to eventually downgrade, make a backup first (you should make backups in all cases before an upgrade)
   - for development purposes, ``scripts/test-db.sh`` creates and starts a database in the folder ``tempdb``, sets ``DATABASE_URL``and starts a shell
 - PORT

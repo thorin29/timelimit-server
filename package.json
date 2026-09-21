@@ -5,7 +5,6 @@
   "description": "",
   "scripts": {
     "start": "node ./build/index.js",
-    "test": "node scripts/test-launch-with-different-databases.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "npm run build:clean && npm run build:json && npm run build:ts && npm run lint && npm run build:doc",
@@ -51,7 +50,6 @@
     "http-errors": "^1.8.0",
     "jose": "^4.9.3",
     "lodash": "^4.17.21",
-    "mariadb": "^2.5.2",
     "nodemailer": "^9.0.4",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
@@ -59,8 +57,5 @@
     "sequelize": "^6.25.5",
     "socket.io": "^4.0.1",
     "umzug": "^3.8.1"
-  },
-  "optionalDependencies": {
-    "sqlite3": "npm:@vscode/sqlite3@^5.1.12-vscode"
   }
 }

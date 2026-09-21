@@ -143,7 +143,11 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   dialect: sequelize.getDialect()
 })
 
-export const sequelize = new Sequelize.Sequelize(process.env.DATABASE_URL || 'sqlite://test.db', {
+const databaseUrl = process.env.DATABASE_URL
+
+if (!databaseUrl) throw new Error('missing database url')
+
+export const sequelize = new Sequelize.Sequelize(databaseUrl, {
   define: {
     timestamps: false
   },
