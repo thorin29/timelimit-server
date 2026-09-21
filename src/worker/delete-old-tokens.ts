@@ -53,14 +53,7 @@ async function deleteOldTokens ({ database }: {
       transaction: transaction.legacy.transaction
     })
 
-    await transaction.legacy.database.addDeviceToken.destroy({
-      where: {
-        createdAt: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
-        }
-      },
-      transaction: transaction.legacy.transaction
-    })
+    await transaction.addDeviceToken.destroyOlderThan(Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */)
 
     await transaction.legacy.database.mailLoginToken.destroy({
       where: {

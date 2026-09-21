@@ -26,19 +26,14 @@ export const createAddDeviceToken = async ({ familyId, transaction }: {
   const token = randomWords(5)
   const deviceId = generateIdWithinFamily()
 
-  await transaction.legacy.database.addDeviceToken.destroy({
-    where: {
-      familyId
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.addDeviceToken.destroyByFamilyId(familyId)
 
-  await transaction.legacy.database.addDeviceToken.create({
+  await transaction.addDeviceToken.create({
     familyId,
     token: token.toLowerCase(),
     deviceId,
-    createdAt: Date.now().toString()
-  }, { transaction: transaction.legacy.transaction })
+    time: Date.now()
+  })
 
   return { token, deviceId }
 }

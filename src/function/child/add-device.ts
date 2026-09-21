@@ -39,18 +39,11 @@ export const addChildDevice = async ({ database, eventHandler, websocket, reques
   data: ServerDataStatus
 }> => {
   return database.transaction(async (transaction) => {
-    const entry = await transaction.legacy.database.addDeviceToken.findOne({
-      where: {
-        token: request.registerToken.toLowerCase()
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const entry = await transaction.addDeviceToken.getAndDestroy(request.registerToken.toLowerCase())
 
     if (!entry) {
       throw new Unauthorized()
     }
-
-    await entry.destroy({ transaction: transaction.legacy.transaction })
 
     const { deviceId, familyId } = entry
     const deviceAuthToken = generateAuthToken()

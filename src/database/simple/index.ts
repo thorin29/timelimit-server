@@ -76,6 +76,13 @@ export interface SimpleDatabaseTransaction {
     checkAndDestroy: (token: string) => Promise<{ mail: string, locale: string } | null>
   }
 
+  addDeviceToken: {
+    create: (params: { familyId: string, time: number, deviceId: string, token: string }) => Promise<void>
+    getAndDestroy: (token: string) => Promise<{familyId: string, deviceId: string} | null>
+    destroyByFamilyId: (familyId: string) => Promise<void>
+    destroyOlderThan: (time: number) => Promise<void>
+  }
+
   purchase: {
     getFamilyIdByPurchaseId: (purchaseId: string) => Promise<string | null>
     getLastPurchaseByFamilyId: (familyId: string) => Promise<{ purchaseId: string, loggedAt: number } | null>
@@ -438,6 +445,49 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             locale: item.locale
           }
         } else return null
+      },
+    },
+    addDeviceToken: {
+      create: async ({ familyId, time, deviceId, token }) => {
+        await database.addDeviceToken.create({
+          familyId,
+          token,
+          deviceId,
+          createdAt: time.toString()
+        }, { transaction: legacyTransaction })
+      },
+      getAndDestroy: async (token: string) => {
+        const item = await database.addDeviceToken.findOne({
+          where: {
+            token
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            familyId: item.familyId,
+            deviceId: item.deviceId,
+          }
+        } else return null
+      },
+      destroyByFamilyId: async (familyId: string) => {
+        await database.addDeviceToken.destroy({
+          where: {
+            familyId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      destroyOlderThan: async (time: number) => {
+        await database.addDeviceToken.destroy({
+          where: {
+            createdAt: {
+              [Sequelize.Op.lt]: time.toString()
+            }
+          },
+          transaction: legacyTransaction
+        })
       },
     },
     purchase: {
