@@ -44,13 +44,9 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
       await deviceEntry.save({ transaction: transaction.legacy.transaction })
 
       // invalidiate device list
-      await transaction.legacy.database.family.update({
-        deviceListVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: deviceEntry.familyId
-        },
-        transaction: transaction.legacy.transaction
+      await transaction.family.updateDeviceListVersion({
+        deviceListVersion: generateVersionId(),
+        familyId: deviceEntry.familyId
       })
 
       // add to old devices

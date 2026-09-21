@@ -37,6 +37,9 @@ export interface SimpleDatabaseTransaction {
   family: {
     getFullVersionUntilAndDebtsByFamilyId: (familyId: string) => Promise<{ fullVersionUntil: number, fullVersionDebts: number } | null>
     hasFullVersionByFamilyId: (familyId: string) => Promise<boolean> // returns false if the family was not found
+    updateDeviceListVersion: (params: { familyId: string, deviceListVersion: string }) => Promise<void>
+    updateUserListVersion: (params: { familyId: string, userListVersion: string }) => Promise<void>
+    updateU2fKeysVersion: (params: { familyId: string, u2fKeysVersion: string }) => Promise<void>
   }
 
   device: {
@@ -133,7 +136,37 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
         })
 
         return !!(item && item.hasFullVersion)
-      }
+      },
+      updateDeviceListVersion: async ({ familyId, deviceListVersion}) => {
+        await database.family.update({
+          deviceListVersion
+        }, {
+          where: {
+            familyId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updateUserListVersion: async ({ familyId, userListVersion }) => {
+        await database.family.update({
+          userListVersion
+        }, {
+          where: {
+            familyId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updateU2fKeysVersion: async ({ familyId, u2fKeysVersion }) => {
+        await database.family.update({
+          u2fKeysVersion
+        }, {
+          where: {
+            familyId
+          },
+          transaction: legacyTransaction
+        })
+      },
     },
     device: {
       getFamilyIdByAuthToken: async (deviceAuthToken) => {

@@ -70,15 +70,15 @@ export async function removeDevice ({ familyId, deviceId, websocket, transaction
   await deviceEntry.destroy({ transaction: transaction.legacy.transaction })
 
   // invalidiate the caches
-  await transaction.legacy.database.family.update({
+  await transaction.family.updateDeviceListVersion({
     deviceListVersion: generateVersionId(),
-    // the device could have become unassigned during this
-    userListVersion: generateVersionId()
-  }, {
-    where: {
-      familyId: deviceEntry.familyId
-    },
-    transaction: transaction.legacy.transaction
+    familyId: deviceEntry.familyId
+  })
+
+  // the device could have become unassigned during this
+  await transaction.family.updateUserListVersion({
+    userListVersion: generateVersionId(),
+    familyId: deviceEntry.familyId
   })
 
   await notifyClientsAboutChangesDelayed({

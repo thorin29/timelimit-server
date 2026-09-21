@@ -73,13 +73,9 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
     }), { transaction: transaction.legacy.transaction })
 
     // notify about changes
-    await transaction.legacy.database.family.update({
-      deviceListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId: userEntry.familyId
-      },
-      transaction: transaction.legacy.transaction
+    await transaction.family.updateDeviceListVersion({
+      deviceListVersion: generateVersionId(),
+      familyId: userEntry.familyId
     })
 
     await notifyClientsAboutChangesDelayed({

@@ -55,13 +55,9 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
     await userEntry.save({ transaction: transaction.legacy.transaction })
 
     // invalidate the user list
-    await transaction.legacy.database.family.update({
-      userListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId: userEntry.familyId
-      },
-      transaction: transaction.legacy.transaction
+    await transaction.family.updateUserListVersion({
+      userListVersion: generateVersionId(),
+      familyId: userEntry.familyId
     })
 
     await notifyClientsAboutChangesDelayed({

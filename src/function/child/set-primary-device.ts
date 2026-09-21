@@ -149,13 +149,9 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
     }
 
     // invalidiate user list
-    await transaction.legacy.database.family.update({
-      userListVersion: generateVersionId()
-    }, {
-      transaction: transaction.legacy.transaction,
-      where: {
-        familyId: deviceEntry.familyId
-      }
+    await transaction.family.updateUserListVersion({
+      userListVersion: generateVersionId(),
+      familyId: deviceEntry.familyId
     })
 
     // trigger sync

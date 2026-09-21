@@ -88,13 +88,9 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
     await parentEntry.save({ transaction: transaction.legacy.transaction })
 
     // invalidiate client caches
-    await transaction.legacy.database.family.update({
-      userListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId
-      },
-      transaction: transaction.legacy.transaction
+    await transaction.family.updateUserListVersion({
+      userListVersion: generateVersionId(),
+      familyId
     })
 
     // notify

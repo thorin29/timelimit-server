@@ -238,39 +238,27 @@ export class Cache {
     }
 
     if (this.invalidiateUserList) {
-      await this.transaction.legacy.database.family.update({
+      await this.transaction.family.updateUserListVersion({
+        familyId,
         userListVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: this.familyId
-        },
-        transaction: this.transaction.legacy.transaction
       })
 
       this.invalidiateUserList = false
     }
 
     if (this.invalidiateDeviceList) {
-      await this.transaction.legacy.database.family.update({
+      await this.transaction.family.updateDeviceListVersion({
+        familyId,
         deviceListVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: this.familyId
-        },
-        transaction: this.transaction.legacy.transaction
       })
 
       this.invalidiateDeviceList = false
     }
 
     if (this.invalidateU2fList) {
-      await this.transaction.legacy.database.family.update({
+      await this.transaction.family.updateU2fKeysVersion({
+        familyId,
         u2fKeysVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: this.familyId
-        },
-        transaction: this.transaction.legacy.transaction
       })
 
       this.invalidateU2fList = false

@@ -58,13 +58,9 @@ export const addChildDevice = async ({ database, eventHandler, websocket, reques
       isUserKeptSignedIn: false
     }), { transaction: transaction.legacy.transaction })
 
-    await transaction.legacy.database.family.update({
+    await transaction.family.updateDeviceListVersion({
+      familyId,
       deviceListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId
-      },
-      transaction: transaction.legacy.transaction
     })
 
     await notifyClientsAboutChangesDelayed({
