@@ -8,6 +8,7 @@
   - no extra setup needed
       - when starting the application, the database tables are created/ migrated
         - this only works for upgrading; if you intend to eventually downgrade, make a backup first (you should make backups in all cases before an upgrade)
+  - for development purposes, ``scripts/test-db.sh`` creates and starts a database in the folder ``tempdb``, sets ``DATABASE_URL``and starts a shell
 - PORT
   - the port at which the server should listen
   - default value: 8080
