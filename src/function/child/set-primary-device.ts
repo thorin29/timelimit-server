@@ -31,119 +31,61 @@ export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, c
   // no transaction here because this is directly called from an API endpoint
 }): Promise<'assigned to other device' | 'requires full version' | 'success'> => {
   return database.transaction(async (transaction): Promise<'assigned to other device' | 'requires full version' | 'success'> => {
-    const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-      where: {
-        deviceAuthToken
-      },
-      transaction: transaction.legacy.transaction,
-      attributes: ['familyId', 'currentUserId', 'deviceId']
-    })
+    const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken(deviceAuthToken)
 
-    if (!deviceEntryUnsafe) {
+    if (!deviceEntry) {
       throw new Unauthorized()
-    }
-
-    const deviceEntry = {
-      familyId: deviceEntryUnsafe.familyId,
-      currentUserId: deviceEntryUnsafe.currentUserId,
-      deviceId: deviceEntryUnsafe.deviceId
     }
 
     if ((deviceEntry.currentUserId !== currentUserId) || (currentUserId === '')) {
       throw new Conflict()
     }
 
-    const userEntryUnsafe = await transaction.legacy.database.user.findOne({
-      where: {
-        familyId: deviceEntry.familyId,
-        userId: deviceEntry.currentUserId
-      },
-      transaction: transaction.legacy.transaction,
-      attributes: ['currentDevice']
+    const userEntry = await transaction.user.getCurrentDeviceIdByUserId({
+      familyId: deviceEntry.familyId,
+      userId: deviceEntry.currentUserId
     })
 
-    if (!userEntryUnsafe) {
+    if (!userEntry) {
       throw new Conflict()
     }
 
-    const userEntry = {
-      currentDevice: userEntryUnsafe.currentDevice
-    }
-
-    const userDeviceEntriesUnsafe = await transaction.legacy.database.device.findAll({
-      where: {
-        familyId: deviceEntry.familyId,
-        currentUserId
-      },
-      transaction: transaction.legacy.transaction,
-      attributes: ['deviceId']
+    const userDeviceIds = await transaction.device.getDeviceIdsByCurrentUserId({
+      familyId: deviceEntry.familyId,
+      currentUserId
     })
 
-    const userDeviceEntries = userDeviceEntriesUnsafe.map((item) => ({
-      deviceId: item.deviceId
-    }))
+    if (userDeviceIds.length >= 2) {
+      const hasFullVersion = await transaction.family.hasFullVersionByFamilyId(deviceEntry.familyId)
 
-    if (userDeviceEntries.length >= 2) {
-      const familyEntryUnsafe = await transaction.legacy.database.family.findOne({
-        where: {
-          familyId: deviceEntry.familyId
-        },
-        transaction: transaction.legacy.transaction,
-        attributes: ['hasFullVersion']
-      })
-
-      if (!familyEntryUnsafe) {
-        throw new Conflict()
-      }
-
-      const familyEntry = {
-        hasFullVersion: familyEntryUnsafe.hasFullVersion
-      }
-
-      if (!(familyEntry.hasFullVersion || config.alwaysPro)) {
+      if (!(hasFullVersion || config.alwaysPro)) {
         return 'requires full version'
       }
     }
 
     if (action === 'set this device') {
       // check that no other device is selected
-      if (userDeviceEntries.find((item) => item.deviceId === userEntry.currentDevice)) {
+      if (userDeviceIds.indexOf(userEntry.currentDeviceId) !== -1) {
         return 'assigned to other device'
       }
 
       // update
-      const [affectedRows] = await transaction.legacy.database.user.update({
-        currentDevice: deviceEntry.deviceId
-      }, {
-        where: {
-          familyId: deviceEntry.familyId,
-          userId: currentUserId
-        },
-        transaction: transaction.legacy.transaction
+      await transaction.user.updateCurrentDevice({
+        familyId: deviceEntry.familyId,
+        userId: currentUserId,
+        currentDeviceId: deviceEntry.deviceId
       })
-
-      if (affectedRows !== 1) {
-        throw new Conflict()
-      }
     } else if (action === 'unset this device') {
-      if (userEntry.currentDevice !== deviceEntry.deviceId) {
+      if (userEntry.currentDeviceId !== deviceEntry.deviceId) {
         throw new Conflict()
       }
 
       // update
-      const [affectedRows] = await transaction.legacy.database.user.update({
-        currentDevice: ''
-      }, {
-        where: {
-          familyId: deviceEntry.familyId,
-          userId: currentUserId
-        },
-        transaction: transaction.legacy.transaction
+      await transaction.user.updateCurrentDevice({
+        familyId: deviceEntry.familyId,
+        userId: currentUserId,
+        currentDeviceId: ''
       })
-
-      if (affectedRows !== 1) {
-        throw new Conflict()
-      }
     } else {
       throw new InternalServerError('illegal state')
     }
