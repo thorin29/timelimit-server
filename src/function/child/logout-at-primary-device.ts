@@ -26,57 +26,28 @@ export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websock
   // no transaction here because this is directly called from an API endpoint
 }) => {
   await database.transaction(async (transaction) => {
-    const ownDeviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-      where: {
-        deviceAuthToken
-      },
-      transaction: transaction.legacy.transaction,
-      attributes: ['familyId', 'currentUserId', 'deviceId']
-    })
+    const ownDeviceEntry = await transaction.device.getFamilyIdAndCurrentUserByAuthToken(deviceAuthToken)
 
-    if (!ownDeviceEntryUnsafe) {
+    if (!ownDeviceEntry) {
       throw new Unauthorized()
     }
 
-    const ownDeviceEntry = {
-      familyId: ownDeviceEntryUnsafe.familyId,
-      currentUserId: ownDeviceEntryUnsafe.currentUserId
-    }
-
-    const deviceUserEntryUnsafe = await transaction.legacy.database.user.findOne({
-      where: {
-        familyId: ownDeviceEntry.familyId,
-        userId: ownDeviceEntry.currentUserId,
-        type: 'child'
-      },
-      attributes: ['currentDevice'],
-      transaction: transaction.legacy.transaction
+    const deviceUserEntry = await transaction.user.getCurrentDeviceIdByUserId({
+      familyId: ownDeviceEntry.familyId,
+      userId: ownDeviceEntry.currentUserId
     })
 
-    if (!deviceUserEntryUnsafe) {
+    if (!deviceUserEntry) {
       throw new Conflict()
     }
 
-    const deviceUserEntry = {
-      currentDevice: deviceUserEntryUnsafe.currentDevice
-    }
-
-    const otherDeviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-      where: {
-        familyId: ownDeviceEntry.familyId,
-        deviceId: deviceUserEntry.currentDevice,
-        currentUserId: ownDeviceEntry.currentUserId
-      },
-      attributes: ['deviceAuthToken'],
-      transaction: transaction.legacy.transaction
+    const otherDeviceEntry = await transaction.device.getDeviceAuthTokensByDeviceId({
+      familyId: ownDeviceEntry.familyId,
+      deviceId: deviceUserEntry.currentDeviceId,
     })
 
-    if (!otherDeviceEntryUnsafe) {
+    if (!otherDeviceEntry) {
       throw new Conflict()
-    }
-
-    const otherDeviceEntry = {
-      deviceAuthToken: otherDeviceEntryUnsafe.deviceAuthToken
     }
 
     websocket.triggerLogoutByDeviceAuthToken({

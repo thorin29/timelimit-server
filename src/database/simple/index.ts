@@ -46,8 +46,10 @@ export interface SimpleDatabaseTransaction {
     getFamilyIdByAuthToken: (deviceAuthToken: string) => Promise<string | null>
     getFamilyIdAndDeviceNameByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceName: string} | null>
     getFamilyIdAndDeviceIdByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string} | null>
+    getFamilyIdAndCurrentUserByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, currentUserId: string } | null>
     getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string, currentUserId: string, isUserKeptSignedIn: boolean} | null>
     getFamilyIdAndDeviceIdAndLastConnectivityByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string, lastConnectivity: number} | null>
+    getDeviceAuthTokensByDeviceId: (params: { familyId: string, deviceId: string }) => Promise<{ deviceAuthToken: string } | null>
     getDeviceIdsByCurrentUserId: (params: { familyId: string, currentUserId: string }) => Promise<Array<string>>
     getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
     getDeviceIdsAndShowDeviceConnectedByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, showDeviceConnected: boolean }>>
@@ -210,6 +212,20 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           }
         } else return null
       },
+      getFamilyIdAndCurrentUserByAuthToken: async (deviceAuthToken: string) => {
+        const item = await database.device.findOne({
+          where: { deviceAuthToken },
+          attributes: ['familyId', 'currentUserId'],
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            familyId: item.familyId,
+            currentUserId: item.currentUserId
+          }
+        } else return null
+      },
       getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken: async (deviceAuthToken: string) => {
         const deviceEntry = await database.device.findOne({
           where: { deviceAuthToken },
@@ -238,6 +254,22 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             familyId: deviceEntry.familyId,
             deviceId: deviceEntry.deviceId,
             lastConnectivity: parseInt(deviceEntry.lastConnectivity)
+          }
+        } else return null
+      },
+      getDeviceAuthTokensByDeviceId: async ({ familyId, deviceId }) => {
+        const item = await database.device.findOne({
+          where: {
+            familyId,
+            deviceId
+          },
+          attributes: ['deviceAuthToken'],
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            deviceAuthToken: item.deviceAuthToken
           }
         } else return null
       },
