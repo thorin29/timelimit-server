@@ -3,7 +3,7 @@ import { describe, it } from 'node:test'
 
 import HttpErrors from 'http-errors'
 
-import { withTestDatabase, withTestTransaction, withTestDatabaseUrl, SimpleDatabase } from './helper/database.js'
+import { withTestDatabase, withTestTransaction, withTestDatabaseUrl, testPassword1, SimpleDatabase } from './helper/database.js'
 import { signInIntoFamily } from '../src/function/parent/sign-in-into-family.js'
 import { createFamily } from '../src/function/parent/create-family.js'
 import { InMemoryEventHandler } from '../src/monitoring/inmemoryeventhandler.js'
@@ -11,13 +11,6 @@ import { generateIdWithinFamily, generateAuthToken } from '../src/util/token.js'
 import { createMailTransport } from '../src/util/mail.js'
 import { dummyWebsocketApi } from '../src/websocket/index.js'
 import { runWorkersOnce } from '../src/worker/index.js'
-
-const testPassword1 = {
-  // actually "password"
-  hash: '$2a$12$LdgIZsnhZherEUmvwTyYhOeiILfklleonBDCmnbxB3dnVxeeaYG3C',
-  secondHash: '$2a$12$jKUQG/pG87J5pbqRE4NytOQN4U5R.6km2bjxviLzbuis/ZT8JVBO6',
-  secondSalt: '$2a$12$jKUQG/pG87J5pbqRE4NytO',
-}
 
 describe('base', () => {
   it('should run tests', () => {

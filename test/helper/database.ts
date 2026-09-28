@@ -8,6 +8,13 @@ import { SimpleDatabase, SimpleDatabaseTransaction, fromLegacy } from '../../src
 
 export { SimpleDatabase }
 
+export const testPassword1 = {
+  // actually "password"
+  hash: '$2a$12$LdgIZsnhZherEUmvwTyYhOeiILfklleonBDCmnbxB3dnVxeeaYG3C',
+  secondHash: '$2a$12$jKUQG/pG87J5pbqRE4NytOQN4U5R.6km2bjxviLzbuis/ZT8JVBO6',
+  secondSalt: '$2a$12$jKUQG/pG87J5pbqRE4NytO',
+}
+
 export async function withTestTransaction<T>(callback: (transaction: SimpleDatabaseTransaction) => Promise<T>): Promise<T> {
   return await withTestDatabase(async (database) => {
     return await database.transaction(callback)
