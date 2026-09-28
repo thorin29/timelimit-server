@@ -18,7 +18,8 @@
 import * as Sequelize from 'sequelize'
 
 import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main'
-import { generateAuthToken, generateVersionId } from '../../util/token'
+import { maxMailNotificationFlags } from '../user'
+import { generateAuthToken, generateVersionId, generateFamilyId } from '../../util/token'
 
 export interface SimpleDatabase {
   legacy: LegacyDatabase
@@ -35,6 +36,7 @@ export interface SimpleDatabaseTransaction {
   enqueueAfterCommit(callback: () => void): void
 
   family: {
+    create: (params: { time: number, fullVersionUntil: number }) => Promise<{ familyId: string }>
     getFullVersionUntilAndDebtsByFamilyId: (familyId: string) => Promise<{ fullVersionUntil: number, fullVersionDebts: number } | null>
     hasFullVersionByFamilyId: (familyId: string) => Promise<boolean> // returns false if the family was not found
     updateDeviceListVersion: (params: { familyId: string, deviceListVersion: string }) => Promise<void>
@@ -71,6 +73,17 @@ export interface SimpleDatabaseTransaction {
   }
 
   user: {
+    create: (params: {
+      familyId: string
+      userId: string
+      name: string
+      passwordHash: string
+      secondPasswordHash: string
+      secondPasswordSalt: string
+      type: 'parent' | 'child'
+      mail: string
+      timeZone: string
+    }) => Promise<void>
     doesFamilyHaveUserWithMail: (params: { familyId: string, mail: string }) => Promise<boolean>
     doesSpecificParentUserExist: (params: { familyId: string, userId: string, mail: string }) => Promise<boolean>
     getSmallestMailAddressByFamilyId: (familyId: string) => Promise<string | null>
@@ -127,6 +140,23 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
       { transaction: legacyTransaction }
     ),
     family: {
+      create: async ({ time, fullVersionUntil }) => {
+        const familyId = generateFamilyId()
+
+        await database.family.create({
+          familyId,
+          name: '',
+          createdAt: time.toString(10),
+          userListVersion: generateVersionId(),deviceListVersion: generateVersionId(),
+          fullVersionUntil: fullVersionUntil.toString(10),
+          hasFullVersion: true,
+          nextServerKeyRequestSeq: '1',
+          u2fKeysVersion: generateVersionId(),
+          fullVersionDebts: '0'
+        }, { transaction: legacyTransaction })
+
+        return { familyId }
+      },
       getFullVersionUntilAndDebtsByFamilyId: async (familyId: string) => {
         const item = await database.family.findOne({
           where: {
@@ -393,6 +423,26 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
       },
     },
     user: {
+      create: async ({ familyId, userId, name, passwordHash, secondPasswordHash, secondPasswordSalt, type, mail, timeZone }) => {
+        await database.user.create({
+          familyId,
+          userId,
+          name,
+          passwordHash,
+          secondPasswordHash,
+          secondPasswordSalt,
+          type,
+          mail,
+          timeZone,
+          disableTimelimitsUntil: '0',
+          currentDevice: '',
+          categoryForNotAssignedApps: '',
+          relaxPrimaryDeviceRule: false,
+          mailNotificationFlags: maxMailNotificationFlags,
+          blockedTimes: '',
+          flags: '0'
+        }, { transaction: legacyTransaction })
+      },
       doesFamilyHaveUserWithMail: async ({ familyId, mail }) => {
         if (mail === '') return false
 
