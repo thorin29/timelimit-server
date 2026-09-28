@@ -11,12 +11,14 @@ describe('base', () => {
 
 describe('database', () => {
   it('should be possible to start a temporary database', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     await withTestDatabaseUrl(async (databaseUrl) => {
       // nothing to do with the database url
     })
   })
 
   it('should be possible to run the migrations', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     await withTestDatabase(async (database) => {
       // helper function already runs the migrations
     })
