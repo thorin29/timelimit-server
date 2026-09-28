@@ -37,22 +37,17 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
 
     // update the user entry
-    const userEntry = await transaction.legacy.database.user.findOne({
-      where: {
-        mail: mailInfo.mail
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const userEntry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (!userEntry) {
       throw new Conflict()
     }
 
-    userEntry.passwordHash = password.hash
-    userEntry.secondPasswordHash = password.secondHash
-    userEntry.secondPasswordSalt = password.secondSalt
-
-    await userEntry.save({ transaction: transaction.legacy.transaction })
+    await transaction.user.updatePassword(userEntry, {
+      passwordHash: password.hash,
+      secondPasswordHash: password.secondHash,
+      secondPasswordSalt: password.secondSalt,
+    })
 
     // invalidate the user list
     await transaction.family.updateUserListVersion({

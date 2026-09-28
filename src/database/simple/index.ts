@@ -106,6 +106,7 @@ export interface SimpleDatabaseTransaction {
     updateCurrentDevice: (params: { familyId: string, userId: string, currentDeviceId: string }) => Promise<void>
     updateCurrentDeviceForAllUsers: (params: { familyId: string, oldCurrentDeviceId: string }) => Promise<void>
     updateParentUserMailAddress: (params: { familyId: string, userId: string, newMailAddress: string }) => Promise<void>
+    updatePassword: (who: { familyId: string, userId: string }, what: { passwordHash: string, secondPasswordHash: string, secondPasswordSalt: string }) => Promise<void>
     destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
   }
 
@@ -768,6 +769,19 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             familyId,
             userId,
             type: 'parent'
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updatePassword: async ({ familyId, userId }, { passwordHash, secondPasswordHash, secondPasswordSalt }) => {
+        await database.user.update({
+          passwordHash,
+          secondPasswordHash,
+          secondPasswordSalt
+        }, {
+          where: {
+            familyId,
+            userId
           },
           transaction: legacyTransaction
         })
