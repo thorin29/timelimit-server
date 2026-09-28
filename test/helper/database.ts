@@ -14,7 +14,7 @@ export async function withTestTransaction<T>(callback: (transaction: SimpleDatab
 
 export async function withTestDatabase<T>(callback: (database: SimpleDatabase) => Promise<T>): Promise<T> {
   return await withTestDatabaseUrl(async (databaseUrl) => {
-    const db = openDatabaseFromUrl(databaseUrl)
+    const db = openDatabaseFromUrl(databaseUrl, { logging: false })
 
     await db.umzug.up()
 

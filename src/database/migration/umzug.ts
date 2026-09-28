@@ -22,7 +22,7 @@ import { Umzug, SequelizeStorage } from 'umzug'
 
 const require = createRequire(import.meta.url)
 
-export const createUmzug = (sequelize: Sequelize) => (
+export const createUmzug = (sequelize: Sequelize, logging: boolean) => (
   new Umzug({
     storage: new SequelizeStorage({ sequelize }),
     migrations: {
@@ -39,6 +39,6 @@ export const createUmzug = (sequelize: Sequelize) => (
         }
       },
     },
-    logger: console
+    logger: logging ? console : undefined
   })
 )

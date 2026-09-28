@@ -150,11 +150,11 @@ const createSequelizeFromUrl = (url: string) => new Sequelize.Sequelize(url, {
   logging: false
 })
 
-export function openDatabaseFromUrl(url: string) {
+export function openDatabaseFromUrl(url: string, { logging }: { logging: boolean }) {
   const sequelize = createSequelizeFromUrl(url)
 
   return {
     database: createDatabase(sequelize),
-    umzug: createUmzug(sequelize),
+    umzug: createUmzug(sequelize, logging),
   }
 }

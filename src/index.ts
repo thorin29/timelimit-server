@@ -30,7 +30,7 @@ import { initWorkers } from './worker/index.js'
 async function main () {
   const config = parseConfigFromEnvironment()
 
-  const db = openDatabaseFromUrl(config.databaseUrl)
+  const db = openDatabaseFromUrl(config.databaseUrl, { logging: true })
 
   await db.umzug.up()
   const eventHandler: EventHandler = new InMemoryEventHandler()
