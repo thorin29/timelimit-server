@@ -27,7 +27,6 @@ import {
   generateAuthToken, generateFamilyId, generateIdWithinFamily, generateVersionId
 } from '../../util/token'
 import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { prepareDeviceEntry } from '../device/prepare-device-entry'
 
 export async function createFamily ({
   database, eventHandler, mailAuthToken, firstParentDevice,
@@ -107,15 +106,16 @@ export async function createFamily ({
     }, { transaction: transaction.legacy.transaction })
 
     // add parent device
-    await transaction.legacy.database.device.create(prepareDeviceEntry({
+    await transaction.device.create({
       familyId,
+      time: Date.now(),
       deviceId,
       deviceName,
-      newDeviceInfo: firstParentDevice,
+      deviceModel: firstParentDevice.model,
       userId,
       deviceAuthToken,
       isUserKeptSignedIn: true
-    }), { transaction: transaction.legacy.transaction })
+    })
 
     const data = await generateServerDataStatus({
       transaction,

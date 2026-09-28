@@ -22,7 +22,6 @@ import { sendDeviceLinkedMail } from '../../util/mail'
 import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
 import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { prepareDeviceEntry } from '../device/prepare-device-entry'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 import { generateServerDataStatus } from '../sync/get-server-data-status'
 import { EventHandler } from '../../monitoring/eventhandler'
@@ -62,15 +61,16 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
     const deviceAuthToken = generateAuthToken()
     const deviceId = generateIdWithinFamily()
 
-    await transaction.legacy.database.device.create(prepareDeviceEntry({
+    await transaction.device.create({
       familyId: userEntry.familyId,
+      time: Date.now(),
       deviceId,
       userId: userEntry.userId,
       deviceName,
       deviceAuthToken,
-      newDeviceInfo,
+      deviceModel: newDeviceInfo.model,
       isUserKeptSignedIn: true
-    }), { transaction: transaction.legacy.transaction })
+    })
 
     // notify about changes
     await transaction.family.updateDeviceListVersion({

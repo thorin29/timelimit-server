@@ -18,7 +18,7 @@
 import * as Sequelize from 'sequelize'
 
 import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main'
-import { generateAuthToken } from '../../util/token'
+import { generateAuthToken, generateVersionId } from '../../util/token'
 
 export interface SimpleDatabase {
   legacy: LegacyDatabase
@@ -43,6 +43,16 @@ export interface SimpleDatabaseTransaction {
   }
 
   device: {
+    create: (params: {
+      familyId: string
+      time: number
+      userId: string
+      deviceAuthToken: string
+      deviceId: string
+      deviceName: string
+      deviceModel: string
+      isUserKeptSignedIn: boolean
+    }) => Promise<void>
     getFamilyIdByAuthToken: (deviceAuthToken: string) => Promise<string | null>
     getFamilyIdAndDeviceNameByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceName: string} | null>
     getFamilyIdAndDeviceIdByAuthToken: (deviceAuthToken: string) => Promise<{familyId: string, deviceId: string} | null>
@@ -174,6 +184,51 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
       },
     },
     device: {
+      create: async ({ time, familyId, userId, deviceAuthToken, deviceId, deviceName, deviceModel, isUserKeptSignedIn }) => {
+        await database.device.create({
+          familyId,
+          deviceId,
+          currentUserId: userId,
+          installedAppsVersion: generateVersionId(),
+          name: deviceName,
+          model: deviceModel,
+          addedAt: time.toString(10),
+          deviceAuthToken,
+          networkTime: 'disabled',
+          nextSequenceNumber: 0,
+          currentProtectionLevel: 'none',
+          highestProtectionLevel: 'none',
+          currentUsageStatsPermission: 'not granted',
+          highestUsageStatsPermission: 'not granted',
+          currentNotificationAccessPermission: 'not granted',
+          highestNotificationAccessPermission: 'not granted',
+          currentAppVersion: 0,
+          highestAppVersion: 0,
+          triedDisablingDeviceAdmin: false,
+          didReboot: false,
+          hadManipulation: false,
+          hadManipulationFlags: 0,
+          lastConnectivity: '0',
+          notSeenForLongTime: false,
+          didDeviceReportUninstall: false,
+          isUserKeptSignedIn,
+          showDeviceConnected: false,
+          defaultUserId: '',
+          defaultUserTimeout: 0,
+          considerRebootManipulation: false,
+          currentOverlayPermission: 'not granted',
+          highestOverlayPermission: 'not granted',
+          asEnabled: false,
+          wasAsEnabled: false,
+          activityLevelBlocking: false,
+          isQorLater: false,
+          manipulationFlags: 0,
+          publicKey: null,
+          nextKeyReplySequenceNumber: '1',
+          platformType: null,
+          platformLevel: 0
+        }, { transaction: legacyTransaction })
+      },
       getFamilyIdByAuthToken: async (deviceAuthToken) => {
         const deviceEntry = await database.device.findOne({
           where: { deviceAuthToken },

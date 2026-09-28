@@ -20,7 +20,6 @@ import { RegisterChildDeviceRequest } from '../../api/schema'
 import { SimpleDatabase } from '../../database/simple'
 import { generateAuthToken, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
-import { prepareDeviceEntry } from '../device/prepare-device-entry'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 import { generateServerDataStatus } from '../sync/get-server-data-status'
 import { EventHandler } from '../../monitoring/eventhandler'
@@ -48,15 +47,16 @@ export const addChildDevice = async ({ database, eventHandler, websocket, reques
     const { deviceId, familyId } = entry
     const deviceAuthToken = generateAuthToken()
 
-    await transaction.legacy.database.device.create(prepareDeviceEntry({
+    await transaction.device.create({
       familyId,
+      time: Date.now(),
       deviceId,
       deviceAuthToken,
       deviceName: request.deviceName,
-      newDeviceInfo: request.childDevice,
+      deviceModel: request.childDevice.model,
       userId: '',
       isUserKeptSignedIn: false
-    }), { transaction: transaction.legacy.transaction })
+    })
 
     await transaction.family.updateDeviceListVersion({
       familyId,
