@@ -41,17 +41,17 @@ export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websock
       throw new Conflict()
     }
 
-    const otherDeviceEntry = await transaction.device.getDeviceAuthTokensByDeviceId({
+    const otherDeviceAuthToken = await transaction.device.getDeviceAuthTokenByDeviceId({
       familyId: ownDeviceEntry.familyId,
       deviceId: deviceUserEntry.currentDeviceId,
     })
 
-    if (!otherDeviceEntry) {
+    if (otherDeviceAuthToken === null) {
       throw new Conflict()
     }
 
     websocket.triggerLogoutByDeviceAuthToken({
-      deviceAuthToken: otherDeviceEntry.deviceAuthToken
+      deviceAuthToken: otherDeviceAuthToken
     })
   })
 }
