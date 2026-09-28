@@ -126,6 +126,13 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   }
 }
 
+export const dummyWebsocketApi: WebsocketApi = {
+  triggerSyncByDeviceAuthToken: () => {},
+  triggerLogoutByDeviceAuthToken: () => {},
+  triggerImportantSyncAtAllDevicesInBackground: () => {},
+  countConnections: () => 0,
+}
+
 export interface WebsocketApi {
   triggerSyncByDeviceAuthToken: (params: {deviceAuthToken: string, isImportant: boolean}) => void
   triggerLogoutByDeviceAuthToken: (params: {deviceAuthToken: string}) => void

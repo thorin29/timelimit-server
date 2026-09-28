@@ -56,6 +56,18 @@ export function initWorkers ({ database, websocket }: {
   }
 }
 
+export async function runWorkersOnce ({ database, websocket, time }: {
+  database: SimpleDatabase
+  websocket: WebsocketApi
+  time: number
+}) {
+  const workers = getWorkerCollection({ database, websocket })
+
+  for (const worker of workers) {
+    await worker.run(time)
+  }
+}
+
 export function getWorkerCollection ({ database, websocket }: {
   database: SimpleDatabase
   websocket: WebsocketApi

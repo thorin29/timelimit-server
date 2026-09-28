@@ -2,6 +2,8 @@ import assert from 'assert'
 import { describe, it } from 'node:test'
 
 import { withTestDatabase, withTestTransaction, withTestDatabaseUrl } from './helper/database.js'
+import { dummyWebsocketApi } from '../src/websocket/index.js'
+import { runWorkersOnce } from '../src/worker/index.js'
 
 describe('base', () => {
   it('should run tests', () => {
@@ -125,6 +127,109 @@ describe('database', () => {
         const reply1 = await transaction.family.hasFullVersionByFamilyId(family1.familyId)
 
         assert.strictEqual(reply1, false)
+      })
+    })
+  })
+})
+
+describe('background worker', () => {
+  describe('delete old families', () => {
+    const month = 1000 * 60 * 60 * 24 * 31
+    const websocket = dummyWebsocketApi
+
+    it('should not delete families before premium expires', async () => {
+      await withTestDatabase(async (database) => {
+        const { family1, family2, family3 } = await database.transaction(async (transaction) => {
+          const family1 = await transaction.family.create({ time: 10, fullVersionUntil: month * 20 })
+          const family2 = await transaction.family.create({ time: 10, fullVersionUntil: month * 10 })
+          const family3 = await transaction.family.create({ time: 10, fullVersionUntil: month * 30 })
+
+          return { family1, family2, family3 }
+        })
+
+        await runWorkersOnce({ database, websocket, time: month * 9 })
+
+        await database.transaction(async (transaction) => {
+          const reply1 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family1.familyId)
+          const reply2 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family2.familyId)
+          const reply3 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family3.familyId)
+
+          assert.strictEqual(reply1 !== null, true)
+          assert.strictEqual(reply2 !== null, true)
+          assert.strictEqual(reply3 !== null, true)
+        })
+      })
+    })
+
+    it('should not delete families shortly after premium expires', async () => {
+      await withTestDatabase(async (database) => {
+        const { family1, family2, family3 } = await database.transaction(async (transaction) => {
+          const family1 = await transaction.family.create({ time: 10, fullVersionUntil: month * 20 })
+          const family2 = await transaction.family.create({ time: 10, fullVersionUntil: month * 10 })
+          const family3 = await transaction.family.create({ time: 10, fullVersionUntil: month * 30 })
+
+          return { family1, family2, family3 }
+        })
+
+        await runWorkersOnce({ database, websocket, time: month * 11 })
+
+        await database.transaction(async (transaction) => {
+          const reply1 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family1.familyId)
+          const reply2 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family2.familyId)
+          const reply3 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family3.familyId)
+
+          assert.strictEqual(reply1 !== null, true)
+          assert.strictEqual(reply2 !== null, true)
+          assert.strictEqual(reply3 !== null, true)
+        })
+      })
+    })
+
+    it('should delete one family after its premium expires', async () => {
+      await withTestDatabase(async (database) => {
+        const { family1, family2, family3 } = await database.transaction(async (transaction) => {
+          const family1 = await transaction.family.create({ time: 10, fullVersionUntil: month * 20 })
+          const family2 = await transaction.family.create({ time: 10, fullVersionUntil: month * 10 })
+          const family3 = await transaction.family.create({ time: 10, fullVersionUntil: month * 30 })
+
+          return { family1, family2, family3 }
+        })
+
+        await runWorkersOnce({ database, websocket, time: month * 15 })
+
+        await database.transaction(async (transaction) => {
+          const reply1 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family1.familyId)
+          const reply2 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family2.familyId)
+          const reply3 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family3.familyId)
+
+          assert.strictEqual(reply1 !== null, true)
+          assert.strictEqual(reply2 !== null, false)
+          assert.strictEqual(reply3 !== null, true)
+        })
+      })
+    })
+
+    it('should delete two family after their premium expires', async () => {
+      await withTestDatabase(async (database) => {
+        const { family1, family2, family3 } = await database.transaction(async (transaction) => {
+          const family1 = await transaction.family.create({ time: 10, fullVersionUntil: month * 20 })
+          const family2 = await transaction.family.create({ time: 10, fullVersionUntil: month * 10 })
+          const family3 = await transaction.family.create({ time: 10, fullVersionUntil: month * 30 })
+
+          return { family1, family2, family3 }
+        })
+
+        await runWorkersOnce({ database, websocket, time: month * 25 })
+
+        await database.transaction(async (transaction) => {
+          const reply1 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family1.familyId)
+          const reply2 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family2.familyId)
+          const reply3 = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(family3.familyId)
+
+          assert.strictEqual(reply1 !== null, false)
+          assert.strictEqual(reply2 !== null, false)
+          assert.strictEqual(reply3 !== null, true)
+        })
       })
     })
   })
