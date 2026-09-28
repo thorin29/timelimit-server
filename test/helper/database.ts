@@ -6,6 +6,8 @@ import { tmpdir } from 'node:os'
 import { openDatabaseFromUrl } from '../../src/database/index.js'
 import { SimpleDatabase, SimpleDatabaseTransaction, fromLegacy } from '../../src/database/simple/index.js'
 
+export { SimpleDatabase }
+
 export async function withTestTransaction<T>(callback: (transaction: SimpleDatabaseTransaction) => Promise<T>): Promise<T> {
   return await withTestDatabase(async (database) => {
     return await database.transaction(callback)

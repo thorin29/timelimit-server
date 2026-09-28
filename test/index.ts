@@ -3,9 +3,10 @@ import { describe, it } from 'node:test'
 
 import HttpErrors from 'http-errors'
 
-import { withTestDatabase, withTestTransaction, withTestDatabaseUrl } from './helper/database.js'
+import { withTestDatabase, withTestTransaction, withTestDatabaseUrl, SimpleDatabase } from './helper/database.js'
 import { Config } from '../src/config.js'
 import { signInIntoFamily } from '../src/function/parent/sign-in-into-family.js'
+import { createFamily } from '../src/function/parent/create-family.js'
 import { InMemoryEventHandler } from '../src/monitoring/inmemoryeventhandler.js'
 import { generateIdWithinFamily, generateAuthToken } from '../src/util/token.js'
 import { createMailTransport } from '../src/util/mail.js'
@@ -20,6 +21,13 @@ const testConfig: Config = {
   alwaysPro: false,
   signSecret: '',
   mailTransport: { type: 'test' },
+}
+
+const testPassword1 = {
+  // actually "password"
+  hash: '$2a$12$LdgIZsnhZherEUmvwTyYhOeiILfklleonBDCmnbxB3dnVxeeaYG3C',
+  secondHash: '$2a$12$jKUQG/pG87J5pbqRE4NytOQN4U5R.6km2bjxviLzbuis/ZT8JVBO6',
+  secondSalt: '$2a$12$jKUQG/pG87J5pbqRE4NytO',
 }
 
 describe('base', () => {
@@ -150,6 +158,114 @@ describe('database', () => {
 })
 
 describe('functionality', () => {
+  describe('create family', () => {
+    const mail1 = 'user1@a.timelmit.io'
+
+    async function createFamilyEasy(database: SimpleDatabase, mailAuthToken: string) {
+      return await createFamily({
+        config: testConfig,
+        database,
+        eventHandler: new InMemoryEventHandler(),
+        mailAuthToken,
+        firstParentDevice: { model: 'Mega Phone' },
+        password: testPassword1,
+        timeZone: 'Europe/Berlin',
+        parentName: 'P1',
+        deviceName: 'D1',
+        clientLevel: 1
+      })
+    }
+
+    async function happyPath(database: SimpleDatabase) {
+      const mailAuthToken = await database.transaction(async (transaction) => {
+        return await transaction.authToken.create({ time: 1, mail: mail1, locale: 'de' })
+      })
+
+      return await createFamilyEasy(database, mailAuthToken)
+    }
+
+    it('should consume the mail auth token', async () => {
+      withTestDatabase(async (database) => {
+        const mailAuthToken = await database.transaction(async (transaction) => {
+          return await transaction.authToken.create({ time: 1, mail: mail1, locale: 'de' })
+        })
+
+        await database.transaction(async (transaction) => {
+          const tokenInfo = await transaction.authToken.checkAndKeep(mailAuthToken)
+
+          assert.strictEqual(tokenInfo !== null, true)
+        })
+
+        await createFamilyEasy(database, mailAuthToken)
+
+        await database.transaction(async (transaction) => {
+          const tokenInfo = await transaction.authToken.checkAndKeep(mailAuthToken)
+
+          assert.strictEqual(tokenInfo !== null, false)
+        })
+      })
+    })
+
+    it('should create the family with matching device id and auth token', async () => {
+      withTestDatabase(async (database) => {
+        const result = await happyPath(database)
+
+        await database.transaction(async (transaction) => {
+          const deviceInfo = await transaction.device.getFamilyIdAndDeviceIdByAuthToken(result.deviceAuthToken)
+
+          assert.strictEqual(deviceInfo !== null, true)
+          assert.strictEqual(deviceInfo?.deviceId, result.deviceId)
+        })
+      })
+    })
+
+    it('should create the family with premium', async () => {
+      withTestDatabase(async (database) => {
+        const result = await happyPath(database)
+
+        await database.transaction(async (transaction) => {
+          const familyId = await transaction.device.getFamilyIdByAuthToken(result.deviceAuthToken)
+
+          if (familyId === null) throw new Error()
+
+          const hasPremium = await transaction.family.hasFullVersionByFamilyId(familyId)
+
+          assert.strictEqual(hasPremium, true)
+        })
+      })
+    })
+
+    it('should detect already assigned mail addresses', async () => {
+      withTestDatabase(async (database) => {
+        await happyPath(database)
+
+        await assert.rejects(
+          happyPath(database),
+          HttpErrors.Conflict
+        )
+      })
+    })
+
+    it('should reject used auth tokens', async () => {
+      withTestDatabase(async (database) => {
+        const mailAuthToken = await database.transaction(async (transaction) => {
+          return await transaction.authToken.create({ time: 1, mail: mail1, locale: 'de' })
+        })
+
+        await database.transaction(async (transaction) => {
+          const tokenInfo = await transaction.authToken.checkAndDestroy(mailAuthToken)
+
+          assert.strictEqual(tokenInfo !== null, true)
+        })
+
+        await assert.rejects(
+          createFamilyEasy(database, mailAuthToken),
+          HttpErrors.Unauthorized
+        )
+      })
+    })
+  })
+
   describe('sign in into family', () => {
     const mail1 = 'test@a.timelimit.io'
     const mail2 = 'test@b.timelimit.io'
@@ -160,9 +276,6 @@ describe('functionality', () => {
     }
     const timeZone = 'Europe/Berlin'
     const locale = 'en'
-    const passwordHash = '$2a$12$LdgIZsnhZherEUmvwTyYhOeiILfklleonBDCmnbxB3dnVxeeaYG3C'
-    const secondPasswordHash = '$2a$12$jKUQG/pG87J5pbqRE4NytOQN4U5R.6km2bjxviLzbuis/ZT8JVBO6'
-    const secondPasswordSalt = '$2a$12$jKUQG/pG87J5pbqRE4NytO'
     const clientLevel = 0
     const websocket = dummyWebsocketApi
     const eventHandler = new InMemoryEventHandler()
@@ -182,9 +295,9 @@ describe('functionality', () => {
             familyId: family1.familyId,
             userId,
             name: 'P1',
-            passwordHash,
-            secondPasswordHash,
-            secondPasswordSalt,
+            passwordHash: testPassword1.hash,
+            secondPasswordHash: testPassword1.secondHash,
+            secondPasswordSalt: testPassword1.secondSalt,
             type: 'parent',
             mail: mail1,
             timeZone,
@@ -194,9 +307,9 @@ describe('functionality', () => {
             familyId: family2.familyId,
             userId,
             name: 'P2',
-            passwordHash,
-            secondPasswordHash,
-            secondPasswordSalt,
+            passwordHash: testPassword1.hash,
+            secondPasswordHash: testPassword1.secondHash,
+            secondPasswordSalt: testPassword1.secondSalt,
             type: 'parent',
             mail: mail2,
             timeZone,
@@ -206,9 +319,9 @@ describe('functionality', () => {
             familyId: family3.familyId,
             userId,
             name: 'P3',
-            passwordHash,
-            secondPasswordHash,
-            secondPasswordSalt,
+            passwordHash: testPassword1.hash,
+            secondPasswordHash: testPassword1.secondHash,
+            secondPasswordSalt: testPassword1.secondSalt,
             type: 'parent',
             mail: mail3,
             timeZone,
@@ -262,9 +375,9 @@ describe('functionality', () => {
             familyId: family1.familyId,
             userId,
             name: 'P1',
-            passwordHash,
-            secondPasswordHash,
-            secondPasswordSalt,
+            passwordHash: testPassword1.hash,
+            secondPasswordHash: testPassword1.secondHash,
+            secondPasswordSalt: testPassword1.secondSalt,
             type: 'parent',
             mail: mail1,
             timeZone,
@@ -274,9 +387,9 @@ describe('functionality', () => {
             familyId: family2.familyId,
             userId,
             name: 'P2',
-            passwordHash,
-            secondPasswordHash,
-            secondPasswordSalt,
+            passwordHash: testPassword1.hash,
+            secondPasswordHash: testPassword1.secondHash,
+            secondPasswordSalt: testPassword1.secondSalt,
             type: 'parent',
             mail: mail2,
             timeZone,
