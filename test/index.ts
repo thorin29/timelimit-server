@@ -1,9 +1,26 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 
+import HttpErrors from 'http-errors'
+
 import { withTestDatabase, withTestTransaction, withTestDatabaseUrl } from './helper/database.js'
+import { Config } from '../src/config.js'
+import { signInIntoFamily } from '../src/function/parent/sign-in-into-family.js'
+import { InMemoryEventHandler } from '../src/monitoring/inmemoryeventhandler.js'
+import { generateIdWithinFamily } from '../src/util/token.js'
+import { createMailTransport } from '../src/util/mail.js'
 import { dummyWebsocketApi } from '../src/websocket/index.js'
 import { runWorkersOnce } from '../src/worker/index.js'
+
+const testConfig: Config = {
+  databaseUrl: 'invalid',
+  mailWhitelist: [],
+  disableSignup: false,
+  pingInterval: 25 * 1000,
+  alwaysPro: false,
+  signSecret: '',
+  mailTransport: { type: 'test' },
+}
 
 describe('base', () => {
   it('should run tests', () => {
@@ -127,6 +144,167 @@ describe('database', () => {
         const reply1 = await transaction.family.hasFullVersionByFamilyId(family1.familyId)
 
         assert.strictEqual(reply1, false)
+      })
+    })
+  })
+})
+
+describe('functionality', () => {
+  describe('sign in into family', () => {
+    const mail1 = 'test@a.timelimit.io'
+    const mail2 = 'test@b.timelimit.io'
+    const mail3 = 'test@c.timelimit.io'
+    const deviceName = 'ND'
+    const newDeviceInfo = {
+      model: 'Super Phone'
+    }
+    const timeZone = 'Europe/Berlin'
+    const locale = 'en'
+    const passwordHash = '$2a$12$LdgIZsnhZherEUmvwTyYhOeiILfklleonBDCmnbxB3dnVxeeaYG3C'
+    const secondPasswordHash = '$2a$12$jKUQG/pG87J5pbqRE4NytOQN4U5R.6km2bjxviLzbuis/ZT8JVBO6'
+    const secondPasswordSalt = '$2a$12$jKUQG/pG87J5pbqRE4NytO'
+    const clientLevel = 0
+    const websocket = dummyWebsocketApi
+    const eventHandler = new InMemoryEventHandler()
+    const config = testConfig
+    const mailTransport = createMailTransport(testConfig)
+
+    it('should work', async function() {
+      await withTestDatabase(async (database) => {
+        const { familyId, userId, mailAuthToken } = await database.transaction(async (transaction) => {
+          const family1 = await transaction.family.create({ time: 1, fullVersionUntil: 2 })
+          const family2 = await transaction.family.create({ time: 1, fullVersionUntil: 2 })
+          const family3 = await transaction.family.create({ time: 1, fullVersionUntil: 2 })
+
+          const userId = generateIdWithinFamily()
+
+          await transaction.user.create({
+            familyId: family1.familyId,
+            userId,
+            name: 'P1',
+            passwordHash,
+            secondPasswordHash,
+            secondPasswordSalt,
+            type: 'parent',
+            mail: mail1,
+            timeZone,
+          })
+
+          await transaction.user.create({
+            familyId: family2.familyId,
+            userId,
+            name: 'P2',
+            passwordHash,
+            secondPasswordHash,
+            secondPasswordSalt,
+            type: 'parent',
+            mail: mail2,
+            timeZone,
+          })
+
+          await transaction.user.create({
+            familyId: family3.familyId,
+            userId,
+            name: 'P3',
+            passwordHash,
+            secondPasswordHash,
+            secondPasswordSalt,
+            type: 'parent',
+            mail: mail3,
+            timeZone,
+          })
+
+          const mailAuthToken = await transaction.authToken.create({
+            time: 1,
+            mail: mail2,
+            locale,
+          })
+
+          return { familyId: family2.familyId, userId, mailAuthToken }
+        })
+
+        const result = await signInIntoFamily({
+          config,
+          database,
+          eventHandler,
+          mailAuthToken,
+          newDeviceInfo,
+          deviceName,
+          websocket,
+          clientLevel,
+          mailTransport,
+        })
+
+        await database.transaction(async (transaction) => {
+          const reply1 = await transaction.device.getFamilyIdAndDeviceIdByAuthToken(result.deviceAuthToken)
+          const reply2 = await transaction.device.getFamilyIdAndCurrentUserByAuthToken(result.deviceAuthToken)
+
+          assert.strictEqual(reply1 !== null, true)
+          assert.strictEqual(reply1?.deviceId, result.deviceId)
+          assert.strictEqual(reply1?.familyId, familyId)
+
+          assert.strictEqual(reply2 !== null, true)
+          assert.strictEqual(reply2?.currentUserId, userId)
+          assert.strictEqual(reply2?.familyId, familyId)
+        })
+      })
+    })
+
+    it('should fail for unknown mail addresses', async function() {
+      await withTestDatabase(async (database) => {
+        const { mailAuthToken } = await database.transaction(async (transaction) => {
+          const family1 = await transaction.family.create({ time: 1, fullVersionUntil: 2 })
+          const family2 = await transaction.family.create({ time: 1, fullVersionUntil: 2 })
+
+          const userId = generateIdWithinFamily()
+
+          await transaction.user.create({
+            familyId: family1.familyId,
+            userId,
+            name: 'P1',
+            passwordHash,
+            secondPasswordHash,
+            secondPasswordSalt,
+            type: 'parent',
+            mail: mail1,
+            timeZone,
+          })
+
+          await transaction.user.create({
+            familyId: family2.familyId,
+            userId,
+            name: 'P2',
+            passwordHash,
+            secondPasswordHash,
+            secondPasswordSalt,
+            type: 'parent',
+            mail: mail2,
+            timeZone,
+          })
+
+          const mailAuthToken = await transaction.authToken.create({
+            time: 1,
+            mail: mail3,
+            locale,
+          })
+
+          return { mailAuthToken }
+        })
+
+        await assert.rejects(
+          signInIntoFamily({
+            config,
+            database,
+            eventHandler,
+            mailAuthToken,
+            newDeviceInfo,
+            deviceName,
+            websocket,
+            clientLevel,
+            mailTransport,
+          }),
+          HttpErrors.Conflict
+        )
       })
     })
   })
