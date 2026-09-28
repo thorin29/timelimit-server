@@ -29,34 +29,13 @@ export async function deleteAccount({ request, database, websocket }: {
   websocket: WebsocketApi
 }) {
   await database.transaction(async (transaction) => {
-    const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-      where: { deviceAuthToken: request.deviceAuthToken },
-      attributes: ['familyId'],
-      transaction: transaction.legacy.transaction
-    })
+    const familyId = await transaction.device.getFamilyIdByAuthToken(request.deviceAuthToken)
 
-    if (!deviceEntryUnsafe) {
+    if (familyId === null) {
       throw new Unauthorized()
     }
 
-    const deviceEntry = {
-      familyId: deviceEntryUnsafe.familyId
-    }
-
-    const userEntries = (await transaction.legacy.database.user.findAll({
-      where: {
-        familyId: deviceEntry.familyId,
-        type: 'parent'
-      },
-      attributes: ['mail'],
-      transaction: transaction.legacy.transaction
-    })).map((item) => ({ mail: item.mail }))
-
-    const registeredMailAddresses = new Set<string>()
-
-    userEntries.forEach((item) => {
-      if (item.mail !== '') registeredMailAddresses.add(item.mail)
-    })
+    const registeredMailAddresses = new Set<string>(await transaction.user.getAllMailAddressesByFamilyId(familyId))
 
     const authenticatedMailAddresses = new Set<string>()
 
@@ -78,15 +57,9 @@ export async function deleteAccount({ request, database, websocket }: {
       if (!authenticatedMailAddresses.has(mail)) throw new Unauthorized()
     })
 
-    const deviceEntries = (await transaction.legacy.database.device.findAll({
-      where: {
-        familyId: deviceEntry.familyId
-      },
-      transaction: transaction.legacy.transaction,
-      attributes: ['deviceAuthToken']
-    })).map((item) => ({ deviceAuthToken: item.deviceAuthToken }))
+    const deviceEntries = await transaction.device.getDeviceIdsAndAuthTokensByFamilyId(familyId)
 
-    await deleteFamilies({ transaction, familiyIds: [deviceEntry.familyId] })
+    await deleteFamilies({ transaction, familiyIds: [familyId] })
 
     transaction.enqueueAfterCommit(() => {
       for (const device of deviceEntries) {

@@ -87,6 +87,7 @@ export interface SimpleDatabaseTransaction {
     doesFamilyHaveUserWithMail: (params: { familyId: string, mail: string }) => Promise<boolean>
     doesSpecificParentUserExist: (params: { familyId: string, userId: string, mail: string }) => Promise<boolean>
     getSmallestMailAddressByFamilyId: (familyId: string) => Promise<string | null>
+    getAllMailAddressesByFamilyId: (familyId: string) => Promise<Array<string>>
     getMailAddressByUserId: (params: { familyId: string, userId: string }) => Promise<string> // returns the empty string if the user was not found
     getFamilyIdAndUserIdByMailAddress: (mail: string) => Promise<{ familyId: string, userId: string } | null>
     getCurrentDeviceIdByUserId: (params: { familyId: string, userId: string }) => Promise<{ currentDeviceId: string } | null>
@@ -482,6 +483,20 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
 
         if (userEntryWithMail) return userEntryWithMail.mail
         else return null
+      },
+      getAllMailAddressesByFamilyId: async (familyId: string) => {
+        const items = await database.user.findAll({
+          where: {
+            familyId,
+            mail: {
+              [Sequelize.Op.ne]: ''
+            },
+            type: 'parent'
+          },
+          transaction: legacyTransaction
+        })
+
+        return items.map((item) => item.mail)
       },
       getMailAddressByUserId: async ({ familyId, userId }) => {
         const item = await database.user.findOne({
