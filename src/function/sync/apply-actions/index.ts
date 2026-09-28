@@ -22,6 +22,7 @@ import { Config } from '../../../config.js'
 import { SimpleDatabase } from '../../../database/simple/index.js'
 import { shouldRetryWithException } from '../../../database/index.js'
 import { EventHandler } from '../../../monitoring/eventhandler.js'
+import { MailTransport } from '../../../util/mail.js'
 import { WebsocketApi } from '../../../websocket/index.js'
 import { notifyClientsAboutChangesDelayed } from '../../websocket/index.js'
 import { getApplyActionBaseInfo } from './baseinfo.js'
@@ -32,9 +33,10 @@ import { IllegalStateException } from './exception/illegal-state.js'
 import { SequenceNumberRepeatedException } from './exception/sequence.js'
 import { assertActionIntegrity } from './integrity.js'
 
-export const applyActionsFromDevice = async ({ config, database, request, websocket, connectedDevicesManager, eventHandler }: {
+export const applyActionsFromDevice = async ({ config, database, mailTransport, request, websocket, connectedDevicesManager, eventHandler }: {
   config: Config
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   request: ClientPushChangesRequest
   connectedDevicesManager: VisibleConnectedDevicesManager
@@ -58,7 +60,8 @@ export const applyActionsFromDevice = async ({ config, database, request, websoc
       familyId: baseInfo.familyId,
       deviceId: baseInfo.deviceId,
       config,
-      connectedDevicesManager
+      connectedDevicesManager,
+      mailTransport,
     })
 
     let { nextSequenceNumber } = baseInfo

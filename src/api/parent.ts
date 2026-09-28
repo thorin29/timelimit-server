@@ -29,6 +29,7 @@ import { getStatusByMailToken } from '../function/parent/get-status-by-mail-addr
 import { linkMailAddress } from '../function/parent/link-mail-address.js'
 import { recoverParentPassword } from '../function/parent/recover-parent-password.js'
 import { signInIntoFamily } from '../function/parent/sign-in-into-family.js'
+import { MailTransport } from '../util/mail.js'
 import { validateU2fIntegrity, U2fValidationError } from '../function/u2f/index.js'
 import { createIdentityToken, MissingSignSecretException } from '../util/identity-token.js'
 import { WebsocketApi } from '../websocket/index.js'
@@ -42,10 +43,11 @@ import {
 } from './validator.js'
 
 export const createParentRouter = ({
-  config, database, websocket, eventHandler
+  config, database, mailTransport, websocket, eventHandler
 }: {
   config: Config
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   eventHandler: EventHandler
 }) => {
@@ -116,6 +118,7 @@ export const createParentRouter = ({
         config,
         database,
         eventHandler,
+        mailTransport,
         newDeviceInfo: req.body.parentDevice,
         mailAuthToken: req.body.mailAuthToken,
         deviceName: req.body.deviceName,
@@ -141,6 +144,7 @@ export const createParentRouter = ({
 
       await recoverParentPassword({
         database,
+        mailTransport,
         websocket,
         password: req.body.password,
         mailAuthToken: req.body.mailAuthToken
@@ -353,7 +357,7 @@ export const createParentRouter = ({
         throw new HttpErrors.BadRequest()
       }
 
-      await deleteAccount({ database, request: req.body, websocket })
+      await deleteAccount({ database, mailTransport, request: req.body, websocket })
 
       res.sendStatus(200)
     } catch (ex) {

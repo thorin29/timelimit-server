@@ -17,11 +17,12 @@
 
 import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
 import { mailNotificationFlags } from '../../database/user.js'
-import { sendManipulationWarningMail } from '../../util/mail.js'
+import { MailTransport, sendManipulationWarningMail } from '../../util/mail.js'
 import { canSendWarningMail } from '../../util/ratelimit-warningmail.js'
 
-export const sendManipulationWarnings = async ({ transaction, familyId, deviceName }: {
+export const sendManipulationWarnings = async ({ transaction, mailTransport, familyId, deviceName }: {
   transaction: SimpleDatabaseTransaction
+  mailTransport: MailTransport
   familyId: string
   deviceName: string
 }) => {
@@ -42,7 +43,7 @@ export const sendManipulationWarnings = async ({ transaction, familyId, deviceNa
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
         if (await canSendWarningMail(receiver)) {
-          await sendManipulationWarningMail({ receiver, deviceName })
+          await sendManipulationWarningMail({ receiver, deviceName, mailTransport })
         }
       })
     )

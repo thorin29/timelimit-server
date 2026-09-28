@@ -17,11 +17,12 @@
 
 import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
 import { mailNotificationFlags } from '../../database/user.js'
-import { sendUninstallWarningMail } from '../../util/mail.js'
+import { MailTransport, sendUninstallWarningMail } from '../../util/mail.js'
 import { canSendWarningMail } from '../../util/ratelimit-warningmail.js'
 
-export const sendUninstallWarnings = async ({ familyId, deviceName, transaction }: {
+export const sendUninstallWarnings = async ({ familyId, deviceName, transaction, mailTransport }: {
   transaction: SimpleDatabaseTransaction
+  mailTransport: MailTransport
   familyId: string
   deviceName: string
 }) => {
@@ -42,7 +43,7 @@ export const sendUninstallWarnings = async ({ familyId, deviceName, transaction 
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
         if (await canSendWarningMail(receiver)) {
-          await sendUninstallWarningMail({ receiver, deviceName })
+          await sendUninstallWarningMail({ receiver, deviceName, mailTransport })
         }
       })
     )

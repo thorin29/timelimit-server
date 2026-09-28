@@ -18,14 +18,15 @@
 import HttpErrors from 'http-errors'
 import { DeleteAccountPayload } from '../../api/schema.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
-import { sendAccountDeletedMail } from '../../util/mail.js'
+import { MailTransport, sendAccountDeletedMail } from '../../util/mail.js'
 import { WebsocketApi } from '../../websocket/index.js'
 import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
 import { deleteFamilies } from './delete-families.js'
 
-export async function deleteAccount({ request, database, websocket }: {
+export async function deleteAccount({ request, database, mailTransport, websocket }: {
   request: DeleteAccountPayload
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
 }) {
   await database.transaction(async (transaction) => {
@@ -70,7 +71,7 @@ export async function deleteAccount({ request, database, websocket }: {
       }
 
       registeredMailAddresses.forEach((receiver) => {
-        sendAccountDeletedMail({ receiver }).catch((ex) => {
+        sendAccountDeletedMail({ receiver, mailTransport }).catch((ex) => {
           console.warn('failure while sending account deletion confirmation', ex)
         })
       })

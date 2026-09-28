@@ -24,11 +24,14 @@ import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreW
 import { fromLegacy as createSimpleDatabase } from './database/simple/index.js'
 import { EventHandler } from './monitoring/eventhandler.js'
 import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler.js'
+import { createMailTransport } from './util/mail.js'
 import { createWebsocketHandler } from './websocket/index.js'
 import { initWorkers } from './worker/index.js'
 
 async function main () {
   const config = parseConfigFromEnvironment()
+
+  const mailTransport = createMailTransport(config)
 
   const db = openDatabaseFromUrl(config.databaseUrl, { logging: true })
 
@@ -57,6 +60,7 @@ async function main () {
   const api = createApi({
     config,
     database,
+    mailTransport,
     websocket: websocketApi,
     connectedDevicesManager,
     eventHandler

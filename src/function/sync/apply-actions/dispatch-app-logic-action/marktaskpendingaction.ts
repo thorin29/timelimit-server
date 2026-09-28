@@ -106,6 +106,7 @@ export async function dispatchMarkTaskPendingAction ({ action, cache, deviceId }
     transaction: cache.transaction.legacy.transaction,
     familyId: cache.familyId,
     childName: childInfo.name,
-    taskTitle: taskInfo.taskTitle
+    taskTitle: taskInfo.taskTitle,
+    mailTransport: cache.mailTransport,
   })
 }

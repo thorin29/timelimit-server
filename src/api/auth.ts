@@ -21,15 +21,16 @@ import HttpErrors from 'http-errors'
 import { Config } from '../config.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail.js'
-import { isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail.js'
+import { MailTransport, isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail.js'
 import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
 } from './validator.js'
 
-export const createAuthRouter = ({ config, database }: {
+export const createAuthRouter = ({ config, database, mailTransport }: {
   config: Config
   database: SimpleDatabase
+  mailTransport: MailTransport
 }) => {
   const router = Router()
 
@@ -54,7 +55,8 @@ export const createAuthRouter = ({ config, database }: {
           mail,
           deviceAuthToken: req.body.deviceAuthToken,
           locale: req.body.locale,
-          database
+          database,
+          mailTransport
         })
 
         res.json({ mailLoginToken })

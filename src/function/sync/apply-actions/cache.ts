@@ -21,6 +21,7 @@ import { Config } from '../../../config.js'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices/index.js'
 import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
 import { setToList } from '../../../util/list.js'
+import { MailTransport } from '../../../util/mail.js'
 import { generateVersionId } from '../../../util/token.js'
 import { SourceUserNotFoundException } from './exception/illegal-state.js'
 import { InvalidChildActionIntegrityValue } from './exception/integrity.js'
@@ -29,6 +30,7 @@ export class Cache {
   readonly familyId: string
   readonly deviceId: string
   readonly hasFullVersion: boolean
+  mailTransport: MailTransport
   transaction: SimpleDatabaseTransaction
   readonly connectedDevicesManager: VisibleConnectedDevicesManager
   private requireSenderDoFullSync = false
@@ -47,19 +49,21 @@ export class Cache {
   triggeredSyncLevel: 0 | 1 | 2 = 0 // 0 = no, 1 = unimportant, 2 = important
   targetedTriggeredSyncLevels = new Map<string, 0 | 1 | 2>()
 
-  constructor ({ familyId, deviceId, hasFullVersion, transaction, config, connectedDevicesManager }: {
+  constructor ({ familyId, deviceId, hasFullVersion, transaction, config, connectedDevicesManager, mailTransport }: {
     familyId: string
     deviceId: string
     hasFullVersion: boolean
     transaction: SimpleDatabaseTransaction
     config: Config
     connectedDevicesManager: VisibleConnectedDevicesManager
+    mailTransport: MailTransport
   }) {
     this.familyId = familyId
     this.deviceId = deviceId
     this.hasFullVersion = hasFullVersion || config.alwaysPro
     this.transaction = transaction
     this.connectedDevicesManager = connectedDevicesManager
+    this.mailTransport = mailTransport
   }
 
   incrementTriggeredSyncLevel(newLevel: 1 | 2) {

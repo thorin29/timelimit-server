@@ -17,13 +17,15 @@
 
 import HttpErrors from 'http-errors'
 import { SimpleDatabase } from '../../database/simple/index.js'
+import { MailTransport } from '../../util/mail.js'
 import { generateAuthToken, generateVersionId } from '../../util/token.js'
 import { WebsocketApi } from '../../websocket/index.js'
 import { sendUninstallWarnings } from '../warningmail/uninstall.js'
 import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
-export async function reportDeviceRemoved ({ database, deviceAuthToken, websocket }: {
+export async function reportDeviceRemoved ({ database, mailTransport, deviceAuthToken, websocket }: {
   database: SimpleDatabase
+  mailTransport: MailTransport
   deviceAuthToken: string
   websocket: WebsocketApi
   // no transaction here because this is directly called from an API endpoint
@@ -63,6 +65,7 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
 
       await sendUninstallWarnings({
         transaction,
+        mailTransport,
         familyId: deviceEntry.familyId,
         deviceName: deviceEntry.deviceName,
       })

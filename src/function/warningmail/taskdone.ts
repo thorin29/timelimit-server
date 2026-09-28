@@ -17,15 +17,16 @@
 
 import { Database, Transaction } from '../../database/index.js'
 import { mailNotificationFlags } from '../../database/user.js'
-import { sendTaskDoneMail } from '../../util/mail.js'
+import { MailTransport, sendTaskDoneMail } from '../../util/mail.js'
 import { canSendTaskDoneMail } from '../../util/ratelimit-taskdonemail.js'
 
-export const sendTaskDoneMails = async ({ database, familyId, childName, taskTitle, transaction }: {
+export const sendTaskDoneMails = async ({ database, familyId, childName, taskTitle, transaction, mailTransport }: {
   database: Database
   familyId: string
   childName: string
   taskTitle: string
   transaction: Transaction
+  mailTransport: MailTransport
 }) => {
   const parentEntries = await database.user.findAll({
     where: {
@@ -44,7 +45,7 @@ export const sendTaskDoneMails = async ({ database, familyId, childName, taskTit
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
         if (await canSendTaskDoneMail(receiver)) {
-          await sendTaskDoneMail({ receiver, child: childName, task: taskTitle })
+          await sendTaskDoneMail({ receiver, child: childName, task: taskTitle, mailTransport })
         }
       })
     )

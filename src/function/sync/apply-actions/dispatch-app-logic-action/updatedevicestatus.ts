@@ -182,7 +182,8 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
       await sendManipulationWarnings({
         transaction: cache.transaction,
         deviceName: deviceEntry.name,
-        familyId: cache.familyId
+        familyId: cache.familyId,
+        mailTransport: cache.mailTransport,
       })
     }
   }

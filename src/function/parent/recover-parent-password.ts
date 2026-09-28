@@ -18,14 +18,15 @@
 import HttpErrors from 'http-errors'
 import { PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
-import { sendPasswordRecoveryUsedMail } from '../../util/mail.js'
+import { MailTransport, sendPasswordRecoveryUsedMail } from '../../util/mail.js'
 import { generateVersionId } from '../../util/token.js'
 import { WebsocketApi } from '../../websocket/index.js'
 import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
 import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
-export const recoverParentPassword = async ({ database, websocket, password, mailAuthToken }: {
+export const recoverParentPassword = async ({ database, mailTransport, websocket, password, mailAuthToken }: {
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   password: PlaintextParentPassword
   mailAuthToken: string
@@ -67,7 +68,8 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
     transaction.enqueueAfterCommit(async () => {
       await sendPasswordRecoveryUsedMail({
         receiver: mailInfo.mail,
-        locale: mailInfo.locale
+        locale: mailInfo.locale,
+        mailTransport
       })
     })
   })

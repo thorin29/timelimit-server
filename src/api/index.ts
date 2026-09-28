@@ -21,6 +21,7 @@ import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
 import { Config } from '../config.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { EventHandler } from '../monitoring/eventhandler.js'
+import { MailTransport } from '../util/mail.js'
 import { WebsocketApi } from '../websocket/index.js'
 import { createAdminRouter } from './admin.js'
 import { createAuthRouter } from './auth.js'
@@ -31,9 +32,10 @@ import { createSyncRouter } from './sync.js'
 
 const adminToken = process.env.ADMIN_TOKEN || ''
 
-export const createApi = ({ config, database, websocket, connectedDevicesManager, eventHandler}: {
+export const createApi = ({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler}: {
   config: Config
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
   eventHandler: EventHandler
@@ -48,11 +50,11 @@ export const createApi = ({ config, database, websocket, connectedDevicesManager
     })
   })
 
-  app.use('/auth', createAuthRouter({ config, database }))
+  app.use('/auth', createAuthRouter({ config, database, mailTransport }))
   app.use('/child', createChildRouter({ config, database, websocket, eventHandler }))
-  app.use('/parent', createParentRouter({ config, database, websocket, eventHandler }))
+  app.use('/parent', createParentRouter({ config, database, mailTransport, websocket, eventHandler }))
   app.use('/purchase', createPurchaseRouter({ database }))
-  app.use('/sync', createSyncRouter({ config, database, websocket, connectedDevicesManager, eventHandler }))
+  app.use('/sync', createSyncRouter({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler }))
 
   app.use(
     '/admin',

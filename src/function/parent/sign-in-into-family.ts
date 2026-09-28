@@ -19,7 +19,7 @@ import HttpErrors from 'http-errors'
 import { NewDeviceInfo } from '../../api/schema.js'
 import { Config } from '../../config.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
-import { sendDeviceLinkedMail } from '../../util/mail.js'
+import { MailTransport, sendDeviceLinkedMail } from '../../util/mail.js'
 import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token.js'
 import { WebsocketApi } from '../../websocket/index.js'
 import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
@@ -29,10 +29,11 @@ import { EventHandler } from '../../monitoring/eventhandler.js'
 import { ServerDataStatus } from '../../object/serverdatastatus.js'
 import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
-export const signInIntoFamily = async ({ config, database, eventHandler, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
+export const signInIntoFamily = async ({ config, database, eventHandler, mailTransport, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
   config: Config
   database: SimpleDatabase
   eventHandler: EventHandler
+  mailTransport: MailTransport
   mailAuthToken: string
   newDeviceInfo: NewDeviceInfo
   deviceName: string
@@ -82,7 +83,8 @@ export const signInIntoFamily = async ({ config, database, eventHandler, mailAut
       await sendDeviceLinkedMail({
         receiver: mailInfo.mail,
         locale: mailInfo.locale,
-        deviceName
+        deviceName,
+        mailTransport
       })
     })
 

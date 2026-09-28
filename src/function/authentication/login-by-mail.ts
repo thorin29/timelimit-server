@@ -17,16 +17,17 @@
 
 import HttpErrors from 'http-errors'
 import { SimpleDatabase } from '../../database/simple/index.js'
-import { sendAuthenticationMail } from '../../util/mail.js'
+import { MailTransport, sendAuthenticationMail } from '../../util/mail.js'
 import { areWordSequencesEqual, randomWords } from '../../util/random-words.js'
 import { checkMailSendLimit } from '../../util/ratelimit-authmail.js'
 import { createAuthTokenByMailAddress } from './index.js'
 
-export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }: {
+export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database, mailTransport }: {
   mail: string
   deviceAuthToken?: string
   locale: string
   database: SimpleDatabase
+  mailTransport: MailTransport
   // no transaction here because this is directly called from an API endpoint
 }): Promise<{ mailLoginToken: string }> => {
   let deviceName = null
@@ -63,7 +64,8 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
     receiver: mail,
     code,
     locale,
-    deviceName
+    deviceName,
+    mailTransport
   })
 
   const mailLoginToken = await database.transaction(async (transaction) => {

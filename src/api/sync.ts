@@ -25,6 +25,7 @@ import { reportDeviceRemoved } from '../function/device/report-device-removed.js
 import { applyActionsFromDevice } from '../function/sync/apply-actions/index.js'
 import { generateServerDataStatus } from '../function/sync/get-server-data-status/index.js'
 import { EventHandler } from '../monitoring/eventhandler.js'
+import { MailTransport } from '../util/mail.js'
 import { WebsocketApi } from '../websocket/index.js'
 import { isClientPullChangesRequest, isClientPushChangesRequest, isRequestWithAuthToken } from './validator.js'
 
@@ -34,9 +35,10 @@ const getRoundedTimestampForLastConnectivity = () => {
   return now - (now % (1000 * 60 * 60 * 12 /* 12 hours */))
 }
 
-export const createSyncRouter = ({ config, database, websocket, connectedDevicesManager, eventHandler }: {
+export const createSyncRouter = ({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler }: {
   config: Config
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
   eventHandler: EventHandler
@@ -61,7 +63,8 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
         database,
         websocket,
         connectedDevicesManager,
-        eventHandler
+        eventHandler,
+        mailTransport,
       })
 
       if (shouldDoFullSync) {
@@ -142,6 +145,7 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
       await reportDeviceRemoved({
         database,
         deviceAuthToken: req.body.deviceAuthToken,
+        mailTransport,
         websocket
       })
 

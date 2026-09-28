@@ -18,7 +18,7 @@
 import { compile } from 'ejs'
 import Mail from 'email-addresses'
 import { readFileSync } from 'fs'
-import { createTransport } from 'nodemailer'
+import { Mail as NMail, SentMessageInfo, createTransport } from 'nodemailer'
 import { resolve } from 'path'
 import { Config } from '../config.js'
 import { IllegalStateException } from '../exception/index.js'
@@ -27,14 +27,19 @@ const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
 const mailServerBlacklist = (process.env.MAIL_SERVER_BLACKLIST || '').split(',').filter((item) => !!item)
 
 const mailSender = process.env.MAIL_SENDER || ''
-const mailTransportConfig = JSON.parse(process.env.MAIL_TRANSPORT || 'null') || undefined
-const isDevMode = process.env.NODE_ENV === 'development'
 
-const mailTransport = isDevMode || mailTransportConfig !== undefined ?
-  createTransport(isDevMode ? {
-    jsonTransport: true
-  } : mailTransportConfig) :
-  null
+export interface MailTransport {
+  actual: NMail<SentMessageInfo> | null
+  log: boolean
+}
+
+export function createMailTransport(config: Config): MailTransport {
+  if (config.mailTransport === null) return { actual: null, log: false }
+  else if (config.mailTransport.type === 'prod') return { actual: createTransport(config.mailTransport.value), log: false }
+  else if (config.mailTransport.type === 'dev') return { actual: createTransport({ jsonTransport: true }), log: true }
+  else if (config.mailTransport.type === 'test') return { actual: createTransport({ jsonTransport: true }), log: false }
+  else throw new Error()
+}
 
 function createMailTemplateSender (templateName: string) {
   const compileTemplate = (filename: string) => compile(
@@ -45,11 +50,14 @@ function createMailTemplateSender (templateName: string) {
   const textTemplate = compileTemplate('text.ejs')
   const htmlTemplate = compileTemplate('html.ejs')
 
-  const sendMail = async ({ receiver, params }: {
+  const sendMail = async ({ mailTransport, receiver, params }: {
     receiver: string
     params: object
+    mailTransport: MailTransport
   }) => {
-    if (!mailTransport) {
+    const actual = mailTransport.actual
+
+    if (!actual) {
       throw new Error('can not send mails without mail config and without NODE_ENV=development')
     }
 
@@ -58,7 +66,7 @@ function createMailTemplateSender (templateName: string) {
     const html = htmlTemplate(params)
 
     await new Promise<void>((resolve, reject) => {
-      mailTransport.sendMail({
+      actual.sendMail({
         from: mailSender,
         to: receiver,
         subject,
@@ -68,7 +76,7 @@ function createMailTemplateSender (templateName: string) {
         if (err) {
           reject(err)
         } else {
-          if (isDevMode) {
+          if (mailTransport.log) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const data = (info as any).message
 
@@ -90,9 +98,10 @@ function createMailTemplateSender (templateName: string) {
 const loginMailSender = createMailTemplateSender('login')
 
 export const sendAuthenticationMail = async ({
-  receiver, code, locale, deviceName
+  receiver, code, locale, deviceName, mailTransport
 }: {
   receiver: string, code: string, locale: string, deviceName: string | null
+  mailTransport: MailTransport
 }) => {
   await loginMailSender.sendMail({
     receiver,
@@ -105,15 +114,17 @@ export const sendAuthenticationMail = async ({
       deviceName,
       deviceNameIntro: locale === 'de' ? 'Die Anmeldung wurde am Gerät' : 'The login was attempted at the device',
       deviceNameOutro: locale === 'de' ? 'versucht.' : '.'
-    }
+    },
+    mailTransport
   })
 }
 
 const manipulationMailSender = createMailTemplateSender('manipulation')
 
-export const sendManipulationWarningMail = async ({ receiver, deviceName }: {
+export const sendManipulationWarningMail = async ({ receiver, deviceName, mailTransport }: {
   receiver: string
   deviceName: string
+  mailTransport: MailTransport
 }) => {
   await manipulationMailSender.sendMail({
     receiver,
@@ -121,15 +132,17 @@ export const sendManipulationWarningMail = async ({ receiver, deviceName }: {
       subject: 'TimeLimit@' + deviceName + ' - Manipulation',
       deviceName,
       mailimprint
-    }
+    },
+    mailTransport
   })
 }
 
 const uninstallMailSender = createMailTemplateSender('uninstall')
 
-export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
+export const sendUninstallWarningMail = async ({ receiver, deviceName, mailTransport }: {
   receiver: string
   deviceName: string
+  mailTransport: MailTransport
 }) => {
   await uninstallMailSender.sendMail({
     receiver,
@@ -137,29 +150,33 @@ export const sendUninstallWarningMail = async ({ receiver, deviceName }: {
       subject: 'TimeLimit removed from ' + deviceName,
       deviceName,
       mailimprint
-    }
+    },
+    mailTransport
   })
 }
 
 const taskDoneSender = createMailTemplateSender('taskdone')
 
-export const sendTaskDoneMail = async ({ receiver, child, task }: {
+export const sendTaskDoneMail = async ({ receiver, child, task, mailTransport }: {
   receiver: string
   child: string
   task: string
+  mailTransport: MailTransport
 }) => {
   await taskDoneSender.sendMail({
     receiver,
-    params: { child, task, mailimprint }
+    params: { child, task, mailimprint },
+    mailTransport
   })
 }
 
 const deviceLinkedSender = createMailTemplateSender('device-linked-by-mail')
 
-export const sendDeviceLinkedMail = async ({ receiver, deviceName, locale }: {
+export const sendDeviceLinkedMail = async ({ receiver, deviceName, locale, mailTransport }: {
   receiver: string
   deviceName: string
   locale: string
+  mailTransport: MailTransport
 }) => {
   await deviceLinkedSender.sendMail({
     receiver,
@@ -170,15 +187,17 @@ export const sendDeviceLinkedMail = async ({ receiver, deviceName, locale }: {
       postText: locale === 'de' ? 'über Ihre E-Mail-Adresse hinzugefügt.' : 'was added using your mail address.',
       securityText: getMailSecurityText(locale),
       mailimprint
-    }
+    },
+    mailTransport
   })
 }
 
 const passwordRecoveryUsedMailSender = createMailTemplateSender('password-recovery-used')
 
-export const sendPasswordRecoveryUsedMail = async ({ receiver, locale }: {
+export const sendPasswordRecoveryUsedMail = async ({ receiver, locale, mailTransport }: {
   receiver: string
   locale: string
+  mailTransport: MailTransport
 }) => {
   await passwordRecoveryUsedMailSender.sendMail({
     receiver,
@@ -189,20 +208,23 @@ export const sendPasswordRecoveryUsedMail = async ({ receiver, locale }: {
         'Your password was changed using the password reset feature.',
       securityText: getMailSecurityText(locale),
       mailimprint
-    }
+    },
+    mailTransport
   })
 }
 
 const accountDeletedMailSender = createMailTemplateSender('account-deleted')
 
-export const sendAccountDeletedMail = async ({ receiver }: {
+export const sendAccountDeletedMail = async ({ receiver, mailTransport }: {
   receiver: string
+  mailTransport: MailTransport
 }) => {
   await accountDeletedMailSender.sendMail({
     receiver,
     params: {
       mailimprint
-    }
+    },
+    mailTransport
   })
 }
 
