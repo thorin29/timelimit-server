@@ -26,12 +26,7 @@ const getStatusByMailAddress = async ({
     throw new StaticMessageException({ staticMessage: 'getStatusByMailAddress: no mail address provided' })
   }
 
-  const entry = await transaction.legacy.database.user.findOne({
-    where: {
-      mail
-    },
-    transaction: transaction.legacy.transaction
-  })
+  const entry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mail)
 
   if (entry) {
     return 'with family'
