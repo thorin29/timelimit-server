@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { difference } from 'lodash'
 import * as Sequelize from 'sequelize'
 
 import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main'
@@ -42,6 +43,7 @@ export interface SimpleDatabaseTransaction {
     updateDeviceListVersion: (params: { familyId: string, deviceListVersion: string }) => Promise<void>
     updateUserListVersion: (params: { familyId: string, userListVersion: string }) => Promise<void>
     updateU2fKeysVersion: (params: { familyId: string, u2fKeysVersion: string }) => Promise<void>
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
   }
 
   device: {
@@ -66,9 +68,11 @@ export interface SimpleDatabaseTransaction {
     getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
     getDeviceIdsAndShowDeviceConnectedByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, showDeviceConnected: boolean }>>
     updateLastConnectivityByDeviceAuthToken: (params: { deviceAuthToken: string, lastConnectivity: number }) => Promise<void>
+    destroyByFamilyIdsReturningAuthTokens: (familyIds: Array<string>) => Promise<Array<string>>
   }
 
   oldDevice: {
+    insertMissingTokens: (tokenList: Array<string>) => Promise<void>
     hasAuthToken: (deviceAuthToken: string) => Promise<boolean>
   }
 
@@ -94,6 +98,27 @@ export interface SimpleDatabaseTransaction {
     doesParentUserExist: (params: { familyId: string, userId: string }) => Promise<boolean>
     doesParentUserWithSpecificSecondPasswordHashExist: (params: { familyId: string, userId: string, secondPasswordHash: string }) => Promise<boolean>
     updateCurrentDevice: (params: { familyId: string, userId: string, currentDeviceId: string }) => Promise<void>
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
+  }
+
+  category: {
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
+  }
+
+  categoryApp: {
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
+  }
+
+  timelimitRule: {
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
+  }
+
+  usedTime: {
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
+  }
+
+  sessionDuration: {
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
   }
 
   mailLoginToken: {
@@ -119,6 +144,7 @@ export interface SimpleDatabaseTransaction {
   purchase: {
     getFamilyIdByPurchaseId: (purchaseId: string) => Promise<string | null>
     getLastPurchaseByFamilyId: (familyId: string) => Promise<{ purchaseId: string, loggedAt: number } | null>
+    destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
   }
 
   legacy: {
@@ -210,6 +236,16 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
         }, {
           where: {
             familyId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.family.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
           },
           transaction: legacyTransaction
         })
@@ -408,8 +444,53 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           transaction: legacyTransaction
         })
       },
+      destroyByFamilyIdsReturningAuthTokens: async (familyIds: Array<string>) => {
+        const oldDeviceAuthTokens = (await database.device.findAll({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          attributes: ['deviceAuthToken'],
+          transaction: legacyTransaction
+        })).map((item) => item.deviceAuthToken)
+
+        await database.device.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
+
+        return oldDeviceAuthTokens
+      },
     },
     oldDevice: {
+      insertMissingTokens: async (tokenList: Array<string>) => {
+        const knownOldItems = await database.oldDevice.findAll({
+          where: {
+            deviceAuthToken: {
+              [Sequelize.Op.in]: tokenList
+            }
+          },
+          transaction: legacyTransaction
+        })
+
+        const knownOldTokens = knownOldItems.map((item) => item.deviceAuthToken)
+
+        const itemsToAdd = difference(tokenList, knownOldTokens)
+
+        if (itemsToAdd.length > 0) {
+          await database.oldDevice.bulkCreate(
+            itemsToAdd.map((item) => ({
+              deviceAuthToken: item
+            })),
+            { transaction: legacyTransaction }
+          )
+        }
+      },
       hasAuthToken: async (deviceAuthToken) => {
         const item = await database.oldDevice.findOne({
           where: {
@@ -574,6 +655,76 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           where: {
             familyId,
             userId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.user.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
+      },
+    },
+    category: {
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.category.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
+      },
+    },
+    categoryApp: {
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.categoryApp.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
+      },
+    },
+    timelimitRule: {
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.timelimitRule.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
+      },
+    },
+    usedTime: {
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.usedTime.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
+      },
+    },
+    sessionDuration: {
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.sessionDuration.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
           },
           transaction: legacyTransaction
         })
@@ -761,6 +912,16 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             loggedAt: parseInt(item.loggedAt)
           }
         } else return null
+      },
+      destroyByFamilyIds: async (familyIds: Array<string>) => {
+        await database.purchase.destroy({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            }
+          },
+          transaction: legacyTransaction
+        })
       },
     },
     enqueueAfterCommit: (afterCommitAction) => legacyTransaction.afterCommit(afterCommitAction),
