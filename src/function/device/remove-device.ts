@@ -27,58 +27,34 @@ export async function removeDevice ({ familyId, deviceId, websocket, transaction
   deviceId: string
   websocket: WebsocketApi
 }) {
-  const deviceEntry = await transaction.legacy.database.device.findOne({
-    where: {
-      familyId,
-      deviceId
-    },
-    transaction: transaction.legacy.transaction
-  })
+  const deviceAuthToken = await transaction.device.getDeviceAuthTokenByDeviceId({ familyId, deviceId })
 
-  if (!deviceEntry) {
+  if (deviceAuthToken === null) {
     throw new Conflict()
   }
 
   // remove as current device
-  await transaction.legacy.database.user.update({
-    currentDevice: ''
-  }, {
-    where: {
-      familyId,
-      currentDevice: deviceId
-    },
-    transaction: transaction.legacy.transaction
+  await transaction.user.updateCurrentDeviceForAllUsers({
+    familyId,
+    oldCurrentDeviceId: deviceId,
   })
 
   // add to old devices if it is not yet there (it could be there if it reported a uninstall)
-  const oldOldDeviceEntry = await transaction.legacy.database.oldDevice.findOne({
-    where: {
-      deviceAuthToken: deviceEntry.deviceAuthToken
-    },
-    transaction: transaction.legacy.transaction
-  })
-
-  if (!oldOldDeviceEntry) {
-    await transaction.legacy.database.oldDevice.create({
-      deviceAuthToken: deviceEntry.deviceAuthToken
-    }, {
-      transaction: transaction.legacy.transaction
-    })
-  }
+  await transaction.oldDevice.insertMissingTokens([ deviceAuthToken ])
 
   // remove from the device list
-  await deviceEntry.destroy({ transaction: transaction.legacy.transaction })
+  await transaction.device.destroyByFamilyIdAndDeviceId({ familyId, deviceId })
 
   // invalidiate the caches
   await transaction.family.updateDeviceListVersion({
     deviceListVersion: generateVersionId(),
-    familyId: deviceEntry.familyId
+    familyId
   })
 
   // the device could have become unassigned during this
   await transaction.family.updateUserListVersion({
     userListVersion: generateVersionId(),
-    familyId: deviceEntry.familyId
+    familyId
   })
 
   await notifyClientsAboutChangesDelayed({
@@ -92,7 +68,7 @@ export async function removeDevice ({ familyId, deviceId, websocket, transaction
 
   transaction.enqueueAfterCommit(() => {
     websocket.triggerSyncByDeviceAuthToken({
-      deviceAuthToken: deviceEntry.deviceAuthToken,
+      deviceAuthToken,
       isImportant: true
     })
   })

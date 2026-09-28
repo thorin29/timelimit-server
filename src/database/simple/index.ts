@@ -70,6 +70,7 @@ export interface SimpleDatabaseTransaction {
     getDeviceIdsAndShowDeviceConnectedByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, showDeviceConnected: boolean }>>
     getRecentlyConnectedDeviceFamilyIdsByFamilyIds: (params: { familyIds: Array<string>, lastConnectivityNewerThan: number }) => Promise<Array<string>>
     updateLastConnectivityByDeviceAuthToken: (params: { deviceAuthToken: string, lastConnectivity: number }) => Promise<void>
+    destroyByFamilyIdAndDeviceId: (params: { familyId: string, deviceId: string }) => Promise<void>
     destroyByFamilyIdsReturningAuthTokens: (familyIds: Array<string>) => Promise<Array<string>>
   }
 
@@ -100,6 +101,7 @@ export interface SimpleDatabaseTransaction {
     doesParentUserExist: (params: { familyId: string, userId: string }) => Promise<boolean>
     doesParentUserWithSpecificSecondPasswordHashExist: (params: { familyId: string, userId: string, secondPasswordHash: string }) => Promise<boolean>
     updateCurrentDevice: (params: { familyId: string, userId: string, currentDeviceId: string }) => Promise<void>
+    updateCurrentDeviceForAllUsers: (params: { familyId: string, oldCurrentDeviceId: string }) => Promise<void>
     destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
   }
 
@@ -476,6 +478,15 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           transaction: legacyTransaction
         })
       },
+      destroyByFamilyIdAndDeviceId: async ({ familyId, deviceId }) => {
+        await database.device.destroy({
+          where: {
+            familyId,
+            deviceId
+          },
+          transaction: legacyTransaction
+        })
+      },
       destroyByFamilyIdsReturningAuthTokens: async (familyIds: Array<string>) => {
         const oldDeviceAuthTokens = (await database.device.findAll({
           where: {
@@ -687,6 +698,17 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           where: {
             familyId,
             userId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updateCurrentDeviceForAllUsers: async ({ familyId, oldCurrentDeviceId }) => {
+        await database.user.update({
+          currentDevice: ''
+        }, {
+          where: {
+            familyId,
+            currentDevice: oldCurrentDeviceId
           },
           transaction: legacyTransaction
         })
