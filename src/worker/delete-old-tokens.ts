@@ -18,29 +18,7 @@
 import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../database/simple/index.js'
 
-export function initDeleteOldTokensWorker ({ database }: {
-  database: SimpleDatabase
-}) {
-  function doWorkSafe () {
-    console.log('deleting old tokens now')
-
-    deleteOldTokens({ database }).then(() => {
-      console.log('finished deleting old tokens')
-    }).catch((ex) => {
-      console.warn('error deleting old tokens', ex)
-    })
-  }
-
-  setTimeout(() => {
-    doWorkSafe()
-
-    setInterval(() => {
-      doWorkSafe()
-    }, 1000 * 60 * 60 /* every hour */)
-  }, 1000 * 60 * 7 /* after 7 minutes */)
-}
-
-async function deleteOldTokens ({ database }: {
+export async function deleteOldTokens ({ database }: {
   database: SimpleDatabase
 }) {
   await database.transaction(async (transaction) => {

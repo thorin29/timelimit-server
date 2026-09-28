@@ -20,29 +20,7 @@ import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { generateVersionId } from '../util/token.js'
 
-export function initDeleteOldUsedTimesWorker ({ database }: {
-  database: SimpleDatabase
-}) {
-  function doWorkSafe () {
-    console.log('deleting old used times now')
-
-    deleteOldUsedTimes({ database }).then(() => {
-      console.log('finished deleting old used times')
-    }).catch((ex) => {
-      console.warn('error deleting old used times', ex)
-    })
-  }
-
-  setTimeout(() => {
-    doWorkSafe()
-
-    setInterval(() => {
-      doWorkSafe()
-    }, 1000 * 60 * 30 /* every 30 minutes */)
-  }, 1000 * 60 * 13 /* after 13 minutes */)
-}
-
-async function deleteOldUsedTimes ({ database }: {
+export async function deleteOldUsedTimes ({ database }: {
   database: SimpleDatabase
 }) {
   const now = Date.now()

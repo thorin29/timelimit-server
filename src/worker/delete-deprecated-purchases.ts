@@ -20,30 +20,7 @@ import { SimpleDatabase } from '../database/simple/index.js'
 import { notifyClientsAboutChangesDelayed } from '../function/websocket/index.js'
 import { WebsocketApi } from '../websocket/index.js'
 
-export function initDeleteDeprecatedPurchasesWorker ({ database, websocket }: {
-  database: SimpleDatabase
-  websocket: WebsocketApi
-}) {
-  function doWorkSafe () {
-    console.log('deleting deprecated purchases now')
-
-    deleteDeprecatedPurchases({ database, websocket }).then(() => {
-      console.log('finished deleting deprecated purchases')
-    }).catch((ex) => {
-      console.warn('error deleting deprecated purchases', ex)
-    })
-  }
-
-  setTimeout(() => {
-    doWorkSafe()
-
-    setInterval(() => {
-      doWorkSafe()
-    }, 1000 * 60 * 60 /* every hour */)
-  }, 1000 * 60 * 5 /* after 5 minutes */)
-}
-
-async function deleteDeprecatedPurchases ({ database, websocket }: {
+export async function deleteDeprecatedPurchases ({ database, websocket }: {
   database: SimpleDatabase
   websocket: WebsocketApi
 }) {
