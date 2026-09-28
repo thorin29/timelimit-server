@@ -17,7 +17,7 @@
 
 import memoize from 'lodash/memoize.js'
 import * as Sequelize from 'sequelize'
-import { Config } from '../../../config.js'
+import { AlwaysProConfig } from '../../../config.js'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices/index.js'
 import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
 import { setToList } from '../../../util/list.js'
@@ -54,7 +54,7 @@ export class Cache {
     deviceId: string
     hasFullVersion: boolean
     transaction: SimpleDatabaseTransaction
-    config: Config
+    config: AlwaysProConfig
     connectedDevicesManager: VisibleConnectedDevicesManager
     mailTransport: MailTransport
   }) {

@@ -16,11 +16,11 @@
  */
 
 import { SignJWT, jwtVerify } from 'jose'
-import { Config } from '../config.js'
+import { SignSecretConfig } from '../config.js'
 import { IdentityTokenPayload, IdentityTokenCreatePayload } from '../api/schema.js'
 import { isIdentityTokenPayload } from '../api/validator.js'
 
-export async function createIdentityToken(config: Config, { purpose, familyId, userId, mail }: IdentityTokenCreatePayload) {
+export async function createIdentityToken(config: SignSecretConfig, { purpose, familyId, userId, mail }: IdentityTokenCreatePayload) {
   const jwt = await new SignJWT({ purpose, familyId, userId, mail })
     .setExpirationTime('7d')
     .setProtectedHeader({ alg: 'HS512' })
@@ -33,7 +33,7 @@ export async function createIdentityToken(config: Config, { purpose, familyId, u
     .join('\n')
 }
 
-export async function verifyIdentitifyToken(config: Config, token: string, dryRun: boolean): Promise<IdentityTokenPayload> {
+export async function verifyIdentitifyToken(config: SignSecretConfig, token: string, dryRun: boolean): Promise<IdentityTokenPayload> {
   try {
     const { payload } = await jwtVerify(
       Buffer.from(token, 'base64').toString('ascii'),
@@ -54,7 +54,7 @@ export async function verifyIdentitifyToken(config: Config, token: string, dryRu
   }
 }
 
-function getSignSecret(config: Config): Buffer {
+function getSignSecret(config: SignSecretConfig): Buffer {
   if (config.signSecret === '') throw new MissingSignSecretException()
 
   return Buffer.from(config.signSecret, 'utf8')

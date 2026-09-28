@@ -18,7 +18,7 @@
 import basicAuth from 'basic-auth'
 import express from 'express'
 import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
-import { Config } from '../config.js'
+import { AlwaysProConfig, SignSecretConfig, MailWhitelistConfig, DisableSignupConfig } from '../config.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { EventHandler } from '../monitoring/eventhandler.js'
 import { MailTransport } from '../util/mail.js'
@@ -33,7 +33,7 @@ import { createSyncRouter } from './sync.js'
 const adminToken = process.env.ADMIN_TOKEN || ''
 
 export const createApi = ({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler}: {
-  config: Config
+  config: AlwaysProConfig & SignSecretConfig & MailWhitelistConfig & DisableSignupConfig
   database: SimpleDatabase
   mailTransport: MailTransport
   websocket: WebsocketApi

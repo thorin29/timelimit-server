@@ -17,7 +17,7 @@
 
 import HttpErrors from 'http-errors'
 import { NewDeviceInfo } from '../../api/schema.js'
-import { Config } from '../../config.js'
+import { AlwaysProConfig } from '../../config.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
 import { MailTransport, sendDeviceLinkedMail } from '../../util/mail.js'
 import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token.js'
@@ -30,7 +30,7 @@ import { ServerDataStatus } from '../../object/serverdatastatus.js'
 import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
 export const signInIntoFamily = async ({ config, database, eventHandler, mailTransport, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   eventHandler: EventHandler
   mailTransport: MailTransport

@@ -18,7 +18,7 @@
 import BodyParser from 'body-parser'
 import { Router } from 'express'
 import HttpErrors from 'http-errors'
-import { Config } from '../config.js'
+import { SignSecretConfig } from '../config.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { addPurchase, canDoNextPurchase } from '../function/purchase/index.js'
 import { getStatusMessage, setStatusMessage } from '../function/statusmessage/index.js'
@@ -27,7 +27,7 @@ import { verifyIdentitifyToken, TokenValidationException } from '../util/identit
 import { WebsocketApi } from '../websocket/index.js'
 
 export const createAdminRouter = ({ config, database, websocket, eventHandler }: {
-  config: Config
+  config: SignSecretConfig
   database: SimpleDatabase
   websocket: WebsocketApi
   eventHandler: EventHandler

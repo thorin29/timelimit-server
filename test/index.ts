@@ -4,7 +4,6 @@ import { describe, it } from 'node:test'
 import HttpErrors from 'http-errors'
 
 import { withTestDatabase, withTestTransaction, withTestDatabaseUrl, SimpleDatabase } from './helper/database.js'
-import { Config } from '../src/config.js'
 import { signInIntoFamily } from '../src/function/parent/sign-in-into-family.js'
 import { createFamily } from '../src/function/parent/create-family.js'
 import { InMemoryEventHandler } from '../src/monitoring/inmemoryeventhandler.js'
@@ -12,16 +11,6 @@ import { generateIdWithinFamily, generateAuthToken } from '../src/util/token.js'
 import { createMailTransport } from '../src/util/mail.js'
 import { dummyWebsocketApi } from '../src/websocket/index.js'
 import { runWorkersOnce } from '../src/worker/index.js'
-
-const testConfig: Config = {
-  databaseUrl: 'invalid',
-  mailWhitelist: [],
-  disableSignup: false,
-  pingInterval: 25 * 1000,
-  alwaysPro: false,
-  signSecret: '',
-  mailTransport: { type: 'test' },
-}
 
 const testPassword1 = {
   // actually "password"
@@ -163,7 +152,7 @@ describe('functionality', () => {
 
     async function createFamilyEasy(database: SimpleDatabase, mailAuthToken: string) {
       return await createFamily({
-        config: testConfig,
+        config: { alwaysPro: false },
         database,
         eventHandler: new InMemoryEventHandler(),
         mailAuthToken,
@@ -279,8 +268,8 @@ describe('functionality', () => {
     const clientLevel = 0
     const websocket = dummyWebsocketApi
     const eventHandler = new InMemoryEventHandler()
-    const config = testConfig
-    const mailTransport = createMailTransport(testConfig)
+    const config = { alwaysPro: false }
+    const mailTransport = createMailTransport({ mailTransport: { type: 'test' } })
 
     it('should work', async function() {
       await withTestDatabase(async (database) => {

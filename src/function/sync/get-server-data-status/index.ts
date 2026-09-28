@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Config } from '../../../config.js'
+import { AlwaysProConfig } from '../../../config.js'
 import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
 import { getStatusMessage } from '../../../function/statusmessage/index.js'
 import { ClientDataStatus } from '../../../object/clientdatastatus.js'
@@ -43,7 +43,7 @@ export const generateServerDataStatus = async ({
   clientStatus: ClientDataStatus
   familyId: string
   deviceId: string
-  config: Config
+  config: AlwaysProConfig
   eventHandler: EventHandler
 }): Promise<ServerDataStatus> => {
   const clientLevel = clientStatus.clientLevel || 0

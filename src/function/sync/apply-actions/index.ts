@@ -18,7 +18,7 @@
 import HttpErrors from 'http-errors'
 import { ClientPushChangesRequest } from '../../../api/schema.js'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices/index.js'
-import { Config } from '../../../config.js'
+import { AlwaysProConfig } from '../../../config.js'
 import { SimpleDatabase } from '../../../database/simple/index.js'
 import { shouldRetryWithException } from '../../../database/index.js'
 import { EventHandler } from '../../../monitoring/eventhandler.js'
@@ -34,7 +34,7 @@ import { SequenceNumberRepeatedException } from './exception/sequence.js'
 import { assertActionIntegrity } from './integrity.js'
 
 export const applyActionsFromDevice = async ({ config, database, mailTransport, request, websocket, connectedDevicesManager, eventHandler }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   mailTransport: MailTransport
   websocket: WebsocketApi

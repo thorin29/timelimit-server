@@ -18,7 +18,7 @@
 import HttpErrors from 'http-errors'
 import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
 import { NewDeviceInfo, PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema.js'
-import { Config } from '../../config.js'
+import { AlwaysProConfig } from '../../config.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
 import { EventHandler } from '../../monitoring/eventhandler.js'
 import { ServerDataStatus } from '../../object/serverdatastatus.js'
@@ -30,7 +30,7 @@ export async function createFamily ({
   config, database, eventHandler, mailAuthToken, firstParentDevice,
   password, timeZone, parentName, deviceName, clientLevel
 }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   eventHandler: EventHandler
   mailAuthToken: string

@@ -16,15 +16,22 @@
  */
 
 // note: some configuration parameters are read directly at the location where they are used
-export interface Config {
-  databaseUrl: string
-  mailWhitelist: Array<string>
-  disableSignup: boolean
-  pingInterval: number
-  alwaysPro: boolean
-  signSecret: string
-  mailTransport: MailTransport
-}
+export type Config =
+  DatabaseUrlConfig &
+  MailWhitelistConfig &
+  DisableSignupConfig &
+  PingIntervalConfig &
+  AlwaysProConfig &
+  SignSecretConfig &
+  MailTransportConfig
+
+export type DatabaseUrlConfig = { databaseUrl: string }
+export type MailWhitelistConfig = { mailWhitelist: Array<string> }
+export type DisableSignupConfig = { disableSignup: boolean }
+export type PingIntervalConfig = { pingInterval: number }
+export type AlwaysProConfig = { alwaysPro: boolean }
+export type SignSecretConfig = { signSecret: string }
+export type MailTransportConfig = { mailTransport: MailTransport }
 
 type MailTransport = null | { type: 'prod', value: object } | { type: 'dev' } | { type: 'test' }
 

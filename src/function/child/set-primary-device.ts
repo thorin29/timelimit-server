@@ -16,14 +16,14 @@
  */
 
 import HttpErrors from 'http-errors'
-import { Config } from '../../config.js'
+import { AlwaysProConfig } from '../../config.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
 import { generateVersionId } from '../../util/token.js'
 import { WebsocketApi } from '../../websocket/index.js'
 import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export const setPrimaryDevice = async ({ config, database, websocket, deviceAuthToken, currentUserId, action }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   websocket: WebsocketApi
   deviceAuthToken: string

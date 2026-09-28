@@ -19,7 +19,7 @@ import BodyParser from 'body-parser'
 import { createHmac } from 'crypto'
 import { Router } from 'express'
 import HttpErrors from 'http-errors'
-import { Config } from '../config.js'
+import { AlwaysProConfig, SignSecretConfig, DisableSignupConfig } from '../config.js'
 import { SimpleDatabase, SimpleDatabaseTransaction } from '../database/simple/index.js'
 import { deleteAccount } from '../function/cleanup/account-deletion.js'
 import { removeDevice } from '../function/device/remove-device.js'
@@ -45,7 +45,7 @@ import {
 export const createParentRouter = ({
   config, database, mailTransport, websocket, eventHandler
 }: {
-  config: Config
+  config: AlwaysProConfig & SignSecretConfig & DisableSignupConfig
   database: SimpleDatabase
   mailTransport: MailTransport
   websocket: WebsocketApi

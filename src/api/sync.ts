@@ -18,7 +18,7 @@
 import BodyParser from 'body-parser'
 import { Router } from 'express'
 import HttpErrors from 'http-errors'
-import { Config } from '../config.js'
+import { AlwaysProConfig } from '../config.js'
 import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { reportDeviceRemoved } from '../function/device/report-device-removed.js'
@@ -36,7 +36,7 @@ const getRoundedTimestampForLastConnectivity = () => {
 }
 
 export const createSyncRouter = ({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   mailTransport: MailTransport
   websocket: WebsocketApi

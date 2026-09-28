@@ -20,7 +20,7 @@ import Mail from 'email-addresses'
 import { readFileSync } from 'fs'
 import { Mail as NMail, SentMessageInfo, createTransport } from 'nodemailer'
 import { resolve } from 'path'
-import { Config } from '../config.js'
+import { MailTransportConfig, MailWhitelistConfig } from '../config.js'
 import { IllegalStateException } from '../exception/index.js'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
@@ -33,7 +33,7 @@ export interface MailTransport {
   log: boolean
 }
 
-export function createMailTransport(config: Config): MailTransport {
+export function createMailTransport(config: MailTransportConfig): MailTransport {
   if (config.mailTransport === null) return { actual: null, log: false }
   else if (config.mailTransport.type === 'prod') return { actual: createTransport(config.mailTransport.value), log: false }
   else if (config.mailTransport.type === 'dev') return { actual: createTransport({ jsonTransport: true }), log: true }
@@ -243,7 +243,7 @@ export function isMailServerBlacklisted (mail: string): boolean {
   return mailServerBlacklist.indexOf(domain.toLowerCase()) !== -1
 }
 
-export function isMailAddressCoveredByWhitelist (config: Config, mail: string): boolean {
+export function isMailAddressCoveredByWhitelist (config: MailWhitelistConfig, mail: string): boolean {
   if (config.mailWhitelist.length === 0) {
     return true
   }

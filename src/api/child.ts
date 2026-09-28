@@ -18,7 +18,7 @@
 import BodyParser from 'body-parser'
 import { Router } from 'express'
 import HttpErrors from 'http-errors'
-import { Config } from '../config.js'
+import { AlwaysProConfig } from '../config.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { addChildDevice } from '../function/child/add-device.js'
 import { logoutAtPrimaryDevice } from '../function/child/logout-at-primary-device.js'
@@ -28,7 +28,7 @@ import { isRegisterChildDeviceRequest, isRequestWithAuthToken, isUpdatePrimaryDe
 import { EventHandler } from '../monitoring/eventhandler.js'
 
 export const createChildRouter = ({ config, database, websocket, eventHandler }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   websocket: WebsocketApi
   eventHandler: EventHandler

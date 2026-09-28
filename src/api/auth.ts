@@ -18,7 +18,7 @@
 import BodyParser from 'body-parser'
 import { Router } from 'express'
 import HttpErrors from 'http-errors'
-import { Config } from '../config.js'
+import { MailWhitelistConfig } from '../config.js'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail.js'
 import { MailTransport, isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail.js'
@@ -28,7 +28,7 @@ import {
 } from './validator.js'
 
 export const createAuthRouter = ({ config, database, mailTransport }: {
-  config: Config
+  config: MailWhitelistConfig
   database: SimpleDatabase
   mailTransport: MailTransport
 }) => {

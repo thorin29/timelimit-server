@@ -20,7 +20,7 @@ import { RegisterChildDeviceRequest } from '../../api/schema.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
 import { generateAuthToken, generateVersionId } from '../../util/token.js'
 import { WebsocketApi } from '../../websocket/index.js'
-import { Config } from '../../config.js'
+import { AlwaysProConfig } from '../../config.js'
 import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
 import { EventHandler } from '../../monitoring/eventhandler.js'
@@ -28,7 +28,7 @@ import { ServerDataStatus } from '../../object/serverdatastatus.js'
 import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
 export const addChildDevice = async ({ config, database, eventHandler, websocket, request }: {
-  config: Config
+  config: AlwaysProConfig
   database: SimpleDatabase
   eventHandler: EventHandler
   websocket: WebsocketApi
