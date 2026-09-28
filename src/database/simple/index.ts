@@ -140,6 +140,11 @@ export interface SimpleDatabaseTransaction {
     checkAndDestroy: (token: string) => Promise<{ mail: string, locale: string } | null>
   }
 
+  deviceDhKey: {
+    query: (params: { familyId: string, deviceId: string, keyId: string }) => Promise<{ expireAt: number | null, privateKey: Buffer, publicKey: Buffer } | null>
+    updateExpireAt: (params: { familyId: string, deviceId: string, keyId: string, expireAt: bigint }) => Promise<void>
+  }
+
   addDeviceToken: {
     create: (params: { familyId: string, time: number, deviceId: string, token: string }) => Promise<void>
     getAndDestroy: (token: string) => Promise<{familyId: string, deviceId: string} | null>
@@ -914,6 +919,38 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             locale: item.locale
           }
         } else return null
+      },
+    },
+    deviceDhKey: {
+      query: async ({ familyId, deviceId, keyId }) => {
+        const item = await database.deviceDhKey.findOne({
+          where: {
+            familyId,
+            deviceId,
+            version: keyId
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            expireAt: item.expireAt !== null ? parseInt(item.expireAt) : null,
+            privateKey: item.privateKey,
+            publicKey: item.publicKey,
+          }
+        } else return null
+      },
+      updateExpireAt: async ({ familyId, deviceId, keyId, expireAt }) => {
+        await database.deviceDhKey.update({
+          expireAt: expireAt.toString(10)
+        }, {
+          where: {
+            familyId,
+            deviceId,
+            version: keyId
+          },
+          transaction: legacyTransaction
+        })
       },
     },
     addDeviceToken: {
