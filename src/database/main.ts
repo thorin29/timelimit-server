@@ -143,16 +143,18 @@ const createDatabase = (sequelize: Sequelize.Sequelize): Database => ({
   dialect: sequelize.getDialect()
 })
 
-const databaseUrl = process.env.DATABASE_URL
-
-if (!databaseUrl) throw new Error('missing database url')
-
-export const sequelize = new Sequelize.Sequelize(databaseUrl, {
+const createSequelizeFromUrl = (url: string) => new Sequelize.Sequelize(url, {
   define: {
     timestamps: false
   },
   logging: false
 })
 
-export const defaultDatabase = createDatabase(sequelize)
-export const defaultUmzug = createUmzug(sequelize)
+export function openDatabaseFromUrl(url: string) {
+  const sequelize = createSequelizeFromUrl(url)
+
+  return {
+    database: createDatabase(sequelize),
+    umzug: createUmzug(sequelize),
+  }
+}

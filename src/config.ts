@@ -17,6 +17,7 @@
 
 // note: some configuration parameters are read directly at the location where they are used
 export interface Config {
+  databaseUrl: string
   mailWhitelist: Array<string>
   disableSignup: boolean
   pingInterval: number
@@ -37,7 +38,12 @@ function parseYesNo (value: string) {
 class ParseYesNoException extends Error {}
 
 export function parseConfigFromEnvironment(): Config {
+  const databaseUrl = process.env.DATABASE_URL
+
+  if (!databaseUrl) throw new Error('DATABASE_URL environment variable is mandantory')
+
   return {
+    databaseUrl,
     mailWhitelist: (process.env.MAIL_WHITELIST || '').split(',').map((item) => item.trim()).filter((item) => item.length > 0),
     disableSignup: parseYesNo(process.env.DISABLE_SIGNUP || 'no'),
     pingInterval: parseInt(process.env.PING_INTERVAL_SEC || '25', 10) * 1000,

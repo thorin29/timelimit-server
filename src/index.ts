@@ -20,7 +20,7 @@ import { pid } from 'process'
 import { createApi } from './api'
 import { parseConfigFromEnvironment } from './config'
 import { VisibleConnectedDevicesManager } from './connected-devices'
-import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreWorking, defaultDatabase, defaultUmzug } from './database'
+import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreWorking, openDatabaseFromUrl } from './database'
 import { fromLegacy as createSimpleDatabase } from './database/simple'
 import { EventHandler } from './monitoring/eventhandler'
 import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler'
@@ -30,14 +30,15 @@ import { initWorkers } from './worker'
 async function main () {
   const config = parseConfigFromEnvironment()
 
-  await defaultUmzug.up()
-  const legacyDatabase = defaultDatabase
+  const db = openDatabaseFromUrl(config.databaseUrl)
+
+  await db.umzug.up()
   const eventHandler: EventHandler = new InMemoryEventHandler()
 
-  await assertNestedTransactionsAreWorking(legacyDatabase)
-  await assertSerializeableTransactionsAreWorking(legacyDatabase)
+  await assertNestedTransactionsAreWorking(db.database)
+  await assertSerializeableTransactionsAreWorking(db.database)
 
-  const database = createSimpleDatabase(legacyDatabase)
+  const database = createSimpleDatabase(db.database)
 
   const connectedDevicesManager = new VisibleConnectedDevicesManager({
     database
