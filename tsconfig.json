@@ -6,7 +6,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "module": "commonjs",
+    "module": "node16",
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noImplicitReturns": true,

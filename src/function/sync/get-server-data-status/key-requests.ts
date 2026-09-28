@@ -16,9 +16,9 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { ServerKeyRequest } from '../../../object/serverdatastatus'
-import { FamilyEntry } from './family-entry'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { ServerKeyRequest } from '../../../object/serverdatastatus.js'
+import { FamilyEntry } from './family-entry.js'
 
 export async function getKeyRequests ({ transaction, familyEntry, lastSeenRequestIndex, deviceId }: {
   transaction: SimpleDatabaseTransaction

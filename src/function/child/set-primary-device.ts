@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict, InternalServerError, Unauthorized } from 'http-errors'
-import { Config } from '../../config'
-import { SimpleDatabase } from '../../database/simple'
-import { generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
+import HttpErrors from 'http-errors'
+import { Config } from '../../config.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export const setPrimaryDevice = async ({ config, database, websocket, deviceAuthToken, currentUserId, action }: {
   config: Config
@@ -35,11 +35,11 @@ export const setPrimaryDevice = async ({ config, database, websocket, deviceAuth
     const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken(deviceAuthToken)
 
     if (!deviceEntry) {
-      throw new Unauthorized()
+      throw new HttpErrors.Unauthorized()
     }
 
     if ((deviceEntry.currentUserId !== currentUserId) || (currentUserId === '')) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     const userEntry = await transaction.user.getCurrentDeviceIdByUserId({
@@ -48,7 +48,7 @@ export const setPrimaryDevice = async ({ config, database, websocket, deviceAuth
     })
 
     if (!userEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     const userDeviceIds = await transaction.device.getDeviceIdsByCurrentUserId({
@@ -78,7 +78,7 @@ export const setPrimaryDevice = async ({ config, database, websocket, deviceAuth
       })
     } else if (action === 'unset this device') {
       if (userEntry.currentDeviceId !== deviceEntry.deviceId) {
-        throw new Conflict()
+        throw new HttpErrors.Conflict()
       }
 
       // update
@@ -88,7 +88,7 @@ export const setPrimaryDevice = async ({ config, database, websocket, deviceAuth
         currentDeviceId: ''
       })
     } else {
-      throw new InternalServerError('illegal state')
+      throw new HttpErrors.InternalServerError('illegal state')
     }
 
     // invalidiate user list

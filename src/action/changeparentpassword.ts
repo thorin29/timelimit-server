@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,9 +16,9 @@
  */
 
 import { createDecipheriv, createHash } from 'crypto'
-import { ParentAction } from './basetypes'
-import { InvalidActionParameterException } from './meta/exception'
-import { assertHexString, assertIdWithinFamily } from './meta/util'
+import { ParentAction } from './basetypes.js'
+import { InvalidActionParameterException } from './meta/exception.js'
+import { assertHexString, assertIdWithinFamily } from './meta/util.js'
 
 const actionType = 'ChangeParentPasswordAction'
 

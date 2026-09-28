@@ -15,5 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export { canDoNextPurchase } from './can-do-next-purchase'
-export { addPurchase } from './add-purchase'
+export { canDoNextPurchase } from './can-do-next-purchase.js'
+export { addPurchase } from './add-purchase.js'

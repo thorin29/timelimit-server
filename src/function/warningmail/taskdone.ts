@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Database, Transaction } from '../../database'
-import { mailNotificationFlags } from '../../database/user'
-import { sendTaskDoneMail } from '../../util/mail'
-import { canSendTaskDoneMail } from '../../util/ratelimit-taskdonemail'
+import { Database, Transaction } from '../../database/index.js'
+import { mailNotificationFlags } from '../../database/user.js'
+import { sendTaskDoneMail } from '../../util/mail.js'
+import { canSendTaskDoneMail } from '../../util/ratelimit-taskdonemail.js'
 
 export const sendTaskDoneMails = async ({ database, familyId, childName, taskTitle, transaction }: {
   database: Database

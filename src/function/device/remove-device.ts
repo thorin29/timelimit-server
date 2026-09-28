@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export async function removeDevice ({ familyId, deviceId, websocket, transaction }: {
   transaction: SimpleDatabaseTransaction
@@ -30,7 +30,7 @@ export async function removeDevice ({ familyId, deviceId, websocket, transaction
   const deviceAuthToken = await transaction.device.getDeviceAuthTokenByDeviceId({ familyId, deviceId })
 
   if (deviceAuthToken === null) {
-    throw new Conflict()
+    throw new HttpErrors.Conflict()
   }
 
   // remove as current device

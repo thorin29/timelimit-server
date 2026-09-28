@@ -16,11 +16,11 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { ClientDataStatusDevicesExtended } from '../../../object/clientdatastatus'
-import { ServerExtendedDeviceData, ServerCryptContainer } from '../../../object/serverdatastatus'
-import { FamilyEntry } from './family-entry'
-import { types } from '../../../database/encryptedapplist'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { ClientDataStatusDevicesExtended } from '../../../object/clientdatastatus.js'
+import { ServerExtendedDeviceData, ServerCryptContainer } from '../../../object/serverdatastatus.js'
+import { FamilyEntry } from './family-entry.js'
+import { types } from '../../../database/encryptedapplist.js'
 
 export async function getDeviceDetailList ({ transaction, familyEntry, devicesDetail }: {
   transaction: SimpleDatabaseTransaction

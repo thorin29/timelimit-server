@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../database/simple'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
 
 export async function deleteFamilies ({ transaction, familiyIds }: {
   transaction: SimpleDatabaseTransaction

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,8 @@
  */
 
 import { QueryInterface, Sequelize, Transaction } from 'sequelize'
-import { attributesVersion2 as authTokenAttributes } from '../../authtoken'
-import { attributesVersion2 as mailLoginTokenAttributes } from '../../maillogintoken'
+import { attributesVersion2 as authTokenAttributes } from '../../authtoken.js'
+import { attributesVersion2 as mailLoginTokenAttributes } from '../../maillogintoken.js'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({

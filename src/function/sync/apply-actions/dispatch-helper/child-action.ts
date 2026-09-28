@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { parseChildAction } from '../../../../action/serialization'
-import { ClientPushChangesRequestAction } from '../../../../api/schema'
-import { isSerializedChildAction } from '../../../../api/validator'
-import { EventHandler } from '../../../../monitoring/eventhandler'
-import { Cache } from '../cache'
-import { dispatchChildAction as dispatchChildActionInternal } from '../dispatch-child-action'
-import { dispatch } from './helper'
+import { parseChildAction } from '../../../../action/serialization/index.js'
+import { ClientPushChangesRequestAction } from '../../../../api/schema.js'
+import { isSerializedChildAction } from '../../../../api/validator.js'
+import { EventHandler } from '../../../../monitoring/eventhandler.js'
+import { Cache } from '../cache.js'
+import { dispatchChildAction as dispatchChildActionInternal } from '../dispatch-child-action/index.js'
+import { dispatch } from './helper.js'
 
 export async function dispatchChildAction ({ action, eventHandler, deviceId, cache, childUserId }: {
   action: ClientPushChangesRequestAction

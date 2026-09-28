@@ -16,9 +16,9 @@
  */
 
 import { createDecipheriv } from 'crypto'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { isVersionId } from '../../util/token'
-import { getSharedSecret, SharedSecretException } from './shared-secret'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { isVersionId } from '../../util/token.js'
+import { getSharedSecret, SharedSecretException } from './shared-secret.js'
 
 export async function decrypt({
   transaction, familyId, deviceId, encryptedData, authData

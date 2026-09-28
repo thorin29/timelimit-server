@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { PingAction } from '../../../../action'
-import { types as pingTypes } from '../../../../database/ping'
-import { Cache } from '../cache'
+import { PingAction } from '../../../../action/index.js'
+import { types as pingTypes } from '../../../../database/ping.js'
+import { Cache } from '../cache.js'
 
 export async function dispatchPingAction ({ action, cache, deviceId }: {
   deviceId: string

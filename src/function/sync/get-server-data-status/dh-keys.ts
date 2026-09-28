@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { config, calculateExpireTime } from '../../../database/devicedhkey'
-import { ServerDhKey } from '../../../object/serverdatastatus'
-import { generateVersionId } from '../../../util/token'
-import { EventHandler } from '../../../monitoring/eventhandler'
-import { generateDhKeypair } from '../../../function/dh'
-import { FamilyEntry } from './family-entry'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { config, calculateExpireTime } from '../../../database/devicedhkey.js'
+import { ServerDhKey } from '../../../object/serverdatastatus.js'
+import { generateVersionId } from '../../../util/token.js'
+import { EventHandler } from '../../../monitoring/eventhandler.js'
+import { generateDhKeypair } from '../../../function/dh/index.js'
+import { FamilyEntry } from './family-entry.js'
 
 export async function getDeviceDhKeys ({
   transaction, familyEntry, deviceId, lastVersionId, eventHandler

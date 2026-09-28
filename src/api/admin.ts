@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { Router } from 'express'
-import { BadRequest } from 'http-errors'
-import { Config } from '../config'
-import { SimpleDatabase } from '../database/simple'
-import { addPurchase, canDoNextPurchase } from '../function/purchase'
-import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
-import { EventHandler } from '../monitoring/eventhandler'
-import { verifyIdentitifyToken, TokenValidationException } from '../util/identity-token'
-import { WebsocketApi } from '../websocket'
+import HttpErrors from 'http-errors'
+import { Config } from '../config.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { addPurchase, canDoNextPurchase } from '../function/purchase/index.js'
+import { getStatusMessage, setStatusMessage } from '../function/statusmessage/index.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
+import { verifyIdentitifyToken, TokenValidationException } from '../util/identity-token.js'
+import { WebsocketApi } from '../websocket/index.js'
 
 export const createAdminRouter = ({ config, database, websocket, eventHandler }: {
   config: Config
@@ -72,10 +72,10 @@ export const createAdminRouter = ({ config, database, websocket, eventHandler }:
     }
   })
 
-  router.post('/status-message', json(), async (req, res, next) => {
+  router.post('/status-message', BodyParser.json(), async (req, res, next) => {
     try {
       if (typeof req.body !== 'object' || typeof req.body.message !== 'string') {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const newStatusMessage = req.body.message as string
@@ -90,7 +90,7 @@ export const createAdminRouter = ({ config, database, websocket, eventHandler }:
     }
   })
 
-  router.post('/unlock-premium-v2', json(), async (req, res, next) => {
+  router.post('/unlock-premium-v2', BodyParser.json(), async (req, res, next) => {
     try {
       if (
         typeof req.body !== 'object' ||
@@ -99,7 +99,7 @@ export const createAdminRouter = ({ config, database, websocket, eventHandler }:
         typeof req.body.dryRun !== 'boolean' ||
         typeof req.body.type !== 'string'
       ) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const purchaseToken: string = req.body.purchaseToken
@@ -108,7 +108,7 @@ export const createAdminRouter = ({ config, database, websocket, eventHandler }:
       const type: string = req.body.type
 
       if (type !== 'month' && type !== 'year' && type !== 'unpaid14') {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const tokenContent = await verifyIdentitifyToken(config, purchaseToken, dryRun)

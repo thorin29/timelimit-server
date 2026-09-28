@@ -16,9 +16,9 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabase } from '../database/simple'
-import { notifyClientsAboutChangesDelayed } from '../function/websocket'
-import { WebsocketApi } from '../websocket'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { notifyClientsAboutChangesDelayed } from '../function/websocket/index.js'
+import { WebsocketApi } from '../websocket/index.js'
 
 export function initDeleteDeprecatedPurchasesWorker ({ database, websocket }: {
   database: SimpleDatabase

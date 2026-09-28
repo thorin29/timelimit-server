@@ -15,30 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { Router } from 'express'
-import { BadRequest, InternalServerError, Unauthorized } from 'http-errors'
-import { SimpleDatabase } from '../database/simple'
-import { canDoNextPurchase } from '../function/purchase'
-import { isCanDoPurchaseRequest } from './validator'
+import HttpErrors from 'http-errors'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { canDoNextPurchase } from '../function/purchase/index.js'
+import { isCanDoPurchaseRequest } from './validator.js'
 
 export const createPurchaseRouter = ({ database }: { database: SimpleDatabase }) => {
   const router = Router()
 
-  router.post('/can-do-purchase', json(), async (req, res, next) => {
+  router.post('/can-do-purchase', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isCanDoPurchaseRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const result: boolean = await database.transaction(async (transaction) => {
         const familyId = await transaction.device.getFamilyIdByAuthToken(req.body.deviceAuthToken)
 
-        if (familyId === null) throw new Unauthorized()
+        if (familyId === null) throw new HttpErrors.Unauthorized()
 
         const canDoNextPurchaseData = await transaction.family.getFullVersionUntilAndDebtsByFamilyId(familyId)
 
-        if (!canDoNextPurchaseData) throw new InternalServerError()
+        if (!canDoNextPurchaseData) throw new HttpErrors.InternalServerError()
 
         return canDoNextPurchase(canDoNextPurchaseData)
       })

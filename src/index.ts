@@ -17,15 +17,15 @@
 
 import { Server } from 'http'
 import { pid } from 'process'
-import { createApi } from './api'
-import { parseConfigFromEnvironment } from './config'
-import { VisibleConnectedDevicesManager } from './connected-devices'
-import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreWorking, openDatabaseFromUrl } from './database'
-import { fromLegacy as createSimpleDatabase } from './database/simple'
-import { EventHandler } from './monitoring/eventhandler'
-import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler'
-import { createWebsocketHandler } from './websocket'
-import { initWorkers } from './worker'
+import { createApi } from './api/index.js'
+import { parseConfigFromEnvironment } from './config.js'
+import { VisibleConnectedDevicesManager } from './connected-devices/index.js'
+import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreWorking, openDatabaseFromUrl } from './database/index.js'
+import { fromLegacy as createSimpleDatabase } from './database/simple/index.js'
+import { EventHandler } from './monitoring/eventhandler.js'
+import { InMemoryEventHandler } from './monitoring/inmemoryeventhandler.js'
+import { createWebsocketHandler } from './websocket/index.js'
+import { initWorkers } from './worker/index.js'
 
 async function main () {
   const config = parseConfigFromEnvironment()

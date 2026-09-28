@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ReplyToKeyRequestAction } from '../../../../action'
-import { Cache } from '../cache'
-import { EventHandler } from '../../../../monitoring/eventhandler'
-import { IllegalStateException } from '../exception/illegal-state'
+import { ReplyToKeyRequestAction } from '../../../../action/index.js'
+import { Cache } from '../cache.js'
+import { EventHandler } from '../../../../monitoring/eventhandler.js'
+import { IllegalStateException } from '../exception/illegal-state.js'
 
 export async function dispatchReplyToKeyRequestAction ({ deviceId, action, cache, eventHandler }: {
   deviceId: string

@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { difference } from 'lodash'
+import difference from 'lodash/difference.js'
 import * as Sequelize from 'sequelize'
 
-import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main'
-import { maxMailNotificationFlags } from '../user'
-import { generateAuthToken, generateVersionId, generateFamilyId } from '../../util/token'
+import { Database as LegacyDatabase, Transaction as LegacyTransaction } from '../main.js'
+import { maxMailNotificationFlags } from '../user.js'
+import { generateAuthToken, generateVersionId, generateFamilyId } from '../../util/token.js'
 
 export interface SimpleDatabase {
   legacy: LegacyDatabase

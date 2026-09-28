@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { SimpleDatabaseTransaction } from '../../database/simple'
+import HttpErrors from 'http-errors'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
 
 export async function createAuthTokenByMailAddress({
   mail, transaction, locale
@@ -43,7 +43,7 @@ export async function requireMailAndLocaleByAuthToken({
   const result = await getMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate })
 
   if (!result) {
-    throw new Unauthorized()
+    throw new HttpErrors.Unauthorized()
   }
 
   return result

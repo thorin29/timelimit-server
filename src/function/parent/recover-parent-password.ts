@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema'
-import { SimpleDatabase } from '../../database/simple'
-import { sendPasswordRecoveryUsedMail } from '../../util/mail'
-import { generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
+import HttpErrors from 'http-errors'
+import { PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { sendPasswordRecoveryUsedMail } from '../../util/mail.js'
+import { generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export const recoverParentPassword = async ({ database, websocket, password, mailAuthToken }: {
   database: SimpleDatabase
@@ -40,7 +40,7 @@ export const recoverParentPassword = async ({ database, websocket, password, mai
     const userEntry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (!userEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     await transaction.user.updatePassword(userEntry, {

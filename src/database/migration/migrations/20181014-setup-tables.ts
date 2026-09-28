@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,17 +16,17 @@
  */
 
 import { QueryInterface, Sequelize, Transaction } from 'sequelize'
-import { attributes as addDeviceTokenAttributes } from '../../adddevicetoken'
-import { attributes as appAttributes } from '../../app'
-import { attributesVersion1 as authTokenAttributes } from '../../authtoken'
-import { attributesVersion1 as categoryAttributes } from '../../category'
-import { attributes as categoryAppAttributes } from '../../categoryapp'
-import { attributesVersion1 as deviceAttributes } from '../../device'
-import { attributesVersion1 as familyAttributes } from '../../family'
-import { attributes as purchaseAttributes } from '../../purchase'
-import { attributesVersion1 as timelimitruleAttributes } from '../../timelimitrule'
-import { attributesVersion1 as usedTimeAttribute } from '../../usedtime'
-import { attributesVersion1 as userAttributes } from '../../user'
+import { attributes as addDeviceTokenAttributes } from '../../adddevicetoken.js'
+import { attributes as appAttributes } from '../../app.js'
+import { attributesVersion1 as authTokenAttributes } from '../../authtoken.js'
+import { attributesVersion1 as categoryAttributes } from '../../category.js'
+import { attributes as categoryAppAttributes } from '../../categoryapp.js'
+import { attributesVersion1 as deviceAttributes } from '../../device.js'
+import { attributesVersion1 as familyAttributes } from '../../family.js'
+import { attributes as purchaseAttributes } from '../../purchase.js'
+import { attributesVersion1 as timelimitruleAttributes } from '../../timelimitrule.js'
+import { attributesVersion1 as usedTimeAttribute } from '../../usedtime.js'
+import { attributesVersion1 as userAttributes } from '../../user.js'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({

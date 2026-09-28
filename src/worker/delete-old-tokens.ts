@@ -16,7 +16,7 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabase } from '../database/simple'
+import { SimpleDatabase } from '../database/simple/index.js'
 
 export function initDeleteOldTokensWorker ({ database }: {
   database: SimpleDatabase

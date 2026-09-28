@@ -16,7 +16,7 @@
  */
 
 import { EventEmitter } from 'events'
-import { SimpleDatabase } from '../database/simple'
+import { SimpleDatabase } from '../database/simple/index.js'
 
 export class ConnectedDevicesManager {
   private deviceConnectionCounters = new Map<string, number>()

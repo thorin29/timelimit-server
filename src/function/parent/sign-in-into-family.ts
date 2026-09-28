@@ -15,19 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { NewDeviceInfo } from '../../api/schema'
-import { Config } from '../../config'
-import { SimpleDatabase } from '../../database/simple'
-import { sendDeviceLinkedMail } from '../../util/mail'
-import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
-import { generateServerDataStatus } from '../sync/get-server-data-status'
-import { EventHandler } from '../../monitoring/eventhandler'
-import { ServerDataStatus } from '../../object/serverdatastatus'
-import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
+import HttpErrors from 'http-errors'
+import { NewDeviceInfo } from '../../api/schema.js'
+import { Config } from '../../config.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { sendDeviceLinkedMail } from '../../util/mail.js'
+import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
+import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
+import { EventHandler } from '../../monitoring/eventhandler.js'
+import { ServerDataStatus } from '../../object/serverdatastatus.js'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
 export const signInIntoFamily = async ({ config, database, eventHandler, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
   config: Config
@@ -46,7 +46,7 @@ export const signInIntoFamily = async ({ config, database, eventHandler, mailAut
     const userEntry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (!userEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     const deviceAuthToken = generateAuthToken()

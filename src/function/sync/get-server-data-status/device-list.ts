@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { ServerDeviceList } from '../../../object/serverdatastatus'
-import { FamilyEntry } from './family-entry'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { ServerDeviceList } from '../../../object/serverdatastatus.js'
+import { FamilyEntry } from './family-entry.js'
 
 export async function getDeviceList ({ transaction, familyEntry }: {
   transaction: SimpleDatabaseTransaction

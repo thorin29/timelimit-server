@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { uniqBy } from 'lodash'
+import uniqBy from 'lodash/uniqBy.js'
 import * as Sequelize from 'sequelize'
-import { SimpleDatabase } from '../database/simple'
-import { generateVersionId } from '../util/token'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { generateVersionId } from '../util/token.js'
 
 export function initDeleteOldUsedTimesWorker ({ database }: {
   database: SimpleDatabase

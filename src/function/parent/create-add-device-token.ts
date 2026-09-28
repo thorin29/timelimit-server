@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { randomWords } from '../../util/random-words'
-import { generateIdWithinFamily } from '../../util/token'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { randomWords } from '../../util/random-words.js'
+import { generateIdWithinFamily } from '../../util/token.js'
 
 export const createAddDeviceToken = async ({ familyId, transaction }: {
   familyId: string

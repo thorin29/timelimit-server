@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { notifyClientsAboutChangesDelayed } from '../../function/websocket'
-import { WebsocketApi } from '../../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { notifyClientsAboutChangesDelayed } from '../../function/websocket/index.js'
+import { WebsocketApi } from '../../websocket/index.js'
 
 const day = 1000 * 60 * 60 * 24
 const week = day * 7
@@ -54,7 +54,7 @@ export const addPurchase = async ({ familyId, type, transactionId, websocket, tr
   })
 
   if (!familyEntry) {
-    throw new Conflict()
+    throw new HttpErrors.Conflict()
   }
 
   const previousFullVersionEndTime = familyEntry.fullVersionUntil

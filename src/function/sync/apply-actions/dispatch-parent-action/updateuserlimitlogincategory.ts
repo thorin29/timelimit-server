@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { UpdateUserLimitLoginCategory } from '../../../../action'
-import { Cache } from '../cache'
-import { ApplyActionException } from '../exception/index'
-import { MissingCategoryException, MissingUserException } from '../exception/missing-item'
+import { UpdateUserLimitLoginCategory } from '../../../../action/index.js'
+import { Cache } from '../cache.js'
+import { ApplyActionException } from '../exception/index.js'
+import { MissingCategoryException, MissingUserException } from '../exception/missing-item.js'
 
 export async function dispatchUpdateUserLimitLoginCategoryAction ({ action, cache, parentUserId }: {
   action: UpdateUserLimitLoginCategory

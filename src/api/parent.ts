@@ -15,31 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { createHmac } from 'crypto'
 import { Router } from 'express'
-import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
-import { Config } from '../config'
-import { SimpleDatabase, SimpleDatabaseTransaction } from '../database/simple'
-import { deleteAccount } from '../function/cleanup/account-deletion'
-import { removeDevice } from '../function/device/remove-device'
-import { createAddDeviceToken } from '../function/parent/create-add-device-token'
-import { createFamily } from '../function/parent/create-family'
-import { getStatusByMailToken } from '../function/parent/get-status-by-mail-address'
-import { linkMailAddress } from '../function/parent/link-mail-address'
-import { recoverParentPassword } from '../function/parent/recover-parent-password'
-import { signInIntoFamily } from '../function/parent/sign-in-into-family'
-import { validateU2fIntegrity, U2fValidationError } from '../function/u2f'
-import { createIdentityToken, MissingSignSecretException } from '../util/identity-token'
-import { WebsocketApi } from '../websocket'
-import { EventHandler } from '../monitoring/eventhandler'
+import HttpErrors from 'http-errors'
+import { Config } from '../config.js'
+import { SimpleDatabase, SimpleDatabaseTransaction } from '../database/simple/index.js'
+import { deleteAccount } from '../function/cleanup/account-deletion.js'
+import { removeDevice } from '../function/device/remove-device.js'
+import { createAddDeviceToken } from '../function/parent/create-add-device-token.js'
+import { createFamily } from '../function/parent/create-family.js'
+import { getStatusByMailToken } from '../function/parent/get-status-by-mail-address.js'
+import { linkMailAddress } from '../function/parent/link-mail-address.js'
+import { recoverParentPassword } from '../function/parent/recover-parent-password.js'
+import { signInIntoFamily } from '../function/parent/sign-in-into-family.js'
+import { validateU2fIntegrity, U2fValidationError } from '../function/u2f/index.js'
+import { createIdentityToken, MissingSignSecretException } from '../util/identity-token.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
 import {
   isCreateFamilyByMailTokenRequest,
   isCreateRegisterDeviceTokenRequest, isLinkParentMailAddressRequest,
   isMailAuthTokenRequestBody, isRecoverParentPasswordRequest,
   isRemoveDeviceRequest, isSignIntoFamilyRequest, isRequestIdentityTokenRequest,
   isDeleteAccountPayload
-} from './validator'
+} from './validator.js'
 
 export const createParentRouter = ({
   config, database, websocket, eventHandler
@@ -51,10 +51,10 @@ export const createParentRouter = ({
 }) => {
   const router = Router()
 
-  router.post('/get-status-by-mail-address', json(), async (req, res, next) => {
+  router.post('/get-status-by-mail-address', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isMailAuthTokenRequestBody(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const { mailAuthToken } = req.body
@@ -73,14 +73,14 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/create-family', json(), async (req, res, next) => {
+  router.post('/create-family', BodyParser.json(), async (req, res, next) => {
     try {
       if (config.disableSignup) {
-        throw new Forbidden()
+        throw new HttpErrors.Forbidden()
       }
 
       if (!isCreateFamilyByMailTokenRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const result = await createFamily({
@@ -106,10 +106,10 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/sign-in-into-family', json(), async (req, res, next) => {
+  router.post('/sign-in-into-family', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isSignIntoFamilyRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const result = await signInIntoFamily({
@@ -133,10 +133,10 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/recover-parent-password', json(), async (req, res, next) => {
+  router.post('/recover-parent-password', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRecoverParentPasswordRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await recoverParentPassword({
@@ -165,13 +165,13 @@ export const createParentRouter = ({
       const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdAndCurrentUserAndKeptSignedInByAuthToken(deviceAuthToken)
 
       if (!deviceEntry) {
-        throw new Unauthorized()
+        throw new HttpErrors.Unauthorized()
       }
 
       const { familyId } = deviceEntry
 
       if (!deviceEntry.isUserKeptSignedIn) {
-        throw new Unauthorized()
+        throw new HttpErrors.Unauthorized()
       }
 
       const parentFound = await transaction.user.doesParentUserExist({
@@ -180,7 +180,7 @@ export const createParentRouter = ({
       })
 
       if (!parentFound) {
-        throw new Unauthorized()
+        throw new HttpErrors.Unauthorized()
       }
 
       return { familyId, parentUserId: deviceEntry.currentUserId }
@@ -189,7 +189,7 @@ export const createParentRouter = ({
         const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdByAuthToken(deviceAuthToken)
 
         if (!deviceEntry) {
-          throw new Unauthorized()
+          throw new HttpErrors.Unauthorized()
         }
 
         const { familyId, deviceId } = deviceEntry
@@ -207,7 +207,7 @@ export const createParentRouter = ({
             .digest()
         })
 
-        if (u2fResult.userId !== parentId) throw new Unauthorized()
+        if (u2fResult.userId !== parentId) throw new HttpErrors.Unauthorized()
 
         const parentFound = await transaction.user.doesParentUserExist({
           familyId,
@@ -215,19 +215,19 @@ export const createParentRouter = ({
         })
 
         if (!parentFound) {
-          throw new Unauthorized()
+          throw new HttpErrors.Unauthorized()
         }
 
         return { familyId, parentUserId: u2fResult.userId }
       } catch (ex) {
-        if (ex instanceof U2fValidationError) throw new Unauthorized()
+        if (ex instanceof U2fValidationError) throw new HttpErrors.Unauthorized()
         else throw ex
       }
     } else {
       const familyId = await transaction.device.getFamilyIdByAuthToken(deviceAuthToken)
 
       if (familyId === null) {
-        throw new Unauthorized()
+        throw new HttpErrors.Unauthorized()
       }
 
       const parentFound = await transaction.user.doesParentUserWithSpecificSecondPasswordHashExist({
@@ -237,17 +237,17 @@ export const createParentRouter = ({
       })
 
       if (!parentFound) {
-        throw new Unauthorized()
+        throw new HttpErrors.Unauthorized()
       }
 
       return { familyId, parentUserId: parentId }
     }
   }
 
-  router.post('/create-add-device-token', json(), async (req, res, next) => {
+  router.post('/create-add-device-token', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isCreateRegisterDeviceTokenRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const { token, deviceId } = await database.transaction(async (transaction) => {
@@ -267,10 +267,10 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/link-mail-address', json(), async (req, res, next) => {
+  router.post('/link-mail-address', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isLinkParentMailAddressRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await linkMailAddress({
@@ -288,10 +288,10 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/remove-device', json(), async (req, res, next) => {
+  router.post('/remove-device', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRemoveDeviceRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await database.transaction(async (transaction) => {
@@ -316,10 +316,10 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/create-identity-token', json(), async (req, res, next) => {
+  router.post('/create-identity-token', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRequestIdentityTokenRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const body = req.body
@@ -347,10 +347,10 @@ export const createParentRouter = ({
     }
   })
 
-  router.post('/delete-account', json(), async (req, res, next) => {
+  router.post('/delete-account', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isDeleteAccountPayload(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await deleteAccount({ database, request: req.body, websocket })

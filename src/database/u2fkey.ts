@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,9 +17,9 @@
 
 import * as Sequelize from 'sequelize'
 import { createHash } from 'crypto'
-import { familyIdColumn, idWithinFamilyColumn, timestampColumn } from './columns'
-import { SequelizeAttributes } from './types'
-import { intToBuffer } from '../util/binary-number'
+import { familyIdColumn, idWithinFamilyColumn, timestampColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
+import { intToBuffer } from '../util/binary-number.js'
 
 export function getU2fKeyId({ keyHandle, publicKey }: {
   keyHandle: Buffer

@@ -16,9 +16,9 @@
  */
 
 import { createPrivateKey, createPublicKey, diffieHellman } from 'crypto'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { calculateExpireTime } from '../../database/devicedhkey'
-import { isVersionId } from '../../util/token'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { calculateExpireTime } from '../../database/devicedhkey.js'
+import { isVersionId } from '../../util/token.js'
 
 export async function getSharedSecret({
   transaction, familyId, deviceId, keyId, otherPublicKey

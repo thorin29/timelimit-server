@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { SimpleDatabase } from '../../database/simple'
-import { generateAuthToken, generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { sendUninstallWarnings } from '../warningmail/uninstall'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { generateAuthToken, generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { sendUninstallWarnings } from '../warningmail/uninstall.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export async function reportDeviceRemoved ({ database, deviceAuthToken, websocket }: {
   database: SimpleDatabase
@@ -70,7 +70,7 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
       const isOldDevice = await transaction.oldDevice.hasAuthToken(deviceAuthToken)
 
       if (!isOldDevice) {
-        throw new Unauthorized('device not found')
+        throw new HttpErrors.Unauthorized('device not found')
       }
 
       // otherwise, we processed this already so do not return any eror

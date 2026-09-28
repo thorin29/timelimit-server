@@ -15,18 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { Router } from 'express'
-import { BadRequest, Unauthorized } from 'http-errors'
-import { Config } from '../config'
-import { VisibleConnectedDevicesManager } from '../connected-devices'
-import { SimpleDatabase } from '../database/simple'
-import { reportDeviceRemoved } from '../function/device/report-device-removed'
-import { applyActionsFromDevice } from '../function/sync/apply-actions'
-import { generateServerDataStatus } from '../function/sync/get-server-data-status'
-import { EventHandler } from '../monitoring/eventhandler'
-import { WebsocketApi } from '../websocket'
-import { isClientPullChangesRequest, isClientPushChangesRequest, isRequestWithAuthToken } from './validator'
+import HttpErrors from 'http-errors'
+import { Config } from '../config.js'
+import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { reportDeviceRemoved } from '../function/device/report-device-removed.js'
+import { applyActionsFromDevice } from '../function/sync/apply-actions/index.js'
+import { generateServerDataStatus } from '../function/sync/get-server-data-status/index.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { isClientPullChangesRequest, isClientPushChangesRequest, isRequestWithAuthToken } from './validator.js'
 
 const getRoundedTimestampForLastConnectivity = () => {
   const now = Date.now()
@@ -43,7 +43,7 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
 }) => {
   const router = Router()
 
-  router.post('/push-actions', json({
+  router.post('/push-actions', BodyParser.json({
     limit: '5120kb'
   }), async (req, res, next) => {
     try {
@@ -52,7 +52,7 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
       if (!isClientPushChangesRequest(req.body)) {
         eventHandler.countEvent('pushChangesRequest invalid')
 
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const { shouldDoFullSync } = await applyActionsFromDevice({
@@ -76,7 +76,7 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
     }
   })
 
-  router.post('/pull-status', json(), async (req, res, next) => {
+  router.post('/pull-status', BodyParser.json(), async (req, res, next) => {
     try {
       eventHandler.countEvent('pullStatusRequest')
 
@@ -85,14 +85,14 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
       if (!isClientPullChangesRequest(body)) {
         eventHandler.countEvent('pullStatusRequest invalid')
 
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const serverStatus = await database.transaction(async (transaction) => {
         const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdAndLastConnectivityByAuthToken(body.deviceAuthToken)
 
         if (!deviceEntry) {
-          throw new Unauthorized()
+          throw new HttpErrors.Unauthorized()
         }
 
         const { familyId, deviceId, lastConnectivity } = deviceEntry
@@ -133,10 +133,10 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
     }
   })
 
-  router.post('/report-removed', json(), async (req, res, next) => {
+  router.post('/report-removed', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRequestWithAuthToken(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await reportDeviceRemoved({
@@ -151,10 +151,10 @@ export const createSyncRouter = ({ config, database, websocket, connectedDevices
     }
   })
 
-  router.post('/is-device-removed', json(), async (req, res, next) => {
+  router.post('/is-device-removed', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRequestWithAuthToken(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const isDeviceRemoved: boolean = await database.transaction(async (transaction) => {

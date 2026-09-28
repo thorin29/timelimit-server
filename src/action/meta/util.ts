@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { checkIfHexString } from '../../util/hexstring'
-import { hasDuplicates } from '../../util/list'
-import { isIdWithinFamily } from '../../util/token'
-import { InvalidActionParameterException } from './exception'
+import { checkIfHexString } from '../../util/hexstring.js'
+import { hasDuplicates } from '../../util/list.js'
+import { isIdWithinFamily } from '../../util/token.js'
+import { InvalidActionParameterException } from './exception.js'
 
 export const assertIdWithinFamily = ({ value, actionType, field }: {
   value: string

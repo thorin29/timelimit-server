@@ -16,12 +16,12 @@
  */
 
 import { compile } from 'ejs'
-import { parseOneAddress } from 'email-addresses'
+import Mail from 'email-addresses'
 import { readFileSync } from 'fs'
 import { createTransport } from 'nodemailer'
 import { resolve } from 'path'
-import { Config } from '../config'
-import { IllegalStateException } from '../exception'
+import { Config } from '../config.js'
+import { IllegalStateException } from '../exception/index.js'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
 const mailServerBlacklist = (process.env.MAIL_SERVER_BLACKLIST || '').split(',').filter((item) => !!item)
@@ -38,7 +38,7 @@ const mailTransport = isDevMode || mailTransportConfig !== undefined ?
 
 function createMailTemplateSender (templateName: string) {
   const compileTemplate = (filename: string) => compile(
-    readFileSync(resolve(__dirname, '../../other/mail', templateName, filename)).toString('utf8')
+    readFileSync(resolve(import.meta.dirname, '../../other/mail', templateName, filename)).toString('utf8')
   )
 
   const subjectTemplate = compileTemplate('subject.ejs')
@@ -249,7 +249,7 @@ export function isMailAddressCoveredByWhitelist (config: Config, mail: string): 
 }
 
 export function sanitizeMailAddress (input: string): string | null {
-  const parsed = parseOneAddress(input)
+  const parsed = Mail.parseOneAddress(input)
 
   if ((!parsed) || (parsed.type !== 'mailbox')) {
     return null

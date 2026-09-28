@@ -15,19 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as basicAuth from 'basic-auth'
-import * as express from 'express'
-import { VisibleConnectedDevicesManager } from '../connected-devices'
-import { Config } from '../config'
-import { SimpleDatabase } from '../database/simple'
-import { EventHandler } from '../monitoring/eventhandler'
-import { WebsocketApi } from '../websocket'
-import { createAdminRouter } from './admin'
-import { createAuthRouter } from './auth'
-import { createChildRouter } from './child'
-import { createParentRouter } from './parent'
-import { createPurchaseRouter } from './purchase'
-import { createSyncRouter } from './sync'
+import basicAuth from 'basic-auth'
+import express from 'express'
+import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
+import { Config } from '../config.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { createAdminRouter } from './admin.js'
+import { createAuthRouter } from './auth.js'
+import { createChildRouter } from './child.js'
+import { createParentRouter } from './parent.js'
+import { createPurchaseRouter } from './purchase.js'
+import { createSyncRouter } from './sync.js'
 
 const adminToken = process.env.ADMIN_TOKEN || ''
 

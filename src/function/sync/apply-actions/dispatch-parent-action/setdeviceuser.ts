@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SetDeviceUserAction } from '../../../../action'
-import { Cache } from '../cache'
-import { MissingDeviceException, MissingUserException } from '../exception/missing-item'
+import { SetDeviceUserAction } from '../../../../action/index.js'
+import { Cache } from '../cache.js'
+import { MissingDeviceException, MissingUserException } from '../exception/missing-item.js'
 
 export async function dispatchSetDeviceUser ({ action, cache }: {
   action: SetDeviceUserAction

@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { StaticMessageException } from '../../exception'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { StaticMessageException } from '../../exception/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
 
 const getStatusByMailAddress = async ({
   mail, transaction

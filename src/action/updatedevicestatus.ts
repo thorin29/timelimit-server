@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { minPlatformLevel, maxPlatformLevel, minPlatformTypeLength, maxPlatformTypeLength } from '../database/device'
-import { NewPermissionStatus } from '../model/newpermissionstatus'
-import { ProtectionLevel } from '../model/protectionlevel'
-import { RuntimePermissionStatus } from '../model/runtimepermissionstatus'
-import { AppLogicAction } from './basetypes'
-import { assertSafeInteger, throwOutOfRange } from './meta/util'
+import { minPlatformLevel, maxPlatformLevel, minPlatformTypeLength, maxPlatformTypeLength } from '../database/device.js'
+import { NewPermissionStatus } from '../model/newpermissionstatus.js'
+import { ProtectionLevel } from '../model/protectionlevel.js'
+import { RuntimePermissionStatus } from '../model/runtimepermissionstatus.js'
+import { AppLogicAction } from './basetypes.js'
+import { assertSafeInteger, throwOutOfRange } from './meta/util.js'
 
 const actionType = 'UpdateDeviceStatusAction'
 

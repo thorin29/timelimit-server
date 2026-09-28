@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { allowedTimeWarningFlags } from '../database/category'
-import { categoryTimeWarningConstants } from '../database/categorytimewarning'
-import { ParentAction } from './basetypes'
-import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util'
+import { allowedTimeWarningFlags } from '../database/category.js'
+import { categoryTimeWarningConstants } from '../database/categorytimewarning.js'
+import { ParentAction } from './basetypes.js'
+import { assertIdWithinFamily, assertSafeInteger, throwOutOfRange } from './meta/util.js'
 
 const actionType = 'UpdateCategoryTimeWarningsAction'
 

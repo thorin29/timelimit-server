@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export { getCategoryDataToSync } from './diff'
-export { getCategoryBaseDatas } from './base-data'
-export { getRules } from './rules'
-export { getTasks } from './tasks'
-export { getUsedTimes } from './used-times'
-export { getCategoryAssignedApps } from './assigned-apps'
+export { getCategoryDataToSync } from './diff.js'
+export { getCategoryBaseDatas } from './base-data.js'
+export { getRules } from './rules.js'
+export { getTasks } from './tasks.js'
+export { getUsedTimes } from './used-times.js'
+export { getCategoryAssignedApps } from './assigned-apps.js'

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2024 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,10 +16,10 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { ValidationException } from '../exception'
-import { MinuteOfDay } from '../util/minuteofday'
-import { booleanColumn, familyIdColumn, idWithinFamilyColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { ValidationException } from '../exception/index.js'
+import { MinuteOfDay } from '../util/minuteofday.js'
+import { booleanColumn, familyIdColumn, idWithinFamilyColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 interface TimelimitRuleAttributesVersion1 {
   familyId: string

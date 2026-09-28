@@ -15,17 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { RegisterChildDeviceRequest } from '../../api/schema'
-import { SimpleDatabase } from '../../database/simple'
-import { generateAuthToken, generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { Config } from '../../config'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
-import { generateServerDataStatus } from '../sync/get-server-data-status'
-import { EventHandler } from '../../monitoring/eventhandler'
-import { ServerDataStatus } from '../../object/serverdatastatus'
-import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
+import HttpErrors from 'http-errors'
+import { RegisterChildDeviceRequest } from '../../api/schema.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { generateAuthToken, generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { Config } from '../../config.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
+import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
+import { EventHandler } from '../../monitoring/eventhandler.js'
+import { ServerDataStatus } from '../../object/serverdatastatus.js'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
 export const addChildDevice = async ({ config, database, eventHandler, websocket, request }: {
   config: Config
@@ -43,7 +43,7 @@ export const addChildDevice = async ({ config, database, eventHandler, websocket
     const entry = await transaction.addDeviceToken.getAndDestroy(request.registerToken.toLowerCase())
 
     if (!entry) {
-      throw new Unauthorized()
+      throw new HttpErrors.Unauthorized()
     }
 
     const { deviceId, familyId } = entry

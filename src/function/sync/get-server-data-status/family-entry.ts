@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { GetServerDataStatusIllegalStateException } from './exception'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { GetServerDataStatusIllegalStateException } from './exception.js'
 
 export interface FamilyEntry {
   familyId: string

@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict, Unauthorized } from 'http-errors'
-import { SimpleDatabase } from '../../database/simple'
-import { generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUserId, parentPasswordSecondHash, database, websocket }: {
   mailAuthToken: string
@@ -35,7 +35,7 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
     const familyId = await transaction.device.getFamilyIdByAuthToken(deviceAuthToken)
 
     if (familyId === null) {
-      throw new Unauthorized()
+      throw new HttpErrors.Unauthorized()
     }
 
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
@@ -43,7 +43,7 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
     const exisitingUser = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (exisitingUser) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     const parentEntry = await transaction.user.getParentUserMailAndSecondPasswordHash({
@@ -52,19 +52,19 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
     })
 
     if (!parentEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     if (parentEntry.mail !== '') {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     if (parentEntry.secondPasswordHash !== parentPasswordSecondHash) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     if (!parentEntry.secondPasswordSalt) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     await transaction.user.updateParentUserMailAddress({

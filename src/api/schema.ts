@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ClientDataStatus } from '../object/clientdatastatus'
-import { optionalPasswordRegex, optionalSaltRegex } from '../util/password'
+import { ClientDataStatus } from '../object/clientdatastatus.js'
+import { optionalPasswordRegex, optionalSaltRegex } from '../util/password.js'
 
 export interface ClientPushChangesRequest {
   deviceAuthToken: string
@@ -175,5 +175,5 @@ export interface DeleteAccountPayload {
   mailAuthTokens: Array<string>
 }
 
-export { SerializedParentAction, SerializedChildAction, SerializedAppLogicAction } from '../action/serialization'
-export { ServerDataStatus } from '../object/serverdatastatus'
+export { SerializedParentAction, SerializedChildAction, SerializedAppLogicAction } from '../action/serialization/index.js'
+export { ServerDataStatus } from '../object/serverdatastatus.js'

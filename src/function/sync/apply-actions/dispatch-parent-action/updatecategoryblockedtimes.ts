@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { blockedTimesBitmaskLength, UpdateCategoryBlockedTimesAction } from '../../../../action/updatecategoryblockedtimes'
-import { validateAndParseBitmask } from '../../../../util/bitmask'
-import { Cache } from '../cache'
-import { MissingCategoryException } from '../exception/missing-item'
-import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
+import { blockedTimesBitmaskLength, UpdateCategoryBlockedTimesAction } from '../../../../action/updatecategoryblockedtimes.js'
+import { validateAndParseBitmask } from '../../../../util/bitmask.js'
+import { Cache } from '../cache.js'
+import { MissingCategoryException } from '../exception/missing-item.js'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit.js'
 
 export async function dispatchUpdateCategoryBlockedTimes ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryBlockedTimesAction

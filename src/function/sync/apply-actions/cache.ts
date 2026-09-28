@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { memoize } from 'lodash'
+import memoize from 'lodash/memoize.js'
 import * as Sequelize from 'sequelize'
-import { Config } from '../../../config'
-import { VisibleConnectedDevicesManager } from '../../../connected-devices'
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { setToList } from '../../../util/list'
-import { generateVersionId } from '../../../util/token'
-import { SourceUserNotFoundException } from './exception/illegal-state'
-import { InvalidChildActionIntegrityValue } from './exception/integrity'
+import { Config } from '../../../config.js'
+import { VisibleConnectedDevicesManager } from '../../../connected-devices/index.js'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { setToList } from '../../../util/list.js'
+import { generateVersionId } from '../../../util/token.js'
+import { SourceUserNotFoundException } from './exception/illegal-state.js'
+import { InvalidChildActionIntegrityValue } from './exception/integrity.js'
 
 export class Cache {
   readonly familyId: string

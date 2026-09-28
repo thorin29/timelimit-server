@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Cache } from '../sync/apply-actions/cache'
-import { ApplyActionException } from '../sync/apply-actions/exception'
+import { Cache } from '../sync/apply-actions/cache.js'
+import { ApplyActionException } from '../sync/apply-actions/exception/index.js'
 import {
   EncryptableParentPassword, assertParentPasswordValid,
   PlaintextParentPassword, ParentPasswordValidationException
-} from '../../api/schema'
-import { decrypt, DecryptException } from './decrypt'
+} from '../../api/schema.js'
+import { decrypt, DecryptException } from './decrypt.js'
 
 export async function decryptParentPassword({ cache, password } : {
   cache: Cache

@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { DeleteAccountPayload } from '../../api/schema'
-import { SimpleDatabase } from '../../database/simple'
-import { sendAccountDeletedMail } from '../../util/mail'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { deleteFamilies } from './delete-families'
+import HttpErrors from 'http-errors'
+import { DeleteAccountPayload } from '../../api/schema.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { sendAccountDeletedMail } from '../../util/mail.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { deleteFamilies } from './delete-families.js'
 
 export async function deleteAccount({ request, database, websocket }: {
   request: DeleteAccountPayload
@@ -32,7 +32,7 @@ export async function deleteAccount({ request, database, websocket }: {
     const familyId = await transaction.device.getFamilyIdByAuthToken(request.deviceAuthToken)
 
     if (familyId === null) {
-      throw new Unauthorized()
+      throw new HttpErrors.Unauthorized()
     }
 
     const registeredMailAddresses = new Set<string>(await transaction.user.getAllMailAddressesByFamilyId(familyId))
@@ -46,15 +46,15 @@ export async function deleteAccount({ request, database, websocket }: {
         invalidate: true
       })
 
-      if (!registeredMailAddresses.has(info.mail)) throw new Unauthorized()
+      if (!registeredMailAddresses.has(info.mail)) throw new HttpErrors.Unauthorized()
 
       authenticatedMailAddresses.add(info.mail)
     }
 
-    if (registeredMailAddresses.size !== authenticatedMailAddresses.size) throw new Unauthorized()
+    if (registeredMailAddresses.size !== authenticatedMailAddresses.size) throw new HttpErrors.Unauthorized()
 
     registeredMailAddresses.forEach((mail) => {
-      if (!authenticatedMailAddresses.has(mail)) throw new Unauthorized()
+      if (!authenticatedMailAddresses.has(mail)) throw new HttpErrors.Unauthorized()
     })
 
     const deviceEntries = await transaction.device.getDeviceIdsAndAuthTokensByFamilyId(familyId)

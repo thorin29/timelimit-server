@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { difference } from 'lodash'
-import { SimpleDatabase } from '../../database/simple'
-import { deleteFamilies } from './delete-families'
+import difference from 'lodash/difference.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { deleteFamilies } from './delete-families.js'
 
 export async function deleteOldFamilies (database: SimpleDatabase) {
   const oldFamilyIds = await findOldFamilyIds(database)

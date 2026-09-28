@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,14 +16,14 @@
  */
 
 import { QueryInterface, Sequelize, Transaction } from 'sequelize'
-import { MinuteOfDay } from '../../../util/minuteofday'
-import { attributesVersion1 as sessionDurationAttributes } from '../../sessionduration'
-import { attributesVersion2 as timelimitRuleAttributes } from '../../timelimitrule'
+import { MinuteOfDay } from '../../../util/minuteofday.js'
+import { attributesVersion1 as sessionDurationAttributes } from '../../sessionduration.js'
+import { attributesVersion2 as timelimitRuleAttributes } from '../../timelimitrule.js'
 import {
   attributesVersion1 as usedTimeAttributesVersion1,
   attributesVersion2 as usedTimeAttributesVersion2,
   attributesVersion3 as usedTimeAttributesVersion3
-} from '../../usedtime'
+} from '../../usedtime.js'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({

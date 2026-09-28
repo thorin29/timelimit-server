@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,12 +16,12 @@
  */
 
 import { ForeignKeyConstraintError, UniqueConstraintError } from 'sequelize'
-import { ClientPushChangesRequestAction } from '../../../../api/schema'
-import { EventHandler } from '../../../../monitoring/eventhandler'
-import { ApplyActionDatabaseException } from '../exception/database'
-import { ApplyActionException } from '../exception/index'
-import { EncodedActionSchemaMismatchException } from '../exception/invalidaction'
-import { parseEncodedAction } from '../parse-encoded-action'
+import { ClientPushChangesRequestAction } from '../../../../api/schema.js'
+import { EventHandler } from '../../../../monitoring/eventhandler.js'
+import { ApplyActionDatabaseException } from '../exception/database.js'
+import { ApplyActionException } from '../exception/index.js'
+import { EncodedActionSchemaMismatchException } from '../exception/invalidaction.js'
+import { parseEncodedAction } from '../parse-encoded-action.js'
 
 export async function dispatch<T1 extends { type: string }, T2> ({ type, action, validator, parser, applier, eventHandler }: {
   type: 'app logic' | 'parent' | 'child'

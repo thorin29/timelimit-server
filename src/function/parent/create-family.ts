@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { generateServerDataStatus } from '../sync/get-server-data-status'
-import { NewDeviceInfo, PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema'
-import { Config } from '../../config'
-import { SimpleDatabase } from '../../database/simple'
-import { EventHandler } from '../../monitoring/eventhandler'
-import { ServerDataStatus } from '../../object/serverdatastatus'
-import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
-import { generateAuthToken, generateIdWithinFamily } from '../../util/token'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
+import HttpErrors from 'http-errors'
+import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
+import { NewDeviceInfo, PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema.js'
+import { Config } from '../../config.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { EventHandler } from '../../monitoring/eventhandler.js'
+import { ServerDataStatus } from '../../object/serverdatastatus.js'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
+import { generateAuthToken, generateIdWithinFamily } from '../../util/token.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
 
 export async function createFamily ({
   config, database, eventHandler, mailAuthToken, firstParentDevice,
@@ -56,7 +56,7 @@ export async function createFamily ({
     const existingUserEntry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (existingUserEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     const userId = generateIdWithinFamily()

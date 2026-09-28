@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,8 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { familyIdColumn, idWithinFamilyColumn, versionColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { familyIdColumn, idWithinFamilyColumn, versionColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 export interface EncryptedAppListAttributes {
   familyId: string

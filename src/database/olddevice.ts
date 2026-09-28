@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,8 +16,8 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { authTokenColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { authTokenColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 export interface OldDeviceAttributes {
   deviceAuthToken: string

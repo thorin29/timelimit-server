@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,10 +17,10 @@
 
 import { randomInt } from 'crypto'
 import { readFileSync } from 'fs'
-import { range } from 'lodash'
+import range from 'lodash/range.js'
 import { resolve } from 'path'
 
-const wordlist = readFileSync(resolve(__dirname, '../../other/wordlist/de.txt'))
+const wordlist = readFileSync(resolve(import.meta.dirname, '../../other/wordlist/de.txt'))
   .toString()
   .split('\n')
   .filter((item) => item.trim().length > 0)

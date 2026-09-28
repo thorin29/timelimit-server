@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Forbidden, Gone, TooManyRequests, Unauthorized } from 'http-errors'
-import { SimpleDatabase } from '../../database/simple'
-import { sendAuthenticationMail } from '../../util/mail'
-import { areWordSequencesEqual, randomWords } from '../../util/random-words'
-import { checkMailSendLimit } from '../../util/ratelimit-authmail'
-import { createAuthTokenByMailAddress } from './index'
+import HttpErrors from 'http-errors'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { sendAuthenticationMail } from '../../util/mail.js'
+import { areWordSequencesEqual, randomWords } from '../../util/random-words.js'
+import { checkMailSendLimit } from '../../util/ratelimit-authmail.js'
+import { createAuthTokenByMailAddress } from './index.js'
 
 export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }: {
   mail: string
@@ -36,7 +36,7 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
       const deviceEntry = await transaction.device.getFamilyIdAndDeviceNameByAuthToken(deviceAuthToken)
 
       if (!deviceEntry) {
-        throw new Unauthorized()
+        throw new HttpErrors.Unauthorized()
       }
 
       const hasMail = await transaction.user.doesFamilyHaveUserWithMail({ familyId: deviceEntry.familyId, mail })
@@ -54,7 +54,7 @@ export const sendLoginCode = async ({ mail, deviceAuthToken, locale, database }:
   try {
     await checkMailSendLimit(mail)
   } catch (ex) {
-    throw new TooManyRequests()
+    throw new HttpErrors.TooManyRequests()
   }
 
   const code = randomWords(3)
@@ -92,27 +92,27 @@ export const signInByMailCode = async ({ mailLoginToken, receivedCode, database 
     const entry = await transaction.mailLoginToken.query(mailLoginToken)
 
     if ((!entry) || entry.remainingAttempts === 0) {
-      throw new Gone()
+      throw new HttpErrors.Gone()
     }
 
     if (!areWordSequencesEqual(entry.code, receivedCode)) {
       const updateResult = await transaction.mailLoginToken.updateRemainingAttempts(mailLoginToken, entry.remainingAttempts - 1)
 
       if (!updateResult.found) {
-        throw new Gone()
+        throw new HttpErrors.Gone()
       }
 
       if (entry.remainingAttempts === 1) {
-        return () => { throw new Gone() }
+        return () => { throw new HttpErrors.Gone() }
       } else {
-        return () => { throw new Forbidden() }
+        return () => { throw new HttpErrors.Forbidden() }
       }
     }
 
     const destroyResult = await transaction.mailLoginToken.destroy(mailLoginToken)
 
     if (!destroyResult.found) {
-      throw new Gone()
+      throw new HttpErrors.Gone()
     }
 
     const mailAuthToken = await createAuthTokenByMailAddress({

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabase } from '../database/simple'
-import { deleteOldFamilies } from '../function/cleanup/delete-old-families'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { deleteOldFamilies } from '../function/cleanup/delete-old-families.js'
 
 export function initDeleteOldFamiliesWorker ({ database }: {
   database: SimpleDatabase

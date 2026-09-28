@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,9 +16,9 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { serializedBitmaskRegex } from '../util/bitmask'
-import { booleanColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn, versionColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { serializedBitmaskRegex } from '../util/bitmask.js'
+import { booleanColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn, versionColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 export const allowedTimeWarningFlags = 1 | 2 | 4 | 8 | 16
 

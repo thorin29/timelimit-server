@@ -1,5 +1,6 @@
 {
   "name": "timelimit-server-2018",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "description": "",

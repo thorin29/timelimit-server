@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict, Unauthorized } from 'http-errors'
-import { SimpleDatabase } from '../../database/simple'
-import { WebsocketApi } from '../../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { WebsocketApi } from '../../websocket/index.js'
 
 export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websocket }: {
   deviceAuthToken: string
@@ -29,7 +29,7 @@ export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websock
     const ownDeviceEntry = await transaction.device.getFamilyIdAndCurrentUserByAuthToken(deviceAuthToken)
 
     if (!ownDeviceEntry) {
-      throw new Unauthorized()
+      throw new HttpErrors.Unauthorized()
     }
 
     const deviceUserEntry = await transaction.user.getCurrentDeviceIdByUserId({
@@ -38,7 +38,7 @@ export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websock
     })
 
     if (!deviceUserEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     const otherDeviceAuthToken = await transaction.device.getDeviceAuthTokenByDeviceId({
@@ -47,7 +47,7 @@ export const logoutAtPrimaryDevice = async ({ deviceAuthToken, database, websock
     })
 
     if (otherDeviceAuthToken === null) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     websocket.triggerLogoutByDeviceAuthToken({
