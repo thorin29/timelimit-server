@@ -24,7 +24,7 @@ import { deleteOldUsedTimes } from './delete-old-used-times.js'
 
 export interface WorkerCollectionItem {
   label: string
-  run: () => Promise<void>
+  run: (now: number) => Promise<void>
   initialDelay: number
   interval: number
 }
@@ -39,7 +39,7 @@ export function initWorkers ({ database, websocket }: {
     const doWorkSafe = () => {
       console.log(worker.label + ' now')
 
-      worker.run().then(() => {
+      worker.run(Date.now()).then(() => {
         console.log('finished ' + worker.label)
       }).catch((ex) => {
         console.warn('error ' + worker.label, ex)
@@ -63,25 +63,25 @@ export function getWorkerCollection ({ database, websocket }: {
   return [
     {
       label: 'deleting deprecated purchases',
-      run: async () => { await deleteDeprecatedPurchases({ database, websocket }) },
+      run: async (now) => { await deleteDeprecatedPurchases({ database, websocket, now }) },
       initialDelay: 1000 * 60 * 5 /* after 5 minutes */,
       interval: 1000 * 60 * 60 /* every hour */,
     },
     {
       label: 'deleting old families',
-      run: async () => { await deleteOldFamilies(database) },
+      run: async (now) => { await deleteOldFamilies({ database, now }) },
       initialDelay: 1000 * 60 * 23 /* after 23 minutes */,
       interval: 1000 * 60 * 60 /* every 4 hours */,
     },
     {
       label: 'deleting old tokens',
-      run: async () => { await deleteOldTokens({ database }) },
+      run: async (now) => { await deleteOldTokens({ database , now}) },
       initialDelay: 1000 * 60 * 7 /* after 7 minutes */,
       interval: 1000 * 60 * 60 /* every hour */,
     },
     {
       label: 'deleting old used times',
-      run: async () => { await deleteOldUsedTimes({ database }) },
+      run: async (now) => { await deleteOldUsedTimes({ database, now }) },
       initialDelay: 1000 * 60 * 13 /* after 13 minutes */,
       interval: 1000 * 60 * 30 /* every 30 minutes */,
     },

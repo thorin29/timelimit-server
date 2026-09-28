@@ -20,16 +20,17 @@ import { SimpleDatabase } from '../database/simple/index.js'
 import { notifyClientsAboutChangesDelayed } from '../function/websocket/index.js'
 import { WebsocketApi } from '../websocket/index.js'
 
-export async function deleteDeprecatedPurchases ({ database, websocket }: {
+export async function deleteDeprecatedPurchases ({ database, websocket, now }: {
   database: SimpleDatabase
   websocket: WebsocketApi
+  now: number
 }) {
   await database.transaction(async (transaction) => {
     const affectedFamilyIds = (await transaction.legacy.database.family.findAll({
       where: {
         hasFullVersion: true,
         fullVersionUntil: {
-          [Sequelize.Op.lt]: Date.now().toString(10)
+          [Sequelize.Op.lt]: now
         }
       },
       attributes: ['familyId'],

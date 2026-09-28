@@ -20,11 +20,10 @@ import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../database/simple/index.js'
 import { generateVersionId } from '../util/token.js'
 
-export async function deleteOldUsedTimes ({ database }: {
+export async function deleteOldUsedTimes ({ database, now }: {
   database: SimpleDatabase
+  now: number
 }) {
-  const now = Date.now()
-
   await database.transaction(async (transaction) => {
     // get matching categories
     const categoriesToCleanUpOne = (await transaction.legacy.database.usedTime.findAll({

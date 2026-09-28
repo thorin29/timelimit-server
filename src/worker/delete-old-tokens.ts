@@ -18,25 +18,26 @@
 import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../database/simple/index.js'
 
-export async function deleteOldTokens ({ database }: {
+export async function deleteOldTokens ({ database, now }: {
   database: SimpleDatabase
+  now: number
 }) {
   await database.transaction(async (transaction) => {
     await transaction.legacy.database.authtoken.destroy({
       where: {
         createdAt: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
+          [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
         }
       },
       transaction: transaction.legacy.transaction
     })
 
-    await transaction.addDeviceToken.destroyOlderThan(Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */)
+    await transaction.addDeviceToken.destroyOlderThan(now - 1000 * 60 * 60 * 3 /* 3 hours */)
 
     await transaction.legacy.database.mailLoginToken.destroy({
       where: {
         createdAt: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
+          [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
         }
       },
       transaction: transaction.legacy.transaction
@@ -45,7 +46,7 @@ export async function deleteOldTokens ({ database }: {
     await transaction.legacy.database.deviceDhKey.destroy({
       where: {
         expireAt: {
-          [Sequelize.Op.lt]: Date.now().toString()
+          [Sequelize.Op.lt]: now.toString()
         }
       },
       transaction: transaction.legacy.transaction

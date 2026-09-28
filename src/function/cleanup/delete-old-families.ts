@@ -19,8 +19,11 @@ import difference from 'lodash/difference.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
 import { deleteFamilies } from './delete-families.js'
 
-export async function deleteOldFamilies (database: SimpleDatabase) {
-  const oldFamilyIds = await findOldFamilyIds(database)
+export async function deleteOldFamilies ({ database, now }: {
+  database: SimpleDatabase
+  now: number
+}) {
+  const oldFamilyIds = await findOldFamilyIds({ database, now })
 
   if (oldFamilyIds.length > 0) {
     const familyIdsToDelete = oldFamilyIds.slice(0, 256) /* limit to 256 families per execution */
@@ -34,9 +37,10 @@ export async function deleteOldFamilies (database: SimpleDatabase) {
   }
 }
 
-export async function findOldFamilyIds (database: SimpleDatabase): Promise<Array<string>> {
-  const now = Date.now()
-
+export async function findOldFamilyIds ({ database, now }: {
+  database: SimpleDatabase
+  now: number
+}): Promise<Array<string>> {
   const threeMonthsAgo = now - 1000 * 60 * 60 * 24 * 90 // 90 days
 
   return database.transaction(async (transaction) => {
