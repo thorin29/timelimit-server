@@ -18,6 +18,7 @@
 import { json } from 'body-parser'
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
+import { Config } from '../config'
 import { SimpleDatabase } from '../database/simple'
 import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail'
 import { isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail'
@@ -26,7 +27,10 @@ import {
   isSignInByMailCodeRequest
 } from './validator'
 
-export const createAuthRouter = (database: SimpleDatabase) => {
+export const createAuthRouter = ({ config, database }: {
+  config: Config
+  database: SimpleDatabase
+}) => {
   const router = Router()
 
   router.post('/send-mail-login-code-v2', json(), async (req, res, next) => {
@@ -41,7 +45,7 @@ export const createAuthRouter = (database: SimpleDatabase) => {
         throw new BadRequest()
       }
 
-      if (!isMailAddressCoveredByWhitelist(mail)) {
+      if (!isMailAddressCoveredByWhitelist(config, mail)) {
         res.json({ mailAddressNotWhitelisted: true })
       } else if (isMailServerBlacklisted(mail)) {
         res.json({ mailServerBlacklisted: true })

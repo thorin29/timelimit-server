@@ -17,7 +17,7 @@
 
 import { memoize } from 'lodash'
 import * as Sequelize from 'sequelize'
-import { config } from '../../../config'
+import { Config } from '../../../config'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
 import { SimpleDatabaseTransaction } from '../../../database/simple'
 import { setToList } from '../../../util/list'
@@ -47,11 +47,12 @@ export class Cache {
   triggeredSyncLevel: 0 | 1 | 2 = 0 // 0 = no, 1 = unimportant, 2 = important
   targetedTriggeredSyncLevels = new Map<string, 0 | 1 | 2>()
 
-  constructor ({ familyId, deviceId, hasFullVersion, transaction, connectedDevicesManager }: {
+  constructor ({ familyId, deviceId, hasFullVersion, transaction, config, connectedDevicesManager }: {
     familyId: string
     deviceId: string
     hasFullVersion: boolean
     transaction: SimpleDatabaseTransaction
+    config: Config
     connectedDevicesManager: VisibleConnectedDevicesManager
   }) {
     this.familyId = familyId

@@ -18,6 +18,7 @@
 import { BadRequest } from 'http-errors'
 import { ClientPushChangesRequest } from '../../../api/schema'
 import { VisibleConnectedDevicesManager } from '../../../connected-devices'
+import { Config } from '../../../config'
 import { SimpleDatabase } from '../../../database/simple'
 import { shouldRetryWithException } from '../../../database'
 import { EventHandler } from '../../../monitoring/eventhandler'
@@ -31,7 +32,8 @@ import { IllegalStateException } from './exception/illegal-state'
 import { SequenceNumberRepeatedException } from './exception/sequence'
 import { assertActionIntegrity } from './integrity'
 
-export const applyActionsFromDevice = async ({ database, request, websocket, connectedDevicesManager, eventHandler }: {
+export const applyActionsFromDevice = async ({ config, database, request, websocket, connectedDevicesManager, eventHandler }: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   request: ClientPushChangesRequest
@@ -55,6 +57,7 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
       hasFullVersion: baseInfo.hasFullVersion,
       familyId: baseInfo.familyId,
       deviceId: baseInfo.deviceId,
+      config,
       connectedDevicesManager
     })
 

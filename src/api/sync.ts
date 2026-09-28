@@ -18,6 +18,7 @@
 import { json } from 'body-parser'
 import { Router } from 'express'
 import { BadRequest, Unauthorized } from 'http-errors'
+import { Config } from '../config'
 import { VisibleConnectedDevicesManager } from '../connected-devices'
 import { SimpleDatabase } from '../database/simple'
 import { reportDeviceRemoved } from '../function/device/report-device-removed'
@@ -33,7 +34,8 @@ const getRoundedTimestampForLastConnectivity = () => {
   return now - (now % (1000 * 60 * 60 * 12 /* 12 hours */))
 }
 
-export const createSyncRouter = ({ database, websocket, connectedDevicesManager, eventHandler }: {
+export const createSyncRouter = ({ config, database, websocket, connectedDevicesManager, eventHandler }: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
@@ -55,6 +57,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
 
       const { shouldDoFullSync } = await applyActionsFromDevice({
         request: req.body,
+        config,
         database,
         websocket,
         connectedDevicesManager,
@@ -107,6 +110,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
           familyId,
           deviceId,
           clientStatus: body.status,
+          config,
           eventHandler
         })
       })

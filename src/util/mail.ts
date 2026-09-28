@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@ import { parseOneAddress } from 'email-addresses'
 import { readFileSync } from 'fs'
 import { createTransport } from 'nodemailer'
 import { resolve } from 'path'
-import { config } from '../config'
+import { Config } from '../config'
 import { IllegalStateException } from '../exception'
 
 const mailimprint = process.env.MAIL_IMPRINT || 'not defined'
@@ -221,7 +221,7 @@ export function isMailServerBlacklisted (mail: string): boolean {
   return mailServerBlacklist.indexOf(domain.toLowerCase()) !== -1
 }
 
-export function isMailAddressCoveredByWhitelist (mail: string): boolean {
+export function isMailAddressCoveredByWhitelist (config: Config, mail: string): boolean {
   if (config.mailWhitelist.length === 0) {
     return true
   }

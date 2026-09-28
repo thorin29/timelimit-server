@@ -19,7 +19,7 @@ import { json } from 'body-parser'
 import { createHmac } from 'crypto'
 import { Router } from 'express'
 import { BadRequest, Forbidden, Unauthorized } from 'http-errors'
-import { config } from '../config'
+import { Config } from '../config'
 import { SimpleDatabase, SimpleDatabaseTransaction } from '../database/simple'
 import { deleteAccount } from '../function/cleanup/account-deletion'
 import { removeDevice } from '../function/device/remove-device'
@@ -42,8 +42,9 @@ import {
 } from './validator'
 
 export const createParentRouter = ({
-  database, websocket, eventHandler
+  config, database, websocket, eventHandler
 }: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   eventHandler: EventHandler
@@ -83,6 +84,7 @@ export const createParentRouter = ({
       }
 
       const result = await createFamily({
+        config,
         database,
         eventHandler,
         firstParentDevice: req.body.parentDevice,
@@ -111,6 +113,7 @@ export const createParentRouter = ({
       }
 
       const result = await signInIntoFamily({
+        config,
         database,
         eventHandler,
         newDeviceInfo: req.body.parentDevice,
@@ -329,7 +332,7 @@ export const createParentRouter = ({
           transaction
         })
 
-        const token = await createIdentityToken({
+        const token = await createIdentityToken(config, {
           purpose: body.purpose,
           familyId,
           userId: parentUserId,

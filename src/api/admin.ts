@@ -18,6 +18,7 @@
 import { json } from 'body-parser'
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
+import { Config } from '../config'
 import { SimpleDatabase } from '../database/simple'
 import { addPurchase, canDoNextPurchase } from '../function/purchase'
 import { getStatusMessage, setStatusMessage } from '../function/statusmessage'
@@ -25,7 +26,8 @@ import { EventHandler } from '../monitoring/eventhandler'
 import { verifyIdentitifyToken, TokenValidationException } from '../util/identity-token'
 import { WebsocketApi } from '../websocket'
 
-export const createAdminRouter = ({ database, websocket, eventHandler }: {
+export const createAdminRouter = ({ config, database, websocket, eventHandler }: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   eventHandler: EventHandler
@@ -109,7 +111,7 @@ export const createAdminRouter = ({ database, websocket, eventHandler }: {
         throw new BadRequest()
       }
 
-      const tokenContent = await verifyIdentitifyToken(purchaseToken, dryRun)
+      const tokenContent = await verifyIdentitifyToken(config, purchaseToken, dryRun)
 
       if (tokenContent.purpose !== 'purchase') {
         res.json({ ok: false, error: 'token invalid', detail: 'wrong purpose' })

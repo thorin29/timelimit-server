@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { config } from '../../../config'
+import { Config } from '../../../config'
 import { SimpleDatabaseTransaction } from '../../../database/simple'
 import { getStatusMessage } from '../../../function/statusmessage'
 import { ClientDataStatus } from '../../../object/clientdatastatus'
@@ -37,12 +37,13 @@ import { getKeyResponses } from './key-responses'
 import { getU2f } from './u2f'
 
 export const generateServerDataStatus = async ({
-  transaction, clientStatus, familyId, deviceId, eventHandler
+  transaction, clientStatus, familyId, deviceId, config, eventHandler
 }: {
   transaction: SimpleDatabaseTransaction
   clientStatus: ClientDataStatus
   familyId: string
   deviceId: string
+  config: Config
   eventHandler: EventHandler
 }): Promise<ServerDataStatus> => {
   const clientLevel = clientStatus.clientLevel || 0

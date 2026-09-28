@@ -16,13 +16,14 @@
  */
 
 import { Conflict, InternalServerError, Unauthorized } from 'http-errors'
-import { config } from '../../config'
+import { Config } from '../../config'
 import { SimpleDatabase } from '../../database/simple'
 import { generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 
-export const setPrimaryDevice = async ({ database, websocket, deviceAuthToken, currentUserId, action }: {
+export const setPrimaryDevice = async ({ config, database, websocket, deviceAuthToken, currentUserId, action }: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   deviceAuthToken: string

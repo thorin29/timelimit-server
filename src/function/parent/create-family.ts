@@ -18,6 +18,7 @@
 import { Conflict } from 'http-errors'
 import { generateServerDataStatus } from '../sync/get-server-data-status'
 import { NewDeviceInfo, PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema'
+import { Config } from '../../config'
 import { SimpleDatabase } from '../../database/simple'
 import { EventHandler } from '../../monitoring/eventhandler'
 import { ServerDataStatus } from '../../object/serverdatastatus'
@@ -26,9 +27,10 @@ import { generateAuthToken, generateIdWithinFamily } from '../../util/token'
 import { requireMailAndLocaleByAuthToken } from '../authentication'
 
 export async function createFamily ({
-  database, eventHandler, mailAuthToken, firstParentDevice,
+  config, database, eventHandler, mailAuthToken, firstParentDevice,
   password, timeZone, parentName, deviceName, clientLevel
 }: {
+  config: Config
   database: SimpleDatabase
   eventHandler: EventHandler
   mailAuthToken: string
@@ -97,6 +99,7 @@ export async function createFamily ({
       clientStatus: createEmptyClientDataStatus({ clientLevel }),
       familyId,
       deviceId,
+      config,
       eventHandler
     })
 

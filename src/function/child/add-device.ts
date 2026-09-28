@@ -20,13 +20,15 @@ import { RegisterChildDeviceRequest } from '../../api/schema'
 import { SimpleDatabase } from '../../database/simple'
 import { generateAuthToken, generateVersionId } from '../../util/token'
 import { WebsocketApi } from '../../websocket'
+import { Config } from '../../config'
 import { notifyClientsAboutChangesDelayed } from '../websocket'
 import { generateServerDataStatus } from '../sync/get-server-data-status'
 import { EventHandler } from '../../monitoring/eventhandler'
 import { ServerDataStatus } from '../../object/serverdatastatus'
 import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
 
-export const addChildDevice = async ({ database, eventHandler, websocket, request }: {
+export const addChildDevice = async ({ config, database, eventHandler, websocket, request }: {
+  config: Config
   database: SimpleDatabase
   eventHandler: EventHandler
   websocket: WebsocketApi
@@ -77,6 +79,7 @@ export const addChildDevice = async ({ database, eventHandler, websocket, reques
       clientStatus: createEmptyClientDataStatus({ clientLevel: request.clientLevel || null }),
       familyId: entry.familyId,
       deviceId,
+      config,
       eventHandler
     })
 

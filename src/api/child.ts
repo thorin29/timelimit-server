@@ -18,6 +18,7 @@
 import { json } from 'body-parser'
 import { Router } from 'express'
 import { BadRequest } from 'http-errors'
+import { Config } from '../config'
 import { SimpleDatabase } from '../database/simple'
 import { addChildDevice } from '../function/child/add-device'
 import { logoutAtPrimaryDevice } from '../function/child/logout-at-primary-device'
@@ -26,7 +27,8 @@ import { WebsocketApi } from '../websocket'
 import { isRegisterChildDeviceRequest, isRequestWithAuthToken, isUpdatePrimaryDeviceRequest } from './validator'
 import { EventHandler } from '../monitoring/eventhandler'
 
-export const createChildRouter = ({ database, websocket, eventHandler }: {
+export const createChildRouter = ({ config, database, websocket, eventHandler }: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   eventHandler: EventHandler
@@ -41,6 +43,7 @@ export const createChildRouter = ({ database, websocket, eventHandler }: {
 
       const { deviceAuthToken, deviceId, data } = await addChildDevice({
         request: req.body,
+        config,
         database,
         eventHandler,
         websocket
@@ -63,6 +66,7 @@ export const createChildRouter = ({ database, websocket, eventHandler }: {
       }
 
       const response = await setPrimaryDevice({
+        config,
         database,
         deviceAuthToken: req.body.authToken,
         currentUserId: req.body.currentUserId,

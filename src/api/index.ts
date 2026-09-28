@@ -18,6 +18,7 @@
 import * as basicAuth from 'basic-auth'
 import * as express from 'express'
 import { VisibleConnectedDevicesManager } from '../connected-devices'
+import { Config } from '../config'
 import { SimpleDatabase } from '../database/simple'
 import { EventHandler } from '../monitoring/eventhandler'
 import { WebsocketApi } from '../websocket'
@@ -30,7 +31,8 @@ import { createSyncRouter } from './sync'
 
 const adminToken = process.env.ADMIN_TOKEN || ''
 
-export const createApi = ({ database, websocket, connectedDevicesManager, eventHandler }: {
+export const createApi = ({ config, database, websocket, connectedDevicesManager, eventHandler}: {
+  config: Config
   database: SimpleDatabase
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
@@ -46,11 +48,11 @@ export const createApi = ({ database, websocket, connectedDevicesManager, eventH
     })
   })
 
-  app.use('/auth', createAuthRouter(database))
-  app.use('/child', createChildRouter({ database, websocket, eventHandler }))
-  app.use('/parent', createParentRouter({ database, websocket, eventHandler }))
+  app.use('/auth', createAuthRouter({ config, database }))
+  app.use('/child', createChildRouter({ config, database, websocket, eventHandler }))
+  app.use('/parent', createParentRouter({ config, database, websocket, eventHandler }))
   app.use('/purchase', createPurchaseRouter({ database }))
-  app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager, eventHandler }))
+  app.use('/sync', createSyncRouter({ config, database, websocket, connectedDevicesManager, eventHandler }))
 
   app.use(
     '/admin',
@@ -76,7 +78,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager, eventH
         res.sendStatus(401)
       }
     },
-    createAdminRouter({ database, websocket, eventHandler })
+    createAdminRouter({ config, database, websocket, eventHandler })
   )
 
   return app

@@ -17,6 +17,7 @@
 
 import { Conflict } from 'http-errors'
 import { NewDeviceInfo } from '../../api/schema'
+import { Config } from '../../config'
 import { SimpleDatabase } from '../../database/simple'
 import { sendDeviceLinkedMail } from '../../util/mail'
 import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token'
@@ -28,7 +29,8 @@ import { EventHandler } from '../../monitoring/eventhandler'
 import { ServerDataStatus } from '../../object/serverdatastatus'
 import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
 
-export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
+export const signInIntoFamily = async ({ config, database, eventHandler, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
+  config: Config
   database: SimpleDatabase
   eventHandler: EventHandler
   mailAuthToken: string
@@ -89,6 +91,7 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
       clientStatus: createEmptyClientDataStatus({ clientLevel }),
       familyId: userEntry.familyId,
       deviceId,
+      config,
       eventHandler
     })
 

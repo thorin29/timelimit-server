@@ -18,7 +18,7 @@
 import { Server } from 'http'
 import { pid } from 'process'
 import { createApi } from './api'
-import { config } from './config'
+import { parseConfigFromEnvironment } from './config'
 import { VisibleConnectedDevicesManager } from './connected-devices'
 import { assertNestedTransactionsAreWorking, assertSerializeableTransactionsAreWorking, defaultDatabase, defaultUmzug } from './database'
 import { fromLegacy as createSimpleDatabase } from './database/simple'
@@ -28,6 +28,8 @@ import { createWebsocketHandler } from './websocket'
 import { initWorkers } from './worker'
 
 async function main () {
+  const config = parseConfigFromEnvironment()
+
   await defaultUmzug.up()
   const legacyDatabase = defaultDatabase
   const eventHandler: EventHandler = new InMemoryEventHandler()
@@ -52,6 +54,7 @@ async function main () {
   })
 
   const api = createApi({
+    config,
     database,
     websocket: websocketApi,
     connectedDevicesManager,
