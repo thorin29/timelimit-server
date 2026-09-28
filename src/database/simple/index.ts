@@ -75,6 +75,7 @@ export interface SimpleDatabaseTransaction {
     doesSpecificParentUserExist: (params: { familyId: string, userId: string, mail: string }) => Promise<boolean>
     getSmallestMailAddressByFamilyId: (familyId: string) => Promise<string | null>
     getMailAddressByUserId: (params: { familyId: string, userId: string }) => Promise<string> // returns the empty string if the user was not found
+    getFamilyIdAndUserIdByMailAddress: (mail: string) => Promise<{ familyId: string, userId: string } | null>
     getCurrentDeviceIdByUserId: (params: { familyId: string, userId: string }) => Promise<{ currentDeviceId: string } | null>
     doesParentUserExist: (params: { familyId: string, userId: string }) => Promise<boolean>
     doesParentUserWithSpecificSecondPasswordHashExist: (params: { familyId: string, userId: string, secondPasswordHash: string }) => Promise<boolean>
@@ -445,6 +446,22 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
 
         if (item) return item.mail || ''
         else return ''
+      },
+      getFamilyIdAndUserIdByMailAddress: async (mail: string) => {
+        const item = await database.user.findOne({
+          where: {
+            mail
+          },
+          attributes: ['familyId', 'userId'],
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            familyId: item.familyId,
+            userId: item.userId
+          }
+        } else return null
       },
       getCurrentDeviceIdByUserId: async ({ familyId, userId }) => {
         const item = await database.user.findOne({

@@ -41,21 +41,10 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
   return database.transaction(async (transaction) => {
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
 
-    const userEntryUnsafe = await transaction.legacy.database.user.findOne({
-      where: {
-        mail: mailInfo.mail
-      },
-      attributes: ['familyId', 'userId'],
-      transaction: transaction.legacy.transaction
-    })
+    const userEntry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
-    if (!userEntryUnsafe) {
+    if (!userEntry) {
       throw new Conflict()
-    }
-
-    const userEntry = {
-      familyId: userEntryUnsafe.familyId,
-      userId: userEntryUnsafe.userId
     }
 
     const deviceAuthToken = generateAuthToken()
