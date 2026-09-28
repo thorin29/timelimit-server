@@ -20,7 +20,7 @@ import { readFileSync } from 'fs'
 import range from 'lodash/range.js'
 import { resolve } from 'path'
 
-const wordlist = readFileSync(resolve(import.meta.dirname, '../../other/wordlist/de.txt'))
+const wordlist = readFileSync(resolve(import.meta.dirname, '../../../other/wordlist/de.txt'))
   .toString()
   .split('\n')
   .filter((item) => item.trim().length > 0)

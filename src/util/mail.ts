@@ -38,7 +38,7 @@ const mailTransport = isDevMode || mailTransportConfig !== undefined ?
 
 function createMailTemplateSender (templateName: string) {
   const compileTemplate = (filename: string) => compile(
-    readFileSync(resolve(import.meta.dirname, '../../other/mail', templateName, filename)).toString('utf8')
+    readFileSync(resolve(import.meta.dirname, '../../../other/mail', templateName, filename)).toString('utf8')
   )
 
   const subjectTemplate = compileTemplate('subject.ejs')

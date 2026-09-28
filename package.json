@@ -5,6 +5,7 @@
   "private": true,
   "description": "",
   "scripts": {
+    "test": "node --test build/test/index.js",
     "start": "node ./build/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
