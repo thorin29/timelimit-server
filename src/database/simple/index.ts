@@ -39,6 +39,7 @@ export interface SimpleDatabaseTransaction {
   family: {
     create: (params: { time: number, fullVersionUntil: number }) => Promise<{ familyId: string }>
     getFullVersionUntilAndDebtsByFamilyId: (familyId: string) => Promise<{ fullVersionUntil: number, fullVersionDebts: number } | null>
+    getFamilyIdsWithFullVersionUntilLowerThan: (time: number) => Promise<Array<string>>,
     hasFullVersionByFamilyId: (familyId: string) => Promise<boolean> // returns false if the family was not found
     updateDeviceListVersion: (params: { familyId: string, deviceListVersion: string }) => Promise<void>
     updateUserListVersion: (params: { familyId: string, userListVersion: string }) => Promise<void>
@@ -67,6 +68,7 @@ export interface SimpleDatabaseTransaction {
     getDeviceIdsByCurrentUserId: (params: { familyId: string, currentUserId: string }) => Promise<Array<string>>
     getDeviceIdsAndAuthTokensByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, deviceAuthToken: string }>>
     getDeviceIdsAndShowDeviceConnectedByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, showDeviceConnected: boolean }>>
+    getRecentlyConnectedDeviceFamilyIdsByFamilyIds: (params: { familyIds: Array<string>, lastConnectivityNewerThan: number }) => Promise<Array<string>>
     updateLastConnectivityByDeviceAuthToken: (params: { deviceAuthToken: string, lastConnectivity: number }) => Promise<void>
     destroyByFamilyIdsReturningAuthTokens: (familyIds: Array<string>) => Promise<Array<string>>
   }
@@ -198,6 +200,19 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
             fullVersionDebts: parseInt(item.fullVersionDebts),
           }
         } else return null
+      },
+      getFamilyIdsWithFullVersionUntilLowerThan: async (time: number) => {
+        const items = await database.family.findAll({
+          where: {
+            fullVersionUntil: {
+              [Sequelize.Op.lt]: time.toString(10)
+            }
+          },
+          attributes: ['familyId'],
+          transaction: legacyTransaction
+        })
+
+        return items.map((item) => item.familyId)
       },
       hasFullVersionByFamilyId: async (familyId: string) => {
         const item = await database.family.findOne({
@@ -433,6 +448,23 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
         return items.map(({ deviceId, showDeviceConnected }) => ({
           deviceId, showDeviceConnected
         }))
+      },
+      getRecentlyConnectedDeviceFamilyIdsByFamilyIds: async ({ familyIds, lastConnectivityNewerThan }) => {
+        const items = await database.device.findAll({
+          where: {
+            familyId: {
+              [Sequelize.Op.in]: familyIds
+            },
+            lastConnectivity: {
+              [Sequelize.Op.gt]: lastConnectivityNewerThan.toString(10)
+            }
+          },
+          attributes: ['familyId'],
+          transaction: legacyTransaction
+        })
+
+        return items.map((item) => item.familyId)
+
       },
       updateLastConnectivityByDeviceAuthToken: async ({ deviceAuthToken, lastConnectivity }) => {
         await database.device.update({

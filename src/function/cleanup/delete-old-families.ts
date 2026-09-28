@@ -16,7 +16,6 @@
  */
 
 import { difference } from 'lodash'
-import * as Sequelize from 'sequelize'
 import { SimpleDatabase } from '../../database/simple'
 import { deleteFamilies } from './delete-families'
 
@@ -36,33 +35,23 @@ export async function deleteOldFamilies (database: SimpleDatabase) {
 }
 
 export async function findOldFamilyIds (database: SimpleDatabase): Promise<Array<string>> {
+  const now = Date.now()
+
+  const threeMonthsAgo = now - 1000 * 60 * 60 * 24 * 90 // 90 days
+
   return database.transaction(async (transaction) => {
-    const familyIdsWithExpiredLicenses = (await transaction.legacy.database.family.findAll({
-      where: {
-        fullVersionUntil: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
-        }
-      },
-      attributes: ['familyId'],
-      transaction: transaction.legacy.transaction
-    })).map((item) => item.familyId)
+    const familyIdsWithExpiredLicenses = await transaction.family.getFamilyIdsWithFullVersionUntilLowerThan(
+      threeMonthsAgo
+    )
 
     if (familyIdsWithExpiredLicenses.length === 0) {
       return []
     }
 
-    const recentlyUsedFamilyIds = (await transaction.legacy.database.device.findAll({
-      where: {
-        familyId: {
-          [Sequelize.Op.in]: familyIdsWithExpiredLicenses
-        },
-        lastConnectivity: {
-          [Sequelize.Op.gt]: (Date.now() - 1000 * 60 * 60 * 24 * 90 /* 90 days */).toString(10)
-        }
-      },
-      attributes: ['familyId'],
-      transaction: transaction.legacy.transaction
-    })).map((item) => item.familyId)
+    const recentlyUsedFamilyIds = await transaction.device.getRecentlyConnectedDeviceFamilyIdsByFamilyIds({
+      familyIds: familyIdsWithExpiredLicenses,
+      lastConnectivityNewerThan: threeMonthsAgo
+    })
 
     return difference(familyIdsWithExpiredLicenses, recentlyUsedFamilyIds)
   })
