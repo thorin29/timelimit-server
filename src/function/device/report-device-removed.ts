@@ -29,19 +29,19 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
   // no transaction here because this is directly called from an API endpoint
 }) {
   await database.transaction(async (transaction) => {
-    const deviceEntry = await transaction.legacy.database.device.findOne({
-      where: {
-        deviceAuthToken
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const deviceEntry = await transaction.device.getFamilyIdAndDeviceNameByAuthToken(deviceAuthToken)
 
     if (deviceEntry) {
-      const currentAuthToken = deviceEntry.deviceAuthToken
+      await transaction.device.updateDeviceReportedUninstall({
+        deviceAuthToken,
+        didDeviceReportUninstall: true
+      })
 
-      deviceEntry.didDeviceReportUninstall = true
-      deviceEntry.deviceAuthToken = generateAuthToken() // invalidiate the token
-      await deviceEntry.save({ transaction: transaction.legacy.transaction })
+      // invalidiate the token
+      await transaction.device.updateDeviceAuthToken({
+        oldDeviceAuthToken: deviceAuthToken,
+        newDeviceAuthToken: generateAuthToken()
+      })
 
       // invalidiate device list
       await transaction.family.updateDeviceListVersion({
@@ -50,11 +50,7 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
       })
 
       // add to old devices
-      await transaction.legacy.database.oldDevice.create({
-        deviceAuthToken: currentAuthToken
-      }, {
-        transaction: transaction.legacy.transaction
-      })
+      await transaction.oldDevice.insertMissingTokens([ deviceAuthToken ])
 
       await notifyClientsAboutChangesDelayed({
         transaction,
@@ -68,19 +64,16 @@ export async function reportDeviceRemoved ({ database, deviceAuthToken, websocke
       await sendUninstallWarnings({
         transaction,
         familyId: deviceEntry.familyId,
-        deviceName: deviceEntry.name,
+        deviceName: deviceEntry.deviceName,
       })
     } else {
-      const oldDeviceEntry = await transaction.legacy.database.oldDevice.findOne({
-        where: {
-          deviceAuthToken
-        },
-        transaction: transaction.legacy.transaction
-      })
+      const isOldDevice = await transaction.oldDevice.hasAuthToken(deviceAuthToken)
 
-      if (!oldDeviceEntry) {
+      if (!isOldDevice) {
         throw new Unauthorized('device not found')
       }
+
+      // otherwise, we processed this already so do not return any eror
     }
   })
 }

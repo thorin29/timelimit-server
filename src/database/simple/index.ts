@@ -70,6 +70,8 @@ export interface SimpleDatabaseTransaction {
     getDeviceIdsAndShowDeviceConnectedByFamilyId: (familyId: string) => Promise<Array<{ deviceId: string, showDeviceConnected: boolean }>>
     getRecentlyConnectedDeviceFamilyIdsByFamilyIds: (params: { familyIds: Array<string>, lastConnectivityNewerThan: number }) => Promise<Array<string>>
     updateLastConnectivityByDeviceAuthToken: (params: { deviceAuthToken: string, lastConnectivity: number }) => Promise<void>
+    updateDeviceAuthToken: (params: { oldDeviceAuthToken: string, newDeviceAuthToken: string }) => Promise<void>
+    updateDeviceReportedUninstall: (params: { deviceAuthToken: string, didDeviceReportUninstall: boolean }) => Promise<void>
     destroyByFamilyIdAndDeviceId: (params: { familyId: string, deviceId: string }) => Promise<void>
     destroyByFamilyIdsReturningAuthTokens: (familyIds: Array<string>) => Promise<Array<string>>
   }
@@ -471,6 +473,26 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
       updateLastConnectivityByDeviceAuthToken: async ({ deviceAuthToken, lastConnectivity }) => {
         await database.device.update({
           lastConnectivity: lastConnectivity.toString(10)
+        }, {
+          where: {
+            deviceAuthToken
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updateDeviceAuthToken: async ({ oldDeviceAuthToken, newDeviceAuthToken }) => {
+        await database.device.update({
+          deviceAuthToken: newDeviceAuthToken
+        }, {
+          where: {
+            deviceAuthToken: oldDeviceAuthToken
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updateDeviceReportedUninstall: async ({ deviceAuthToken, didDeviceReportUninstall }) => {
+        await database.device.update({
+          didDeviceReportUninstall
         }, {
           where: {
             deviceAuthToken

@@ -39,7 +39,7 @@ export async function removeDevice ({ familyId, deviceId, websocket, transaction
     oldCurrentDeviceId: deviceId,
   })
 
-  // add to old devices if it is not yet there (it could be there if it reported a uninstall)
+  // add to old devices if it is not yet there
   await transaction.oldDevice.insertMissingTokens([ deviceAuthToken ])
 
   // remove from the device list
