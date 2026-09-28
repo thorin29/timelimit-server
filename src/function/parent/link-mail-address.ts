@@ -32,39 +32,23 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
   // no transaction here because this is directly called from an API endpoint
 }) => {
   await database.transaction(async (transaction) => {
-    const deviceEntry = await transaction.legacy.database.device.findOne({
-      where: {
-        deviceAuthToken
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const familyId = await transaction.device.getFamilyIdByAuthToken(deviceAuthToken)
 
-    if (!deviceEntry) {
+    if (familyId === null) {
       throw new Unauthorized()
     }
 
-    const familyId = deviceEntry.familyId
-
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
 
-    const exisitingUser = await transaction.legacy.database.user.findOne({
-      where: {
-        mail: mailInfo.mail
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const exisitingUser = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (exisitingUser) {
       throw new Conflict()
     }
 
-    const parentEntry = await transaction.legacy.database.user.findOne({
-      where: {
-        type: 'parent',
-        familyId,
-        userId: parentUserId
-      },
-      transaction: transaction.legacy.transaction
+    const parentEntry = await transaction.user.getParentUserMailAndSecondPasswordHash({
+      familyId,
+      userId: parentUserId
     })
 
     if (!parentEntry) {
@@ -83,9 +67,11 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
       throw new Conflict()
     }
 
-    parentEntry.mail = mailInfo.mail
-
-    await parentEntry.save({ transaction: transaction.legacy.transaction })
+    await transaction.user.updateParentUserMailAddress({
+      familyId,
+      userId: parentUserId,
+      newMailAddress: mailInfo.mail,
+    })
 
     // invalidiate client caches
     await transaction.family.updateUserListVersion({

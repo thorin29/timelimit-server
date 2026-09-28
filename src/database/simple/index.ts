@@ -100,10 +100,12 @@ export interface SimpleDatabaseTransaction {
     getMailAddressByUserId: (params: { familyId: string, userId: string }) => Promise<string> // returns the empty string if the user was not found
     getFamilyIdAndUserIdByMailAddress: (mail: string) => Promise<{ familyId: string, userId: string } | null>
     getCurrentDeviceIdByUserId: (params: { familyId: string, userId: string }) => Promise<{ currentDeviceId: string } | null>
+    getParentUserMailAndSecondPasswordHash: (params: { familyId: string, userId: string }) => Promise<{ mail: string, secondPasswordHash: string, secondPasswordSalt: string } | null>
     doesParentUserExist: (params: { familyId: string, userId: string }) => Promise<boolean>
     doesParentUserWithSpecificSecondPasswordHashExist: (params: { familyId: string, userId: string, secondPasswordHash: string }) => Promise<boolean>
     updateCurrentDevice: (params: { familyId: string, userId: string, currentDeviceId: string }) => Promise<void>
     updateCurrentDeviceForAllUsers: (params: { familyId: string, oldCurrentDeviceId: string }) => Promise<void>
+    updateParentUserMailAddress: (params: { familyId: string, userId: string, newMailAddress: string }) => Promise<void>
     destroyByFamilyIds: (familyIds: Array<string>) => Promise<void>
   }
 
@@ -693,6 +695,24 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           }
         } else return null
       },
+      getParentUserMailAndSecondPasswordHash: async ({ familyId, userId }) => {
+        const item = await database.user.findOne({
+          where: {
+            type: 'parent',
+            familyId,
+            userId
+          },
+          transaction: legacyTransaction
+        })
+
+        if (item) {
+          return {
+            mail: item.mail,
+            secondPasswordHash: item.secondPasswordHash,
+            secondPasswordSalt: item.secondPasswordSalt,
+          }
+        } else return null
+      },
       doesParentUserExist: async ({ familyId, userId }) => {
         const counter = await database.user.count({
           where: {
@@ -736,6 +756,18 @@ function fromLegacyTransaction(database: LegacyDatabase, legacyTransaction: Lega
           where: {
             familyId,
             currentDevice: oldCurrentDeviceId
+          },
+          transaction: legacyTransaction
+        })
+      },
+      updateParentUserMailAddress: async ({ familyId, userId, newMailAddress }) => {
+        await database.user.update({
+          mail: newMailAddress
+        }, {
+          where: {
+            familyId,
+            userId,
+            type: 'parent'
           },
           transaction: legacyTransaction
         })
