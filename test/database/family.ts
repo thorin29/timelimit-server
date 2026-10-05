@@ -1,34 +1,9 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 
-import { withTestDatabase, withTestTransaction, withTestDatabaseUrl } from './helper/database.js'
+import { withTestTransaction } from '../helper/database.js'
 
 describe('database', () => {
-  it('should be possible to start a temporary database', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    await withTestDatabaseUrl(async (databaseUrl) => {
-      // nothing to do with the database url
-    })
-  })
-
-  it('should be possible to run the migrations', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    await withTestDatabase(async (database) => {
-      // helper function already runs the migrations
-    })
-  })
-
-  it('should be possible to run a test query', async () => {
-    await withTestDatabase(async (database) => {
-      await database.transaction(async (transaction) => {
-        assert.strictEqual(
-          await transaction.device.getFamilyIdByAuthToken('not found'),
-          null
-        )
-      })
-    })
-  })
-
   describe('family table', () => {
     it('should be possible to create two distinct items', async () => {
       await withTestTransaction(async (transaction) => {

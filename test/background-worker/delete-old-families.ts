@@ -1,10 +1,10 @@
 import assert from 'assert'
 import { describe, it } from 'node:test'
 
-import { withTestDatabase } from './helper/database.js'
-import { generateIdWithinFamily, generateAuthToken } from '../src/util/token.js'
-import { dummyWebsocketApi } from '../src/websocket/index.js'
-import { runWorkersOnce } from '../src/worker/index.js'
+import { withTestDatabase } from '../helper/database.js'
+import { generateIdWithinFamily, generateAuthToken } from '../../src/util/token.js'
+import { dummyWebsocketApi } from '../../src/websocket/index.js'
+import { runWorkersOnce } from '../../src/worker/index.js'
 
 describe('background worker', () => {
   describe('delete old families', () => {
