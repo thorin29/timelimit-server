@@ -96,6 +96,8 @@ On a invalid request body: HTTP status code 400 Bad Request
 
 If the mail auth token is invalid/ expired: HTTP status code 401 Unauthorized
 
+If the mail address is not registered: HTTP status code 409 Conflict
+
 On success: ``{"ok": true}``
 
 ## POST /parent/create-add-device-token
