@@ -15,6 +15,13 @@ export const testPassword1 = {
   secondSalt: '$2a$12$jKUQG/pG87J5pbqRE4NytO',
 }
 
+export const testPassword2 = {
+  // "safe"
+  hash: '$2a$12$sq49t2gkVTSOsGcsHU8vIewiMRh2smyI8GCIpX7G7aErYuOtMeaw2',
+  secondHash: '$2a$12$i0pBcvWYsjFut3VN8CKDvOXWqiiwXbSglAV618TrUt8gnFwx51Gzm',
+  secondSalt: '$2a$12$i0pBcvWYsjFut3VN8CKDvO',
+}
+
 export async function withTestTransaction<T>(callback: (transaction: SimpleDatabaseTransaction) => Promise<T>): Promise<T> {
   return await withTestDatabase(async (database) => {
     return await database.transaction(callback)
