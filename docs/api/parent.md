@@ -94,6 +94,8 @@ see [this JSON schema](../schema/recoverparentpasswordrequest.md)
 
 On a invalid request body: HTTP status code 400 Bad Request
 
+On a invalid new password: HTTP status code 400 Bad Request
+
 If the mail auth token is invalid/ expired: HTTP status code 401 Unauthorized
 
 If the mail address is not registered: HTTP status code 409 Conflict
