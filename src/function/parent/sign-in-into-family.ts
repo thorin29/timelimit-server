@@ -15,23 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { NewDeviceInfo } from '../../api/schema'
-import { SimpleDatabase } from '../../database/simple'
-import { sendDeviceLinkedMail } from '../../util/mail'
-import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { prepareDeviceEntry } from '../device/prepare-device-entry'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
-import { generateServerDataStatus } from '../sync/get-server-data-status'
-import { EventHandler } from '../../monitoring/eventhandler'
-import { ServerDataStatus } from '../../object/serverdatastatus'
-import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
+import HttpErrors from 'http-errors'
+import { NewDeviceInfo } from '../../api/schema.js'
+import { AlwaysProConfig } from '../../config.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { MailTransport, sendDeviceLinkedMail } from '../../util/mail.js'
+import { generateAuthToken, generateIdWithinFamily, generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
+import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
+import { EventHandler } from '../../monitoring/eventhandler.js'
+import { ServerDataStatus } from '../../object/serverdatastatus.js'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
-export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
+export const signInIntoFamily = async ({ config, database, eventHandler, mailTransport, mailAuthToken, newDeviceInfo, deviceName, websocket, clientLevel }: {
+  config: AlwaysProConfig
   database: SimpleDatabase
   eventHandler: EventHandler
+  mailTransport: MailTransport
   mailAuthToken: string
   newDeviceInfo: NewDeviceInfo
   deviceName: string
@@ -42,44 +44,30 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
   return database.transaction(async (transaction) => {
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
 
-    const userEntryUnsafe = await transaction.legacy.database.user.findOne({
-      where: {
-        mail: mailInfo.mail
-      },
-      attributes: ['familyId', 'userId'],
-      transaction: transaction.legacy.transaction
-    })
+    const userEntry = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
-    if (!userEntryUnsafe) {
-      throw new Conflict()
-    }
-
-    const userEntry = {
-      familyId: userEntryUnsafe.familyId,
-      userId: userEntryUnsafe.userId
+    if (!userEntry) {
+      throw new HttpErrors.Conflict()
     }
 
     const deviceAuthToken = generateAuthToken()
     const deviceId = generateIdWithinFamily()
 
-    await transaction.legacy.database.device.create(prepareDeviceEntry({
+    await transaction.device.create({
       familyId: userEntry.familyId,
+      time: Date.now(),
       deviceId,
       userId: userEntry.userId,
       deviceName,
       deviceAuthToken,
-      newDeviceInfo,
+      deviceModel: newDeviceInfo.model,
       isUserKeptSignedIn: true
-    }), { transaction: transaction.legacy.transaction })
+    })
 
     // notify about changes
-    await transaction.legacy.database.family.update({
-      deviceListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId: userEntry.familyId
-      },
-      transaction: transaction.legacy.transaction
+    await transaction.family.updateDeviceListVersion({
+      deviceListVersion: generateVersionId(),
+      familyId: userEntry.familyId
     })
 
     await notifyClientsAboutChangesDelayed({
@@ -95,7 +83,8 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
       await sendDeviceLinkedMail({
         receiver: mailInfo.mail,
         locale: mailInfo.locale,
-        deviceName
+        deviceName,
+        mailTransport
       })
     })
 
@@ -104,6 +93,7 @@ export const signInIntoFamily = async ({ database, eventHandler, mailAuthToken, 
       clientStatus: createEmptyClientDataStatus({ clientLevel }),
       familyId: userEntry.familyId,
       deviceId,
+      config,
       eventHandler
     })
 

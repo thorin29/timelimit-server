@@ -15,19 +15,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { createRequire } from 'module';
 import { resolve } from 'path'
 import { Sequelize } from 'sequelize'
 import { Umzug, SequelizeStorage } from 'umzug'
 
-export const createUmzug = (sequelize: Sequelize) => (
+const require = createRequire(import.meta.url)
+
+export const createUmzug = (sequelize: Sequelize, logging: boolean) => (
   new Umzug({
     storage: new SequelizeStorage({ sequelize }),
     migrations: {
-      glob: resolve(__dirname, '../../../build/database/migration/migrations/*.js'),
+      glob: resolve(import.meta.dirname, 'migrations/*.js'),
       resolve: ({ name, path }) => {
         if (!path) throw new Error()
 
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
         const migration = require(path)
 
         return {
@@ -37,6 +39,6 @@ export const createUmzug = (sequelize: Sequelize) => (
         }
       },
     },
-    logger: console
+    logger: logging ? console : undefined
   })
 )

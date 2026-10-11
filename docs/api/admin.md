@@ -65,31 +65,6 @@ Response: ``{"ok": true}``
 
 - [status message concept](../concept/status-message.md)
 
-## POST /admin/unlock-premium
-
-Use this to unlock all features for one user for a specified duration.
-
-### request
-
-request properties: ``mail`` and ``duration``
-
-- ``duration`` must be ``year`` or ``month``
-- ``mail`` must be a mail address of any user assigned to the family for which the features should be unlocked
-
-### response
-
-If everything worked:
-
-``{"ok": true}``
-
-If the duration was invalid or no mail address was specified: HTTP status code 400 Bad Request
-
-If there was nothing found for the mail address: HTTP status code 409 Conflict
-
-### see
-
-- [premium concept](../concept/premium.md)
-
 ## POST /admin/unlock-premium-v2
 
 Use this to unlock all features for one user for a specified duration.

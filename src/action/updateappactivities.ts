@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,10 +17,10 @@
 
 import {
   AppActivityItem, IncompleteAppActivityItemException, RemovedAppActivityItem, SerializedAppActivityItem, SerializedRemovedAppActivityItem
-} from '../model/appactivity'
-import { AppLogicAction } from './basetypes'
-import { InvalidActionParameterException } from './meta/exception'
-import { assertListWithoutDuplicates } from './meta/util'
+} from '../model/appactivity.js'
+import { AppLogicAction } from './basetypes.js'
+import { InvalidActionParameterException } from './meta/exception.js'
+import { assertListWithoutDuplicates } from './meta/util.js'
 
 const actionType = 'UpdateAppActivitiesAction'
 

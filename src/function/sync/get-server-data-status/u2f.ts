@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { U2fData } from '../../../object/serverdatastatus'
-import { FamilyEntry } from './family-entry'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { U2fData } from '../../../object/serverdatastatus.js'
+import { FamilyEntry } from './family-entry.js'
 
 export async function getU2f ({
   transaction, familyEntry, lastVersionId

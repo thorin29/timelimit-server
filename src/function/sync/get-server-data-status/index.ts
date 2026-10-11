@@ -15,34 +15,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { config } from '../../../config'
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { getStatusMessage } from '../../../function/statusmessage'
-import { ClientDataStatus } from '../../../object/clientdatastatus'
-import { ServerDataStatus } from '../../../object/serverdatastatus'
-import { EventHandler } from '../../../monitoring/eventhandler'
-import { getCampaign } from './campaign'
+import { AlwaysProConfig } from '../../../config.js'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { getStatusMessage } from '../../../function/statusmessage/index.js'
+import { ClientDataStatus } from '../../../object/clientdatastatus.js'
+import { ServerDataStatus } from '../../../object/serverdatastatus.js'
+import { EventHandler } from '../../../monitoring/eventhandler.js'
+import { getCampaign } from './campaign.js'
 import {
   getCategoryAssignedApps, getCategoryBaseDatas, getCategoryDataToSync,
   getRules, getTasks, getUsedTimes
-} from './category'
-import { getDeviceDetailList } from './device-detail'
-import { getDeviceList } from './device-list'
-import { getDeviceDhKeys } from './dh-keys'
-import { getFamilyEntry } from './family-entry'
-import { getPings } from './pings'
-import { getUserList } from './user-list'
-import { getKeyRequests } from './key-requests'
-import { getKeyResponses } from './key-responses'
-import { getU2f } from './u2f'
+} from './category/index.js'
+import { getDeviceDetailList } from './device-detail.js'
+import { getDeviceList } from './device-list.js'
+import { getDeviceDhKeys } from './dh-keys.js'
+import { getFamilyEntry } from './family-entry.js'
+import { getPings } from './pings.js'
+import { getUserList } from './user-list.js'
+import { getKeyRequests } from './key-requests.js'
+import { getKeyResponses } from './key-responses.js'
+import { getU2f } from './u2f.js'
 
 export const generateServerDataStatus = async ({
-  transaction, clientStatus, familyId, deviceId, eventHandler
+  transaction, clientStatus, familyId, deviceId, config, eventHandler
 }: {
   transaction: SimpleDatabaseTransaction
   clientStatus: ClientDataStatus
   familyId: string
   deviceId: string
+  config: AlwaysProConfig
   eventHandler: EventHandler
 }): Promise<ServerDataStatus> => {
   const clientLevel = clientStatus.clientLevel || 0

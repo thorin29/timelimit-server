@@ -2,21 +2,19 @@
 
 - DATABASE_URL
   - this specifies the database to use
-  - default value: ``sqlite://test.db`` (sqlite database in the source code directory)
-  - supports mysql, postgresql and sqlite (sqlite in development builds only because it's declared as dev dependency)
+  - there is no default value
+  - supports postgresql only; utf8 locale required
   - looks like ``postgres://user:pass@example.com:5432/dbname``
   - no extra setup needed
-      - when starting the application, the database tables are created/ migrated
+      - when starting the application, the database tables are created/migrated
         - this only works for upgrading; if you intend to eventually downgrade, make a backup first (you should make backups in all cases before an upgrade)
+  - for development purposes, ``scripts/test-db.sh`` creates and starts a database in the folder ``tempdb``, sets ``DATABASE_URL``and starts a shell
 - PORT
   - the port at which the server should listen
   - default value: 8080
 - NODE_ENV
   - should be set to ``production`` in production
   - when using ``development``, then mails are not sent; instead they are print to the console
-- GOOGLE_PLAY_PUBLIC_KEY
-  - key for validating purchases
-  - purchases using google play don't work without it/ when it is not set
 - MAIL_SENDER
   - sender (for the from-field) for sent mails
   - the sent mails contain the info that one can reply to it in case of questions ... so you should have someone who looks into the inbox and send replies (or you know that there is nobody and don't ask anything)

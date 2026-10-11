@@ -15,38 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { uniqBy } from 'lodash'
+import uniqBy from 'lodash/uniqBy.js'
 import * as Sequelize from 'sequelize'
-import { SimpleDatabase } from '../database/simple'
-import { generateVersionId } from '../util/token'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { generateVersionId } from '../util/token.js'
 
-export function initDeleteOldUsedTimesWorker ({ database }: {
+export async function deleteOldUsedTimes ({ database, now }: {
   database: SimpleDatabase
+  now: number
 }) {
-  function doWorkSafe () {
-    console.log('deleting old used times now')
-
-    deleteOldUsedTimes({ database }).then(() => {
-      console.log('finished deleting old used times')
-    }).catch((ex) => {
-      console.warn('error deleting old used times', ex)
-    })
-  }
-
-  setTimeout(() => {
-    doWorkSafe()
-
-    setInterval(() => {
-      doWorkSafe()
-    }, 1000 * 60 * 30 /* every 30 minutes */)
-  }, 1000 * 60 * 13 /* after 13 minutes */)
-}
-
-async function deleteOldUsedTimes ({ database }: {
-  database: SimpleDatabase
-}) {
-  const now = Date.now()
-
   await database.transaction(async (transaction) => {
     // get matching categories
     const categoriesToCleanUpOne = (await transaction.legacy.database.usedTime.findAll({

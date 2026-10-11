@@ -15,32 +15,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { Router } from 'express'
-import { BadRequest } from 'http-errors'
-import { SimpleDatabase } from '../database/simple'
-import { addChildDevice } from '../function/child/add-device'
-import { logoutAtPrimaryDevice } from '../function/child/logout-at-primary-device'
-import { setPrimaryDevice } from '../function/child/set-primary-device'
-import { WebsocketApi } from '../websocket'
-import { isRegisterChildDeviceRequest, isRequestWithAuthToken, isUpdatePrimaryDeviceRequest } from './validator'
-import { EventHandler } from '../monitoring/eventhandler'
+import HttpErrors from 'http-errors'
+import { AlwaysProConfig } from '../config.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { addChildDevice } from '../function/child/add-device.js'
+import { logoutAtPrimaryDevice } from '../function/child/logout-at-primary-device.js'
+import { setPrimaryDevice } from '../function/child/set-primary-device.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { isRegisterChildDeviceRequest, isRequestWithAuthToken, isUpdatePrimaryDeviceRequest } from './validator.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
 
-export const createChildRouter = ({ database, websocket, eventHandler }: {
+export const createChildRouter = ({ config, database, websocket, eventHandler }: {
+  config: AlwaysProConfig
   database: SimpleDatabase
   websocket: WebsocketApi
   eventHandler: EventHandler
 }) => {
   const router = Router()
 
-  router.post('/add-device', json(), async (req, res, next) => {
+  router.post('/add-device', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRegisterChildDeviceRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const { deviceAuthToken, deviceId, data } = await addChildDevice({
         request: req.body,
+        config,
         database,
         eventHandler,
         websocket
@@ -56,13 +59,14 @@ export const createChildRouter = ({ database, websocket, eventHandler }: {
     }
   })
 
-  router.post('/update-primary-device', json(), async (req, res, next) => {
+  router.post('/update-primary-device', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isUpdatePrimaryDeviceRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const response = await setPrimaryDevice({
+        config,
         database,
         deviceAuthToken: req.body.authToken,
         currentUserId: req.body.currentUserId,
@@ -78,10 +82,10 @@ export const createChildRouter = ({ database, websocket, eventHandler }: {
     }
   })
 
-  router.post('/logout-at-primary-device', json(), async (req, res, next) => {
+  router.post('/logout-at-primary-device', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRequestWithAuthToken(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await logoutAtPrimaryDevice({

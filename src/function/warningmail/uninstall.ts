@@ -15,13 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { mailNotificationFlags } from '../../database/user'
-import { sendUninstallWarningMail } from '../../util/mail'
-import { canSendWarningMail } from '../../util/ratelimit-warningmail'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { mailNotificationFlags } from '../../database/user.js'
+import { MailTransport, sendUninstallWarningMail } from '../../util/mail.js'
+import { canSendWarningMail } from '../../util/ratelimit-warningmail.js'
 
-export const sendUninstallWarnings = async ({ familyId, deviceName, transaction }: {
+export const sendUninstallWarnings = async ({ familyId, deviceName, transaction, mailTransport }: {
   transaction: SimpleDatabaseTransaction
+  mailTransport: MailTransport
   familyId: string
   deviceName: string
 }) => {
@@ -42,7 +43,7 @@ export const sendUninstallWarnings = async ({ familyId, deviceName, transaction 
     await Promise.all(
       targetMailAddresses.map(async (receiver) => {
         if (await canSendWarningMail(receiver)) {
-          await sendUninstallWarningMail({ receiver, deviceName })
+          await sendUninstallWarningMail({ receiver, deviceName, mailTransport })
         }
       })
     )

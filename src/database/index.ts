@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export { Transaction, Database, defaultDatabase, defaultUmzug } from './main'
-export { assertNestedTransactionsAreWorking } from './utils/nested-transactions'
-export { assertSerializeableTransactionsAreWorking, shouldRetryWithException } from './utils/serialized'
+export { Transaction, Database, openDatabaseFromUrl } from './main.js'
+export { assertNestedTransactionsAreWorking } from './utils/nested-transactions.js'
+export { assertSerializeableTransactionsAreWorking, shouldRetryWithException } from './utils/serialized.js'

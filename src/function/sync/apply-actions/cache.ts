@@ -15,20 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { memoize } from 'lodash'
+import memoize from 'lodash/memoize.js'
 import * as Sequelize from 'sequelize'
-import { config } from '../../../config'
-import { VisibleConnectedDevicesManager } from '../../../connected-devices'
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { setToList } from '../../../util/list'
-import { generateVersionId } from '../../../util/token'
-import { SourceUserNotFoundException } from './exception/illegal-state'
-import { InvalidChildActionIntegrityValue } from './exception/integrity'
+import { AlwaysProConfig } from '../../../config.js'
+import { VisibleConnectedDevicesManager } from '../../../connected-devices/index.js'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { setToList } from '../../../util/list.js'
+import { MailTransport } from '../../../util/mail.js'
+import { generateVersionId } from '../../../util/token.js'
+import { SourceUserNotFoundException } from './exception/illegal-state.js'
+import { InvalidChildActionIntegrityValue } from './exception/integrity.js'
 
 export class Cache {
   readonly familyId: string
   readonly deviceId: string
   readonly hasFullVersion: boolean
+  mailTransport: MailTransport
   transaction: SimpleDatabaseTransaction
   readonly connectedDevicesManager: VisibleConnectedDevicesManager
   private requireSenderDoFullSync = false
@@ -47,18 +49,21 @@ export class Cache {
   triggeredSyncLevel: 0 | 1 | 2 = 0 // 0 = no, 1 = unimportant, 2 = important
   targetedTriggeredSyncLevels = new Map<string, 0 | 1 | 2>()
 
-  constructor ({ familyId, deviceId, hasFullVersion, transaction, connectedDevicesManager }: {
+  constructor ({ familyId, deviceId, hasFullVersion, transaction, config, connectedDevicesManager, mailTransport }: {
     familyId: string
     deviceId: string
     hasFullVersion: boolean
     transaction: SimpleDatabaseTransaction
+    config: AlwaysProConfig
     connectedDevicesManager: VisibleConnectedDevicesManager
+    mailTransport: MailTransport
   }) {
     this.familyId = familyId
     this.deviceId = deviceId
     this.hasFullVersion = hasFullVersion || config.alwaysPro
     this.transaction = transaction
     this.connectedDevicesManager = connectedDevicesManager
+    this.mailTransport = mailTransport
   }
 
   incrementTriggeredSyncLevel(newLevel: 1 | 2) {
@@ -238,39 +243,27 @@ export class Cache {
     }
 
     if (this.invalidiateUserList) {
-      await this.transaction.legacy.database.family.update({
+      await this.transaction.family.updateUserListVersion({
+        familyId,
         userListVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: this.familyId
-        },
-        transaction: this.transaction.legacy.transaction
       })
 
       this.invalidiateUserList = false
     }
 
     if (this.invalidiateDeviceList) {
-      await this.transaction.legacy.database.family.update({
+      await this.transaction.family.updateDeviceListVersion({
+        familyId,
         deviceListVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: this.familyId
-        },
-        transaction: this.transaction.legacy.transaction
       })
 
       this.invalidiateDeviceList = false
     }
 
     if (this.invalidateU2fList) {
-      await this.transaction.legacy.database.family.update({
+      await this.transaction.family.updateU2fKeysVersion({
+        familyId,
         u2fKeysVersion: generateVersionId()
-      }, {
-        where: {
-          familyId: this.familyId
-        },
-        transaction: this.transaction.legacy.transaction
       })
 
       this.invalidateU2fList = false

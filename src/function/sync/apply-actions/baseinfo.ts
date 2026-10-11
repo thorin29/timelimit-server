@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { SourceFamilyNotFoundException } from './exception/illegal-state'
+import HttpErrors from 'http-errors'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { SourceFamilyNotFoundException } from './exception/illegal-state.js'
 
 export interface ApplyActionBaseInfo {
   familyId: string
@@ -37,7 +37,7 @@ export async function getApplyActionBaseInfo ({ transaction, deviceAuthToken }: 
   })
 
   if (!deviceEntryUnsafe) {
-    throw new Unauthorized()
+    throw new HttpErrors.Unauthorized()
   }
 
   const deviceEntry = {

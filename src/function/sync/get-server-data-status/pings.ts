@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../../database/simple'
-import { types as pingTypes } from '../../../database/ping'
-import { ServerPing } from '../../../object/serverdatastatus'
-import { FamilyEntry } from './family-entry'
+import { SimpleDatabaseTransaction } from '../../../database/simple/index.js'
+import { types as pingTypes } from '../../../database/ping.js'
+import { ServerPing } from '../../../object/serverdatastatus.js'
+import { FamilyEntry } from './family-entry.js'
 
 export async function getPings ({
   transaction, familyEntry, deviceId

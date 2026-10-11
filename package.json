@@ -1,11 +1,12 @@
 {
   "name": "timelimit-server-2018",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "description": "",
   "scripts": {
+    "test": "node --test build/test",
     "start": "node ./build/index.js",
-    "test": "node scripts/test-launch-with-different-databases.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "npm run build:clean && npm run build:json && npm run build:ts && npm run lint && npm run build:doc",
@@ -13,10 +14,7 @@
     "build:json": "node ./scripts/build-schemas.js",
     "build:ts": "tsc",
     "build:doc": "npm run build:doc:json",
-    "build:doc:json": "jsonschema2md -d docs/schema -o docs/schema -x -",
-    "tool:find-old-families": "node build/cli/find-old-families.js",
-    "tool:delete-old-families": "node build/cli/delete-old-families.js",
-    "tool:count-families": "node build/cli/count-families.js"
+    "build:doc:json": "jsonschema2md -d docs/schema -o docs/schema -x -"
   },
   "repository": {
     "type": "git",
@@ -37,7 +35,7 @@
     "@types/express": "^4.17.9",
     "@types/http-errors": "^1.8.0",
     "@types/lodash": "^4.14.166",
-    "@types/node": "^16.11.59",
+    "@types/node": "^20.19.43",
     "@types/nodemailer": "^6.4.4",
     "eslint": "^10.0.1",
     "typescript": "^5.5.4",
@@ -54,16 +52,12 @@
     "http-errors": "^1.8.0",
     "jose": "^4.9.3",
     "lodash": "^4.17.21",
-    "mariadb": "^2.5.2",
-    "nodemailer": "^9.0.4",
+    "nodemailer": "^10.0.14",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "rate-limiter-flexible": "^2.1.15",
     "sequelize": "^6.25.5",
     "socket.io": "^4.0.1",
     "umzug": "^3.8.1"
-  },
-  "optionalDependencies": {
-    "sqlite3": "npm:@vscode/sqlite3@^5.1.12-vscode"
   }
 }

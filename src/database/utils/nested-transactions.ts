@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2021 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { generateIdWithinFamily } from '../../util/token'
-import { configItemIds } from '../config'
-import { Database } from '../main'
+import { generateIdWithinFamily } from '../../util/token.js'
+import { configItemIds } from '../config.js'
+import { Database } from '../main.js'
 
 class NestedTransactionTestException extends Error {}
 class TestRollbackException extends NestedTransactionTestException {}

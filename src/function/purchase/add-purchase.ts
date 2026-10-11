@@ -15,24 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict } from 'http-errors'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { notifyClientsAboutChangesDelayed } from '../../function/websocket'
-import { WebsocketApi } from '../../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { notifyClientsAboutChangesDelayed } from '../../function/websocket/index.js'
+import { WebsocketApi } from '../../websocket/index.js'
 
 const day = 1000 * 60 * 60 * 24
 const week = day * 7
 const month = day * 31
 const year = day * 366
 
-export const addPurchase = async ({ familyId, type, service, transactionId, websocket, transaction }: {
+export const addPurchase = async ({ familyId, type, transactionId, websocket, transaction }: {
   transaction: SimpleDatabaseTransaction
   familyId: string
   type: 'month' | 'year' | 'unpaid14'
-  service: 'googleplay' | 'directpurchase'
   transactionId: string
   websocket: WebsocketApi
 }) => {
+  const service = 'directpurchase'
+
   const oldPurchaseEntry = await transaction.legacy.database.purchase.findOne({
     where: {
       service,
@@ -53,7 +54,7 @@ export const addPurchase = async ({ familyId, type, service, transactionId, webs
   })
 
   if (!familyEntry) {
-    throw new Conflict()
+    throw new HttpErrors.Conflict()
   }
 
   const previousFullVersionEndTime = familyEntry.fullVersionUntil

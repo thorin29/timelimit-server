@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2020 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,5 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export { StaticMessageException, IllegalStateException } from './static-message-exception'
-export { ValidationException } from './validation'
+export { StaticMessageException, IllegalStateException } from './static-message-exception.js'
+export { ValidationException } from './validation.js'

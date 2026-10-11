@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ClientDataStatus } from '../object/clientdatastatus'
-import { optionalPasswordRegex, optionalSaltRegex } from '../util/password'
+import { ClientDataStatus } from '../object/clientdatastatus.js'
+import { optionalPasswordRegex, optionalSaltRegex } from '../util/password.js'
 
 export interface ClientPushChangesRequest {
   deviceAuthToken: string
@@ -117,12 +117,6 @@ export interface CanDoPurchaseRequest {
   deviceAuthToken: string
 }
 
-export interface FinishPurchaseByGooglePlayRequest {
-  deviceAuthToken: string
-  receipt: string
-  signature: string
-}
-
 export interface LinkParentMailAddressRequest {
   mailAuthToken: string
   deviceAuthToken: string
@@ -181,5 +175,5 @@ export interface DeleteAccountPayload {
   mailAuthTokens: Array<string>
 }
 
-export { SerializedParentAction, SerializedChildAction, SerializedAppLogicAction } from '../action/serialization'
-export { ServerDataStatus } from '../object/serverdatastatus'
+export { SerializedParentAction, SerializedChildAction, SerializedAppLogicAction } from '../action/serialization/index.js'
+export { ServerDataStatus } from '../object/serverdatastatus.js'

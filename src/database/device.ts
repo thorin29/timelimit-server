@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2023 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -16,11 +16,11 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { NewPermissionStatus, newPermissionStatusValues } from '../model/newpermissionstatus'
-import { ProtectionLevel, protetionLevels } from '../model/protectionlevel'
-import { RuntimePermissionStatus, runtimePermissionStatusValues } from '../model/runtimepermissionstatus'
-import { authTokenColumn, booleanColumn, createEnumColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn, versionColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { NewPermissionStatus, newPermissionStatusValues } from '../model/newpermissionstatus.js'
+import { ProtectionLevel, protetionLevels } from '../model/protectionlevel.js'
+import { RuntimePermissionStatus, runtimePermissionStatusValues } from '../model/runtimepermissionstatus.js'
+import { authTokenColumn, booleanColumn, createEnumColumn, familyIdColumn, idWithinFamilyColumn, labelColumn, optionalIdWithinFamilyColumn, timestampColumn, versionColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 export const DeviceHadManipulationFlags = {
   ProtectionLevel: 1,

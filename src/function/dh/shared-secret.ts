@@ -16,9 +16,9 @@
  */
 
 import { createPrivateKey, createPublicKey, diffieHellman } from 'crypto'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { calculateExpireTime } from '../../database/devicedhkey'
-import { isVersionId } from '../../util/token'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { calculateExpireTime } from '../../database/devicedhkey.js'
+import { isVersionId } from '../../util/token.js'
 
 export async function getSharedSecret({
   transaction, familyId, deviceId, keyId, otherPublicKey
@@ -31,20 +31,21 @@ export async function getSharedSecret({
 }) {
   if (!isVersionId(keyId)) throw new KeyNotFoundException('invalid key id')
 
-  const databaseKeyEntry = await transaction.legacy.database.deviceDhKey.findOne({
-    where: {
-      familyId,
-      deviceId,
-      version: keyId
-    },
-    transaction: transaction.legacy.transaction
+  const databaseKeyEntry = await transaction.deviceDhKey.query({
+    familyId,
+    deviceId,
+    keyId
   })
 
   if (!databaseKeyEntry) throw new KeyNotFoundException('private key not found')
 
   if (databaseKeyEntry.expireAt === null) {
-    databaseKeyEntry.expireAt = calculateExpireTime(BigInt(Date.now())).toString(10)
-    await databaseKeyEntry.save({ transaction: transaction.legacy.transaction })
+    await transaction.deviceDhKey.updateExpireAt({
+      familyId,
+      deviceId,
+      keyId,
+      expireAt: calculateExpireTime(BigInt(Date.now())),
+    })
   } else {
     if (BigInt(databaseKeyEntry.expireAt) < BigInt(Date.now())) throw new KeyExpiredException()
   }

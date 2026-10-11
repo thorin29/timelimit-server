@@ -15,19 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { RegisterChildDeviceRequest } from '../../api/schema'
-import { SimpleDatabase } from '../../database/simple'
-import { generateAuthToken, generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { prepareDeviceEntry } from '../device/prepare-device-entry'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
-import { generateServerDataStatus } from '../sync/get-server-data-status'
-import { EventHandler } from '../../monitoring/eventhandler'
-import { ServerDataStatus } from '../../object/serverdatastatus'
-import { createEmptyClientDataStatus } from '../../object/clientdatastatus'
+import HttpErrors from 'http-errors'
+import { RegisterChildDeviceRequest } from '../../api/schema.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { generateAuthToken, generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { AlwaysProConfig } from '../../config.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
+import { generateServerDataStatus } from '../sync/get-server-data-status/index.js'
+import { EventHandler } from '../../monitoring/eventhandler.js'
+import { ServerDataStatus } from '../../object/serverdatastatus.js'
+import { createEmptyClientDataStatus } from '../../object/clientdatastatus.js'
 
-export const addChildDevice = async ({ database, eventHandler, websocket, request }: {
+export const addChildDevice = async ({ config, database, eventHandler, websocket, request }: {
+  config: AlwaysProConfig
   database: SimpleDatabase
   eventHandler: EventHandler
   websocket: WebsocketApi
@@ -39,39 +40,29 @@ export const addChildDevice = async ({ database, eventHandler, websocket, reques
   data: ServerDataStatus
 }> => {
   return database.transaction(async (transaction) => {
-    const entry = await transaction.legacy.database.addDeviceToken.findOne({
-      where: {
-        token: request.registerToken.toLowerCase()
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const entry = await transaction.addDeviceToken.getAndDestroy(request.registerToken.toLowerCase())
 
     if (!entry) {
-      throw new Unauthorized()
+      throw new HttpErrors.Unauthorized()
     }
-
-    await entry.destroy({ transaction: transaction.legacy.transaction })
 
     const { deviceId, familyId } = entry
     const deviceAuthToken = generateAuthToken()
 
-    await transaction.legacy.database.device.create(prepareDeviceEntry({
+    await transaction.device.create({
       familyId,
+      time: Date.now(),
       deviceId,
       deviceAuthToken,
       deviceName: request.deviceName,
-      newDeviceInfo: request.childDevice,
+      deviceModel: request.childDevice.model,
       userId: '',
       isUserKeptSignedIn: false
-    }), { transaction: transaction.legacy.transaction })
+    })
 
-    await transaction.legacy.database.family.update({
+    await transaction.family.updateDeviceListVersion({
+      familyId,
       deviceListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId
-      },
-      transaction: transaction.legacy.transaction
     })
 
     await notifyClientsAboutChangesDelayed({
@@ -88,6 +79,7 @@ export const addChildDevice = async ({ database, eventHandler, websocket, reques
       clientStatus: createEmptyClientDataStatus({ clientLevel: request.clientLevel || null }),
       familyId: entry.familyId,
       deviceId,
+      config,
       eventHandler
     })
 

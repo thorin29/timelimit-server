@@ -16,56 +16,28 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabase } from '../database/simple'
+import { SimpleDatabase } from '../database/simple/index.js'
 
-export function initDeleteOldTokensWorker ({ database }: {
+export async function deleteOldTokens ({ database, now }: {
   database: SimpleDatabase
-}) {
-  function doWorkSafe () {
-    console.log('deleting old tokens now')
-
-    deleteOldTokens({ database }).then(() => {
-      console.log('finished deleting old tokens')
-    }).catch((ex) => {
-      console.warn('error deleting old tokens', ex)
-    })
-  }
-
-  setTimeout(() => {
-    doWorkSafe()
-
-    setInterval(() => {
-      doWorkSafe()
-    }, 1000 * 60 * 60 /* every hour */)
-  }, 1000 * 60 * 7 /* after 7 minutes */)
-}
-
-async function deleteOldTokens ({ database }: {
-  database: SimpleDatabase
+  now: number
 }) {
   await database.transaction(async (transaction) => {
     await transaction.legacy.database.authtoken.destroy({
       where: {
         createdAt: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
+          [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
         }
       },
       transaction: transaction.legacy.transaction
     })
 
-    await transaction.legacy.database.addDeviceToken.destroy({
-      where: {
-        createdAt: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
-        }
-      },
-      transaction: transaction.legacy.transaction
-    })
+    await transaction.addDeviceToken.destroyOlderThan(now - 1000 * 60 * 60 * 3 /* 3 hours */)
 
     await transaction.legacy.database.mailLoginToken.destroy({
       where: {
         createdAt: {
-          [Sequelize.Op.lt]: (Date.now() - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
+          [Sequelize.Op.lt]: (now - 1000 * 60 * 60 * 3 /* 3 hours */).toString()
         }
       },
       transaction: transaction.legacy.transaction
@@ -74,7 +46,7 @@ async function deleteOldTokens ({ database }: {
     await transaction.legacy.database.deviceDhKey.destroy({
       where: {
         expireAt: {
-          [Sequelize.Op.lt]: Date.now().toString()
+          [Sequelize.Op.lt]: now.toString()
         }
       },
       transaction: transaction.legacy.transaction

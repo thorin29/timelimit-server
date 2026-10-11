@@ -15,48 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { DeleteAccountPayload } from '../../api/schema'
-import { SimpleDatabase } from '../../database/simple'
-import { sendAccountDeletedMail } from '../../util/mail'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { deleteFamilies } from './delete-families'
+import HttpErrors from 'http-errors'
+import { DeleteAccountPayload } from '../../api/schema.js'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { MailTransport, sendAccountDeletedMail } from '../../util/mail.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { deleteFamilies } from './delete-families.js'
 
-export async function deleteAccount({ request, database, websocket }: {
+export async function deleteAccount({ request, database, mailTransport, websocket }: {
   request: DeleteAccountPayload
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
 }) {
   await database.transaction(async (transaction) => {
-    const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-      where: { deviceAuthToken: request.deviceAuthToken },
-      attributes: ['familyId'],
-      transaction: transaction.legacy.transaction
-    })
+    const familyId = await transaction.device.getFamilyIdByAuthToken(request.deviceAuthToken)
 
-    if (!deviceEntryUnsafe) {
-      throw new Unauthorized()
+    if (familyId === null) {
+      throw new HttpErrors.Unauthorized()
     }
 
-    const deviceEntry = {
-      familyId: deviceEntryUnsafe.familyId
-    }
-
-    const userEntries = (await transaction.legacy.database.user.findAll({
-      where: {
-        familyId: deviceEntry.familyId,
-        type: 'parent'
-      },
-      attributes: ['mail'],
-      transaction: transaction.legacy.transaction
-    })).map((item) => ({ mail: item.mail }))
-
-    const registeredMailAddresses = new Set<string>()
-
-    userEntries.forEach((item) => {
-      if (item.mail !== '') registeredMailAddresses.add(item.mail)
-    })
+    const registeredMailAddresses = new Set<string>(await transaction.user.getAllMailAddressesByFamilyId(familyId))
 
     const authenticatedMailAddresses = new Set<string>()
 
@@ -67,26 +47,20 @@ export async function deleteAccount({ request, database, websocket }: {
         invalidate: true
       })
 
-      if (!registeredMailAddresses.has(info.mail)) throw new Unauthorized()
+      if (!registeredMailAddresses.has(info.mail)) throw new HttpErrors.Unauthorized()
 
       authenticatedMailAddresses.add(info.mail)
     }
 
-    if (registeredMailAddresses.size !== authenticatedMailAddresses.size) throw new Unauthorized()
+    if (registeredMailAddresses.size !== authenticatedMailAddresses.size) throw new HttpErrors.Unauthorized()
 
     registeredMailAddresses.forEach((mail) => {
-      if (!authenticatedMailAddresses.has(mail)) throw new Unauthorized()
+      if (!authenticatedMailAddresses.has(mail)) throw new HttpErrors.Unauthorized()
     })
 
-    const deviceEntries = (await transaction.legacy.database.device.findAll({
-      where: {
-        familyId: deviceEntry.familyId
-      },
-      transaction: transaction.legacy.transaction,
-      attributes: ['deviceAuthToken']
-    })).map((item) => ({ deviceAuthToken: item.deviceAuthToken }))
+    const deviceEntries = await transaction.device.getDeviceIdsAndAuthTokensByFamilyId(familyId)
 
-    await deleteFamilies({ transaction, familiyIds: [deviceEntry.familyId] })
+    await deleteFamilies({ transaction, familiyIds: [familyId] })
 
     transaction.enqueueAfterCommit(() => {
       for (const device of deviceEntries) {
@@ -97,7 +71,7 @@ export async function deleteAccount({ request, database, websocket }: {
       }
 
       registeredMailAddresses.forEach((receiver) => {
-        sendAccountDeletedMail({ receiver }).catch((ex) => {
+        sendAccountDeletedMail({ receiver, mailTransport }).catch((ex) => {
           console.warn('failure while sending account deletion confirmation', ex)
         })
       })

@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2022 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { assertParentPasswordValid, EncryptableParentPassword, ParentPasswordValidationException } from '../api/schema'
-import { ParentAction } from './basetypes'
-import { InvalidActionParameterException } from './meta/exception'
-import { assertIdWithinFamily } from './meta/util'
+import { assertParentPasswordValid, EncryptableParentPassword, ParentPasswordValidationException } from '../api/schema.js'
+import { ParentAction } from './basetypes.js'
+import { InvalidActionParameterException } from './meta/exception.js'
+import { assertIdWithinFamily } from './meta/util.js'
 
 const actionType = 'SetChildPasswordAction'
 

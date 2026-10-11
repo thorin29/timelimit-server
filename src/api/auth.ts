@@ -15,33 +15,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { Router } from 'express'
-import { BadRequest } from 'http-errors'
-import { SimpleDatabase } from '../database/simple'
-import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail'
-import { isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail'
+import HttpErrors from 'http-errors'
+import { MailWhitelistConfig } from '../config.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { sendLoginCode, signInByMailCode } from '../function/authentication/login-by-mail.js'
+import { MailTransport, isMailAddressCoveredByWhitelist, isMailServerBlacklisted, sanitizeMailAddress } from '../util/mail.js'
 import {
   isSendMailLoginCodeRequest,
   isSignInByMailCodeRequest
-} from './validator'
+} from './validator.js'
 
-export const createAuthRouter = (database: SimpleDatabase) => {
+export const createAuthRouter = ({ config, database, mailTransport }: {
+  config: MailWhitelistConfig
+  database: SimpleDatabase
+  mailTransport: MailTransport
+}) => {
   const router = Router()
 
-  router.post('/send-mail-login-code-v2', json(), async (req, res, next) => {
+  router.post('/send-mail-login-code-v2', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isSendMailLoginCodeRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const mail = sanitizeMailAddress(req.body.mail)
 
       if (!mail) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
-      if (!isMailAddressCoveredByWhitelist(mail)) {
+      if (!isMailAddressCoveredByWhitelist(config, mail)) {
         res.json({ mailAddressNotWhitelisted: true })
       } else if (isMailServerBlacklisted(mail)) {
         res.json({ mailServerBlacklisted: true })
@@ -50,7 +55,8 @@ export const createAuthRouter = (database: SimpleDatabase) => {
           mail,
           deviceAuthToken: req.body.deviceAuthToken,
           locale: req.body.locale,
-          database
+          database,
+          mailTransport
         })
 
         res.json({ mailLoginToken })
@@ -60,10 +66,10 @@ export const createAuthRouter = (database: SimpleDatabase) => {
     }
   })
 
-  router.post('/sign-in-by-mail-code', json(), async (req, res, next) => {
+  router.post('/sign-in-by-mail-code', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isSignInByMailCodeRequest(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const { mailAuthToken } = await signInByMailCode({

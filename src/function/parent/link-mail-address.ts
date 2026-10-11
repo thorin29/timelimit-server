@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Conflict, Unauthorized } from 'http-errors'
-import { SimpleDatabase } from '../../database/simple'
-import { generateVersionId } from '../../util/token'
-import { WebsocketApi } from '../../websocket'
-import { requireMailAndLocaleByAuthToken } from '../authentication'
-import { notifyClientsAboutChangesDelayed } from '../websocket'
+import HttpErrors from 'http-errors'
+import { SimpleDatabase } from '../../database/simple/index.js'
+import { generateVersionId } from '../../util/token.js'
+import { WebsocketApi } from '../../websocket/index.js'
+import { requireMailAndLocaleByAuthToken } from '../authentication/index.js'
+import { notifyClientsAboutChangesDelayed } from '../websocket/index.js'
 
 export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUserId, parentPasswordSecondHash, database, websocket }: {
   mailAuthToken: string
@@ -32,69 +32,51 @@ export const linkMailAddress = async ({ mailAuthToken, deviceAuthToken, parentUs
   // no transaction here because this is directly called from an API endpoint
 }) => {
   await database.transaction(async (transaction) => {
-    const deviceEntry = await transaction.legacy.database.device.findOne({
-      where: {
-        deviceAuthToken
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const familyId = await transaction.device.getFamilyIdByAuthToken(deviceAuthToken)
 
-    if (!deviceEntry) {
-      throw new Unauthorized()
+    if (familyId === null) {
+      throw new HttpErrors.Unauthorized()
     }
-
-    const familyId = deviceEntry.familyId
 
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
 
-    const exisitingUser = await transaction.legacy.database.user.findOne({
-      where: {
-        mail: mailInfo.mail
-      },
-      transaction: transaction.legacy.transaction
-    })
+    const exisitingUser = await transaction.user.getFamilyIdAndUserIdByMailAddress(mailInfo.mail)
 
     if (exisitingUser) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
-    const parentEntry = await transaction.legacy.database.user.findOne({
-      where: {
-        type: 'parent',
-        familyId,
-        userId: parentUserId
-      },
-      transaction: transaction.legacy.transaction
+    const parentEntry = await transaction.user.getParentUserMailAndSecondPasswordHash({
+      familyId,
+      userId: parentUserId
     })
 
     if (!parentEntry) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     if (parentEntry.mail !== '') {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     if (parentEntry.secondPasswordHash !== parentPasswordSecondHash) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
     if (!parentEntry.secondPasswordSalt) {
-      throw new Conflict()
+      throw new HttpErrors.Conflict()
     }
 
-    parentEntry.mail = mailInfo.mail
-
-    await parentEntry.save({ transaction: transaction.legacy.transaction })
+    await transaction.user.updateParentUserMailAddress({
+      familyId,
+      userId: parentUserId,
+      newMailAddress: mailInfo.mail,
+    })
 
     // invalidiate client caches
-    await transaction.legacy.database.family.update({
-      userListVersion: generateVersionId()
-    }, {
-      where: {
-        familyId
-      },
-      transaction: transaction.legacy.transaction
+    await transaction.family.updateUserListVersion({
+      userListVersion: generateVersionId(),
+      familyId
     })
 
     // notify

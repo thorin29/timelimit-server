@@ -15,19 +15,87 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabase } from '../database/simple'
-import { WebsocketApi } from '../websocket'
-import { initDeleteDeprecatedPurchasesWorker } from './delete-deprecated-purchases'
-import { initDeleteOldFamiliesWorker } from './delete-old-families'
-import { initDeleteOldTokensWorker } from './delete-old-tokens'
-import { initDeleteOldUsedTimesWorker } from './delete-old-used-times'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { deleteDeprecatedPurchases } from './delete-deprecated-purchases.js'
+import { deleteOldFamilies } from './delete-old-families.js'
+import { deleteOldTokens } from './delete-old-tokens.js'
+import { deleteOldUsedTimes } from './delete-old-used-times.js'
+
+export interface WorkerCollectionItem {
+  label: string
+  run: (now: number) => Promise<void>
+  initialDelay: number
+  interval: number
+}
 
 export function initWorkers ({ database, websocket }: {
   database: SimpleDatabase
   websocket: WebsocketApi
 }) {
-  initDeleteDeprecatedPurchasesWorker({ database, websocket })
-  initDeleteOldFamiliesWorker({ database })
-  initDeleteOldTokensWorker({ database })
-  initDeleteOldUsedTimesWorker({ database })
+  const workers = getWorkerCollection({ database, websocket })
+
+  for (const worker of workers) {
+    const doWorkSafe = () => {
+      console.log(worker.label + ' now')
+
+      worker.run(Date.now()).then(() => {
+        console.log('finished ' + worker.label)
+      }).catch((ex) => {
+        console.warn('error ' + worker.label, ex)
+      })
+    }
+
+    setTimeout(() => {
+      doWorkSafe()
+
+      setInterval(() => {
+        doWorkSafe()
+      }, worker.interval)
+    }, worker.initialDelay)
+  }
+}
+
+export async function runWorkersOnce ({ database, websocket, time }: {
+  database: SimpleDatabase
+  websocket: WebsocketApi
+  time: number
+}) {
+  const workers = getWorkerCollection({ database, websocket })
+
+  for (const worker of workers) {
+    await worker.run(time)
+  }
+}
+
+export function getWorkerCollection ({ database, websocket }: {
+  database: SimpleDatabase
+  websocket: WebsocketApi
+}): Array<WorkerCollectionItem> {
+  return [
+    {
+      label: 'deleting deprecated purchases',
+      run: async (now) => { await deleteDeprecatedPurchases({ database, websocket, now }) },
+      initialDelay: 1000 * 60 * 5 /* after 5 minutes */,
+      interval: 1000 * 60 * 60 /* every hour */,
+    },
+    {
+      label: 'deleting old families',
+      run: async (now) => { await deleteOldFamilies({ database, now }) },
+      initialDelay: 1000 * 60 * 23 /* after 23 minutes */,
+      interval: 1000 * 60 * 60 /* every 4 hours */,
+    },
+    {
+      label: 'deleting old tokens',
+      run: async (now) => { await deleteOldTokens({ database , now}) },
+      initialDelay: 1000 * 60 * 7 /* after 7 minutes */,
+      interval: 1000 * 60 * 60 /* every hour */,
+    },
+    {
+      label: 'deleting old used times',
+      run: async (now) => { await deleteOldUsedTimes({ database, now }) },
+      initialDelay: 1000 * 60 * 13 /* after 13 minutes */,
+      interval: 1000 * 60 * 30 /* every 30 minutes */,
+    },
+  ]
 }

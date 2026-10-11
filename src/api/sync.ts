@@ -15,17 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { json } from 'body-parser'
+import BodyParser from 'body-parser'
 import { Router } from 'express'
-import { BadRequest, Unauthorized } from 'http-errors'
-import { VisibleConnectedDevicesManager } from '../connected-devices'
-import { SimpleDatabase } from '../database/simple'
-import { reportDeviceRemoved } from '../function/device/report-device-removed'
-import { applyActionsFromDevice } from '../function/sync/apply-actions'
-import { generateServerDataStatus } from '../function/sync/get-server-data-status'
-import { EventHandler } from '../monitoring/eventhandler'
-import { WebsocketApi } from '../websocket'
-import { isClientPullChangesRequest, isClientPushChangesRequest, isRequestWithAuthToken } from './validator'
+import HttpErrors from 'http-errors'
+import { AlwaysProConfig } from '../config.js'
+import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { reportDeviceRemoved } from '../function/device/report-device-removed.js'
+import { applyActionsFromDevice } from '../function/sync/apply-actions/index.js'
+import { generateServerDataStatus } from '../function/sync/get-server-data-status/index.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
+import { MailTransport } from '../util/mail.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { isClientPullChangesRequest, isClientPushChangesRequest, isRequestWithAuthToken } from './validator.js'
 
 const getRoundedTimestampForLastConnectivity = () => {
   const now = Date.now()
@@ -33,15 +35,17 @@ const getRoundedTimestampForLastConnectivity = () => {
   return now - (now % (1000 * 60 * 60 * 12 /* 12 hours */))
 }
 
-export const createSyncRouter = ({ database, websocket, connectedDevicesManager, eventHandler }: {
+export const createSyncRouter = ({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler }: {
+  config: AlwaysProConfig
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
   eventHandler: EventHandler
 }) => {
   const router = Router()
 
-  router.post('/push-actions', json({
+  router.post('/push-actions', BodyParser.json({
     limit: '5120kb'
   }), async (req, res, next) => {
     try {
@@ -50,15 +54,17 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
       if (!isClientPushChangesRequest(req.body)) {
         eventHandler.countEvent('pushChangesRequest invalid')
 
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const { shouldDoFullSync } = await applyActionsFromDevice({
         request: req.body,
+        config,
         database,
         websocket,
         connectedDevicesManager,
-        eventHandler
+        eventHandler,
+        mailTransport,
       })
 
       if (shouldDoFullSync) {
@@ -73,7 +79,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
     }
   })
 
-  router.post('/pull-status', json(), async (req, res, next) => {
+  router.post('/pull-status', BodyParser.json(), async (req, res, next) => {
     try {
       eventHandler.countEvent('pullStatusRequest')
 
@@ -82,33 +88,23 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
       if (!isClientPullChangesRequest(body)) {
         eventHandler.countEvent('pullStatusRequest invalid')
 
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const serverStatus = await database.transaction(async (transaction) => {
-        const deviceEntryUnsafe = await transaction.legacy.database.device.findOne({
-          where: {
-            deviceAuthToken: body.deviceAuthToken
-          },
-          attributes: ['familyId', 'deviceId', 'lastConnectivity'],
-          transaction: transaction.legacy.transaction
-        })
+        const deviceEntry = await transaction.device.getFamilyIdAndDeviceIdAndLastConnectivityByAuthToken(body.deviceAuthToken)
 
-        if (!deviceEntryUnsafe) {
-          throw new Unauthorized()
+        if (!deviceEntry) {
+          throw new HttpErrors.Unauthorized()
         }
 
-        const { familyId, deviceId, lastConnectivity } = deviceEntryUnsafe
+        const { familyId, deviceId, lastConnectivity } = deviceEntry
         const now = getRoundedTimestampForLastConnectivity()
 
-        if (parseInt(lastConnectivity, 10) !== now) {
-          await transaction.legacy.database.device.update({
-            lastConnectivity: now.toString(10)
-          }, {
-            where: {
-              deviceAuthToken: body.deviceAuthToken
-            },
-            transaction: transaction.legacy.transaction
+        if (lastConnectivity !== now) {
+          await transaction.device.updateLastConnectivityByDeviceAuthToken({
+            deviceAuthToken: body.deviceAuthToken,
+            lastConnectivity: now
           })
         }
 
@@ -117,6 +113,7 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
           familyId,
           deviceId,
           clientStatus: body.status,
+          config,
           eventHandler
         })
       })
@@ -139,15 +136,16 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
     }
   })
 
-  router.post('/report-removed', json(), async (req, res, next) => {
+  router.post('/report-removed', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRequestWithAuthToken(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       await reportDeviceRemoved({
         database,
         deviceAuthToken: req.body.deviceAuthToken,
+        mailTransport,
         websocket
       })
 
@@ -157,21 +155,14 @@ export const createSyncRouter = ({ database, websocket, connectedDevicesManager,
     }
   })
 
-  router.post('/is-device-removed', json(), async (req, res, next) => {
+  router.post('/is-device-removed', BodyParser.json(), async (req, res, next) => {
     try {
       if (!isRequestWithAuthToken(req.body)) {
-        throw new BadRequest()
+        throw new HttpErrors.BadRequest()
       }
 
       const isDeviceRemoved: boolean = await database.transaction(async (transaction) => {
-        const removedEntry = await transaction.legacy.database.oldDevice.findOne({
-          where: {
-            deviceAuthToken: req.body.deviceAuthToken
-          },
-          transaction: transaction.legacy.transaction
-        })
-
-        return !!removedEntry
+        return await transaction.oldDevice.hasAuthToken(req.body.deviceAuthToken)
       })
 
       res.json({

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabase, SimpleDatabaseTransaction } from '../../database/simple'
-import { configItemIds } from '../../database/config'
+import { SimpleDatabase, SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { configItemIds } from '../../database/config.js'
 
 export const getStatusMessage = async ({ transaction }: {
   transaction: SimpleDatabaseTransaction

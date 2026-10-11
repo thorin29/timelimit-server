@@ -16,7 +16,7 @@
  */
 
 import { QueryInterface, Sequelize, Transaction } from 'sequelize'
-import { attributesVersion5 as categoryAttributes } from '../../category'
+import { attributesVersion5 as categoryAttributes } from '../../category.js'
 
 export async function up (queryInterface: QueryInterface, sequelize: Sequelize) {
   await sequelize.transaction({

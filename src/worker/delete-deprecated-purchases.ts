@@ -16,43 +16,21 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabase } from '../database/simple'
-import { notifyClientsAboutChangesDelayed } from '../function/websocket'
-import { WebsocketApi } from '../websocket'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { notifyClientsAboutChangesDelayed } from '../function/websocket/index.js'
+import { WebsocketApi } from '../websocket/index.js'
 
-export function initDeleteDeprecatedPurchasesWorker ({ database, websocket }: {
+export async function deleteDeprecatedPurchases ({ database, websocket, now }: {
   database: SimpleDatabase
   websocket: WebsocketApi
-}) {
-  function doWorkSafe () {
-    console.log('deleting deprecated purchases now')
-
-    deleteDeprecatedPurchases({ database, websocket }).then(() => {
-      console.log('finished deleting deprecated purchases')
-    }).catch((ex) => {
-      console.warn('error deleting deprecated purchases', ex)
-    })
-  }
-
-  setTimeout(() => {
-    doWorkSafe()
-
-    setInterval(() => {
-      doWorkSafe()
-    }, 1000 * 60 * 60 /* every hour */)
-  }, 1000 * 60 * 5 /* after 5 minutes */)
-}
-
-async function deleteDeprecatedPurchases ({ database, websocket }: {
-  database: SimpleDatabase
-  websocket: WebsocketApi
+  now: number
 }) {
   await database.transaction(async (transaction) => {
     const affectedFamilyIds = (await transaction.legacy.database.family.findAll({
       where: {
         hasFullVersion: true,
         fullVersionUntil: {
-          [Sequelize.Op.lt]: Date.now().toString(10)
+          [Sequelize.Op.lt]: now
         }
       },
       attributes: ['familyId'],

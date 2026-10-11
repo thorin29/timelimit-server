@@ -16,10 +16,10 @@
  */
 
 import { createHash, timingSafeEqual } from 'crypto'
-import { getSharedSecret, SharedSecretException } from '../dh'
-import { SimpleDatabaseTransaction} from '../../database/simple'
-import { intToBuffer } from '../../util/binary-number'
-import { isU2fSignatureValid, calculateApplicationId } from '../../util/u2fsignature'
+import { getSharedSecret, SharedSecretException } from '../dh/index.js'
+import { SimpleDatabaseTransaction} from '../../database/simple/index.js'
+import { intToBuffer } from '../../util/binary-number.js'
+import { isU2fSignatureValid, calculateApplicationId } from '../../util/u2fsignature.js'
 
 export class U2fValidationError extends Error {}
 class IntegrityMalformedException extends U2fValidationError { constructor() { super('integrity malformed') } }

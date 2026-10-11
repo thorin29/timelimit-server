@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { TriedDisablingDeviceAdminAction } from '../../../../action'
-import { hasDeviceManipulation } from '../../../../database/device'
-import { sendManipulationWarnings } from '../../../warningmail/manipulation'
-import { Cache } from '../cache'
-import { SourceDeviceNotFoundException } from '../exception/illegal-state'
+import { TriedDisablingDeviceAdminAction } from '../../../../action/index.js'
+import { hasDeviceManipulation } from '../../../../database/device.js'
+import { sendManipulationWarnings } from '../../../warningmail/manipulation.js'
+import { Cache } from '../cache.js'
+import { SourceDeviceNotFoundException } from '../exception/illegal-state.js'
 
 export async function dispatchTriedDisablingDeviceAdmin ({ deviceId, cache }: {
   deviceId: string
@@ -53,7 +53,8 @@ export async function dispatchTriedDisablingDeviceAdmin ({ deviceId, cache }: {
     await sendManipulationWarnings({
       transaction: cache.transaction,
       deviceName: deviceEntry.name,
-      familyId: cache.familyId
+      familyId: cache.familyId,
+      mailTransport: cache.mailTransport,
     })
   }
 }

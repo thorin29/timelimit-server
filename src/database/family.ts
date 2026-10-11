@@ -16,8 +16,8 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { booleanColumn, familyIdColumn, optionalLabelColumn, timestampColumn, versionColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { booleanColumn, familyIdColumn, optionalLabelColumn, timestampColumn, versionColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 export interface FamilyAttributesVersion1 {
   familyId: string

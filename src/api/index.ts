@@ -15,23 +15,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as basicAuth from 'basic-auth'
-import * as express from 'express'
-import { VisibleConnectedDevicesManager } from '../connected-devices'
-import { SimpleDatabase } from '../database/simple'
-import { EventHandler } from '../monitoring/eventhandler'
-import { WebsocketApi } from '../websocket'
-import { createAdminRouter } from './admin'
-import { createAuthRouter } from './auth'
-import { createChildRouter } from './child'
-import { createParentRouter } from './parent'
-import { createPurchaseRouter } from './purchase'
-import { createSyncRouter } from './sync'
+import basicAuth from 'basic-auth'
+import express from 'express'
+import { VisibleConnectedDevicesManager } from '../connected-devices/index.js'
+import { AlwaysProConfig, SignSecretConfig, MailWhitelistConfig, DisableSignupConfig } from '../config.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { EventHandler } from '../monitoring/eventhandler.js'
+import { MailTransport } from '../util/mail.js'
+import { WebsocketApi } from '../websocket/index.js'
+import { createAdminRouter } from './admin.js'
+import { createAuthRouter } from './auth.js'
+import { createChildRouter } from './child.js'
+import { createParentRouter } from './parent.js'
+import { createPurchaseRouter } from './purchase.js'
+import { createSyncRouter } from './sync.js'
 
 const adminToken = process.env.ADMIN_TOKEN || ''
 
-export const createApi = ({ database, websocket, connectedDevicesManager, eventHandler }: {
+export const createApi = ({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler}: {
+  config: AlwaysProConfig & SignSecretConfig & MailWhitelistConfig & DisableSignupConfig
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   connectedDevicesManager: VisibleConnectedDevicesManager
   eventHandler: EventHandler
@@ -46,11 +50,11 @@ export const createApi = ({ database, websocket, connectedDevicesManager, eventH
     })
   })
 
-  app.use('/auth', createAuthRouter(database))
-  app.use('/child', createChildRouter({ database, websocket, eventHandler }))
-  app.use('/parent', createParentRouter({ database, websocket, eventHandler }))
-  app.use('/purchase', createPurchaseRouter({ database, websocket }))
-  app.use('/sync', createSyncRouter({ database, websocket, connectedDevicesManager, eventHandler }))
+  app.use('/auth', createAuthRouter({ config, database, mailTransport }))
+  app.use('/child', createChildRouter({ config, database, websocket, eventHandler }))
+  app.use('/parent', createParentRouter({ config, database, mailTransport, websocket, eventHandler }))
+  app.use('/purchase', createPurchaseRouter({ database }))
+  app.use('/sync', createSyncRouter({ config, database, mailTransport, websocket, connectedDevicesManager, eventHandler }))
 
   app.use(
     '/admin',
@@ -76,7 +80,7 @@ export const createApi = ({ database, websocket, connectedDevicesManager, eventH
         res.sendStatus(401)
       }
     },
-    createAdminRouter({ database, websocket, eventHandler })
+    createAdminRouter({ config, database, websocket, eventHandler })
   )
 
   return app

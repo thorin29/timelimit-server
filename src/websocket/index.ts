@@ -17,9 +17,9 @@
 
 import { EventEmitter } from 'events'
 import { Server } from 'socket.io'
-import { ConnectedDevicesManager, VisibleConnectedDevicesManager } from '../connected-devices'
-import { SimpleDatabase } from '../database/simple'
-import { deviceByAuthTokenRoom } from './rooms'
+import { ConnectedDevicesManager, VisibleConnectedDevicesManager } from '../connected-devices/index.js'
+import { SimpleDatabase } from '../database/simple/index.js'
+import { deviceByAuthTokenRoom } from './rooms.js'
 
 export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
   connectedDevicesManager: VisibleConnectedDevicesManager
@@ -124,6 +124,13 @@ export const createWebsocketHandler = ({ connectedDevicesManager, database }: {
     websocketServer: server,
     websocketApi
   }
+}
+
+export const dummyWebsocketApi: WebsocketApi = {
+  triggerSyncByDeviceAuthToken: () => {},
+  triggerLogoutByDeviceAuthToken: () => {},
+  triggerImportantSyncAtAllDevicesInBackground: () => {},
+  countConnections: () => 0,
 }
 
 export interface WebsocketApi {

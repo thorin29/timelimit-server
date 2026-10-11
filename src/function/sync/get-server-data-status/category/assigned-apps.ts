@@ -16,10 +16,10 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { SimpleDatabaseTransaction } from '../../../../database/simple'
-import { ServerUpdatedCategoryAssignedApps } from '../../../../object/serverdatastatus'
-import { FamilyEntry } from '../family-entry'
-import { ServerCategoryVersions } from './diff'
+import { SimpleDatabaseTransaction } from '../../../../database/simple/index.js'
+import { ServerUpdatedCategoryAssignedApps } from '../../../../object/serverdatastatus.js'
+import { FamilyEntry } from '../family-entry.js'
+import { ServerCategoryVersions } from './diff.js'
 
 export async function getCategoryAssignedApps ({
   transaction, categoryIdsToSyncAssignedApps, familyEntry, serverCategoriesVersions

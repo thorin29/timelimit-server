@@ -15,9 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { difference } from 'lodash'
-import * as Sequelize from 'sequelize'
-import { SimpleDatabaseTransaction } from '../../database/simple'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
 
 export async function deleteFamilies ({ transaction, familiyIds }: {
   transaction: SimpleDatabaseTransaction
@@ -28,125 +26,34 @@ export async function deleteFamilies ({ transaction, familiyIds }: {
   }
 
   // category
-  await transaction.legacy.database.category.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.category.destroyByFamilyIds(familiyIds)
 
   // categoryapp
-  await transaction.legacy.database.categoryApp.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.categoryApp.destroyByFamilyIds(familiyIds)
 
   // purchase
-  await transaction.legacy.database.purchase.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.purchase.destroyByFamilyIds(familiyIds)
 
   // timelimitrule
-  await transaction.legacy.database.timelimitRule.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.timelimitRule.destroyByFamilyIds(familiyIds)
 
   // usedtime
-  await transaction.legacy.database.usedTime.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.usedTime.destroyByFamilyIds(familiyIds)
 
   // session durations
-  await transaction.legacy.database.sessionDuration.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.sessionDuration.destroyByFamilyIds(familiyIds)
 
   // user
-  await transaction.legacy.database.user.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.user.destroyByFamilyIds(familiyIds)
 
   // device
-  const oldDeviceAuthTokens = (await transaction.legacy.database.device.findAll({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    attributes: ['deviceAuthToken'],
-    transaction: transaction.legacy.transaction
-  })).map((item) => item.deviceAuthToken)
-
-  await transaction.legacy.database.device.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  const oldDeviceAuthTokens = await transaction.device.destroyByFamilyIdsReturningAuthTokens(familiyIds)
 
   // olddevice
   if (oldDeviceAuthTokens.length > 0) {
-    const knownOldDeviceAuthTokens = (await transaction.legacy.database.oldDevice.findAll({
-      where: {
-        deviceAuthToken: {
-          [Sequelize.Op.in]: oldDeviceAuthTokens
-        }
-      },
-      transaction: transaction.legacy.transaction
-    })).map((item) => item.deviceAuthToken)
-
-    const oldDeviceAuthTokensToAdd = difference(oldDeviceAuthTokens, knownOldDeviceAuthTokens)
-
-    if (oldDeviceAuthTokensToAdd.length > 0) {
-      await transaction.legacy.database.oldDevice.bulkCreate(
-        oldDeviceAuthTokensToAdd.map((item) => ({
-          deviceAuthToken: item
-        })),
-        { transaction: transaction.legacy.transaction }
-      )
-    }
+    await transaction.oldDevice.insertMissingTokens(oldDeviceAuthTokens)
   }
 
   // family
-  await transaction.legacy.database.family.destroy({
-    where: {
-      familyId: {
-        [Sequelize.Op.in]: familiyIds
-      }
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.family.destroyByFamilyIds(familiyIds)
 }

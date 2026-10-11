@@ -15,15 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { UpdateDeviceStatusAction } from '../../../../action'
-import { DeviceHadManipulationFlags, DeviceManipulationFlags, hasDeviceManipulation } from '../../../../database/device'
-import { newPermissionStatusValues } from '../../../../model/newpermissionstatus'
-import { protetionLevels } from '../../../../model/protectionlevel'
-import { runtimePermissionStatusValues } from '../../../../model/runtimepermissionstatus'
-import { enumMax } from '../../../../util/enum'
-import { sendManipulationWarnings } from '../../../warningmail/manipulation'
-import { Cache } from '../cache'
-import { SourceDeviceNotFoundException } from '../exception/illegal-state'
+import { UpdateDeviceStatusAction } from '../../../../action/index.js'
+import { DeviceHadManipulationFlags, DeviceManipulationFlags, hasDeviceManipulation } from '../../../../database/device.js'
+import { newPermissionStatusValues } from '../../../../model/newpermissionstatus.js'
+import { protetionLevels } from '../../../../model/protectionlevel.js'
+import { runtimePermissionStatusValues } from '../../../../model/runtimepermissionstatus.js'
+import { enumMax } from '../../../../util/enum.js'
+import { sendManipulationWarnings } from '../../../warningmail/manipulation.js'
+import { Cache } from '../cache.js'
+import { SourceDeviceNotFoundException } from '../exception/illegal-state.js'
 
 export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
   deviceId: string
@@ -182,7 +182,8 @@ export async function dispatchUpdateDeviceStatus ({ deviceId, action, cache }: {
       await sendManipulationWarnings({
         transaction: cache.transaction,
         deviceName: deviceEntry.name,
-        familyId: cache.familyId
+        familyId: cache.familyId,
+        mailTransport: cache.mailTransport,
       })
     }
   }

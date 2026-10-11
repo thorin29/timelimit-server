@@ -15,71 +15,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Unauthorized } from 'http-errors'
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { generateAuthToken } from '../../util/token'
+import HttpErrors from 'http-errors'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
 
-export const createAuthTokenByMailAddress = async ({
+export async function createAuthTokenByMailAddress({
   mail, transaction, locale
 }: {
   mail: string, transaction: SimpleDatabaseTransaction, locale: string
-}) => {
-  const token = generateAuthToken()
-
-  await transaction.legacy.database.authtoken.create({
-    token,
-    mail,
-    createdAt: Date.now().toString(),
-    locale
-  }, { transaction: transaction.legacy.transaction })
-
-  return token
+}): Promise<string>{
+  return transaction.authToken.create({ time: Date.now(), mail, locale })
 }
 
-export const getMailAndLocaleByAuthToken = async ({
+export async function getMailAndLocaleByAuthToken({
   mailAuthToken, transaction, invalidate
 }: {
   mailAuthToken: string, transaction: SimpleDatabaseTransaction, invalidate: boolean
-}) => {
-  const entry = await transaction.legacy.database.authtoken.findOne({
-    where: {
-      token: mailAuthToken
-    },
-    transaction: transaction.legacy.transaction
-  })
-
-  if (entry) {
-    if (invalidate) {
-      const rowCounter = await transaction.legacy.database.authtoken.destroy({
-        where: {
-          token: mailAuthToken
-        },
-        transaction: transaction.legacy.transaction
-      })
-
-      if (rowCounter !== 1) {
-        return null
-      }
-    }
-
-    return {
-      mail: entry.mail,
-      locale: entry.locale
-    }
-  } else {
-    return null
-  }
+}): Promise<{ mail: string, locale: string } | null> {
+  if (invalidate) return await transaction.authToken.checkAndDestroy(mailAuthToken)
+  else return await transaction.authToken.checkAndKeep(mailAuthToken)
 }
 
-export const requireMailAndLocaleByAuthToken = async ({
+export async function requireMailAndLocaleByAuthToken({
   mailAuthToken, transaction, invalidate
 }: {
   mailAuthToken: string, transaction: SimpleDatabaseTransaction, invalidate: boolean
-}) => {
+}): Promise<{ mail: string, locale: string }> {
   const result = await getMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate })
 
   if (!result) {
-    throw new Unauthorized()
+    throw new HttpErrors.Unauthorized()
   }
 
   return result

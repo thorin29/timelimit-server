@@ -16,8 +16,8 @@
  */
 
 import * as Sequelize from 'sequelize'
-import { familyIdColumn, idWithinFamilyColumn, versionColumn, timestampColumn } from './columns'
-import { SequelizeAttributes } from './types'
+import { familyIdColumn, idWithinFamilyColumn, versionColumn, timestampColumn } from './columns.js'
+import { SequelizeAttributes } from './types.js'
 
 export const config = {
   generateNewKeyAfterAge: 1000 * 60 * 60 * 24,

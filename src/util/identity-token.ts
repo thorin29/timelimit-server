@@ -16,15 +16,15 @@
  */
 
 import { SignJWT, jwtVerify } from 'jose'
-import { config } from '../config'
-import { IdentityTokenPayload, IdentityTokenCreatePayload } from '../api/schema'
-import { isIdentityTokenPayload } from '../api/validator'
+import { SignSecretConfig } from '../config.js'
+import { IdentityTokenPayload, IdentityTokenCreatePayload } from '../api/schema.js'
+import { isIdentityTokenPayload } from '../api/validator.js'
 
-export async function createIdentityToken({ purpose, familyId, userId, mail }: IdentityTokenCreatePayload) {
+export async function createIdentityToken(config: SignSecretConfig, { purpose, familyId, userId, mail }: IdentityTokenCreatePayload) {
   const jwt = await new SignJWT({ purpose, familyId, userId, mail })
     .setExpirationTime('7d')
     .setProtectedHeader({ alg: 'HS512' })
-    .sign(getSignSecret())
+    .sign(getSignSecret(config))
 
   return Buffer.from(jwt, 'ascii')
     .toString('base64')
@@ -33,11 +33,11 @@ export async function createIdentityToken({ purpose, familyId, userId, mail }: I
     .join('\n')
 }
 
-export async function verifyIdentitifyToken(token: string, dryRun: boolean): Promise<IdentityTokenPayload> {
+export async function verifyIdentitifyToken(config: SignSecretConfig, token: string, dryRun: boolean): Promise<IdentityTokenPayload> {
   try {
     const { payload } = await jwtVerify(
       Buffer.from(token, 'base64').toString('ascii'),
-      getSignSecret(),
+      getSignSecret(config),
       {
         algorithms: ['HS512'],
         clockTolerance: dryRun ? 0 : '4w',
@@ -54,7 +54,7 @@ export async function verifyIdentitifyToken(token: string, dryRun: boolean): Pro
   }
 }
 
-function getSignSecret(): Buffer {
+function getSignSecret(config: SignSecretConfig): Buffer {
   if (config.signSecret === '') throw new MissingSignSecretException()
 
   return Buffer.from(config.signSecret, 'utf8')

@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { UpdateCategoryTemporarilyBlockedAction } from '../../../../action'
-import { Cache } from '../cache'
-import { MissingCategoryException } from '../exception/missing-item'
-import { PremiumVersionMissingException } from '../exception/premium'
-import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit'
+import { UpdateCategoryTemporarilyBlockedAction } from '../../../../action/index.js'
+import { Cache } from '../cache.js'
+import { MissingCategoryException } from '../exception/missing-item.js'
+import { PremiumVersionMissingException } from '../exception/premium.js'
+import { CanNotModifyOtherUsersBySelfLimitationException, SelfLimitationException } from '../exception/self-limit.js'
 
 export async function dispatchUpdateCategoryTemporarilyBlocked ({ action, cache, fromChildSelfLimitAddChildUserId }: {
   action: UpdateCategoryTemporarilyBlockedAction

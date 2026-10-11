@@ -15,24 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BadRequest } from 'http-errors'
-import { ClientPushChangesRequest } from '../../../api/schema'
-import { VisibleConnectedDevicesManager } from '../../../connected-devices'
-import { SimpleDatabase } from '../../../database/simple'
-import { shouldRetryWithException } from '../../../database'
-import { EventHandler } from '../../../monitoring/eventhandler'
-import { WebsocketApi } from '../../../websocket'
-import { notifyClientsAboutChangesDelayed } from '../../websocket'
-import { getApplyActionBaseInfo } from './baseinfo'
-import { Cache } from './cache'
-import { dispatchAppLogicAction, dispatchChildAction, dispatchParentAction } from './dispatch-helper'
-import { ApplyActionException } from './exception'
-import { IllegalStateException } from './exception/illegal-state'
-import { SequenceNumberRepeatedException } from './exception/sequence'
-import { assertActionIntegrity } from './integrity'
+import HttpErrors from 'http-errors'
+import { ClientPushChangesRequest } from '../../../api/schema.js'
+import { VisibleConnectedDevicesManager } from '../../../connected-devices/index.js'
+import { AlwaysProConfig } from '../../../config.js'
+import { SimpleDatabase } from '../../../database/simple/index.js'
+import { shouldRetryWithException } from '../../../database/index.js'
+import { EventHandler } from '../../../monitoring/eventhandler.js'
+import { MailTransport } from '../../../util/mail.js'
+import { WebsocketApi } from '../../../websocket/index.js'
+import { notifyClientsAboutChangesDelayed } from '../../websocket/index.js'
+import { getApplyActionBaseInfo } from './baseinfo.js'
+import { Cache } from './cache.js'
+import { dispatchAppLogicAction, dispatchChildAction, dispatchParentAction } from './dispatch-helper/index.js'
+import { ApplyActionException } from './exception/index.js'
+import { IllegalStateException } from './exception/illegal-state.js'
+import { SequenceNumberRepeatedException } from './exception/sequence.js'
+import { assertActionIntegrity } from './integrity.js'
 
-export const applyActionsFromDevice = async ({ database, request, websocket, connectedDevicesManager, eventHandler }: {
+export const applyActionsFromDevice = async ({ config, database, mailTransport, request, websocket, connectedDevicesManager, eventHandler }: {
+  config: AlwaysProConfig
   database: SimpleDatabase
+  mailTransport: MailTransport
   websocket: WebsocketApi
   request: ClientPushChangesRequest
   connectedDevicesManager: VisibleConnectedDevicesManager
@@ -44,7 +48,7 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
   if (request.actions.length > 50) {
     eventHandler.countEvent('applyActionsFromDevice tooMuchActionsPerRequest')
 
-    throw new BadRequest()
+    throw new HttpErrors.BadRequest()
   }
 
   return database.transaction(async (transaction) => {
@@ -55,7 +59,9 @@ export const applyActionsFromDevice = async ({ database, request, websocket, con
       hasFullVersion: baseInfo.hasFullVersion,
       familyId: baseInfo.familyId,
       deviceId: baseInfo.deviceId,
-      connectedDevicesManager
+      config,
+      connectedDevicesManager,
+      mailTransport,
     })
 
     let { nextSequenceNumber } = baseInfo

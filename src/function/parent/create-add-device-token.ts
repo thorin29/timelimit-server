@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { SimpleDatabaseTransaction } from '../../database/simple'
-import { randomWords } from '../../util/random-words'
-import { generateIdWithinFamily } from '../../util/token'
+import { SimpleDatabaseTransaction } from '../../database/simple/index.js'
+import { randomWords } from '../../util/random-words.js'
+import { generateIdWithinFamily } from '../../util/token.js'
 
 export const createAddDeviceToken = async ({ familyId, transaction }: {
   familyId: string
@@ -26,19 +26,14 @@ export const createAddDeviceToken = async ({ familyId, transaction }: {
   const token = randomWords(5)
   const deviceId = generateIdWithinFamily()
 
-  await transaction.legacy.database.addDeviceToken.destroy({
-    where: {
-      familyId
-    },
-    transaction: transaction.legacy.transaction
-  })
+  await transaction.addDeviceToken.destroyByFamilyId(familyId)
 
-  await transaction.legacy.database.addDeviceToken.create({
+  await transaction.addDeviceToken.create({
     familyId,
     token: token.toLowerCase(),
     deviceId,
-    createdAt: Date.now().toString()
-  }, { transaction: transaction.legacy.transaction })
+    time: Date.now()
+  })
 
   return { token, deviceId }
 }

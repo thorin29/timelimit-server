@@ -15,11 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { difference, intersection } from 'lodash'
-import { SimpleDatabaseTransaction } from '../../../../database/simple'
-import { ClientDataStatusCategories } from '../../../../object/clientdatastatus'
-import { GetServerDataStatusIllegalStateException } from '../exception'
-import { FamilyEntry } from '../family-entry'
+import difference from 'lodash/difference.js'
+import intersection from 'lodash/intersection.js'
+import { SimpleDatabaseTransaction } from '../../../../database/simple/index.js'
+import { ClientDataStatusCategories } from '../../../../object/clientdatastatus.js'
+import { GetServerDataStatusIllegalStateException } from '../exception.js'
+import { FamilyEntry } from '../family-entry.js'
 
 export async function getCategoryDataToSync ({ transaction, familyEntry, categoriesStatus }: {
   transaction: SimpleDatabaseTransaction

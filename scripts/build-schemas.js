@@ -1,6 +1,6 @@
 /*
  * server component for the TimeLimit App
- * Copyright (C) 2019 - 2024 Jonas Lochmann
+ * Copyright (C) 2019 - 2026 Jonas Lochmann
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,10 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const { resolve } = require('path')
-const TJS = require('typescript-json-schema')
-const { writeFileSync } = require('fs')
-const { each, isEqual } = require('lodash')
+import { resolve } from 'path'
+import TJS from 'typescript-json-schema'
+import { writeFileSync } from 'fs'
+import each from 'lodash/each.js'
+import isEqual from 'lodash/isEqual.js'
 
 const randomString = 'WK9fxjlOcM'
 
@@ -35,7 +36,6 @@ const types = [
   'SerializedChildAction',
   'CreateRegisterDeviceTokenRequest',
   'CanDoPurchaseRequest',
-  'FinishPurchaseByGooglePlayRequest',
   'LinkParentMailAddressRequest',
   'UpdatePrimaryDeviceRequest',
   'RemoveDeviceRequest',
@@ -70,8 +70,8 @@ const compilerOptions = {
 
 // optionally pass a base path
 const program = TJS.getProgramFromFiles([
-  resolve(__dirname, '../src/api/schema.ts')
-], compilerOptions, __dirname)
+  resolve(import.meta.dirname, '../src/api/schema.ts')
+], compilerOptions, import.meta.dirname)
 
 const generator = TJS.buildGenerator(program, settings)
 
@@ -98,8 +98,8 @@ allTypes.forEach((type) => {
 })
 
 output += '// tslint:disable \n'
-output += 'import { ' + types.join(', ') + ' } from \'./schema\'\n'
-output += 'import Ajv from \'ajv\'\n'
+output += 'import { ' + types.join(', ') + ' } from \'./schema.js\'\n'
+output += 'import { Ajv } from \'ajv\'\n'
 output += 'const ajv = new Ajv()\n'
 output += '\n'
 output += 'const definitions = ' + JSON.stringify(definitions, null, 2) + '\n\n'
@@ -133,12 +133,12 @@ allTypes.forEach((type) => {
   }
 
   writeFileSync(
-    resolve(__dirname, '../docs/schema/' + type + '.schema.json'),
+    resolve(import.meta.dirname, '../docs/schema/' + type + '.schema.json'),
     JSON.stringify(schemaToSave, null, 2)
   )
 })
 
-writeFileSync(resolve(__dirname, '../src/api/validator.ts'), output)
+writeFileSync(resolve(import.meta.dirname, '../src/api/validator.ts'), output)
 
 function getUsedDefinitions(schema) {
   const usedDefinitions = []
