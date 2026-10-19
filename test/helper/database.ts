@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { openDatabaseFromUrl } from '../../src/database/index.js'
 import { SimpleDatabase, SimpleDatabaseTransaction, fromLegacy } from '../../src/database/simple/index.js'
 
-export { SimpleDatabase }
+export { SimpleDatabase, SimpleDatabaseTransaction }
 
 export const testPassword1 = {
   // actually "password"
