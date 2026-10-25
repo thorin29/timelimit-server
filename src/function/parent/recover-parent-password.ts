@@ -16,7 +16,7 @@
  */
 
 import HttpErrors from 'http-errors'
-import { PlaintextParentPassword, assertPlaintextParentPasswordValid } from '../../api/schema.js'
+import { PlaintextParentPassword, ParentPasswordValidationException, assertPlaintextParentPasswordValid } from '../../api/schema.js'
 import { SimpleDatabase } from '../../database/simple/index.js'
 import { MailTransport, sendPasswordRecoveryUsedMail } from '../../util/mail.js'
 import { generateVersionId } from '../../util/token.js'
@@ -32,7 +32,12 @@ export const recoverParentPassword = async ({ database, mailTransport, websocket
   mailAuthToken: string
   // no transaction here because this is directly called from an API endpoint
 }) => {
-  assertPlaintextParentPasswordValid(password)
+  try {
+    assertPlaintextParentPasswordValid(password)
+  } catch (ex) {
+    if (ex instanceof ParentPasswordValidationException) throw new HttpErrors.BadRequest()
+    else throw ex
+  }
 
   await database.transaction(async (transaction) => {
     const mailInfo = await requireMailAndLocaleByAuthToken({ mailAuthToken, transaction, invalidate: true })
