@@ -1,0 +1,61 @@
+
+name: Sync from Codeberg
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: master
+
+      - name: Fetch Codeberg
+        run: |
+          git remote add codeberg https://codeberg.org/timelimit/timelimit-server.git
+          git fetch codeberg master:refs/remotes/codeberg/master
+
+          echo "Codeberg source commit:"
+          git log -1 --format="%H %s" codeberg/master
+
+      - name: Replace GitHub source with Codeberg
+        run: |
+          # Preserve our GitHub Actions workflows
+          mkdir -p /tmp/github-workflows
+          if [ -d .github/workflows ]; then
+            cp -a .github/workflows/. /tmp/github-workflows/
+          fi
+
+          # Make GitHub master match Codeberg master
+          git reset --hard codeberg/master
+
+          # Restore GitHub-specific workflows
+          mkdir -p .github/workflows
+          cp -a /tmp/github-workflows/. .github/workflows/
+
+          # Commit the restored workflows if necessary
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          git add .github/workflows
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Preserve GitHub Actions workflows"
+          fi
+
+          echo "Final GitHub source:"
+          git log -1 --format="%H %s"
+
+      - name: Push to GitHub
+        run: |
+          git push --force-with-lease origin master
